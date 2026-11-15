@@ -1,0 +1,320 @@
+@layer components.vui {
+  /* --------------------------------------------------------------- UiSpinner */
+  .vui-spinner {
+    --_s: 1rem;
+
+    @apply inline-flex shrink-0;
+    inline-size: var(--_s);
+    block-size: var(--_s);
+    vertical-align: middle;
+
+    &[data-size='sm'] {
+      --_s: 0.75rem;
+    }
+
+    &[data-size='lg'] {
+      --_s: 1.5rem;
+    }
+  }
+
+  .vui-spinner__ring {
+    @apply block size-full rounded-full;
+    border: 2px solid color-mix(in oklab, currentColor 22%, transparent);
+    border-block-start-color: currentColor;
+
+    @media (forced-colors: active) {
+      border-color: GrayText;
+      border-block-start-color: CanvasText;
+    }
+  }
+
+  /* -------------------------------------------------------------- UiProgress */
+  .vui-progress {
+    --_bar: 0.5rem;
+
+    @apply grid;
+    gap: 0.375rem;
+    color: var(--vui-text);
+    font-size: var(--vui-text-sm);
+    line-height: var(--vui-leading-normal);
+
+    &[data-size='sm'] {
+      --_bar: 0.25rem;
+    }
+
+    &[data-size='lg'] {
+      --_bar: 0.75rem;
+    }
+  }
+
+  .vui-progress__header {
+    @apply flex items-baseline justify-between;
+    gap: var(--vui-gap-md);
+  }
+
+  .vui-progress__label {
+    font-weight: var(--vui-weight-medium);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-progress__value {
+    color: var(--vui-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vui-progress__bar {
+    @apply block w-full overflow-hidden;
+    appearance: none;
+    block-size: var(--_bar);
+    border: 0;
+    border-radius: var(--vui-radius-full);
+    background-color: var(--vui-neutral-soft-hover);
+    color: var(--vui-c);
+
+    &::-webkit-progress-bar {
+      border-radius: inherit;
+      background-color: transparent;
+    }
+
+    &::-webkit-progress-value {
+      border-radius: inherit;
+      background-color: var(--vui-c);
+    }
+
+    &::-moz-progress-bar {
+      border-radius: inherit;
+      background-color: var(--vui-c);
+    }
+
+    /* No `value` attribute: a travelling segment (static under reduced motion). */
+    &:indeterminate {
+      background-image: linear-gradient(90deg, transparent 0 30%, var(--vui-c) 30% 70%, transparent 70%);
+      background-size: 250% 100%;
+      background-position: 50% 0;
+
+      &::-webkit-progress-value,
+      &::-moz-progress-bar {
+        background-color: transparent;
+      }
+    }
+
+    @media (forced-colors: active) {
+      border: 1px solid CanvasText;
+      forced-color-adjust: none;
+      background-color: Canvas;
+
+      &::-webkit-progress-value {
+        background-color: Highlight;
+      }
+
+      &::-moz-progress-bar {
+        background-color: Highlight;
+      }
+    }
+  }
+
+  /* -------------------------------------------------------------- UiSkeleton */
+  .vui-skeleton {
+    @apply grid;
+    gap: 0.5em;
+    min-inline-size: 0;
+  }
+
+  .vui-skeleton__block {
+    @apply block;
+    inline-size: 100%;
+    block-size: 1em;
+    border-radius: var(--vui-radius-sm);
+    background-color: color-mix(in oklab, var(--vui-text) 9%, transparent);
+    background-image: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in oklab, var(--vui-surface) 55%, transparent) 50%,
+      transparent 70%
+    );
+    background-size: 300% 100%;
+    background-position: 100% 0;
+
+    /* The last of several text lines is shorter, like a paragraph. */
+    .vui-skeleton[data-shape='text'] > &:nth-last-child(1 of .vui-skeleton__block):not(:first-child) {
+      inline-size: 60%;
+    }
+
+    .vui-skeleton[data-shape='rect'] > & {
+      block-size: 4rem;
+      border-radius: var(--vui-radius-md);
+    }
+
+    .vui-skeleton[data-shape='circle'] > & {
+      inline-size: 2rem;
+      block-size: 2rem;
+      border-radius: var(--vui-radius-full);
+    }
+
+    @media (forced-colors: active) {
+      border: 1px solid GrayText;
+    }
+  }
+
+  /* ----------------------------------------------------------------- UiAlert */
+  .vui-alert {
+    @apply flex items-start;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border: var(--vui-border-width) solid transparent;
+    border-radius: var(--vui-radius-md);
+    color: var(--vui-text);
+    font-size: var(--vui-text-md);
+    line-height: var(--vui-leading-normal);
+
+    &[data-variant='soft'] {
+      background-color: var(--vui-c-soft);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--vui-c-border);
+      background-color: var(--vui-surface);
+    }
+
+    &[data-variant='solid'] {
+      background-color: var(--vui-c);
+      color: var(--vui-c-on);
+    }
+
+    @media (forced-colors: active) {
+      border-color: CanvasText;
+    }
+  }
+
+  .vui-alert__icon {
+    @apply inline-flex shrink-0;
+    margin-block-start: 0.125rem;
+    color: var(--vui-c-text);
+    font-size: 1.125rem;
+
+    .vui-alert[data-variant='solid'] > & {
+      color: inherit;
+    }
+  }
+
+  .vui-alert__content {
+    @apply grid min-w-0 flex-1;
+    gap: 0.125rem;
+  }
+
+  .vui-alert__title {
+    font-weight: var(--vui-weight-semibold);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-alert__description {
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+  }
+
+  .vui-alert__actions {
+    @apply flex flex-wrap items-center;
+    gap: var(--vui-gap-sm);
+    margin-block-start: 0.375rem;
+  }
+
+  .vui-alert__dismiss {
+    margin: -0.1875rem;
+
+    /* On a filled alert the button uses the label colour, not the intent text colour. */
+    .vui-alert[data-variant='solid'] > & {
+      color: inherit;
+
+      @variant hover {
+        background-color: color-mix(in oklab, currentColor 18%, transparent);
+      }
+    }
+  }
+
+  /* --------------------------------------------------------- UiToastProvider */
+  .vui-toast-region {
+    /* Undo the UA popover box: this is an invisible, click-through positioning layer. */
+    @apply fixed flex flex-col overflow-visible;
+    inset: auto;
+    gap: var(--vui-gap-sm);
+    inline-size: min(100vw, 24rem);
+    max-block-size: 100dvh;
+    margin: 0;
+    padding: var(--vui-pad-md);
+    padding-block-end: max(var(--vui-pad-md), env(safe-area-inset-bottom));
+    padding-block-start: max(var(--vui-pad-md), env(safe-area-inset-top));
+    border: 0;
+    background: transparent;
+    color: var(--vui-text);
+    pointer-events: none;
+
+    &[data-placement^='bottom'] {
+      inset-block-end: 0;
+    }
+
+    &[data-placement^='top'] {
+      inset-block-start: 0;
+    }
+
+    &[data-placement$='-start'] {
+      inset-inline-start: 0;
+    }
+
+    &[data-placement$='-end'] {
+      inset-inline-end: 0;
+    }
+
+    &:where([data-placement='top'], [data-placement='bottom']) {
+      inset-inline: 0;
+      margin-inline: auto;
+    }
+  }
+
+  .vui-toast-region__list {
+    @apply flex flex-col;
+    gap: var(--vui-gap-sm);
+
+    &:not(:has(> .vui-toast)) {
+      display: none;
+    }
+  }
+
+  .vui-toast {
+    @apply flex items-start;
+    gap: var(--vui-gap-sm);
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    border: var(--vui-border-width) solid var(--vui-border);
+    border-inline-start: 3px solid var(--vui-c);
+    border-radius: var(--vui-radius-md);
+    background-color: var(--vui-elevated);
+    box-shadow: var(--vui-shadow-lg);
+    font-size: var(--vui-text-md);
+    line-height: var(--vui-leading-normal);
+    pointer-events: auto;
+
+    @media (forced-colors: active) {
+      border-color: CanvasText;
+    }
+  }
+
+  .vui-toast__content {
+    @apply grid min-w-0 flex-1;
+    gap: 0.125rem;
+    padding-block: 0.125rem;
+  }
+
+  .vui-toast__title {
+    font-weight: var(--vui-weight-medium);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-toast__description {
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-toast__action {
+    flex: none;
+  }
+}

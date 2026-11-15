@@ -1,0 +1,237 @@
+/*
+ * Motion: short colour/opacity transitions and very small transforms only.
+ * No `transition: all`, no persistent `will-change`. Durations come from the
+ * motion tokens, which the generated theme zeroes for `motion="none"` and
+ * `prefers-reduced-motion: reduce`.
+ */
+@layer components.vui {
+  @keyframes vui-spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  @keyframes vui-progress {
+    from {
+      background-position: 125% 0;
+    }
+
+    to {
+      background-position: -25% 0;
+    }
+  }
+
+  @keyframes vui-shimmer {
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+  /* State changes: colours and opacity only. */
+  :where(
+    .vui-button,
+    .vui-link,
+    .vui-input,
+    .vui-input__button,
+    .vui-textarea,
+    .vui-check__input,
+    .vui-check__mark,
+    .vui-check__dot,
+    .vui-switch__input,
+    .vui-file__button,
+    .vui-menu__item,
+    .vui-listbox__option,
+    .vui-tabs__tab,
+    .vui-tabs__tab::after,
+    .vui-accordion__trigger,
+    .vui-breadcrumbs__link,
+    .vui-pagination__button,
+    .vui-table__row,
+    .vui-table__sort
+  ) {
+    transition-property:
+      background-color, border-color, color, text-decoration-thickness, opacity, box-shadow;
+    transition-duration: var(--vui-duration-fast);
+    transition-timing-function: var(--vui-ease-out);
+  }
+
+  .vui-switch__thumb {
+    transition:
+      inset-inline-start var(--vui-duration-fast) var(--vui-ease-out),
+      background-color var(--vui-duration-fast) var(--vui-ease-out);
+  }
+
+  .vui-progress__bar::-webkit-progress-value {
+    transition: inline-size var(--vui-duration-overlay) var(--vui-ease-out);
+  }
+
+  .vui-accordion__panel {
+    transition: grid-template-rows var(--vui-duration-overlay) var(--vui-ease-out);
+  }
+
+  .vui-accordion__chevron {
+    transition: rotate var(--vui-duration-fast) var(--vui-ease-out);
+  }
+
+  /*
+   * Overlays: opacity plus a very small scale/offset. `display` and `overlay`
+   * transition discretely, so the exit runs while the element is still in
+   * the top layer; nothing is unmounted to animate.
+   */
+  .vui-dialog {
+    opacity: 0;
+    scale: 0.985;
+    transition:
+      opacity var(--vui-duration-overlay) var(--vui-ease-out),
+      scale var(--vui-duration-overlay) var(--vui-ease-out),
+      translate var(--vui-duration-overlay) var(--vui-ease-out),
+      overlay var(--vui-duration-overlay) allow-discrete,
+      display var(--vui-duration-overlay) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        scale: 0.985;
+      }
+    }
+
+    &::backdrop {
+      opacity: 0;
+      transition:
+        opacity var(--vui-duration-overlay) var(--vui-ease-out),
+        overlay var(--vui-duration-overlay) allow-discrete,
+        display var(--vui-duration-overlay) allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* Drawers slide a short distance from their edge instead of scaling. */
+  .vui-dialog.vui-drawer {
+    --_shift: 0 0;
+
+    scale: 1;
+    translate: var(--_shift);
+
+    &[data-side='end'] {
+      --_shift: 1rem 0;
+    }
+
+    &[data-side='end']:dir(rtl),
+    &[data-side='start'] {
+      --_shift: -1rem 0;
+    }
+
+    &[data-side='start']:dir(rtl) {
+      --_shift: 1rem 0;
+    }
+
+    &[data-side='top'] {
+      --_shift: 0 -1rem;
+    }
+
+    &[data-side='bottom'] {
+      --_shift: 0 1rem;
+    }
+
+    &[open] {
+      scale: 1;
+      translate: 0 0;
+
+      @starting-style {
+        scale: 1;
+        translate: var(--_shift);
+      }
+    }
+  }
+
+  .vui-popover,
+  .vui-tooltip {
+    opacity: 0;
+    transition:
+      opacity var(--vui-duration-fast) var(--vui-ease-out),
+      overlay var(--vui-duration-fast) allow-discrete,
+      display var(--vui-duration-fast) allow-discrete;
+
+    &:popover-open {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* Toasts fade and rise a few pixels on entry. */
+  .vui-toast {
+    transition:
+      opacity var(--vui-duration-overlay) var(--vui-ease-out),
+      translate var(--vui-duration-overlay) var(--vui-ease-out);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 0.375rem;
+    }
+  }
+
+  /* Loading decoration. */
+  .vui-button__spinner,
+  .vui-spinner__ring {
+    animation: vui-spin 0.7s linear infinite;
+  }
+
+  .vui-progress__bar:indeterminate {
+    animation: vui-progress 1.4s var(--vui-ease-in-out) infinite;
+  }
+
+  .vui-skeleton__block {
+    animation: vui-shimmer 1.6s linear infinite;
+  }
+
+  /*
+   * Reduced motion: decoration stops. The static ring/segment, `aria-busy`
+   * and the status text still convey that something is in progress.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .vui-button__spinner,
+    .vui-spinner__ring,
+    .vui-progress__bar:indeterminate,
+    .vui-skeleton__block {
+      animation: none;
+    }
+
+    .vui-toast {
+      @starting-style {
+        translate: none;
+      }
+    }
+
+    /* Overlays keep their fade only if the duration tokens allow it; never the scale/slide. */
+    .vui-dialog,
+    .vui-dialog.vui-drawer {
+      scale: 1;
+      translate: none;
+
+      &[open] {
+        @starting-style {
+          scale: 1;
+          translate: none;
+        }
+      }
+    }
+
+    .vui-accordion__chevron {
+      transition: none;
+    }
+  }
+}

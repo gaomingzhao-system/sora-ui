@@ -1,0 +1,110 @@
+/*
+ * Tailwind CSS v4 integration for @your-scope/ui.
+ *
+ * Host usage:
+ *
+ *   @import "tailwindcss";
+ *   @import "@your-scope/ui/styles.css";    // compiled component styles (any order works)
+ *   @import "@your-scope/ui/tailwind.css";  // this file: theme mapping + variants
+ *
+ * It maps the runtime `--vui-*` tokens into Tailwind's theme under `vui-`
+ * names (`bg-vui-surface`, `text-vui-muted`, `rounded-vui`, `shadow-vui-md`).
+ * `@theme inline` makes the utilities reference the live custom property, so
+ * they follow light/dark and nested UiProvider overrides. Nothing here
+ * redefines a host theme key.
+ */
+@theme inline {
+  /* Surfaces, text and boundaries */
+  --color-vui-canvas: var(--vui-canvas);
+  --color-vui-surface: var(--vui-surface);
+  --color-vui-elevated: var(--vui-elevated);
+  --color-vui-subtle: var(--vui-subtle);
+  --color-vui-inverted: var(--vui-inverted);
+  --color-vui-text: var(--vui-text);
+  --color-vui-muted: var(--vui-text-muted);
+  --color-vui-faint: var(--vui-text-subtle);
+  --color-vui-text-inverted: var(--vui-text-inverted);
+  --color-vui-border: var(--vui-border);
+  --color-vui-border-strong: var(--vui-border-strong);
+  --color-vui-focus: var(--vui-focus);
+  --color-vui-hover: var(--vui-hover);
+  --color-vui-pressed: var(--vui-pressed);
+  --color-vui-scrim: var(--vui-scrim);
+
+  /* Intents: fill, label on fill, readable text, soft fill, boundary */
+  --color-vui-primary: var(--vui-primary);
+  --color-vui-on-primary: var(--vui-on-primary);
+  --color-vui-primary-text: var(--vui-primary-text);
+  --color-vui-primary-soft: var(--vui-primary-soft);
+  --color-vui-primary-border: var(--vui-primary-border);
+  --color-vui-secondary: var(--vui-secondary);
+  --color-vui-on-secondary: var(--vui-on-secondary);
+  --color-vui-secondary-text: var(--vui-secondary-text);
+  --color-vui-secondary-soft: var(--vui-secondary-soft);
+  --color-vui-secondary-border: var(--vui-secondary-border);
+  --color-vui-success: var(--vui-success);
+  --color-vui-on-success: var(--vui-on-success);
+  --color-vui-success-text: var(--vui-success-text);
+  --color-vui-success-soft: var(--vui-success-soft);
+  --color-vui-success-border: var(--vui-success-border);
+  --color-vui-info: var(--vui-info);
+  --color-vui-on-info: var(--vui-on-info);
+  --color-vui-info-text: var(--vui-info-text);
+  --color-vui-info-soft: var(--vui-info-soft);
+  --color-vui-info-border: var(--vui-info-border);
+  --color-vui-warning: var(--vui-warning);
+  --color-vui-on-warning: var(--vui-on-warning);
+  --color-vui-warning-text: var(--vui-warning-text);
+  --color-vui-warning-soft: var(--vui-warning-soft);
+  --color-vui-warning-border: var(--vui-warning-border);
+  --color-vui-error: var(--vui-error);
+  --color-vui-on-error: var(--vui-on-error);
+  --color-vui-error-text: var(--vui-error-text);
+  --color-vui-error-soft: var(--vui-error-soft);
+  --color-vui-error-border: var(--vui-error-border);
+  --color-vui-neutral: var(--vui-neutral);
+  --color-vui-on-neutral: var(--vui-on-neutral);
+  --color-vui-neutral-text: var(--vui-neutral-text);
+  --color-vui-neutral-soft: var(--vui-neutral-soft);
+  --color-vui-neutral-border: var(--vui-neutral-border);
+
+  /* Shape, type, elevation and motion */
+  --radius-vui-sm: var(--vui-radius-sm);
+  --radius-vui: var(--vui-radius-md);
+  --radius-vui-lg: var(--vui-radius-lg);
+  --font-vui-sans: var(--vui-font-sans);
+  --font-vui-serif: var(--vui-font-serif);
+  --font-vui-mono: var(--vui-font-mono);
+  --font-vui-display: var(--vui-font-display);
+  --text-vui-xs: var(--vui-text-xs);
+  --text-vui-sm: var(--vui-text-sm);
+  --text-vui-md: var(--vui-text-md);
+  --text-vui-lg: var(--vui-text-lg);
+  --text-vui-xl: var(--vui-text-xl);
+  --text-vui-2xl: var(--vui-text-2xl);
+  --shadow-vui-sm: var(--vui-shadow-sm);
+  --shadow-vui-md: var(--vui-shadow-md);
+  --shadow-vui-lg: var(--vui-shadow-lg);
+  --ease-vui-out: var(--vui-ease-out);
+  --ease-vui-in-out: var(--vui-ease-in-out);
+}
+
+/* State variants that match the attributes the components expose. */
+@custom-variant vui-invalid (&:where([aria-invalid='true'], [data-invalid]));
+@custom-variant vui-busy (&:where([aria-busy='true'], [data-loading]));
+@custom-variant vui-coarse (@media (pointer: coarse));
+@custom-variant vui-scheme-dark (&:where([data-vui-theme='dark'], [data-vui-theme='dark'] *));
+
+/* The library's focus indicator, reusable on host elements. */
+@utility vui-focus-ring {
+  outline: var(--vui-focus-width) solid var(--vui-focus);
+  outline-offset: var(--vui-focus-offset);
+}
+
+/* Durations follow the configured motion level (and reduced motion). */
+@utility duration-vui-fast {
+  transition-duration: var(--vui-duration-fast);
+}
+@utility duration-vui-overlay {
+  transition-duration: var(--vui-duration-overlay);
+}

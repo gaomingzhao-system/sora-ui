@@ -1,0 +1,67 @@
+/*
+ * Scoped resets. There is deliberately no global Preflight: only elements
+ * that carry a `vui-` class are touched, and `:where()` keeps specificity at 0.
+ */
+@layer base.vui {
+  :where([class^='vui-'], [class*=' vui-']) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+    font-family: var(--vui-font-sans);
+    -webkit-tap-highlight-color: transparent;
+    min-inline-size: 0;
+
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
+  :where(
+    button[class*='vui-'],
+    input[class*='vui-'],
+    select[class*='vui-'],
+    textarea[class*='vui-'],
+    a[class*='vui-']
+  ) {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background: none;
+    text-decoration: none;
+    accent-color: var(--vui-primary);
+  }
+
+  :where(button[class*='vui-']) {
+    cursor: pointer;
+    touch-action: manipulation;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  :where(ul[class*='vui-'], ol[class*='vui-']) {
+    list-style: none;
+  }
+
+  :where(fieldset[class*='vui-']) {
+    min-inline-size: 0;
+  }
+
+  :where(table[class*='vui-']) {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  :where(svg[class*='vui-']) {
+    display: block;
+    flex: none;
+  }
+
+  /* Visually hidden but available to assistive technology. */
+  :where(.vui-sr-only) {
+    @apply sr-only;
+  }
+}

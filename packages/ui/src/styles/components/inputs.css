@@ -1,0 +1,806 @@
+@layer components.vui {
+  /* ----------------------------------------------------------------- UiField */
+  .vui-field {
+    /* Control metrics, inherited by whatever control sits inside the field. */
+    --_h: var(--vui-control-md);
+    --_fs: var(--vui-text-md);
+
+    display: block;
+    min-inline-size: 0;
+    color: var(--vui-text);
+    font-size: var(--vui-text-md);
+    line-height: var(--vui-leading-normal);
+
+    &[data-size='sm'] {
+      --_h: var(--vui-control-sm);
+      --_fs: var(--vui-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_h: var(--vui-control-lg);
+    }
+  }
+
+  .vui-field__label {
+    display: block;
+    max-inline-size: 100%;
+    margin-block-end: 0.375rem;
+    color: var(--vui-text);
+    font-size: var(--vui-text-sm);
+    font-weight: var(--vui-weight-medium);
+    line-height: var(--vui-leading-tight);
+    overflow-wrap: anywhere;
+
+    &[data-visually-hidden] {
+      @apply sr-only;
+    }
+
+    .vui-field[data-disabled] > & {
+      color: var(--vui-text-subtle);
+    }
+  }
+
+  .vui-field__required {
+    margin-inline-start: 0.1875rem;
+    color: var(--vui-error-text);
+  }
+
+  .vui-field__hint {
+    margin-block-start: 0.375rem;
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  /* Errors pair colour with an icon and text: never colour alone. */
+  .vui-field__error {
+    @apply grid;
+    gap: 0.125rem;
+    margin-block-start: 0.375rem;
+    color: var(--vui-error-text);
+    font-size: var(--vui-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-field__message {
+    @apply flex items-start;
+    gap: 0.375rem;
+  }
+
+  .vui-field__error-icon {
+    margin-block-start: 0.1875em;
+  }
+
+  /* Label beside the control when there is room (container first, viewport as a fallback). */
+  .vui-field[data-orientation='horizontal']:where(div) {
+    @apply grid items-start;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: var(--vui-gap-lg);
+
+    & > .vui-field__label {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      margin-block-end: 0;
+      padding-block-start: calc((var(--_h) - 1lh) / 2);
+    }
+
+    & > :not(.vui-field__label) {
+      grid-column: 2;
+    }
+
+    @container (inline-size < 26rem) {
+      display: block;
+
+      & > .vui-field__label {
+        margin-block-end: 0.375rem;
+        padding-block-start: 0;
+      }
+    }
+
+    @media (width < 30rem) {
+      display: block;
+
+      & > .vui-field__label {
+        margin-block-end: 0.375rem;
+        padding-block-start: 0;
+      }
+    }
+  }
+
+  /* --------------------------- UiInput / UiNumberInput / UiDateInput / UiSelect */
+  .vui-input {
+    @apply flex items-center;
+    min-block-size: max(var(--_h, var(--vui-control-md)), var(--vui-hit-min));
+    border: var(--vui-border-width) solid var(--vui-border-strong);
+    border-radius: var(--vui-radius-md);
+    background-color: var(--vui-surface);
+    color: var(--vui-text);
+
+    &:where(:not([data-disabled], [data-invalid])) {
+      @variant hover {
+        border-color: color-mix(in oklab, var(--vui-border-strong) 55%, var(--vui-text));
+      }
+    }
+
+    &:has(.vui-input__control:focus-visible) {
+      border-color: var(--vui-focus);
+      outline: var(--vui-focus-width) solid var(--vui-focus);
+      outline-offset: 0;
+    }
+
+    /* Invalid: colour plus a heavier boundary (and the message with its icon). */
+    &[data-invalid] {
+      border-color: var(--vui-error-border);
+      box-shadow: inset 0 0 0 1px var(--vui-error-border);
+    }
+
+    &[data-disabled] {
+      border-color: var(--vui-border);
+      background-color: var(--vui-subtle);
+      color: var(--vui-text-subtle);
+      cursor: not-allowed;
+    }
+  }
+
+  .vui-input__control {
+    @apply min-w-0 flex-1 self-stretch;
+    inline-size: 100%;
+    padding-block: 0.25rem;
+    padding-inline: 0.625rem;
+    border: 0;
+    border-radius: inherit;
+    outline: 0;
+    font-size: var(--_fs, var(--vui-text-md));
+    line-height: var(--vui-leading-tight);
+
+    &::placeholder {
+      color: var(--vui-text-subtle);
+      opacity: 1;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+
+  /* Native steppers are replaced by the optional buttons; arrow keys still step. */
+  .vui-input__control--number {
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+  }
+
+  .vui-input__affix {
+    @apply inline-flex shrink-0 items-center;
+    color: var(--vui-text-muted);
+    font-size: var(--_fs, var(--vui-text-md));
+
+    &:first-child {
+      padding-inline-start: 0.625rem;
+    }
+
+    &:last-child {
+      padding-inline-end: 0.25rem;
+    }
+
+    /* A plain icon/text affix keeps the same inset as the text. */
+    &:last-child:not(:has(button)) {
+      padding-inline-end: 0.625rem;
+    }
+  }
+
+  .vui-input__button {
+    @apply inline-flex shrink-0 items-center justify-center;
+    inline-size: max(1.75rem, var(--vui-hit-min));
+    block-size: max(1.75rem, var(--vui-hit-min));
+    border-radius: var(--vui-radius-sm);
+    color: var(--vui-text-muted);
+    font-size: 1rem;
+
+    &:where(:not(:disabled)) {
+      @variant hover {
+        background-color: var(--vui-hover);
+        color: var(--vui-text);
+      }
+    }
+
+    &[aria-pressed='true'] {
+      color: var(--vui-text);
+    }
+
+    &:focus-visible {
+      @apply vui-focus-ring;
+      outline-offset: 0;
+    }
+
+    &:disabled {
+      opacity: var(--vui-disabled-opacity);
+    }
+  }
+
+  .vui-input__steppers {
+    @apply inline-flex shrink-0;
+    padding-inline-end: 0.25rem;
+  }
+
+  .vui-select {
+    @apply relative;
+  }
+
+  .vui-select__control {
+    appearance: none;
+    padding-inline-end: 2rem;
+    cursor: pointer;
+    text-overflow: ellipsis;
+
+    &[data-placeholder] {
+      color: var(--vui-text-subtle);
+    }
+
+    & :where(option, optgroup) {
+      background-color: var(--vui-elevated);
+      color: var(--vui-text);
+    }
+  }
+
+  .vui-select__chevron {
+    @apply pointer-events-none absolute;
+    inset-inline-end: 0.625rem;
+    color: var(--vui-text-muted);
+    font-size: 1rem;
+  }
+
+  /* -------------------------------------------------------------- UiTextarea */
+  .vui-textarea {
+    @apply block w-full;
+    min-block-size: calc(var(--_rows, 3) * 1lh + 0.75rem + 2px);
+    padding: 0.375rem 0.625rem;
+    border: var(--vui-border-width) solid var(--vui-border-strong);
+    border-radius: var(--vui-radius-md);
+    background-color: var(--vui-surface);
+    color: var(--vui-text);
+    font-size: var(--_fs, var(--vui-text-md));
+    line-height: var(--vui-leading-normal);
+    resize: vertical;
+
+    &::placeholder {
+      color: var(--vui-text-subtle);
+      opacity: 1;
+    }
+
+    /* Grows with its content between `rows` and `maxRows`, then scrolls. */
+    &[data-autosize] {
+      field-sizing: content;
+      max-block-size: calc(var(--_max-rows, 8) * 1lh + 0.75rem + 2px);
+      overflow-y: auto;
+      resize: none;
+    }
+
+    &:focus-visible {
+      border-color: var(--vui-focus);
+      outline: var(--vui-focus-width) solid var(--vui-focus);
+      outline-offset: 0;
+    }
+
+    &[data-invalid] {
+      border-color: var(--vui-error-border);
+      box-shadow: inset 0 0 0 1px var(--vui-error-border);
+    }
+
+    &:disabled {
+      border-color: var(--vui-border);
+      background-color: var(--vui-subtle);
+      color: var(--vui-text-subtle);
+      cursor: not-allowed;
+      resize: none;
+    }
+  }
+
+  /* iOS zooms the page when a focused field is under 16px. Enlarge the text instead of blocking zoom. */
+  @media (pointer: coarse) {
+    .vui-input__control,
+    .vui-textarea {
+      font-size: max(1rem, var(--_fs, var(--vui-text-md)));
+    }
+  }
+
+  /* --------------------- UiCheckbox / UiCheckboxGroup / UiRadioGroup options */
+  .vui-check {
+    --_box: 1rem;
+
+    @apply grid;
+    justify-items: start;
+    color: var(--vui-text);
+    font-size: var(--_fs, var(--vui-text-md));
+    line-height: var(--vui-leading-normal);
+
+    &[data-size='sm'] {
+      --_box: 0.875rem;
+      font-size: var(--vui-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_box: 1.125rem;
+    }
+
+    &[data-disabled] {
+      color: var(--vui-text-subtle);
+    }
+  }
+
+  /* The whole row is the click target; coarse pointers get a 44px-high row. */
+  .vui-check__row {
+    @apply inline-flex items-start;
+    gap: 0.5rem;
+    min-block-size: var(--vui-hit-min);
+    padding-block: 0.125rem;
+    cursor: pointer;
+
+    .vui-check[data-disabled] > & {
+      cursor: not-allowed;
+    }
+
+    @media (pointer: coarse) {
+      align-items: center;
+    }
+  }
+
+  .vui-check__box {
+    @apply relative inline-flex shrink-0;
+    inline-size: var(--_box);
+    block-size: var(--_box);
+    margin-block-start: calc((1lh - var(--_box)) / 2);
+
+    @media (pointer: coarse) {
+      margin-block-start: 0;
+    }
+  }
+
+  .vui-check__input {
+    @apply absolute inset-0 size-full;
+    margin: 0;
+    appearance: none;
+    border: var(--vui-border-width) solid var(--vui-border-strong);
+    border-radius: 0.25rem;
+    background-color: var(--vui-surface);
+    cursor: inherit;
+
+    &:where(:checked, :indeterminate) {
+      border-color: var(--vui-primary);
+      background-color: var(--vui-primary);
+    }
+
+    &:focus-visible {
+      @apply vui-focus-ring;
+    }
+
+    &:disabled {
+      opacity: var(--vui-disabled-opacity);
+    }
+
+    .vui-check[data-invalid] &:where(:not(:checked, :indeterminate)) {
+      border-color: var(--vui-error-border);
+      box-shadow: 0 0 0 1px var(--vui-error-border);
+    }
+
+    .vui-check[data-kind='radio'] & {
+      border-radius: var(--vui-radius-full);
+    }
+  }
+
+  .vui-check__mark {
+    @apply pointer-events-none absolute inset-0 m-auto opacity-0;
+    inline-size: 76%;
+    block-size: 76%;
+    color: var(--vui-on-primary);
+    stroke-width: 3;
+
+    .vui-check__input:checked:not(:indeterminate) ~ &.vui-check__mark--checked,
+    .vui-check__input:indeterminate ~ &.vui-check__mark--mixed {
+      opacity: 1;
+    }
+  }
+
+  .vui-check__dot {
+    @apply pointer-events-none absolute inset-0 m-auto rounded-full opacity-0;
+    inline-size: 40%;
+    block-size: 40%;
+    background-color: var(--vui-on-primary);
+
+    .vui-check__input:checked ~ & {
+      opacity: 1;
+    }
+  }
+
+  .vui-check__label {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .vui-check__hint,
+  .vui-check__error {
+    margin-inline-start: calc(var(--_box) + 0.5rem);
+  }
+
+  .vui-check__hint {
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-check__error {
+    margin-block-start: 0.125rem;
+  }
+
+  @media (forced-colors: active) {
+    .vui-check__input {
+      border-color: ButtonText;
+
+      &:where(:checked, :indeterminate) {
+        border-color: Highlight;
+        background-color: Highlight;
+      }
+    }
+
+    .vui-check__mark {
+      stroke: HighlightText;
+    }
+
+    .vui-check__dot {
+      background-color: HighlightText;
+    }
+  }
+
+  .vui-option-list {
+    @apply flex flex-col;
+    gap: 0.25rem;
+
+    &[data-orientation='horizontal'] {
+      @apply flex-row flex-wrap;
+      gap: 0.25rem 1.25rem;
+    }
+  }
+
+  /* ---------------------------------------------------------------- UiSwitch */
+  .vui-switch {
+    --_w: 2rem;
+    --_t: 1.125rem;
+
+    @apply grid;
+    justify-items: start;
+    color: var(--vui-text);
+    font-size: var(--_fs, var(--vui-text-md));
+    line-height: var(--vui-leading-normal);
+
+    &[data-size='sm'] {
+      --_w: 1.625rem;
+      --_t: 0.9375rem;
+      font-size: var(--vui-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_w: 2.375rem;
+      --_t: 1.3125rem;
+    }
+
+    &[data-disabled] {
+      color: var(--vui-text-subtle);
+    }
+
+    /* Settings-row layout: label first, switch at the end of the row. */
+    &[data-label-placement='start'] {
+      justify-items: stretch;
+    }
+  }
+
+  .vui-switch__row {
+    @apply inline-flex items-start;
+    gap: 0.625rem;
+    min-block-size: var(--vui-hit-min);
+    padding-block: 0.125rem;
+    cursor: pointer;
+
+    .vui-switch[data-disabled] > & {
+      cursor: not-allowed;
+    }
+
+    .vui-switch[data-label-placement='start'] > & {
+      @apply flex flex-row-reverse justify-between;
+    }
+
+    @media (pointer: coarse) {
+      align-items: center;
+    }
+  }
+
+  .vui-switch__track {
+    @apply relative shrink-0;
+    inline-size: var(--_w);
+    block-size: var(--_t);
+    margin-block-start: calc((1lh - var(--_t)) / 2);
+
+    @media (pointer: coarse) {
+      margin-block-start: 0;
+    }
+  }
+
+  .vui-switch__input {
+    @apply absolute inset-0 size-full;
+    margin: 0;
+    appearance: none;
+    border-radius: var(--vui-radius-full);
+    background-color: var(--vui-border-strong);
+    cursor: inherit;
+
+    &:checked {
+      background-color: var(--vui-primary);
+    }
+
+    &:focus-visible {
+      @apply vui-focus-ring;
+    }
+
+    &:disabled {
+      opacity: var(--vui-disabled-opacity);
+    }
+  }
+
+  /* The thumb's position, not just the track colour, shows the state. */
+  .vui-switch__thumb {
+    @apply pointer-events-none absolute rounded-full;
+    inset-block: 2px;
+    inset-inline-start: 2px;
+    inline-size: calc(var(--_t) - 4px);
+    background-color: var(--vui-surface);
+
+    .vui-switch__input:checked ~ & {
+      inset-inline-start: calc(var(--_w) - var(--_t) + 2px);
+      background-color: var(--vui-on-primary);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .vui-switch__input {
+      border: 1px solid ButtonText;
+      background-color: Canvas;
+
+      &:checked {
+        background-color: Highlight;
+      }
+    }
+
+    .vui-switch__thumb {
+      background-color: ButtonText;
+    }
+  }
+
+  .vui-switch__label {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .vui-switch__hint {
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------------------------------------------------------------- UiSlider */
+  .vui-slider {
+    --_track: 0.25rem;
+    --_thumb: 1rem;
+
+    @apply flex items-center;
+    gap: 0.75rem;
+    min-block-size: max(1.5rem, var(--vui-hit-min));
+  }
+
+  .vui-slider__input {
+    @apply min-w-0 flex-1;
+    block-size: max(var(--_thumb), var(--vui-hit-min));
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+
+    &::-webkit-slider-runnable-track {
+      block-size: var(--_track);
+      border-radius: var(--vui-radius-full);
+      background: linear-gradient(
+        to right,
+        var(--vui-c) calc(var(--_fill, 0) * 100%),
+        var(--vui-border-strong) calc(var(--_fill, 0) * 100%)
+      );
+    }
+
+    /* The filled side follows the writing direction. */
+    &:dir(rtl)::-webkit-slider-runnable-track {
+      background: linear-gradient(
+        to left,
+        var(--vui-c) calc(var(--_fill, 0) * 100%),
+        var(--vui-border-strong) calc(var(--_fill, 0) * 100%)
+      );
+    }
+
+    &::-webkit-slider-thumb {
+      inline-size: var(--_thumb);
+      block-size: var(--_thumb);
+      margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
+      appearance: none;
+      border: 2px solid var(--vui-c);
+      border-radius: var(--vui-radius-full);
+      background-color: var(--vui-surface);
+    }
+
+    &::-moz-range-track {
+      block-size: var(--_track);
+      border-radius: var(--vui-radius-full);
+      background-color: var(--vui-border-strong);
+    }
+
+    &::-moz-range-progress {
+      block-size: var(--_track);
+      border-radius: var(--vui-radius-full);
+      background-color: var(--vui-c);
+    }
+
+    &::-moz-range-thumb {
+      box-sizing: border-box;
+      inline-size: var(--_thumb);
+      block-size: var(--_thumb);
+      border: 2px solid var(--vui-c);
+      border-radius: var(--vui-radius-full);
+      background-color: var(--vui-surface);
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        @apply vui-focus-ring;
+      }
+
+      &::-moz-range-thumb {
+        @apply vui-focus-ring;
+      }
+    }
+
+    &:disabled {
+      opacity: var(--vui-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+
+      &::-webkit-slider-runnable-track {
+        background: ButtonText;
+      }
+
+      &::-webkit-slider-thumb {
+        border-color: Highlight;
+        background-color: Canvas;
+      }
+    }
+  }
+
+  .vui-slider__value {
+    min-inline-size: 3ch;
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+  }
+
+  /* ------------------------------------------------------------- UiFileInput */
+  .vui-file {
+    @apply grid;
+    gap: 0.5rem;
+  }
+
+  .vui-file__picker {
+    @apply relative flex flex-wrap items-center;
+    gap: 0.375rem 0.625rem;
+    min-block-size: max(var(--_h, var(--vui-control-md)), var(--vui-hit-min));
+  }
+
+  /* The real input sits on top, invisible: clicks, keyboard and file drops reach it directly. */
+  .vui-file__input {
+    @apply absolute inset-0 size-full opacity-0;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &::file-selector-button {
+      cursor: inherit;
+    }
+  }
+
+  .vui-file__button {
+    @apply pointer-events-none inline-flex items-center;
+    gap: 0.375rem;
+    min-block-size: var(--_h, var(--vui-control-md));
+    padding-inline: 0.75rem;
+    border: var(--vui-border-width) solid var(--vui-border-strong);
+    border-radius: var(--vui-radius-md);
+    background-color: var(--vui-surface);
+    font-size: var(--_fs, var(--vui-text-md));
+    font-weight: var(--vui-weight-medium);
+    line-height: var(--vui-leading-tight);
+
+    .vui-file__picker:hover > & {
+      background-color: var(--vui-neutral-soft);
+    }
+
+    .vui-file__picker:has(.vui-file__input:focus-visible) > & {
+      @apply vui-focus-ring;
+    }
+
+    .vui-file[data-invalid] & {
+      border-color: var(--vui-error-border);
+      box-shadow: inset 0 0 0 1px var(--vui-error-border);
+    }
+
+    .vui-file[data-disabled] & {
+      border-color: var(--vui-border);
+      background-color: var(--vui-subtle);
+      color: var(--vui-text-subtle);
+    }
+  }
+
+  .vui-file__summary {
+    @apply pointer-events-none min-w-0;
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .vui-file__list {
+    @apply grid;
+    gap: 0.25rem;
+  }
+
+  .vui-file__item {
+    @apply flex items-center;
+    gap: 0.5rem;
+    padding: 0.1875rem 0.1875rem 0.1875rem 0.5rem;
+    border: var(--vui-border-width) solid var(--vui-border);
+    border-radius: var(--vui-radius-md);
+    background-color: var(--vui-surface);
+    font-size: var(--vui-text-sm);
+  }
+
+  .vui-file__name {
+    @apply min-w-0 flex-1;
+    overflow-wrap: anywhere;
+  }
+
+  .vui-file__size {
+    color: var(--vui-text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .vui-file__preview {
+    @apply shrink-0 object-cover;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: var(--vui-radius-sm);
+  }
+
+  .vui-file__glyph {
+    color: var(--vui-text-muted);
+    font-size: 1.125rem;
+  }
+}

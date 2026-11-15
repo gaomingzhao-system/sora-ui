@@ -1,0 +1,147 @@
+@layer components.vui {
+  /* ----------------------------------------------------------------- UiTable */
+  /* A wide table scrolls inside this wrapper; table semantics are never traded for layout. */
+  .vui-table-wrap {
+    --vui-on-surface: var(--vui-surface);
+
+    inline-size: 100%;
+    border: var(--vui-border-width) solid var(--vui-border);
+    border-radius: var(--vui-radius-lg);
+    background-color: var(--vui-surface);
+    overflow-x: auto;
+
+    &:focus-visible {
+      @apply vui-focus-ring;
+    }
+
+    @media (forced-colors: active) {
+      border-color: CanvasText;
+    }
+  }
+
+  .vui-table {
+    --_py: 0.5rem;
+    --_px: 0.75rem;
+
+    inline-size: 100%;
+    color: var(--vui-text);
+    font-size: var(--vui-text-md);
+    line-height: var(--vui-leading-tight);
+
+    &[data-size='sm'] {
+      --_py: 0.3125rem;
+      --_px: 0.5rem;
+      font-size: var(--vui-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_py: 0.75rem;
+      --_px: 1rem;
+    }
+
+    &[aria-busy='true'] > tbody {
+      opacity: 0.6;
+    }
+  }
+
+  .vui-table__caption {
+    padding: 0.625rem var(--_px);
+    caption-side: top;
+    font-weight: var(--vui-weight-semibold);
+    text-align: start;
+
+    &[data-visually-hidden] {
+      @apply sr-only;
+    }
+  }
+
+  .vui-table__cell {
+    padding: var(--_py) var(--_px);
+    border-block-end: var(--vui-border-width) solid var(--vui-border);
+    font-weight: var(--vui-weight-normal);
+    text-align: start;
+    vertical-align: middle;
+
+    &[data-align='center'] {
+      text-align: center;
+    }
+
+    &[data-align='end'] {
+      text-align: end;
+    }
+
+    .vui-table > tbody > tr:last-child > & {
+      border-block-end: 0;
+    }
+
+    .vui-table > tbody > tr > th& {
+      font-weight: var(--vui-weight-medium);
+    }
+  }
+
+  .vui-table__cell--head {
+    background-color: var(--vui-subtle);
+    color: var(--vui-text-muted);
+    font-size: var(--vui-text-sm);
+    font-weight: var(--vui-weight-medium);
+    white-space: nowrap;
+  }
+
+  .vui-table__cell--select {
+    inline-size: 2.5rem;
+    padding-inline-end: 0;
+
+    .vui-table > thead & {
+      background-color: var(--vui-subtle);
+    }
+  }
+
+  .vui-table__cell--empty {
+    padding-block: 2rem;
+    color: var(--vui-text-muted);
+    text-align: center;
+  }
+
+  .vui-table__row {
+    .vui-table[data-striped] > tbody > &:nth-child(even) {
+      background-color: color-mix(in oklab, var(--vui-subtle) 55%, transparent);
+    }
+
+    @variant hover {
+      background-color: var(--vui-hover);
+    }
+
+    /* Selected rows are tinted; the checked box in the row is the non-colour cue. */
+    &[data-selected] {
+      background-color: var(--vui-neutral-soft);
+    }
+  }
+
+  .vui-table__sort {
+    @apply inline-flex items-center;
+    gap: 0.25rem;
+    min-block-size: var(--vui-hit-min);
+    margin: -0.25rem;
+    padding: 0.25rem;
+    border-radius: var(--vui-radius-sm);
+    font-weight: inherit;
+
+    @variant hover {
+      color: var(--vui-text);
+    }
+
+    &:focus-visible {
+      @apply vui-focus-ring;
+    }
+  }
+
+  .vui-table__sort-icon {
+    color: var(--vui-text-subtle);
+    font-size: 0.875rem;
+
+    .vui-table__cell[aria-sort='ascending'] &,
+    .vui-table__cell[aria-sort='descending'] & {
+      color: var(--vui-text);
+    }
+  }
+}

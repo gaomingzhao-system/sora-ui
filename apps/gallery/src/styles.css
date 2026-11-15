@@ -1,0 +1,66 @@
+/*
+ * Gallery stylesheet: a Tailwind CSS v4 *host*.
+ *
+ * The library's own stylesheet is imported separately in main.ts (it is a
+ * second, independent Tailwind root there, exactly like the compiled
+ * dist/styles.css a real application imports). This file only sets up the
+ * host's utilities and maps the library tokens into them.
+ */
+@import 'tailwindcss' source(none);
+@import '@your-scope/ui/tailwind.css';
+
+/* Sources are registered explicitly; nothing outside the gallery is scanned. */
+@source './';
+
+@layer base {
+  html {
+    background-color: var(--vui-canvas);
+    color: var(--vui-text);
+    font-family: var(--vui-font-sans);
+    font-size: 100%;
+    line-height: var(--vui-leading-normal);
+    /* Reserved gutter: opening a modal dialog (which locks scrolling) does not shift the page. */
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-block-size: 100dvh;
+  }
+
+  :where(h1, h2, h3, h4) {
+    font-family: var(--vui-font-display);
+    text-wrap: balance;
+  }
+
+  :where(a, button, [tabindex]):focus-visible {
+    outline: var(--vui-focus-width) solid var(--vui-focus);
+    outline-offset: var(--vui-focus-offset);
+  }
+}
+
+@layer components {
+  /* Header navigation: ordinary links, the current one marked with aria-current. */
+  .g-nav-link {
+    @apply inline-flex items-center rounded-vui-sm px-2.5 text-vui-sm font-medium whitespace-nowrap text-vui-muted;
+    min-block-size: max(2rem, var(--vui-hit-min));
+
+    @variant hover {
+      @apply bg-vui-hover text-vui-text;
+    }
+
+    &[aria-current='page'] {
+      @apply bg-vui-neutral-soft text-vui-text;
+      box-shadow: inset 0 -2px 0 var(--vui-text);
+    }
+  }
+
+  .g-swatch {
+    @apply grid min-h-14 content-end rounded-vui border border-vui-border p-2 text-vui-xs;
+  }
+
+  /* English reference text taken from the component manifest. */
+  .g-reference {
+    @apply text-vui-sm text-vui-muted;
+  }
+}

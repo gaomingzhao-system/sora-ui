@@ -1,0 +1,270 @@
+{
+  "name": "@your-scope/ui",
+  "version": "0.1.0",
+  "description": "Compact Vue Vapor component library with warm neutral theming.",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./forms": {
+      "types": "./dist/forms.d.ts",
+      "import": "./dist/forms.js"
+    },
+    "./i18n": {
+      "types": "./dist/i18n.d.ts",
+      "import": "./dist/i18n.js"
+    },
+    "./theme": {
+      "types": "./dist/theme.d.ts",
+      "import": "./dist/theme.js"
+    },
+    "./locales/en": {
+      "types": "./dist/locales/en.d.ts",
+      "import": "./dist/locales/en.js"
+    },
+    "./locales/ja": {
+      "types": "./dist/locales/ja.d.ts",
+      "import": "./dist/locales/ja.js"
+    },
+    "./locales/ar": {
+      "types": "./dist/locales/ar.d.ts",
+      "import": "./dist/locales/ar.js"
+    },
+    "./locales/pseudo": {
+      "types": "./dist/locales/pseudo.d.ts",
+      "import": "./dist/locales/pseudo.js"
+    },
+    "./i18n/locales/en": {
+      "types": "./dist/i18n/locales/en.d.ts",
+      "import": "./dist/i18n/locales/en.js"
+    },
+    "./i18n/locales/ja": {
+      "types": "./dist/i18n/locales/ja.d.ts",
+      "import": "./dist/i18n/locales/ja.js"
+    },
+    "./i18n/locales/ar": {
+      "types": "./dist/i18n/locales/ar.d.ts",
+      "import": "./dist/i18n/locales/ar.js"
+    },
+    "./i18n/locales/pseudo": {
+      "types": "./dist/i18n/locales/pseudo.d.ts",
+      "import": "./dist/i18n/locales/pseudo.js"
+    },
+    "./components/UiProvider": {
+      "types": "./dist/components/UiProvider.d.ts",
+      "import": "./dist/components/UiProvider.js"
+    },
+    "./components/UiIcon": {
+      "types": "./dist/components/UiIcon.d.ts",
+      "import": "./dist/components/UiIcon.js"
+    },
+    "./components/UiButton": {
+      "types": "./dist/components/UiButton.d.ts",
+      "import": "./dist/components/UiButton.js"
+    },
+    "./components/UiIconButton": {
+      "types": "./dist/components/UiIconButton.d.ts",
+      "import": "./dist/components/UiIconButton.js"
+    },
+    "./components/UiButtonGroup": {
+      "types": "./dist/components/UiButtonGroup.d.ts",
+      "import": "./dist/components/UiButtonGroup.js"
+    },
+    "./components/UiLink": {
+      "types": "./dist/components/UiLink.d.ts",
+      "import": "./dist/components/UiLink.js"
+    },
+    "./components/UiCard": {
+      "types": "./dist/components/UiCard.d.ts",
+      "import": "./dist/components/UiCard.js"
+    },
+    "./components/UiBadge": {
+      "types": "./dist/components/UiBadge.d.ts",
+      "import": "./dist/components/UiBadge.js"
+    },
+    "./components/UiAvatar": {
+      "types": "./dist/components/UiAvatar.d.ts",
+      "import": "./dist/components/UiAvatar.js"
+    },
+    "./components/UiAvatarGroup": {
+      "types": "./dist/components/UiAvatarGroup.d.ts",
+      "import": "./dist/components/UiAvatarGroup.js"
+    },
+    "./components/UiSeparator": {
+      "types": "./dist/components/UiSeparator.d.ts",
+      "import": "./dist/components/UiSeparator.js"
+    },
+    "./components/UiKbd": {
+      "types": "./dist/components/UiKbd.d.ts",
+      "import": "./dist/components/UiKbd.js"
+    },
+    "./components/UiEmptyState": {
+      "types": "./dist/components/UiEmptyState.d.ts",
+      "import": "./dist/components/UiEmptyState.js"
+    },
+    "./components/UiAlert": {
+      "types": "./dist/components/UiAlert.d.ts",
+      "import": "./dist/components/UiAlert.js"
+    },
+    "./components/UiSpinner": {
+      "types": "./dist/components/UiSpinner.d.ts",
+      "import": "./dist/components/UiSpinner.js"
+    },
+    "./components/UiProgress": {
+      "types": "./dist/components/UiProgress.d.ts",
+      "import": "./dist/components/UiProgress.js"
+    },
+    "./components/UiSkeleton": {
+      "types": "./dist/components/UiSkeleton.d.ts",
+      "import": "./dist/components/UiSkeleton.js"
+    },
+    "./components/UiToastProvider": {
+      "types": "./dist/components/UiToastProvider.d.ts",
+      "import": "./dist/components/UiToastProvider.js"
+    },
+    "./components/UiField": {
+      "types": "./dist/components/UiField.d.ts",
+      "import": "./dist/components/UiField.js"
+    },
+    "./components/UiInput": {
+      "types": "./dist/components/UiInput.d.ts",
+      "import": "./dist/components/UiInput.js"
+    },
+    "./components/UiTextarea": {
+      "types": "./dist/components/UiTextarea.d.ts",
+      "import": "./dist/components/UiTextarea.js"
+    },
+    "./components/UiPasswordInput": {
+      "types": "./dist/components/UiPasswordInput.d.ts",
+      "import": "./dist/components/UiPasswordInput.js"
+    },
+    "./components/UiNumberInput": {
+      "types": "./dist/components/UiNumberInput.d.ts",
+      "import": "./dist/components/UiNumberInput.js"
+    },
+    "./components/UiDateInput": {
+      "types": "./dist/components/UiDateInput.d.ts",
+      "import": "./dist/components/UiDateInput.js"
+    },
+    "./components/UiCheckbox": {
+      "types": "./dist/components/UiCheckbox.d.ts",
+      "import": "./dist/components/UiCheckbox.js"
+    },
+    "./components/UiCheckboxGroup": {
+      "types": "./dist/components/UiCheckboxGroup.d.ts",
+      "import": "./dist/components/UiCheckboxGroup.js"
+    },
+    "./components/UiRadioGroup": {
+      "types": "./dist/components/UiRadioGroup.d.ts",
+      "import": "./dist/components/UiRadioGroup.js"
+    },
+    "./components/UiSwitch": {
+      "types": "./dist/components/UiSwitch.d.ts",
+      "import": "./dist/components/UiSwitch.js"
+    },
+    "./components/UiSelect": {
+      "types": "./dist/components/UiSelect.d.ts",
+      "import": "./dist/components/UiSelect.js"
+    },
+    "./components/UiCombobox": {
+      "types": "./dist/components/UiCombobox.d.ts",
+      "import": "./dist/components/UiCombobox.js"
+    },
+    "./components/UiSlider": {
+      "types": "./dist/components/UiSlider.d.ts",
+      "import": "./dist/components/UiSlider.js"
+    },
+    "./components/UiFileInput": {
+      "types": "./dist/components/UiFileInput.d.ts",
+      "import": "./dist/components/UiFileInput.js"
+    },
+    "./components/UiForm": {
+      "types": "./dist/components/UiForm.d.ts",
+      "import": "./dist/components/UiForm.js"
+    },
+    "./components/UiFormErrorSummary": {
+      "types": "./dist/components/UiFormErrorSummary.d.ts",
+      "import": "./dist/components/UiFormErrorSummary.js"
+    },
+    "./components/UiDialog": {
+      "types": "./dist/components/UiDialog.d.ts",
+      "import": "./dist/components/UiDialog.js"
+    },
+    "./components/UiDrawer": {
+      "types": "./dist/components/UiDrawer.d.ts",
+      "import": "./dist/components/UiDrawer.js"
+    },
+    "./components/UiPopover": {
+      "types": "./dist/components/UiPopover.d.ts",
+      "import": "./dist/components/UiPopover.js"
+    },
+    "./components/UiTooltip": {
+      "types": "./dist/components/UiTooltip.d.ts",
+      "import": "./dist/components/UiTooltip.js"
+    },
+    "./components/UiDropdownMenu": {
+      "types": "./dist/components/UiDropdownMenu.d.ts",
+      "import": "./dist/components/UiDropdownMenu.js"
+    },
+    "./components/UiTabs": {
+      "types": "./dist/components/UiTabs.d.ts",
+      "import": "./dist/components/UiTabs.js"
+    },
+    "./components/UiAccordion": {
+      "types": "./dist/components/UiAccordion.d.ts",
+      "import": "./dist/components/UiAccordion.js"
+    },
+    "./components/UiBreadcrumbs": {
+      "types": "./dist/components/UiBreadcrumbs.d.ts",
+      "import": "./dist/components/UiBreadcrumbs.js"
+    },
+    "./components/UiPagination": {
+      "types": "./dist/components/UiPagination.d.ts",
+      "import": "./dist/components/UiPagination.js"
+    },
+    "./components/UiTable": {
+      "types": "./dist/components/UiTable.d.ts",
+      "import": "./dist/components/UiTable.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tailwind.css": "./dist/tailwind.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown && node ../../scripts/build-styles.ts"
+  },
+  "dependencies": {
+    "@your-scope/theme": "workspace:^"
+  },
+  "peerDependencies": {
+    "@formisch/vue": "^1.2.0",
+    "petite-vue-i18n": "^11.4.20",
+    "valibot": "^1.5.0",
+    "vue": "3.6.0-rc.15"
+  },
+  "peerDependenciesMeta": {
+    "@formisch/vue": {
+      "optional": true
+    },
+    "petite-vue-i18n": {
+      "optional": true
+    },
+    "valibot": {
+      "optional": true
+    }
+  }
+}

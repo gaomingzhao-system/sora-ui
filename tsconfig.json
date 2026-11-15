@@ -1,0 +1,17 @@
+{
+  // Node-side tooling: scripts, tool configs, ui.config.ts and the unit tests.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["ESNext"]
+  },
+  "include": [
+    "scripts/**/*.ts",
+    "tests/unit/**/*.ts",
+    "tests/e2e/**/*.ts",
+    "ui.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "packages/ui/src/compiled-messages.d.ts"
+  ]
+}

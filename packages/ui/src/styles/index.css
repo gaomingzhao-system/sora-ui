@@ -1,0 +1,39 @@
+/*
+ * @your-scope/ui stylesheet entry (compiled by Tailwind CSS v4 into dist/styles.css).
+ *
+ * Cascade contract
+ * ----------------
+ * The library never ships unlayered rules. It uses sub-layers of Tailwind's
+ * canonical layers and declares that canonical order itself:
+ *
+ *   theme.vui       custom properties generated from ui.config.ts
+ *   base.vui        element resets scoped to `vui-*` classes (no global Preflight)
+ *   components.vui  component styles and motion
+ *
+ * Consequences:
+ *   - Unlayered consumer CSS always wins.
+ *   - In a Tailwind host, utilities (`utilities` layer) override component
+ *     styles no matter which stylesheet is imported first, and the host's
+ *     Preflight (`base`) can never override a component.
+ *   - Tokens sit in the lowest layer, so they can be overridden from anywhere.
+ */
+@layer theme, base, components, utilities;
+
+/*
+ * Build-time Tailwind setup.
+ * - Tailwind's default scale is imported as `inline reference`: `@apply` can
+ *   use it, its values are inlined, and none of its variables are emitted.
+ * - `source(none)`: templates carry semantic classes, so nothing is scanned.
+ */
+@import 'tailwindcss/theme.css' theme(inline reference);
+@import './tailwind.css' source(none);
+
+/* Library-build-only theme keys (never shipped in tailwind.css, so a host's own scale is untouched). */
+@theme inline {
+  --spacing: var(--vui-space-unit);
+}
+
+@import './theme.generated.css';
+@import './reset.css';
+@import './components.css';
+@import './motion.css';

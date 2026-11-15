@@ -1,0 +1,20 @@
+{
+  "name": "vui-consumer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Independent consumer of the packed @your-scope/ui tarballs. Not a workspace member; see scripts/verify-consumer.ts.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "3.6.0-rc.15"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.11",
+    "typescript": "npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2",
+    "vite": "8.3.8",
+    "vue-tsc": "3.3.14"
+  }
+}

@@ -1,0 +1,299 @@
+/*
+ * GENERATED FILE - do not edit.
+ * Source: ui.config.ts -> @your-scope/theme resolveTheme() -> scripts/generate-theme.ts
+ * Regenerate with `pnpm generate:theme`.
+ */
+@layer theme.vui {
+  :where(:root, :host) {
+    --vui-canvas: light-dark(oklch(98.2% 0.0066 95), oklch(20.5% 0.0066 75));
+    --vui-surface: light-dark(oklch(100% 0 0), oklch(25.5% 0.008 77));
+    --vui-elevated: light-dark(oklch(100% 0 0), oklch(31% 0.0092 79));
+    --vui-subtle: light-dark(oklch(96.2% 0.008 93), oklch(31% 0.0092 79));
+    --vui-inverted: light-dark(oklch(25.5% 0.008 77), oklch(96.2% 0.008 93));
+    --vui-text: light-dark(oklch(20.5% 0.0066 75), oklch(98.2% 0.0066 95));
+    --vui-text-muted: light-dark(oklch(40% 0.0102 81), oklch(86.8% 0.0102 89));
+    --vui-text-subtle: light-dark(oklch(50% 0.0108 83), oklch(72% 0.0108 87));
+    --vui-text-inverted: light-dark(oklch(98.2% 0.0066 95), oklch(20.5% 0.0066 75));
+    --vui-border: light-dark(oklch(92.2% 0.0092 91), oklch(40% 0.0102 81));
+    --vui-border-strong: oklch(60% 0.011 85);
+    --vui-focus: light-dark(oklch(55.5% 0.1392 252.8), oklch(73.5% 0.1363 251.2));
+    --vui-primary: light-dark(oklch(25.5% 0.0029 85), oklch(96.2% 0.0029 85));
+    --vui-primary-hover: light-dark(oklch(31% 0.0033 85), oklch(92.2% 0.0033 85));
+    --vui-primary-active: light-dark(oklch(40% 0.0037 85), oklch(86.8% 0.0037 85));
+    --vui-on-primary: light-dark(oklch(100% 0 0), oklch(20.5% 0.0024 85));
+    --vui-primary-text: light-dark(oklch(25.5% 0.0029 85), oklch(96.2% 0.0029 85));
+    --vui-primary-border: oklch(60% 0.004 85);
+    --vui-primary-soft: light-dark(color-mix(in oklab, var(--vui-primary) 12%, transparent), color-mix(in oklab, var(--vui-primary) 16%, transparent));
+    --vui-primary-soft-hover: light-dark(color-mix(in oklab, var(--vui-primary) 20%, transparent), color-mix(in oklab, var(--vui-primary) 26%, transparent));
+    --vui-secondary: light-dark(oklch(55.5% 0.1229 39.4), oklch(73.5% 0.1203 40.6));
+    --vui-secondary-hover: light-dark(oklch(47% 0.1101 38.8), oklch(82.5% 0.0947 41.2));
+    --vui-secondary-active: light-dark(oklch(40% 0.0922 38.2), oklch(89.5% 0.0578 41.8));
+    --vui-on-secondary: light-dark(oklch(100% 0 0), oklch(25.5% 0.0538 37));
+    --vui-secondary-text: light-dark(oklch(47% 0.1101 38.8), oklch(82.5% 0.0947 41.2));
+    --vui-secondary-border: oklch(64.5% 0.128 40);
+    --vui-secondary-soft: light-dark(color-mix(in oklab, var(--vui-secondary) 12%, transparent), color-mix(in oklab, var(--vui-secondary) 16%, transparent));
+    --vui-secondary-soft-hover: light-dark(color-mix(in oklab, var(--vui-secondary) 20%, transparent), color-mix(in oklab, var(--vui-secondary) 26%, transparent));
+    --vui-success: light-dark(oklch(47% 0.1161 153.2), oklch(73.5% 0.1269 151.4));
+    --vui-success-hover: light-dark(oklch(40% 0.0972 153.8), oklch(82.5% 0.0999 150.8));
+    --vui-success-active: light-dark(oklch(33.5% 0.0783 154.4), oklch(89.5% 0.0675 150.2));
+    --vui-on-success: light-dark(oklch(100% 0 0), oklch(25.5% 0.0567 155));
+    --vui-success-text: light-dark(oklch(40% 0.0972 153.8), oklch(82.5% 0.0999 150.8));
+    --vui-success-border: light-dark(oklch(55.5% 0.1296 152.6), oklch(64.5% 0.135 152));
+    --vui-success-soft: light-dark(color-mix(in oklab, var(--vui-success) 12%, transparent), color-mix(in oklab, var(--vui-success) 16%, transparent));
+    --vui-success-soft-hover: light-dark(color-mix(in oklab, var(--vui-success) 20%, transparent), color-mix(in oklab, var(--vui-success) 26%, transparent));
+    --vui-info: light-dark(oklch(55.5% 0.1392 252.8), oklch(73.5% 0.1363 251.2));
+    --vui-info-hover: light-dark(oklch(47% 0.1247 253.6), oklch(82.5% 0.0907 250.4));
+    --vui-info-active: light-dark(oklch(40% 0.1044 254.4), oklch(89.5% 0.0532 249.6));
+    --vui-on-info: light-dark(oklch(100% 0 0), oklch(25.5% 0.0609 256));
+    --vui-info-text: light-dark(oklch(47% 0.1247 253.6), oklch(82.5% 0.0907 250.4));
+    --vui-info-border: light-dark(oklch(55.5% 0.1392 252.8), oklch(64.5% 0.145 252));
+    --vui-info-soft: light-dark(color-mix(in oklab, var(--vui-info) 12%, transparent), color-mix(in oklab, var(--vui-info) 16%, transparent));
+    --vui-info-soft-hover: light-dark(color-mix(in oklab, var(--vui-info) 20%, transparent), color-mix(in oklab, var(--vui-info) 26%, transparent));
+    --vui-warning: light-dark(oklch(55.5% 0.1202 70.2), oklch(73.5% 0.141 73.8));
+    --vui-warning-hover: light-dark(oklch(47% 0.103 68.4), oklch(82.5% 0.111 75.6));
+    --vui-warning-active: light-dark(oklch(40% 0.0889 66.6), oklch(89.5% 0.075 77.4));
+    --vui-on-warning: light-dark(oklch(100% 0 0), oklch(25.5% 0.0587 63));
+    --vui-warning-text: light-dark(oklch(47% 0.103 68.4), oklch(82.5% 0.111 75.6));
+    --vui-warning-border: oklch(64.5% 0.1382 72);
+    --vui-warning-soft: light-dark(color-mix(in oklab, var(--vui-warning) 12%, transparent), color-mix(in oklab, var(--vui-warning) 16%, transparent));
+    --vui-warning-soft-hover: light-dark(color-mix(in oklab, var(--vui-warning) 20%, transparent), color-mix(in oklab, var(--vui-warning) 26%, transparent));
+    --vui-error: light-dark(oklch(55.5% 0.1776 24.6), oklch(73.5% 0.1622 25.4));
+    --vui-error-hover: light-dark(oklch(47% 0.1591 24.2), oklch(82.5% 0.0976 25.8));
+    --vui-error-active: light-dark(oklch(40% 0.1332 23.8), oklch(89.5% 0.0548 26.2));
+    --vui-on-error: light-dark(oklch(100% 0 0), oklch(25.5% 0.0777 23));
+    --vui-error-text: light-dark(oklch(47% 0.1591 24.2), oklch(82.5% 0.0976 25.8));
+    --vui-error-border: oklch(64.5% 0.185 25);
+    --vui-error-soft: light-dark(color-mix(in oklab, var(--vui-error) 12%, transparent), color-mix(in oklab, var(--vui-error) 16%, transparent));
+    --vui-error-soft-hover: light-dark(color-mix(in oklab, var(--vui-error) 20%, transparent), color-mix(in oklab, var(--vui-error) 26%, transparent));
+    --vui-neutral: light-dark(oklch(25.5% 0.008 77), oklch(96.2% 0.008 93));
+    --vui-neutral-hover: light-dark(oklch(31% 0.0092 79), oklch(92.2% 0.0092 91));
+    --vui-neutral-active: light-dark(oklch(40% 0.0102 81), oklch(86.8% 0.0102 89));
+    --vui-on-neutral: light-dark(oklch(100% 0 0), oklch(20.5% 0.0066 75));
+    --vui-neutral-text: light-dark(oklch(25.5% 0.008 77), oklch(96.2% 0.008 93));
+    --vui-neutral-border: oklch(60% 0.011 85);
+    --vui-neutral-soft: light-dark(color-mix(in oklab, var(--vui-neutral) 12%, transparent), color-mix(in oklab, var(--vui-neutral) 16%, transparent));
+    --vui-neutral-soft-hover: light-dark(color-mix(in oklab, var(--vui-neutral) 20%, transparent), color-mix(in oklab, var(--vui-neutral) 26%, transparent));
+    --vui-scrim: light-dark(oklch(20.5% 0.0066 75 / 42%), oklch(12% 0.004 75 / 62%));
+    --vui-shadow-color: light-dark(oklch(20.5% 0.0066 75 / 14%), oklch(0% 0 0 / 50%));
+    --vui-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Hiragino Sans", "Noto Sans JP", "Noto Sans Arabic", sans-serif;
+    --vui-font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Georgia, "Noto Serif", "Hiragino Mincho ProN", serif;
+    --vui-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --vui-font-display: var(--vui-font-sans);
+    --vui-text-xs: 0.75rem;
+    --vui-text-sm: 0.8125rem;
+    --vui-text-md: 0.875rem;
+    --vui-text-lg: 1rem;
+    --vui-text-xl: 1.125rem;
+    --vui-text-2xl: 1.375rem;
+    --vui-leading-tight: 1.25;
+    --vui-leading-normal: 1.5;
+    --vui-weight-normal: 400;
+    --vui-weight-medium: 500;
+    --vui-weight-semibold: 600;
+    --vui-radius-full: 9999px;
+    --vui-border-width: 1px;
+    --vui-focus-width: 2px;
+    --vui-focus-offset: 2px;
+    --vui-ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --vui-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --vui-hover: color-mix(in oklab, var(--vui-text) 7%, transparent);
+    --vui-pressed: color-mix(in oklab, var(--vui-text) 12%, transparent);
+    --vui-shadow-sm: 0 1px 2px var(--vui-shadow-color);
+    --vui-shadow-md: 0 1px 3px var(--vui-shadow-color), 0 6px 16px -4px var(--vui-shadow-color);
+    --vui-shadow-lg: 0 2px 6px var(--vui-shadow-color), 0 16px 40px -12px var(--vui-shadow-color);
+    --vui-disabled-opacity: 0.55;
+    --vui-hit-min: 0px;
+    --vui-control-sm: 1.75rem;
+    --vui-control-md: 2.25rem;
+    --vui-control-lg: 2.5rem;
+    --vui-space-unit: 0.25rem;
+    --vui-gap-xs: 0.25rem;
+    --vui-gap-sm: 0.5rem;
+    --vui-gap-md: 0.75rem;
+    --vui-gap-lg: 1rem;
+    --vui-pad-sm: 0.5rem;
+    --vui-pad-md: 0.75rem;
+    --vui-pad-lg: 1rem;
+    --vui-pad-overlay: 1rem;
+    --vui-row: 2.25rem;
+    --vui-radius-sm: 0.375rem;
+    --vui-radius-md: 0.5rem;
+    --vui-radius-lg: 0.75rem;
+    --vui-duration-fast: 120ms;
+    --vui-duration-overlay: 160ms;
+  }
+
+  :where([data-vui-theme='light']) {
+    color-scheme: light;
+  }
+
+  :where([data-vui-theme='dark']) {
+    color-scheme: dark;
+  }
+
+  :where([data-vui-theme='system']) {
+    color-scheme: light dark;
+  }
+
+  :where([data-vui-density='compact']) {
+    --vui-control-sm: 1.75rem;
+    --vui-control-md: 2.25rem;
+    --vui-control-lg: 2.5rem;
+    --vui-space-unit: 0.25rem;
+    --vui-gap-xs: 0.25rem;
+    --vui-gap-sm: 0.5rem;
+    --vui-gap-md: 0.75rem;
+    --vui-gap-lg: 1rem;
+    --vui-pad-sm: 0.5rem;
+    --vui-pad-md: 0.75rem;
+    --vui-pad-lg: 1rem;
+    --vui-pad-overlay: 1rem;
+    --vui-row: 2.25rem;
+  }
+
+  :where([data-vui-density='comfortable']) {
+    --vui-control-sm: 2rem;
+    --vui-control-md: 2.5rem;
+    --vui-control-lg: 2.75rem;
+    --vui-space-unit: 0.25rem;
+    --vui-gap-xs: 0.375rem;
+    --vui-gap-sm: 0.625rem;
+    --vui-gap-md: 1rem;
+    --vui-gap-lg: 1.25rem;
+    --vui-pad-sm: 0.75rem;
+    --vui-pad-md: 1rem;
+    --vui-pad-lg: 1.25rem;
+    --vui-pad-overlay: 1.25rem;
+    --vui-row: 2.75rem;
+  }
+
+  :where([data-vui-radius='none']) {
+    --vui-radius-sm: 0px;
+    --vui-radius-md: 0px;
+    --vui-radius-lg: 0px;
+  }
+
+  :where([data-vui-radius='sm']) {
+    --vui-radius-sm: 0.25rem;
+    --vui-radius-md: 0.375rem;
+    --vui-radius-lg: 0.5rem;
+  }
+
+  :where([data-vui-radius='md']) {
+    --vui-radius-sm: 0.375rem;
+    --vui-radius-md: 0.5rem;
+    --vui-radius-lg: 0.75rem;
+  }
+
+  :where([data-vui-radius='lg']) {
+    --vui-radius-sm: 0.5rem;
+    --vui-radius-md: 0.75rem;
+    --vui-radius-lg: 1rem;
+  }
+
+  :where([data-vui-motion='none']) {
+    --vui-duration-fast: 0ms;
+    --vui-duration-overlay: 0ms;
+  }
+
+  :where([data-vui-motion='subtle']) {
+    --vui-duration-fast: 120ms;
+    --vui-duration-overlay: 160ms;
+  }
+
+  :where([data-vui-motion='standard']) {
+    --vui-duration-fast: 140ms;
+    --vui-duration-overlay: 180ms;
+  }
+
+  :where([class*='vui-'][data-color='primary']) {
+    --vui-c: var(--vui-primary);
+    --vui-c-hover: var(--vui-primary-hover);
+    --vui-c-active: var(--vui-primary-active);
+    --vui-c-on: var(--vui-on-primary);
+    --vui-c-text: var(--vui-primary-text);
+    --vui-c-border: var(--vui-primary-border);
+    --vui-c-soft: var(--vui-primary-soft);
+    --vui-c-soft-hover: var(--vui-primary-soft-hover);
+  }
+
+  :where([class*='vui-'][data-color='secondary']) {
+    --vui-c: var(--vui-secondary);
+    --vui-c-hover: var(--vui-secondary-hover);
+    --vui-c-active: var(--vui-secondary-active);
+    --vui-c-on: var(--vui-on-secondary);
+    --vui-c-text: var(--vui-secondary-text);
+    --vui-c-border: var(--vui-secondary-border);
+    --vui-c-soft: var(--vui-secondary-soft);
+    --vui-c-soft-hover: var(--vui-secondary-soft-hover);
+  }
+
+  :where([class*='vui-'][data-color='success']) {
+    --vui-c: var(--vui-success);
+    --vui-c-hover: var(--vui-success-hover);
+    --vui-c-active: var(--vui-success-active);
+    --vui-c-on: var(--vui-on-success);
+    --vui-c-text: var(--vui-success-text);
+    --vui-c-border: var(--vui-success-border);
+    --vui-c-soft: var(--vui-success-soft);
+    --vui-c-soft-hover: var(--vui-success-soft-hover);
+  }
+
+  :where([class*='vui-'][data-color='info']) {
+    --vui-c: var(--vui-info);
+    --vui-c-hover: var(--vui-info-hover);
+    --vui-c-active: var(--vui-info-active);
+    --vui-c-on: var(--vui-on-info);
+    --vui-c-text: var(--vui-info-text);
+    --vui-c-border: var(--vui-info-border);
+    --vui-c-soft: var(--vui-info-soft);
+    --vui-c-soft-hover: var(--vui-info-soft-hover);
+  }
+
+  :where([class*='vui-'][data-color='warning']) {
+    --vui-c: var(--vui-warning);
+    --vui-c-hover: var(--vui-warning-hover);
+    --vui-c-active: var(--vui-warning-active);
+    --vui-c-on: var(--vui-on-warning);
+    --vui-c-text: var(--vui-warning-text);
+    --vui-c-border: var(--vui-warning-border);
+    --vui-c-soft: var(--vui-warning-soft);
+    --vui-c-soft-hover: var(--vui-warning-soft-hover);
+  }
+
+  :where([class*='vui-'][data-color='error']) {
+    --vui-c: var(--vui-error);
+    --vui-c-hover: var(--vui-error-hover);
+    --vui-c-active: var(--vui-error-active);
+    --vui-c-on: var(--vui-on-error);
+    --vui-c-text: var(--vui-error-text);
+    --vui-c-border: var(--vui-error-border);
+    --vui-c-soft: var(--vui-error-soft);
+    --vui-c-soft-hover: var(--vui-error-soft-hover);
+  }
+
+  :where([class*='vui-'][data-color='neutral']) {
+    --vui-c: var(--vui-neutral);
+    --vui-c-hover: var(--vui-neutral-hover);
+    --vui-c-active: var(--vui-neutral-active);
+    --vui-c-on: var(--vui-on-neutral);
+    --vui-c-text: var(--vui-neutral-text);
+    --vui-c-border: var(--vui-neutral-border);
+    --vui-c-soft: var(--vui-neutral-soft);
+    --vui-c-soft-hover: var(--vui-neutral-soft-hover);
+  }
+
+  /* Coarse pointers get a 44px minimum hit area (project target; WCAG 2.2 AA asks for 24px). */
+  @media (pointer: coarse) {
+    :where(:root, :host, [data-vui-density]) {
+      --vui-hit-min: 2.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(:root, :host, [data-vui-motion]) {
+      --vui-duration-fast: 0ms;
+      --vui-duration-overlay: 0ms;
+    }
+  }
+}

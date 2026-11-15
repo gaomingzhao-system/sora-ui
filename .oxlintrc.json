@@ -1,0 +1,113 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "promise", "vue"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true
+  },
+  "rules": {
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "vue",
+            "importNames": [
+              "h",
+              "cloneVNode",
+              "createVNode",
+              "createApp",
+              "createSSRApp",
+              "defineComponent",
+              "getCurrentInstance",
+              "render",
+              "resolveComponent",
+              "vaporInteropPlugin"
+            ],
+            "message": "VDOM-only or instance-proxy API. This project is Vapor-only: use <script setup vapor>, createVaporApp and typed provide/inject."
+          },
+          {
+            "name": "vue/vapor",
+            "message": "There is no vue/vapor entry in Vue 3.6; import Vapor APIs from 'vue'."
+          }
+        ]
+      }
+    ],
+    "typescript/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-namespace": "error",
+    "typescript/prefer-enum-initializers": "off",
+    "typescript/ban-ts-comment": "error",
+    "import/no-cycle": "error",
+    "import/no-duplicates": "error",
+    "import/no-self-import": "error",
+    "unicorn/prefer-node-protocol": "error",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "vue/no-export-in-script-setup": "off",
+    "vue/define-props-declaration": ["error", "type-based"],
+    "vue/define-emits-declaration": ["error", "type-literal"],
+    "no-underscore-dangle": "off",
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": ["**/*.css", "vue"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["scripts/**/*.ts", "*.config.ts", "**/*.config.ts", "ui.config.ts"],
+      "env": {
+        "node": true,
+        "browser": false
+      },
+      "rules": {
+        "no-console": "off",
+        "no-await-in-loop": "off"
+      }
+    },
+    {
+      "files": ["tests/**/*.ts", "tests/**/*.vue"],
+      "plugins": ["typescript", "unicorn", "oxc", "import", "promise", "vue", "vitest"],
+      "rules": {
+        "no-console": "off",
+        "typescript/no-non-null-assertion": "off",
+        "no-await-in-loop": "off"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "**/dist/**",
+    ".artifacts/**",
+    "**/*.generated.ts",
+    "playwright-report/**",
+    "test-results/**"
+  ]
+}
