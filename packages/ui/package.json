@@ -1,6 +1,6 @@
 {
   "name": "@your-scope/ui",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Compact Vue Vapor component library with warm neutral theming.",
   "license": "MIT",
   "files": [

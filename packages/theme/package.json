@@ -1,6 +1,6 @@
 {
   "name": "@your-scope/theme",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Centralised design-system configuration, palettes and CSS variable generation for @your-scope/ui.",
   "license": "MIT",
   "files": [
