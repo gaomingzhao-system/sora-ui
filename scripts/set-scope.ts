@@ -9,7 +9,8 @@
  *
  * Every tracked text file is rewritten (package names, imports, aliases,
  * documentation). The lockfile is left alone: run `pnpm install` afterwards
- * to regenerate it, then `pnpm build && pnpm check:package`.
+ * to regenerate it, `pnpm format` (a shorter or longer scope changes line
+ * wrapping), then the verification commands.
  */
 import { execFileSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
@@ -53,4 +54,4 @@ for (const file of tracked) {
 console.log(
   `${dryRun ? 'would replace' : 'replaced'} ${occurrences} occurrences of ${PLACEHOLDER} with ${scope} in ${files} files`,
 )
-if (!dryRun) console.log('Next: pnpm install && pnpm build && pnpm check:package')
+if (!dryRun) console.log('Next: pnpm install && pnpm format && pnpm build && pnpm check:package')

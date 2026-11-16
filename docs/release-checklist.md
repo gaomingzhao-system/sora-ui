@@ -12,6 +12,14 @@
   pnpm install
   ```
 
+  ```bash
+  pnpm format
+  ```
+
+  The rename changes line lengths, so the formatter has to run once. This path was exercised on a
+  copy of the repository with the scope `@acme`: type-check, build, package checks, the Vapor
+  check, unit and type tests and the packed-consumer verification all passed afterwards.
+
 - [ ] Decide the public Vue support statement. The peer dependency is the exact release candidate
       `3.6.0-rc.15`; widening it is a decision to make when Vapor is stable, together with a full
       re-verification.
