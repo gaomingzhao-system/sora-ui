@@ -42,7 +42,7 @@ function clickBackdrop(dialog: HTMLDialogElement): void {
   dialog.dispatchEvent(new MouseEvent('click', { bubbles: true }))
 }
 
-describe('UiDialog', () => {
+describe('SoraDialog', () => {
   it('opens as a native modal dialog that is labelled and described', async () => {
     const { state } = setup()
     const dialog = q<HTMLDialogElement>('dialog')
@@ -58,8 +58,8 @@ describe('UiDialog', () => {
     expect(dialog.matches(':modal')).toBe(true)
     expect(referenced(dialog, 'aria-labelledby')[0]?.textContent).toBe('Settings')
     expect(description(dialog)).toBe('Adjust the workspace')
-    expect($('.vui-dialog__title', dialog).tagName).toBe('H2')
-    expect($<HTMLButtonElement>('.vui-dialog__close', dialog).getAttribute('aria-label')).toBe('Close')
+    expect($('.sora-dialog__title', dialog).tagName).toBe('H2')
+    expect($<HTMLButtonElement>('.sora-dialog__close', dialog).getAttribute('aria-label')).toBe('Close')
   })
 
   it('moves focus to [data-autofocus] and never lets Tab reach the page behind', async () => {
@@ -81,7 +81,7 @@ describe('UiDialog', () => {
     }
     q('dialog-first').focus()
     await press('{Shift>}{Tab}{/Shift}')
-    expect(document.activeElement).toBe($('.vui-dialog__close', dialog))
+    expect(document.activeElement).toBe($('.sora-dialog__close', dialog))
     // The page behind a modal dialog cannot be focused, not even from script.
     q('after').focus()
     expect(document.activeElement).not.toBe(q('after'))
@@ -151,7 +151,7 @@ describe('UiDialog', () => {
       expect(dialog.open).toBe(true)
     }
     await reopen()
-    await userEvent.click($('.vui-dialog__close', dialog))
+    await userEvent.click($('.sora-dialog__close', dialog))
     await flush()
     expect(dialog.open).toBe(false)
 
@@ -235,11 +235,11 @@ describe('UiDialog', () => {
   })
 })
 
-describe('UiDrawer', () => {
+describe('SoraDrawer', () => {
   it('is a modal dialog docked to a logical edge with the same lifecycle', async () => {
     const { state } = setup()
     const drawer = q<HTMLDialogElement>('drawer')
-    expect(drawer.classList.contains('vui-drawer')).toBe(true)
+    expect(drawer.classList.contains('sora-drawer')).toBe(true)
     expect([drawer.dataset['side'], drawer.dataset['size']]).toEqual(['start', 'sm'])
     const trigger = q('drawer-trigger')
     trigger.focus()
@@ -275,7 +275,7 @@ describe('UiDrawer', () => {
   })
 })
 
-describe('UiPopover', () => {
+describe('SoraPopover', () => {
   it('has a library-owned trigger button wired to a named, non-modal panel', async () => {
     const { state } = setup()
     const trigger = q<HTMLButtonElement>('popover-trigger')
@@ -373,7 +373,7 @@ describe('UiPopover', () => {
   })
 })
 
-describe('UiTooltip', () => {
+describe('SoraTooltip', () => {
   const tooltip = (): HTMLElement => $('[role="tooltip"]')
 
   it('describes the focusable control and shows immediately on keyboard focus', async () => {
@@ -451,11 +451,11 @@ describe('UiTooltip', () => {
   })
 })
 
-describe('UiDropdownMenu', () => {
+describe('SoraDropdownMenu', () => {
   const menu = (): HTMLElement => referenced(q('menu-trigger'), 'aria-controls')[0] as HTMLElement
   const items = (): HTMLElement[] => all('[role="menuitem"]', menu())
   const focused = (): string =>
-    document.activeElement?.querySelector('.vui-menu__text')?.textContent?.trim() ?? ''
+    document.activeElement?.querySelector('.sora-menu__text')?.textContent?.trim() ?? ''
 
   it('follows the menu-button pattern', async () => {
     setup()
@@ -465,7 +465,7 @@ describe('UiDropdownMenu', () => {
     expect(menu().getAttribute('role')).toBe('menu')
     // Named by its trigger.
     expect(referenced(menu(), 'aria-labelledby')[0]).toBe(trigger)
-    expect(items().map((item) => item.querySelector('.vui-menu__text')?.textContent?.trim())).toEqual([
+    expect(items().map((item) => item.querySelector('.sora-menu__text')?.textContent?.trim())).toEqual([
       'Edit',
       'Duplicate',
       'Move',
@@ -630,7 +630,7 @@ describe('overlays inside a modal dialog', () => {
     await flush()
     const dialog = q<HTMLDialogElement>('nested-dialog')
     const input = q<HTMLInputElement>('nested-combobox')
-    const popup = $('.vui-combobox__popup', dialog)
+    const popup = $('.sora-combobox__popup', dialog)
     input.focus()
     await press('{ArrowDown}')
     await flush()
@@ -692,7 +692,7 @@ describe('overlays inside a modal dialog', () => {
   it('theme tokens and direction reach top-layer content through its real DOM ancestors', async () => {
     const view = mountVapor(OverlaysHarness, {
       props: { state: reactive(setup().state) },
-      containerAttrs: { dir: 'rtl', 'data-vui-theme': 'dark', style: '--vui-pad-overlay: 2rem' },
+      containerAttrs: { dir: 'rtl', 'data-sora-theme': 'dark', style: '--sora-pad-overlay: 2rem' },
     })
     const dialog = q<HTMLDialogElement>('dialog', view.container)
     dialog.showModal()
@@ -700,7 +700,7 @@ describe('overlays inside a modal dialog', () => {
     const style = getComputedStyle(dialog)
     expect(style.direction).toBe('rtl')
     expect(style.colorScheme).toBe('dark')
-    expect(getComputedStyle($('.vui-dialog__body', dialog)).paddingInlineStart).toBe('32px')
+    expect(getComputedStyle($('.sora-dialog__body', dialog)).paddingInlineStart).toBe('32px')
     dialog.close()
   })
 })

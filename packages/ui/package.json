@@ -61,181 +61,181 @@
       "types": "./dist/i18n/locales/pseudo.d.ts",
       "import": "./dist/i18n/locales/pseudo.js"
     },
-    "./components/UiProvider": {
-      "types": "./dist/components/UiProvider.d.ts",
-      "import": "./dist/components/UiProvider.js"
+    "./components/SoraProvider": {
+      "types": "./dist/components/SoraProvider.d.ts",
+      "import": "./dist/components/SoraProvider.js"
     },
-    "./components/UiIcon": {
-      "types": "./dist/components/UiIcon.d.ts",
-      "import": "./dist/components/UiIcon.js"
+    "./components/SoraIcon": {
+      "types": "./dist/components/SoraIcon.d.ts",
+      "import": "./dist/components/SoraIcon.js"
     },
-    "./components/UiButton": {
-      "types": "./dist/components/UiButton.d.ts",
-      "import": "./dist/components/UiButton.js"
+    "./components/SoraButton": {
+      "types": "./dist/components/SoraButton.d.ts",
+      "import": "./dist/components/SoraButton.js"
     },
-    "./components/UiIconButton": {
-      "types": "./dist/components/UiIconButton.d.ts",
-      "import": "./dist/components/UiIconButton.js"
+    "./components/SoraIconButton": {
+      "types": "./dist/components/SoraIconButton.d.ts",
+      "import": "./dist/components/SoraIconButton.js"
     },
-    "./components/UiButtonGroup": {
-      "types": "./dist/components/UiButtonGroup.d.ts",
-      "import": "./dist/components/UiButtonGroup.js"
+    "./components/SoraButtonGroup": {
+      "types": "./dist/components/SoraButtonGroup.d.ts",
+      "import": "./dist/components/SoraButtonGroup.js"
     },
-    "./components/UiLink": {
-      "types": "./dist/components/UiLink.d.ts",
-      "import": "./dist/components/UiLink.js"
+    "./components/SoraLink": {
+      "types": "./dist/components/SoraLink.d.ts",
+      "import": "./dist/components/SoraLink.js"
     },
-    "./components/UiCard": {
-      "types": "./dist/components/UiCard.d.ts",
-      "import": "./dist/components/UiCard.js"
+    "./components/SoraCard": {
+      "types": "./dist/components/SoraCard.d.ts",
+      "import": "./dist/components/SoraCard.js"
     },
-    "./components/UiBadge": {
-      "types": "./dist/components/UiBadge.d.ts",
-      "import": "./dist/components/UiBadge.js"
+    "./components/SoraBadge": {
+      "types": "./dist/components/SoraBadge.d.ts",
+      "import": "./dist/components/SoraBadge.js"
     },
-    "./components/UiAvatar": {
-      "types": "./dist/components/UiAvatar.d.ts",
-      "import": "./dist/components/UiAvatar.js"
+    "./components/SoraAvatar": {
+      "types": "./dist/components/SoraAvatar.d.ts",
+      "import": "./dist/components/SoraAvatar.js"
     },
-    "./components/UiAvatarGroup": {
-      "types": "./dist/components/UiAvatarGroup.d.ts",
-      "import": "./dist/components/UiAvatarGroup.js"
+    "./components/SoraAvatarGroup": {
+      "types": "./dist/components/SoraAvatarGroup.d.ts",
+      "import": "./dist/components/SoraAvatarGroup.js"
     },
-    "./components/UiSeparator": {
-      "types": "./dist/components/UiSeparator.d.ts",
-      "import": "./dist/components/UiSeparator.js"
+    "./components/SoraSeparator": {
+      "types": "./dist/components/SoraSeparator.d.ts",
+      "import": "./dist/components/SoraSeparator.js"
     },
-    "./components/UiKbd": {
-      "types": "./dist/components/UiKbd.d.ts",
-      "import": "./dist/components/UiKbd.js"
+    "./components/SoraKbd": {
+      "types": "./dist/components/SoraKbd.d.ts",
+      "import": "./dist/components/SoraKbd.js"
     },
-    "./components/UiEmptyState": {
-      "types": "./dist/components/UiEmptyState.d.ts",
-      "import": "./dist/components/UiEmptyState.js"
+    "./components/SoraEmptyState": {
+      "types": "./dist/components/SoraEmptyState.d.ts",
+      "import": "./dist/components/SoraEmptyState.js"
     },
-    "./components/UiAlert": {
-      "types": "./dist/components/UiAlert.d.ts",
-      "import": "./dist/components/UiAlert.js"
+    "./components/SoraAlert": {
+      "types": "./dist/components/SoraAlert.d.ts",
+      "import": "./dist/components/SoraAlert.js"
     },
-    "./components/UiSpinner": {
-      "types": "./dist/components/UiSpinner.d.ts",
-      "import": "./dist/components/UiSpinner.js"
+    "./components/SoraSpinner": {
+      "types": "./dist/components/SoraSpinner.d.ts",
+      "import": "./dist/components/SoraSpinner.js"
     },
-    "./components/UiProgress": {
-      "types": "./dist/components/UiProgress.d.ts",
-      "import": "./dist/components/UiProgress.js"
+    "./components/SoraProgress": {
+      "types": "./dist/components/SoraProgress.d.ts",
+      "import": "./dist/components/SoraProgress.js"
     },
-    "./components/UiSkeleton": {
-      "types": "./dist/components/UiSkeleton.d.ts",
-      "import": "./dist/components/UiSkeleton.js"
+    "./components/SoraSkeleton": {
+      "types": "./dist/components/SoraSkeleton.d.ts",
+      "import": "./dist/components/SoraSkeleton.js"
     },
-    "./components/UiToastProvider": {
-      "types": "./dist/components/UiToastProvider.d.ts",
-      "import": "./dist/components/UiToastProvider.js"
+    "./components/SoraToastProvider": {
+      "types": "./dist/components/SoraToastProvider.d.ts",
+      "import": "./dist/components/SoraToastProvider.js"
     },
-    "./components/UiField": {
-      "types": "./dist/components/UiField.d.ts",
-      "import": "./dist/components/UiField.js"
+    "./components/SoraField": {
+      "types": "./dist/components/SoraField.d.ts",
+      "import": "./dist/components/SoraField.js"
     },
-    "./components/UiInput": {
-      "types": "./dist/components/UiInput.d.ts",
-      "import": "./dist/components/UiInput.js"
+    "./components/SoraInput": {
+      "types": "./dist/components/SoraInput.d.ts",
+      "import": "./dist/components/SoraInput.js"
     },
-    "./components/UiTextarea": {
-      "types": "./dist/components/UiTextarea.d.ts",
-      "import": "./dist/components/UiTextarea.js"
+    "./components/SoraTextarea": {
+      "types": "./dist/components/SoraTextarea.d.ts",
+      "import": "./dist/components/SoraTextarea.js"
     },
-    "./components/UiPasswordInput": {
-      "types": "./dist/components/UiPasswordInput.d.ts",
-      "import": "./dist/components/UiPasswordInput.js"
+    "./components/SoraPasswordInput": {
+      "types": "./dist/components/SoraPasswordInput.d.ts",
+      "import": "./dist/components/SoraPasswordInput.js"
     },
-    "./components/UiNumberInput": {
-      "types": "./dist/components/UiNumberInput.d.ts",
-      "import": "./dist/components/UiNumberInput.js"
+    "./components/SoraNumberInput": {
+      "types": "./dist/components/SoraNumberInput.d.ts",
+      "import": "./dist/components/SoraNumberInput.js"
     },
-    "./components/UiDateInput": {
-      "types": "./dist/components/UiDateInput.d.ts",
-      "import": "./dist/components/UiDateInput.js"
+    "./components/SoraDateInput": {
+      "types": "./dist/components/SoraDateInput.d.ts",
+      "import": "./dist/components/SoraDateInput.js"
     },
-    "./components/UiCheckbox": {
-      "types": "./dist/components/UiCheckbox.d.ts",
-      "import": "./dist/components/UiCheckbox.js"
+    "./components/SoraCheckbox": {
+      "types": "./dist/components/SoraCheckbox.d.ts",
+      "import": "./dist/components/SoraCheckbox.js"
     },
-    "./components/UiCheckboxGroup": {
-      "types": "./dist/components/UiCheckboxGroup.d.ts",
-      "import": "./dist/components/UiCheckboxGroup.js"
+    "./components/SoraCheckboxGroup": {
+      "types": "./dist/components/SoraCheckboxGroup.d.ts",
+      "import": "./dist/components/SoraCheckboxGroup.js"
     },
-    "./components/UiRadioGroup": {
-      "types": "./dist/components/UiRadioGroup.d.ts",
-      "import": "./dist/components/UiRadioGroup.js"
+    "./components/SoraRadioGroup": {
+      "types": "./dist/components/SoraRadioGroup.d.ts",
+      "import": "./dist/components/SoraRadioGroup.js"
     },
-    "./components/UiSwitch": {
-      "types": "./dist/components/UiSwitch.d.ts",
-      "import": "./dist/components/UiSwitch.js"
+    "./components/SoraSwitch": {
+      "types": "./dist/components/SoraSwitch.d.ts",
+      "import": "./dist/components/SoraSwitch.js"
     },
-    "./components/UiSelect": {
-      "types": "./dist/components/UiSelect.d.ts",
-      "import": "./dist/components/UiSelect.js"
+    "./components/SoraSelect": {
+      "types": "./dist/components/SoraSelect.d.ts",
+      "import": "./dist/components/SoraSelect.js"
     },
-    "./components/UiCombobox": {
-      "types": "./dist/components/UiCombobox.d.ts",
-      "import": "./dist/components/UiCombobox.js"
+    "./components/SoraCombobox": {
+      "types": "./dist/components/SoraCombobox.d.ts",
+      "import": "./dist/components/SoraCombobox.js"
     },
-    "./components/UiSlider": {
-      "types": "./dist/components/UiSlider.d.ts",
-      "import": "./dist/components/UiSlider.js"
+    "./components/SoraSlider": {
+      "types": "./dist/components/SoraSlider.d.ts",
+      "import": "./dist/components/SoraSlider.js"
     },
-    "./components/UiFileInput": {
-      "types": "./dist/components/UiFileInput.d.ts",
-      "import": "./dist/components/UiFileInput.js"
+    "./components/SoraFileInput": {
+      "types": "./dist/components/SoraFileInput.d.ts",
+      "import": "./dist/components/SoraFileInput.js"
     },
-    "./components/UiForm": {
-      "types": "./dist/components/UiForm.d.ts",
-      "import": "./dist/components/UiForm.js"
+    "./components/SoraForm": {
+      "types": "./dist/components/SoraForm.d.ts",
+      "import": "./dist/components/SoraForm.js"
     },
-    "./components/UiFormErrorSummary": {
-      "types": "./dist/components/UiFormErrorSummary.d.ts",
-      "import": "./dist/components/UiFormErrorSummary.js"
+    "./components/SoraFormErrorSummary": {
+      "types": "./dist/components/SoraFormErrorSummary.d.ts",
+      "import": "./dist/components/SoraFormErrorSummary.js"
     },
-    "./components/UiDialog": {
-      "types": "./dist/components/UiDialog.d.ts",
-      "import": "./dist/components/UiDialog.js"
+    "./components/SoraDialog": {
+      "types": "./dist/components/SoraDialog.d.ts",
+      "import": "./dist/components/SoraDialog.js"
     },
-    "./components/UiDrawer": {
-      "types": "./dist/components/UiDrawer.d.ts",
-      "import": "./dist/components/UiDrawer.js"
+    "./components/SoraDrawer": {
+      "types": "./dist/components/SoraDrawer.d.ts",
+      "import": "./dist/components/SoraDrawer.js"
     },
-    "./components/UiPopover": {
-      "types": "./dist/components/UiPopover.d.ts",
-      "import": "./dist/components/UiPopover.js"
+    "./components/SoraPopover": {
+      "types": "./dist/components/SoraPopover.d.ts",
+      "import": "./dist/components/SoraPopover.js"
     },
-    "./components/UiTooltip": {
-      "types": "./dist/components/UiTooltip.d.ts",
-      "import": "./dist/components/UiTooltip.js"
+    "./components/SoraTooltip": {
+      "types": "./dist/components/SoraTooltip.d.ts",
+      "import": "./dist/components/SoraTooltip.js"
     },
-    "./components/UiDropdownMenu": {
-      "types": "./dist/components/UiDropdownMenu.d.ts",
-      "import": "./dist/components/UiDropdownMenu.js"
+    "./components/SoraDropdownMenu": {
+      "types": "./dist/components/SoraDropdownMenu.d.ts",
+      "import": "./dist/components/SoraDropdownMenu.js"
     },
-    "./components/UiTabs": {
-      "types": "./dist/components/UiTabs.d.ts",
-      "import": "./dist/components/UiTabs.js"
+    "./components/SoraTabs": {
+      "types": "./dist/components/SoraTabs.d.ts",
+      "import": "./dist/components/SoraTabs.js"
     },
-    "./components/UiAccordion": {
-      "types": "./dist/components/UiAccordion.d.ts",
-      "import": "./dist/components/UiAccordion.js"
+    "./components/SoraAccordion": {
+      "types": "./dist/components/SoraAccordion.d.ts",
+      "import": "./dist/components/SoraAccordion.js"
     },
-    "./components/UiBreadcrumbs": {
-      "types": "./dist/components/UiBreadcrumbs.d.ts",
-      "import": "./dist/components/UiBreadcrumbs.js"
+    "./components/SoraBreadcrumbs": {
+      "types": "./dist/components/SoraBreadcrumbs.d.ts",
+      "import": "./dist/components/SoraBreadcrumbs.js"
     },
-    "./components/UiPagination": {
-      "types": "./dist/components/UiPagination.d.ts",
-      "import": "./dist/components/UiPagination.js"
+    "./components/SoraPagination": {
+      "types": "./dist/components/SoraPagination.d.ts",
+      "import": "./dist/components/SoraPagination.js"
     },
-    "./components/UiTable": {
-      "types": "./dist/components/UiTable.d.ts",
-      "import": "./dist/components/UiTable.js"
+    "./components/SoraTable": {
+      "types": "./dist/components/SoraTable.d.ts",
+      "import": "./dist/components/SoraTable.js"
     },
     "./styles.css": "./dist/styles.css",
     "./tailwind.css": "./dist/tailwind.css",

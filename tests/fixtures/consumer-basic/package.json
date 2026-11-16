@@ -1,5 +1,5 @@
 {
-  "name": "vui-consumer-basic",
+  "name": "sora-consumer-basic",
   "version": "0.0.0",
   "private": true,
   "description": "Button/Card-only consumer of the packed @your-scope/ui tarball. It installs none of the optional peers (Formisch, Valibot, petite-vue-i18n), so it proves the core entry and its declarations do not need them.",

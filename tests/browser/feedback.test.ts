@@ -20,12 +20,12 @@ function setup(overrides: Partial<FeedbackState> = {}) {
     ...overrides,
   })
   mountVapor(FeedbackHarness, { props: { state } })
-  const region = (): HTMLElement => $('.vui-toast-region')
-  const toasts = (): string[] => all('.vui-toast__title').map((title) => title.textContent ?? '')
+  const region = (): HTMLElement => $('.sora-toast-region')
+  const toasts = (): string[] => all('.sora-toast__title').map((title) => title.textContent ?? '')
   return { state, region, toasts }
 }
 
-describe('UiAlert', () => {
+describe('SoraAlert', () => {
   it('chooses a live-region role from the intent, or none for static notes', () => {
     setup()
     expect(q('alert-info').getAttribute('role')).toBe('status')
@@ -36,20 +36,20 @@ describe('UiAlert', () => {
   it('conveys the intent with text and an icon, never colour alone', () => {
     setup()
     const info = q('alert-info')
-    expect($('.vui-alert__title', info).textContent?.trim()).toBe('Heads up')
-    expect($('.vui-alert__description', info).textContent?.trim()).toBe('Trial ends soon.')
-    expect($('.vui-alert__icon', info).getAttribute('aria-hidden')).toBe('true')
-    expect($('.vui-alert__icon svg', info)).not.toBeNull()
+    expect($('.sora-alert__title', info).textContent?.trim()).toBe('Heads up')
+    expect($('.sora-alert__description', info).textContent?.trim()).toBe('Trial ends soon.')
+    expect($('.sora-alert__icon', info).getAttribute('aria-hidden')).toBe('true')
+    expect($('.sora-alert__icon svg', info)).not.toBeNull()
     // `icon: null` removes the glyph; the default slot replaces the description.
-    expect(q('alert-static').querySelector('.vui-alert__icon')).toBeNull()
-    expect($('.vui-alert__description', q('alert-error')).textContent?.trim()).toBe('Payment failed.')
+    expect(q('alert-static').querySelector('.sora-alert__icon')).toBeNull()
+    expect($('.sora-alert__description', q('alert-error')).textContent?.trim()).toBe('Payment failed.')
   })
 
   it('dismisses through v-model:open with a named button, and can be reopened', async () => {
     const { state } = setup()
     const alert = q('alert-dismissible')
-    expect(q('alert-action').closest('.vui-alert__actions')).not.toBeNull()
-    const dismiss = $<HTMLButtonElement>('.vui-alert__dismiss', alert)
+    expect(q('alert-action').closest('.sora-alert__actions')).not.toBeNull()
+    const dismiss = $<HTMLButtonElement>('.sora-alert__dismiss', alert)
     expect(dismiss.getAttribute('aria-label')).toBe('Dismiss alert')
     await userEvent.click(dismiss)
     expect(state.alertOpen).toBe(false)
@@ -68,29 +68,29 @@ describe('UiAlert', () => {
     state.lateAlertOpen = true
     await nextTick()
     const alert = q('alert-late')
-    expect(alert.classList.contains('vui-alert')).toBe(true)
+    expect(alert.classList.contains('sora-alert')).toBe(true)
     expect(alert.classList.contains('from-caller')).toBe(true)
     expect(alert.getAttribute('role')).toBe('status')
   })
 })
 
-describe('UiSpinner', () => {
+describe('SoraSpinner', () => {
   it('is a status with a translated or custom label, unless decorative', () => {
     setup()
     const spinner = q('spinner')
     expect(spinner.getAttribute('role')).toBe('status')
-    expect($('.vui-sr-only', spinner).textContent).toBe('Loading')
-    expect($('.vui-spinner__ring', spinner).getAttribute('aria-hidden')).toBe('true')
-    expect($('.vui-sr-only', q('spinner-custom')).textContent).toBe('Uploading files')
+    expect($('.sora-sr-only', spinner).textContent).toBe('Loading')
+    expect($('.sora-spinner__ring', spinner).getAttribute('aria-hidden')).toBe('true')
+    expect($('.sora-sr-only', q('spinner-custom')).textContent).toBe('Uploading files')
 
     const decorative = q('spinner-decorative')
     expect(decorative.getAttribute('aria-hidden')).toBe('true')
     expect(decorative.hasAttribute('role')).toBe(false)
-    expect(decorative.querySelector('.vui-sr-only')).toBeNull()
+    expect(decorative.querySelector('.sora-sr-only')).toBeNull()
   })
 })
 
-describe('UiProgress', () => {
+describe('SoraProgress', () => {
   it('is a native progress element named by its visible label', () => {
     setup()
     const bar = $<HTMLProgressElement>('progress', q('progress'))
@@ -99,7 +99,7 @@ describe('UiProgress', () => {
     expect(bar.getAttribute('aria-valuetext')).toBe('40%')
     const label = document.getElementById(bar.getAttribute('aria-labelledby') ?? '')
     expect(label?.textContent).toBe('Upload')
-    expect($('.vui-progress__value', q('progress')).textContent).toBe('40%')
+    expect($('.sora-progress__value', q('progress')).textContent).toBe('40%')
   })
 
   it('becomes indeterminate when there is no value, and clamps out-of-range values', async () => {
@@ -112,7 +112,7 @@ describe('UiProgress', () => {
     expect(bar.position).toBe(-1)
     expect(bar.matches(':indeterminate')).toBe(true)
     expect(bar.hasAttribute('aria-valuetext')).toBe(false)
-    expect(q('progress').querySelector('.vui-progress__value')).toBeNull()
+    expect(q('progress').querySelector('.sora-progress__value')).toBeNull()
 
     state.progress = 250
     await nextTick()
@@ -131,26 +131,26 @@ describe('UiProgress', () => {
   })
 })
 
-describe('UiSkeleton', () => {
+describe('SoraSkeleton', () => {
   it('is decorative by default and can announce a loading status', () => {
     setup()
     const skeleton = q('skeleton')
     expect(skeleton.getAttribute('aria-hidden')).toBe('true')
-    expect(all('.vui-skeleton__block', skeleton)).toHaveLength(3)
+    expect(all('.sora-skeleton__block', skeleton)).toHaveLength(3)
     const status = q('skeleton-status')
     expect(status.getAttribute('role')).toBe('status')
-    expect($('.vui-sr-only', status).textContent).toBe('Loading content')
-    expect(all('.vui-skeleton__block', status)).toHaveLength(1)
+    expect($('.sora-sr-only', status).textContent).toBe('Loading content')
+    expect(all('.sora-skeleton__block', status)).toHaveLength(1)
   })
 })
 
-describe('UiToastProvider', () => {
+describe('SoraToastProvider', () => {
   it('keeps a labelled region with persistent polite and assertive live regions in the top layer', async () => {
     const { region } = setup()
     await flush()
     expect(region().getAttribute('aria-label')).toBe('Messages')
     expect(region().matches(':popover-open')).toBe(true)
-    const [polite, assertive] = all('.vui-toast-region__list', region())
+    const [polite, assertive] = all('.sora-toast-region__list', region())
     expect([polite?.getAttribute('role'), polite?.getAttribute('aria-live')]).toEqual(['status', 'polite'])
     expect([assertive?.getAttribute('role'), assertive?.getAttribute('aria-live')]).toEqual([
       'alert',
@@ -199,11 +199,11 @@ describe('UiToastProvider', () => {
     await userEvent.click(q('toast-urgent'))
     await flush()
     expect(toasts()).toEqual(['Toast 1', 'Urgent'])
-    const [polite, assertive] = all('.vui-toast-region__list', region())
+    const [polite, assertive] = all('.sora-toast-region__list', region())
     expect(polite?.textContent).toContain('Toast 1')
     expect(polite?.textContent).toContain('Details')
     expect(assertive?.textContent).toContain('Urgent')
-    expect($('.vui-toast[data-urgent]').dataset['color']).toBe('error')
+    expect($('.sora-toast[data-urgent]').dataset['color']).toBe('error')
   })
 
   it('dismisses with a named button and reports the queue length', async () => {
@@ -211,7 +211,7 @@ describe('UiToastProvider', () => {
     await userEvent.click(q('toast-add'))
     await flush()
     expect(q('toast-count').textContent).toBe('1')
-    const dismiss = $<HTMLButtonElement>('.vui-toast button[aria-label="Dismiss notification"]')
+    const dismiss = $<HTMLButtonElement>('.sora-toast button[aria-label="Dismiss notification"]')
     await userEvent.click(dismiss)
     await flush()
     expect(toasts()).toEqual([])
@@ -242,7 +242,7 @@ describe('UiToastProvider', () => {
     // Keyboard focus pauses it too.
     await userEvent.click(q('toast-add'))
     await flush()
-    $<HTMLButtonElement>('.vui-toast button').focus()
+    $<HTMLButtonElement>('.sora-toast button').focus()
     await wait(450)
     expect(toasts()).toEqual(['Toast 2'])
     ;(document.activeElement as HTMLElement).blur()
@@ -255,7 +255,7 @@ describe('UiToastProvider', () => {
     await flush()
     expect(q('toast-count').textContent).toBe('4')
     expect(toasts()).toEqual(['Toast 1', 'Toast 2'])
-    await userEvent.click($<HTMLButtonElement>('.vui-toast button[aria-label="Dismiss notification"]'))
+    await userEvent.click($<HTMLButtonElement>('.sora-toast button[aria-label="Dismiss notification"]'))
     await flush()
     expect(toasts()).toEqual(['Toast 2', 'Toast 3'])
   })
@@ -272,7 +272,7 @@ describe('UiToastProvider', () => {
     const { state, toasts } = setup()
     await userEvent.click(q('toast-action'))
     await flush()
-    await userEvent.click($<HTMLButtonElement>('.vui-toast__action'))
+    await userEvent.click($<HTMLButtonElement>('.sora-toast__action'))
     await flush()
     expect(state.actions).toEqual(['undo'])
     expect(toasts()).toEqual([])
@@ -290,7 +290,7 @@ describe('UiToastProvider', () => {
     await flush()
     state.showProvider = false
     await flush()
-    expect(document.querySelector('.vui-toast-region')).toBeNull()
+    expect(document.querySelector('.sora-toast-region')).toBeNull()
     // The pending auto-dismiss timer must not fire into a dead component.
     await wait(200)
   })
@@ -298,6 +298,6 @@ describe('UiToastProvider', () => {
   it('useToast() outside a provider fails with a clear message', () => {
     let message = ''
     mountVapor(ToastOrphan, { props: { report: () => (text: string) => (message = text) } })
-    expect(message).toMatch(/UiToastProvider/)
+    expect(message).toMatch(/SoraToastProvider/)
   })
 })

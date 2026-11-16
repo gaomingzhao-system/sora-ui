@@ -1,97 +1,97 @@
-@layer components.vui {
-  /* ----------------------------------------------------------------- UiField */
-  .vui-field {
+@layer components.sora {
+  /* ----------------------------------------------------------------- SoraField */
+  .sora-field {
     /* Control metrics, inherited by whatever control sits inside the field. */
-    --_h: var(--vui-control-md);
-    --_fs: var(--vui-text-md);
+    --_h: var(--sora-control-md);
+    --_fs: var(--sora-text-md);
 
     display: block;
     min-inline-size: 0;
-    color: var(--vui-text);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-normal);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
 
     &[data-size='sm'] {
-      --_h: var(--vui-control-sm);
-      --_fs: var(--vui-text-sm);
+      --_h: var(--sora-control-sm);
+      --_fs: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
-      --_h: var(--vui-control-lg);
+      --_h: var(--sora-control-lg);
     }
   }
 
-  .vui-field__label {
+  .sora-field__label {
     display: block;
     max-inline-size: 100%;
     margin-block-end: 0.375rem;
-    color: var(--vui-text);
-    font-size: var(--vui-text-sm);
-    font-weight: var(--vui-weight-medium);
-    line-height: var(--vui-leading-tight);
+    color: var(--sora-text);
+    font-size: var(--sora-text-sm);
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
     overflow-wrap: anywhere;
 
     &[data-visually-hidden] {
       @apply sr-only;
     }
 
-    .vui-field[data-disabled] > & {
-      color: var(--vui-text-subtle);
+    .sora-field[data-disabled] > & {
+      color: var(--sora-text-subtle);
     }
   }
 
-  .vui-field__required {
+  .sora-field__required {
     margin-inline-start: 0.1875rem;
-    color: var(--vui-error-text);
+    color: var(--sora-error-text);
   }
 
-  .vui-field__hint {
+  .sora-field__hint {
     margin-block-start: 0.375rem;
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
     overflow-wrap: anywhere;
   }
 
   /* Errors pair colour with an icon and text: never colour alone. */
-  .vui-field__error {
+  .sora-field__error {
     @apply grid;
     gap: 0.125rem;
     margin-block-start: 0.375rem;
-    color: var(--vui-error-text);
-    font-size: var(--vui-text-sm);
+    color: var(--sora-error-text);
+    font-size: var(--sora-text-sm);
     overflow-wrap: anywhere;
   }
 
-  .vui-field__message {
+  .sora-field__message {
     @apply flex items-start;
     gap: 0.375rem;
   }
 
-  .vui-field__error-icon {
+  .sora-field__error-icon {
     margin-block-start: 0.1875em;
   }
 
   /* Label beside the control when there is room (container first, viewport as a fallback). */
-  .vui-field[data-orientation='horizontal']:where(div) {
+  .sora-field[data-orientation='horizontal']:where(div) {
     @apply grid items-start;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    column-gap: var(--vui-gap-lg);
+    column-gap: var(--sora-gap-lg);
 
-    & > .vui-field__label {
+    & > .sora-field__label {
       grid-column: 1;
       grid-row: 1 / span 3;
       margin-block-end: 0;
       padding-block-start: calc((var(--_h) - 1lh) / 2);
     }
 
-    & > :not(.vui-field__label) {
+    & > :not(.sora-field__label) {
       grid-column: 2;
     }
 
     @container (inline-size < 26rem) {
       display: block;
 
-      & > .vui-field__label {
+      & > .sora-field__label {
         margin-block-end: 0.375rem;
         padding-block-start: 0;
       }
@@ -100,49 +100,49 @@
     @media (width < 30rem) {
       display: block;
 
-      & > .vui-field__label {
+      & > .sora-field__label {
         margin-block-end: 0.375rem;
         padding-block-start: 0;
       }
     }
   }
 
-  /* --------------------------- UiInput / UiNumberInput / UiDateInput / UiSelect */
-  .vui-input {
+  /* --------------------------- SoraInput / SoraNumberInput / SoraDateInput / SoraSelect */
+  .sora-input {
     @apply flex items-center;
-    min-block-size: max(var(--_h, var(--vui-control-md)), var(--vui-hit-min));
-    border: var(--vui-border-width) solid var(--vui-border-strong);
-    border-radius: var(--vui-radius-md);
-    background-color: var(--vui-surface);
-    color: var(--vui-text);
+    min-block-size: max(var(--_h, var(--sora-control-md)), var(--sora-hit-min));
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    color: var(--sora-text);
 
     &:where(:not([data-disabled], [data-invalid])) {
       @variant hover {
-        border-color: color-mix(in oklab, var(--vui-border-strong) 55%, var(--vui-text));
+        border-color: color-mix(in oklab, var(--sora-border-strong) 55%, var(--sora-text));
       }
     }
 
-    &:has(.vui-input__control:focus-visible) {
-      border-color: var(--vui-focus);
-      outline: var(--vui-focus-width) solid var(--vui-focus);
+    &:has(.sora-input__control:focus-visible) {
+      border-color: var(--sora-focus);
+      outline: var(--sora-focus-width) solid var(--sora-focus);
       outline-offset: 0;
     }
 
     /* Invalid: colour plus a heavier boundary (and the message with its icon). */
     &[data-invalid] {
-      border-color: var(--vui-error-border);
-      box-shadow: inset 0 0 0 1px var(--vui-error-border);
+      border-color: var(--sora-error-border);
+      box-shadow: inset 0 0 0 1px var(--sora-error-border);
     }
 
     &[data-disabled] {
-      border-color: var(--vui-border);
-      background-color: var(--vui-subtle);
-      color: var(--vui-text-subtle);
+      border-color: var(--sora-border);
+      background-color: var(--sora-subtle);
+      color: var(--sora-text-subtle);
       cursor: not-allowed;
     }
   }
 
-  .vui-input__control {
+  .sora-input__control {
     @apply min-w-0 flex-1 self-stretch;
     inline-size: 100%;
     padding-block: 0.25rem;
@@ -150,11 +150,11 @@
     border: 0;
     border-radius: inherit;
     outline: 0;
-    font-size: var(--_fs, var(--vui-text-md));
-    line-height: var(--vui-leading-tight);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-tight);
 
     &::placeholder {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
       opacity: 1;
     }
 
@@ -169,7 +169,7 @@
   }
 
   /* Native steppers are replaced by the optional buttons; arrow keys still step. */
-  .vui-input__control--number {
+  .sora-input__control--number {
     appearance: textfield;
 
     &::-webkit-inner-spin-button,
@@ -179,10 +179,10 @@
     }
   }
 
-  .vui-input__affix {
+  .sora-input__affix {
     @apply inline-flex shrink-0 items-center;
-    color: var(--vui-text-muted);
-    font-size: var(--_fs, var(--vui-text-md));
+    color: var(--sora-text-muted);
+    font-size: var(--_fs, var(--sora-text-md));
 
     &:first-child {
       padding-inline-start: 0.625rem;
@@ -198,82 +198,82 @@
     }
   }
 
-  .vui-input__button {
+  .sora-input__button {
     @apply inline-flex shrink-0 items-center justify-center;
-    inline-size: max(1.75rem, var(--vui-hit-min));
-    block-size: max(1.75rem, var(--vui-hit-min));
-    border-radius: var(--vui-radius-sm);
-    color: var(--vui-text-muted);
+    inline-size: max(1.75rem, var(--sora-hit-min));
+    block-size: max(1.75rem, var(--sora-hit-min));
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-text-muted);
     font-size: 1rem;
 
     &:where(:not(:disabled)) {
       @variant hover {
-        background-color: var(--vui-hover);
-        color: var(--vui-text);
+        background-color: var(--sora-hover);
+        color: var(--sora-text);
       }
     }
 
     &[aria-pressed='true'] {
-      color: var(--vui-text);
+      color: var(--sora-text);
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
       outline-offset: 0;
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
   }
 
-  .vui-input__steppers {
+  .sora-input__steppers {
     @apply inline-flex shrink-0;
     padding-inline-end: 0.25rem;
   }
 
-  .vui-select {
+  .sora-select {
     @apply relative;
   }
 
-  .vui-select__control {
+  .sora-select__control {
     appearance: none;
     padding-inline-end: 2rem;
     cursor: pointer;
     text-overflow: ellipsis;
 
     &[data-placeholder] {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
     }
 
     & :where(option, optgroup) {
-      background-color: var(--vui-elevated);
-      color: var(--vui-text);
+      background-color: var(--sora-elevated);
+      color: var(--sora-text);
     }
   }
 
-  .vui-select__chevron {
+  .sora-select__chevron {
     @apply pointer-events-none absolute;
     inset-inline-end: 0.625rem;
-    color: var(--vui-text-muted);
+    color: var(--sora-text-muted);
     font-size: 1rem;
   }
 
-  /* -------------------------------------------------------------- UiTextarea */
-  .vui-textarea {
+  /* -------------------------------------------------------------- SoraTextarea */
+  .sora-textarea {
     @apply block w-full;
     min-block-size: calc(var(--_rows, 3) * 1lh + 0.75rem + 2px);
     padding: 0.375rem 0.625rem;
-    border: var(--vui-border-width) solid var(--vui-border-strong);
-    border-radius: var(--vui-radius-md);
-    background-color: var(--vui-surface);
-    color: var(--vui-text);
-    font-size: var(--_fs, var(--vui-text-md));
-    line-height: var(--vui-leading-normal);
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    color: var(--sora-text);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-normal);
     resize: vertical;
 
     &::placeholder {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
       opacity: 1;
     }
 
@@ -286,20 +286,20 @@
     }
 
     &:focus-visible {
-      border-color: var(--vui-focus);
-      outline: var(--vui-focus-width) solid var(--vui-focus);
+      border-color: var(--sora-focus);
+      outline: var(--sora-focus-width) solid var(--sora-focus);
       outline-offset: 0;
     }
 
     &[data-invalid] {
-      border-color: var(--vui-error-border);
-      box-shadow: inset 0 0 0 1px var(--vui-error-border);
+      border-color: var(--sora-error-border);
+      box-shadow: inset 0 0 0 1px var(--sora-error-border);
     }
 
     &:disabled {
-      border-color: var(--vui-border);
-      background-color: var(--vui-subtle);
-      color: var(--vui-text-subtle);
+      border-color: var(--sora-border);
+      background-color: var(--sora-subtle);
+      color: var(--sora-text-subtle);
       cursor: not-allowed;
       resize: none;
     }
@@ -307,25 +307,25 @@
 
   /* iOS zooms the page when a focused field is under 16px. Enlarge the text instead of blocking zoom. */
   @media (pointer: coarse) {
-    .vui-input__control,
-    .vui-textarea {
-      font-size: max(1rem, var(--_fs, var(--vui-text-md)));
+    .sora-input__control,
+    .sora-textarea {
+      font-size: max(1rem, var(--_fs, var(--sora-text-md)));
     }
   }
 
-  /* --------------------- UiCheckbox / UiCheckboxGroup / UiRadioGroup options */
-  .vui-check {
+  /* --------------------- SoraCheckbox / SoraCheckboxGroup / SoraRadioGroup options */
+  .sora-check {
     --_box: 1rem;
 
     @apply grid;
     justify-items: start;
-    color: var(--vui-text);
-    font-size: var(--_fs, var(--vui-text-md));
-    line-height: var(--vui-leading-normal);
+    color: var(--sora-text);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-normal);
 
     &[data-size='sm'] {
       --_box: 0.875rem;
-      font-size: var(--vui-text-sm);
+      font-size: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
@@ -333,21 +333,21 @@
     }
 
     &[data-disabled] {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
     }
   }
 
   /* The whole row is the click target; coarse pointers get a 44px-high row. */
-  .vui-check__row {
+  .sora-check__row {
     @apply inline-flex items-start;
     gap: 0.5rem;
     /* A box without label text (a table's selection column) is still a full-size target. */
-    min-inline-size: var(--vui-hit-min);
-    min-block-size: var(--vui-hit-min);
+    min-inline-size: var(--sora-hit-min);
+    min-block-size: var(--sora-hit-min);
     padding-block: 0.125rem;
     cursor: pointer;
 
-    .vui-check[data-disabled] > & {
+    .sora-check[data-disabled] > & {
       cursor: not-allowed;
     }
 
@@ -356,7 +356,7 @@
     }
   }
 
-  .vui-check__box {
+  .sora-check__box {
     @apply relative inline-flex shrink-0;
     inline-size: var(--_box);
     block-size: var(--_box);
@@ -367,84 +367,84 @@
     }
   }
 
-  .vui-check__input {
+  .sora-check__input {
     @apply absolute inset-0 size-full;
     margin: 0;
     appearance: none;
-    border: var(--vui-border-width) solid var(--vui-border-strong);
+    border: var(--sora-border-width) solid var(--sora-border-strong);
     border-radius: 0.25rem;
-    background-color: var(--vui-surface);
+    background-color: var(--sora-surface);
     cursor: inherit;
 
     &:where(:checked, :indeterminate) {
-      border-color: var(--vui-primary);
-      background-color: var(--vui-primary);
+      border-color: var(--sora-primary);
+      background-color: var(--sora-primary);
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
 
-    .vui-check[data-invalid] &:where(:not(:checked, :indeterminate)) {
-      border-color: var(--vui-error-border);
-      box-shadow: 0 0 0 1px var(--vui-error-border);
+    .sora-check[data-invalid] &:where(:not(:checked, :indeterminate)) {
+      border-color: var(--sora-error-border);
+      box-shadow: 0 0 0 1px var(--sora-error-border);
     }
 
-    .vui-check[data-kind='radio'] & {
-      border-radius: var(--vui-radius-full);
+    .sora-check[data-kind='radio'] & {
+      border-radius: var(--sora-radius-full);
     }
   }
 
-  .vui-check__mark {
+  .sora-check__mark {
     @apply pointer-events-none absolute inset-0 m-auto opacity-0;
     inline-size: 76%;
     block-size: 76%;
-    color: var(--vui-on-primary);
+    color: var(--sora-on-primary);
     stroke-width: 3;
 
-    .vui-check__input:checked:not(:indeterminate) ~ &.vui-check__mark--checked,
-    .vui-check__input:indeterminate ~ &.vui-check__mark--mixed {
+    .sora-check__input:checked:not(:indeterminate) ~ &.sora-check__mark--checked,
+    .sora-check__input:indeterminate ~ &.sora-check__mark--mixed {
       opacity: 1;
     }
   }
 
-  .vui-check__dot {
+  .sora-check__dot {
     @apply pointer-events-none absolute inset-0 m-auto rounded-full opacity-0;
     inline-size: 40%;
     block-size: 40%;
-    background-color: var(--vui-on-primary);
+    background-color: var(--sora-on-primary);
 
-    .vui-check__input:checked ~ & {
+    .sora-check__input:checked ~ & {
       opacity: 1;
     }
   }
 
-  .vui-check__label {
+  .sora-check__label {
     min-inline-size: 0;
     overflow-wrap: anywhere;
   }
 
-  .vui-check__hint,
-  .vui-check__error {
+  .sora-check__hint,
+  .sora-check__error {
     margin-inline-start: calc(var(--_box) + 0.5rem);
   }
 
-  .vui-check__hint {
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+  .sora-check__hint {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
     overflow-wrap: anywhere;
   }
 
-  .vui-check__error {
+  .sora-check__error {
     margin-block-start: 0.125rem;
   }
 
   @media (forced-colors: active) {
-    .vui-check__input {
+    .sora-check__input {
       border-color: ButtonText;
 
       &:where(:checked, :indeterminate) {
@@ -453,16 +453,16 @@
       }
     }
 
-    .vui-check__mark {
+    .sora-check__mark {
       stroke: HighlightText;
     }
 
-    .vui-check__dot {
+    .sora-check__dot {
       background-color: HighlightText;
     }
   }
 
-  .vui-option-list {
+  .sora-option-list {
     @apply flex flex-col;
     gap: 0.25rem;
 
@@ -472,21 +472,21 @@
     }
   }
 
-  /* ---------------------------------------------------------------- UiSwitch */
-  .vui-switch {
+  /* ---------------------------------------------------------------- SoraSwitch */
+  .sora-switch {
     --_w: 2rem;
     --_t: 1.125rem;
 
     @apply grid;
     justify-items: start;
-    color: var(--vui-text);
-    font-size: var(--_fs, var(--vui-text-md));
-    line-height: var(--vui-leading-normal);
+    color: var(--sora-text);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-normal);
 
     &[data-size='sm'] {
       --_w: 1.625rem;
       --_t: 0.9375rem;
-      font-size: var(--vui-text-sm);
+      font-size: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
@@ -495,7 +495,7 @@
     }
 
     &[data-disabled] {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
     }
 
     /* Settings-row layout: label first, switch at the end of the row. */
@@ -504,18 +504,18 @@
     }
   }
 
-  .vui-switch__row {
+  .sora-switch__row {
     @apply inline-flex items-start;
     gap: 0.625rem;
-    min-block-size: var(--vui-hit-min);
+    min-block-size: var(--sora-hit-min);
     padding-block: 0.125rem;
     cursor: pointer;
 
-    .vui-switch[data-disabled] > & {
+    .sora-switch[data-disabled] > & {
       cursor: not-allowed;
     }
 
-    .vui-switch[data-label-placement='start'] > & {
+    .sora-switch[data-label-placement='start'] > & {
       @apply flex flex-row-reverse justify-between;
     }
 
@@ -524,7 +524,7 @@
     }
   }
 
-  .vui-switch__track {
+  .sora-switch__track {
     @apply relative shrink-0;
     inline-size: var(--_w);
     block-size: var(--_t);
@@ -535,43 +535,43 @@
     }
   }
 
-  .vui-switch__input {
+  .sora-switch__input {
     @apply absolute inset-0 size-full;
     margin: 0;
     appearance: none;
-    border-radius: var(--vui-radius-full);
-    background-color: var(--vui-border-strong);
+    border-radius: var(--sora-radius-full);
+    background-color: var(--sora-border-strong);
     cursor: inherit;
 
     &:checked {
-      background-color: var(--vui-primary);
+      background-color: var(--sora-primary);
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
   }
 
   /* The thumb's position, not just the track colour, shows the state. */
-  .vui-switch__thumb {
+  .sora-switch__thumb {
     @apply pointer-events-none absolute rounded-full;
     inset-block: 2px;
     inset-inline-start: 2px;
     inline-size: calc(var(--_t) - 4px);
-    background-color: var(--vui-surface);
+    background-color: var(--sora-surface);
 
-    .vui-switch__input:checked ~ & {
+    .sora-switch__input:checked ~ & {
       inset-inline-start: calc(var(--_w) - var(--_t) + 2px);
-      background-color: var(--vui-on-primary);
+      background-color: var(--sora-on-primary);
     }
   }
 
   @media (forced-colors: active) {
-    .vui-switch__input {
+    .sora-switch__input {
       border: 1px solid ButtonText;
       background-color: Canvas;
 
@@ -580,35 +580,35 @@
       }
     }
 
-    .vui-switch__thumb {
+    .sora-switch__thumb {
       background-color: ButtonText;
     }
   }
 
-  .vui-switch__label {
+  .sora-switch__label {
     min-inline-size: 0;
     overflow-wrap: anywhere;
   }
 
-  .vui-switch__hint {
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+  .sora-switch__hint {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
     overflow-wrap: anywhere;
   }
 
-  /* ---------------------------------------------------------------- UiSlider */
-  .vui-slider {
+  /* ---------------------------------------------------------------- SoraSlider */
+  .sora-slider {
     --_track: 0.25rem;
     --_thumb: 1rem;
 
     @apply flex items-center;
     gap: 0.75rem;
-    min-block-size: max(1.5rem, var(--vui-hit-min));
+    min-block-size: max(1.5rem, var(--sora-hit-min));
   }
 
-  .vui-slider__input {
+  .sora-slider__input {
     @apply min-w-0 flex-1;
-    block-size: max(var(--_thumb), var(--vui-hit-min));
+    block-size: max(var(--_thumb), var(--sora-hit-min));
     margin: 0;
     appearance: none;
     background: transparent;
@@ -616,11 +616,11 @@
 
     &::-webkit-slider-runnable-track {
       block-size: var(--_track);
-      border-radius: var(--vui-radius-full);
+      border-radius: var(--sora-radius-full);
       background: linear-gradient(
         to right,
-        var(--vui-c) calc(var(--_fill, 0) * 100%),
-        var(--vui-border-strong) calc(var(--_fill, 0) * 100%)
+        var(--sora-c) calc(var(--_fill, 0) * 100%),
+        var(--sora-border-strong) calc(var(--_fill, 0) * 100%)
       );
     }
 
@@ -628,8 +628,8 @@
     &:dir(rtl)::-webkit-slider-runnable-track {
       background: linear-gradient(
         to left,
-        var(--vui-c) calc(var(--_fill, 0) * 100%),
-        var(--vui-border-strong) calc(var(--_fill, 0) * 100%)
+        var(--sora-c) calc(var(--_fill, 0) * 100%),
+        var(--sora-border-strong) calc(var(--_fill, 0) * 100%)
       );
     }
 
@@ -638,46 +638,46 @@
       block-size: var(--_thumb);
       margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
       appearance: none;
-      border: 2px solid var(--vui-c);
-      border-radius: var(--vui-radius-full);
-      background-color: var(--vui-surface);
+      border: 2px solid var(--sora-c);
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-surface);
     }
 
     &::-moz-range-track {
       block-size: var(--_track);
-      border-radius: var(--vui-radius-full);
-      background-color: var(--vui-border-strong);
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-border-strong);
     }
 
     &::-moz-range-progress {
       block-size: var(--_track);
-      border-radius: var(--vui-radius-full);
-      background-color: var(--vui-c);
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-c);
     }
 
     &::-moz-range-thumb {
       box-sizing: border-box;
       inline-size: var(--_thumb);
       block-size: var(--_thumb);
-      border: 2px solid var(--vui-c);
-      border-radius: var(--vui-radius-full);
-      background-color: var(--vui-surface);
+      border: 2px solid var(--sora-c);
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-surface);
     }
 
     &:focus-visible {
       outline: none;
 
       &::-webkit-slider-thumb {
-        @apply vui-focus-ring;
+        @apply sora-focus-ring;
       }
 
       &::-moz-range-thumb {
-        @apply vui-focus-ring;
+        @apply sora-focus-ring;
       }
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
       cursor: not-allowed;
     }
 
@@ -695,28 +695,28 @@
     }
   }
 
-  .vui-slider__value {
+  .sora-slider__value {
     min-inline-size: 3ch;
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
     font-variant-numeric: tabular-nums;
     text-align: end;
   }
 
-  /* ------------------------------------------------------------- UiFileInput */
-  .vui-file {
+  /* ------------------------------------------------------------- SoraFileInput */
+  .sora-file {
     @apply grid;
     gap: 0.5rem;
   }
 
-  .vui-file__picker {
+  .sora-file__picker {
     @apply relative flex flex-wrap items-center;
     gap: 0.375rem 0.625rem;
-    min-block-size: max(var(--_h, var(--vui-control-md)), var(--vui-hit-min));
+    min-block-size: max(var(--_h, var(--sora-control-md)), var(--sora-hit-min));
   }
 
   /* The real input sits on top, invisible: clicks, keyboard and file drops reach it directly. */
-  .vui-file__input {
+  .sora-file__input {
     @apply absolute inset-0 size-full opacity-0;
     cursor: pointer;
 
@@ -729,80 +729,80 @@
     }
   }
 
-  .vui-file__button {
+  .sora-file__button {
     @apply pointer-events-none inline-flex items-center;
     gap: 0.375rem;
-    min-block-size: var(--_h, var(--vui-control-md));
+    min-block-size: var(--_h, var(--sora-control-md));
     padding-inline: 0.75rem;
-    border: var(--vui-border-width) solid var(--vui-border-strong);
-    border-radius: var(--vui-radius-md);
-    background-color: var(--vui-surface);
-    font-size: var(--_fs, var(--vui-text-md));
-    font-weight: var(--vui-weight-medium);
-    line-height: var(--vui-leading-tight);
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    font-size: var(--_fs, var(--sora-text-md));
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
 
-    .vui-file__picker:hover > & {
-      background-color: var(--vui-neutral-soft);
+    .sora-file__picker:hover > & {
+      background-color: var(--sora-neutral-soft);
     }
 
-    .vui-file__picker:has(.vui-file__input:focus-visible) > & {
-      @apply vui-focus-ring;
+    .sora-file__picker:has(.sora-file__input:focus-visible) > & {
+      @apply sora-focus-ring;
     }
 
-    .vui-file[data-invalid] & {
-      border-color: var(--vui-error-border);
-      box-shadow: inset 0 0 0 1px var(--vui-error-border);
+    .sora-file[data-invalid] & {
+      border-color: var(--sora-error-border);
+      box-shadow: inset 0 0 0 1px var(--sora-error-border);
     }
 
-    .vui-file[data-disabled] & {
-      border-color: var(--vui-border);
-      background-color: var(--vui-subtle);
-      color: var(--vui-text-subtle);
+    .sora-file[data-disabled] & {
+      border-color: var(--sora-border);
+      background-color: var(--sora-subtle);
+      color: var(--sora-text-subtle);
     }
   }
 
-  .vui-file__summary {
+  .sora-file__summary {
     @apply pointer-events-none min-w-0;
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
     overflow-wrap: anywhere;
   }
 
-  .vui-file__list {
+  .sora-file__list {
     @apply grid;
     gap: 0.25rem;
   }
 
-  .vui-file__item {
+  .sora-file__item {
     @apply flex items-center;
     gap: 0.5rem;
     padding: 0.1875rem 0.1875rem 0.1875rem 0.5rem;
-    border: var(--vui-border-width) solid var(--vui-border);
-    border-radius: var(--vui-radius-md);
-    background-color: var(--vui-surface);
-    font-size: var(--vui-text-sm);
+    border: var(--sora-border-width) solid var(--sora-border);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    font-size: var(--sora-text-sm);
   }
 
-  .vui-file__name {
+  .sora-file__name {
     @apply min-w-0 flex-1;
     overflow-wrap: anywhere;
   }
 
-  .vui-file__size {
-    color: var(--vui-text-muted);
+  .sora-file__size {
+    color: var(--sora-text-muted);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
 
-  .vui-file__preview {
+  .sora-file__preview {
     @apply shrink-0 object-cover;
     inline-size: 1.75rem;
     block-size: 1.75rem;
-    border-radius: var(--vui-radius-sm);
+    border-radius: var(--sora-radius-sm);
   }
 
-  .vui-file__glyph {
-    color: var(--vui-text-muted);
+  .sora-file__glyph {
+    color: var(--sora-text-muted);
     font-size: 1.125rem;
   }
 }

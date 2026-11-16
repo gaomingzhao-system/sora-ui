@@ -1,5 +1,5 @@
 import en from './en.ts'
-import type { UiMessages } from './en.ts'
+import type { SoraMessages } from './en.ts'
 import { pseudoLocalize } from '../internal/pseudo.ts'
 
 /**
@@ -8,6 +8,6 @@ import { pseudoLocalize } from '../internal/pseudo.ts'
  */
 const pseudo = Object.fromEntries(
   Object.entries(en).map(([key, message]) => [key, pseudoLocalize(message)]),
-) as UiMessages
+) as SoraMessages
 
 export default pseudo

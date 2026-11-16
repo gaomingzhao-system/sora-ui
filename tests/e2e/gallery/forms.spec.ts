@@ -135,7 +135,7 @@ test('a valid form is submitted once, stays busy while saving, and reports the t
     terms: true,
   })
   // Exactly one submission: one confirmation.
-  const toasts = page.getByRole('region', { name: 'Notifications' }).locator('.vui-toast')
+  const toasts = page.getByRole('region', { name: 'Notifications' }).locator('.sora-toast')
   await expect(toasts).toHaveCount(1)
   await expect(toasts).toContainText('Profile saved')
 })
@@ -207,9 +207,9 @@ test('validation messages switch language with the locale, keeping the values', 
   await expect(page.locator('html')).toHaveAttribute('lang', 'ja')
   await page.keyboard.press('Escape')
   // Still the same errors, now in Japanese, and the typed value is untouched.
-  await expect(form.locator('.vui-error-summary a').first()).not.toHaveText('Email: This field is required.')
-  await expect(form.locator('.vui-error-summary a').first()).toContainText('必須')
-  await expect(form.locator('.vui-error-summary a')).toHaveCount(4)
+  await expect(form.locator('.sora-error-summary a').first()).not.toHaveText('Email: This field is required.')
+  await expect(form.locator('.sora-error-summary a').first()).toContainText('必須')
+  await expect(form.locator('.sora-error-summary a')).toHaveCount(4)
   await expect(form.locator('input').first()).toHaveValue('Grace Hopper')
 })
 

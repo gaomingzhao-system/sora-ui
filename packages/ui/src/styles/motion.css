@@ -4,14 +4,14 @@
  * motion tokens, which the generated theme zeroes for `motion="none"` and
  * `prefers-reduced-motion: reduce`.
  */
-@layer components.vui {
-  @keyframes vui-spin {
+@layer components.sora {
+  @keyframes sora-spin {
     to {
       rotate: 1turn;
     }
   }
 
-  @keyframes vui-progress {
+  @keyframes sora-progress {
     from {
       background-position: 125% 0;
     }
@@ -21,7 +21,7 @@
     }
   }
 
-  @keyframes vui-shimmer {
+  @keyframes sora-shimmer {
     to {
       background-position: -100% 0;
     }
@@ -29,48 +29,48 @@
 
   /* State changes: colours and opacity only. */
   :where(
-    .vui-button,
-    .vui-link,
-    .vui-input,
-    .vui-input__button,
-    .vui-textarea,
-    .vui-check__input,
-    .vui-check__mark,
-    .vui-check__dot,
-    .vui-switch__input,
-    .vui-file__button,
-    .vui-menu__item,
-    .vui-listbox__option,
-    .vui-tabs__tab,
-    .vui-tabs__tab::after,
-    .vui-accordion__trigger,
-    .vui-breadcrumbs__link,
-    .vui-pagination__button,
-    .vui-table__row,
-    .vui-table__sort
+    .sora-button,
+    .sora-link,
+    .sora-input,
+    .sora-input__button,
+    .sora-textarea,
+    .sora-check__input,
+    .sora-check__mark,
+    .sora-check__dot,
+    .sora-switch__input,
+    .sora-file__button,
+    .sora-menu__item,
+    .sora-listbox__option,
+    .sora-tabs__tab,
+    .sora-tabs__tab::after,
+    .sora-accordion__trigger,
+    .sora-breadcrumbs__link,
+    .sora-pagination__button,
+    .sora-table__row,
+    .sora-table__sort
   ) {
     transition-property:
       background-color, border-color, color, text-decoration-thickness, opacity, box-shadow;
-    transition-duration: var(--vui-duration-fast);
-    transition-timing-function: var(--vui-ease-out);
+    transition-duration: var(--sora-duration-fast);
+    transition-timing-function: var(--sora-ease-out);
   }
 
-  .vui-switch__thumb {
+  .sora-switch__thumb {
     transition:
-      inset-inline-start var(--vui-duration-fast) var(--vui-ease-out),
-      background-color var(--vui-duration-fast) var(--vui-ease-out);
+      inset-inline-start var(--sora-duration-fast) var(--sora-ease-out),
+      background-color var(--sora-duration-fast) var(--sora-ease-out);
   }
 
-  .vui-progress__bar::-webkit-progress-value {
-    transition: inline-size var(--vui-duration-overlay) var(--vui-ease-out);
+  .sora-progress__bar::-webkit-progress-value {
+    transition: inline-size var(--sora-duration-overlay) var(--sora-ease-out);
   }
 
-  .vui-accordion__panel {
-    transition: grid-template-rows var(--vui-duration-overlay) var(--vui-ease-out);
+  .sora-accordion__panel {
+    transition: grid-template-rows var(--sora-duration-overlay) var(--sora-ease-out);
   }
 
-  .vui-accordion__chevron {
-    transition: rotate var(--vui-duration-fast) var(--vui-ease-out);
+  .sora-accordion__chevron {
+    transition: rotate var(--sora-duration-fast) var(--sora-ease-out);
   }
 
   /*
@@ -78,15 +78,15 @@
    * transition discretely, so the exit runs while the element is still in
    * the top layer; nothing is unmounted to animate.
    */
-  .vui-dialog {
+  .sora-dialog {
     opacity: 0;
     scale: 0.985;
     transition:
-      opacity var(--vui-duration-overlay) var(--vui-ease-out),
-      scale var(--vui-duration-overlay) var(--vui-ease-out),
-      translate var(--vui-duration-overlay) var(--vui-ease-out),
-      overlay var(--vui-duration-overlay) allow-discrete,
-      display var(--vui-duration-overlay) allow-discrete;
+      opacity var(--sora-duration-overlay) var(--sora-ease-out),
+      scale var(--sora-duration-overlay) var(--sora-ease-out),
+      translate var(--sora-duration-overlay) var(--sora-ease-out),
+      overlay var(--sora-duration-overlay) allow-discrete,
+      display var(--sora-duration-overlay) allow-discrete;
 
     &[open] {
       opacity: 1;
@@ -102,9 +102,9 @@
     &::backdrop {
       opacity: 0;
       transition:
-        opacity var(--vui-duration-overlay) var(--vui-ease-out),
-        overlay var(--vui-duration-overlay) allow-discrete,
-        display var(--vui-duration-overlay) allow-discrete;
+        opacity var(--sora-duration-overlay) var(--sora-ease-out),
+        overlay var(--sora-duration-overlay) allow-discrete,
+        display var(--sora-duration-overlay) allow-discrete;
     }
 
     &[open]::backdrop {
@@ -117,7 +117,7 @@
   }
 
   /* Drawers slide a short distance from their edge instead of scaling. */
-  .vui-dialog.vui-drawer {
+  .sora-dialog.sora-drawer {
     --_shift: 0 0;
 
     scale: 1;
@@ -155,13 +155,13 @@
     }
   }
 
-  .vui-popover,
-  .vui-tooltip {
+  .sora-popover,
+  .sora-tooltip {
     opacity: 0;
     transition:
-      opacity var(--vui-duration-fast) var(--vui-ease-out),
-      overlay var(--vui-duration-fast) allow-discrete,
-      display var(--vui-duration-fast) allow-discrete;
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      overlay var(--sora-duration-fast) allow-discrete,
+      display var(--sora-duration-fast) allow-discrete;
 
     &:popover-open {
       opacity: 1;
@@ -173,10 +173,10 @@
   }
 
   /* Toasts fade and rise a few pixels on entry. */
-  .vui-toast {
+  .sora-toast {
     transition:
-      opacity var(--vui-duration-overlay) var(--vui-ease-out),
-      translate var(--vui-duration-overlay) var(--vui-ease-out);
+      opacity var(--sora-duration-overlay) var(--sora-ease-out),
+      translate var(--sora-duration-overlay) var(--sora-ease-out);
 
     @starting-style {
       opacity: 0;
@@ -185,17 +185,17 @@
   }
 
   /* Loading decoration. */
-  .vui-button__spinner,
-  .vui-spinner__ring {
-    animation: vui-spin 0.7s linear infinite;
+  .sora-button__spinner,
+  .sora-spinner__ring {
+    animation: sora-spin 0.7s linear infinite;
   }
 
-  .vui-progress__bar:indeterminate {
-    animation: vui-progress 1.4s var(--vui-ease-in-out) infinite;
+  .sora-progress__bar:indeterminate {
+    animation: sora-progress 1.4s var(--sora-ease-in-out) infinite;
   }
 
-  .vui-skeleton__block {
-    animation: vui-shimmer 1.6s linear infinite;
+  .sora-skeleton__block {
+    animation: sora-shimmer 1.6s linear infinite;
   }
 
   /*
@@ -203,22 +203,22 @@
    * and the status text still convey that something is in progress.
    */
   @media (prefers-reduced-motion: reduce) {
-    .vui-button__spinner,
-    .vui-spinner__ring,
-    .vui-progress__bar:indeterminate,
-    .vui-skeleton__block {
+    .sora-button__spinner,
+    .sora-spinner__ring,
+    .sora-progress__bar:indeterminate,
+    .sora-skeleton__block {
       animation: none;
     }
 
-    .vui-toast {
+    .sora-toast {
       @starting-style {
         translate: none;
       }
     }
 
     /* Overlays keep their fade only if the duration tokens allow it; never the scale/slide. */
-    .vui-dialog,
-    .vui-dialog.vui-drawer {
+    .sora-dialog,
+    .sora-dialog.sora-drawer {
       scale: 1;
       translate: none;
 
@@ -230,7 +230,7 @@
       }
     }
 
-    .vui-accordion__chevron {
+    .sora-accordion__chevron {
       transition: none;
     }
   }

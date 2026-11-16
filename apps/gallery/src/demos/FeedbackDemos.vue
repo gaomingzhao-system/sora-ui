@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
 import { ref } from 'vue'
-import { UiAlert, UiButton, UiProgress, UiSkeleton, UiSpinner, useToast } from '@your-scope/ui'
+import { SoraAlert, SoraButton, SoraProgress, SoraSkeleton, SoraSpinner, useToast } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -12,9 +12,9 @@ const intents = ['info', 'success', 'warning', 'error'] as const
 </script>
 
 <template>
-  <DemoSection name="UiAlert">
+  <DemoSection name="SoraAlert">
     <div class="grid gap-2 md:grid-cols-2">
-      <UiAlert
+      <SoraAlert
         v-for="intent in intents"
         :key="intent"
         :color="intent"
@@ -22,7 +22,7 @@ const intents = ['info', 'success', 'warning', 'error'] as const
         :title="t(`demo.alert.title.${intent}`)"
         :description="t(`demo.alert.${intent}`)"
       />
-      <UiAlert
+      <SoraAlert
         v-model:open="dismissed"
         color="warning"
         variant="outline"
@@ -32,10 +32,10 @@ const intents = ['info', 'success', 'warning', 'error'] as const
       >
         {{ t('demo.alert.warning') }}
         <template #actions>
-          <UiButton size="sm" variant="outline" color="warning">{{ t('demo.continue') }}</UiButton>
+          <SoraButton size="sm" variant="outline" color="warning">{{ t('demo.continue') }}</SoraButton>
         </template>
-      </UiAlert>
-      <UiAlert
+      </SoraAlert>
+      <SoraAlert
         color="error"
         variant="solid"
         announce="off"
@@ -45,20 +45,20 @@ const intents = ['info', 'success', 'warning', 'error'] as const
     </div>
   </DemoSection>
 
-  <DemoSection name="UiSpinner">
+  <DemoSection name="SoraSpinner">
     <div class="flex items-center gap-4">
-      <UiSpinner size="sm" />
-      <UiSpinner />
-      <UiSpinner size="lg" class="text-vui-secondary-text" />
+      <SoraSpinner size="sm" />
+      <SoraSpinner />
+      <SoraSpinner size="lg" class="text-sora-secondary-text" />
     </div>
   </DemoSection>
 
-  <DemoSection name="UiProgress">
+  <DemoSection name="SoraProgress">
     <div class="grid max-w-md gap-4">
-      <UiProgress :value="progress" :label="t('demo.progress.upload')" show-value />
-      <UiProgress :label="t('demo.progress.prepare')" color="secondary" size="sm" />
-      <UiProgress :value="100" color="success" size="lg" />
-      <UiButton
+      <SoraProgress :value="progress" :label="t('demo.progress.upload')" show-value />
+      <SoraProgress :label="t('demo.progress.prepare')" color="secondary" size="sm" />
+      <SoraProgress :value="100" color="success" size="lg" />
+      <SoraButton
         class="justify-self-start"
         size="sm"
         variant="outline"
@@ -66,23 +66,23 @@ const intents = ['info', 'success', 'warning', 'error'] as const
         @click="progress = (progress + 12) % 112"
       >
         {{ t('demo.continue') }}
-      </UiButton>
+      </SoraButton>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiSkeleton">
+  <DemoSection name="SoraSkeleton">
     <div class="flex max-w-md items-start gap-3" aria-busy="true">
-      <UiSkeleton shape="circle" />
+      <SoraSkeleton shape="circle" />
       <div class="grid flex-1 gap-2">
-        <UiSkeleton :lines="3" />
-        <UiSkeleton shape="rect" height="3rem" />
+        <SoraSkeleton :lines="3" />
+        <SoraSkeleton shape="rect" height="3rem" />
       </div>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiToastProvider">
+  <DemoSection name="SoraToastProvider">
     <div class="flex flex-wrap gap-2">
-      <UiButton
+      <SoraButton
         variant="outline"
         color="neutral"
         data-testid="toast-show"
@@ -96,8 +96,8 @@ const intents = ['info', 'success', 'warning', 'error'] as const
         "
       >
         {{ t('demo.toast.show') }}
-      </UiButton>
-      <UiButton
+      </SoraButton>
+      <SoraButton
         variant="outline"
         color="error"
         data-testid="toast-urgent"
@@ -111,15 +111,15 @@ const intents = ['info', 'success', 'warning', 'error'] as const
         "
       >
         {{ t('demo.toast.urgent') }}
-      </UiButton>
-      <UiButton
+      </SoraButton>
+      <SoraButton
         variant="outline"
         color="neutral"
         data-testid="toast-persistent"
         @click="toast.add({ title: t('demo.toast.title'), duration: 0 })"
       >
         {{ t('demo.toast.persistent') }}
-      </UiButton>
+      </SoraButton>
     </div>
   </DemoSection>
 </template>

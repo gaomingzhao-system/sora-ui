@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
 import { ref } from 'vue'
-import { UiProvider, UiToastProvider } from '@your-scope/ui'
-import type { UiColorModeSetting, UiDensity } from '@your-scope/ui'
+import { SoraProvider, SoraToastProvider } from '@your-scope/ui'
+import type { SoraColorModeSetting, SoraDensity } from '@your-scope/ui'
 import GalleryShell from './GalleryShell.vue'
 import { galleryI18n } from './i18n.ts'
 
@@ -10,10 +10,10 @@ import { galleryI18n } from './i18n.ts'
 const params = new URLSearchParams(location.search)
 const themeParam = params.get('theme')
 
-const colorMode = ref<UiColorModeSetting>(
+const colorMode = ref<SoraColorModeSetting>(
   themeParam === 'light' || themeParam === 'dark' || themeParam === 'system' ? themeParam : 'system',
 )
-const density = ref<UiDensity>(params.get('density') === 'comfortable' ? 'comfortable' : 'compact')
+const density = ref<SoraDensity>(params.get('density') === 'comfortable' ? 'comfortable' : 'compact')
 </script>
 
 <template>
@@ -21,15 +21,15 @@ const density = ref<UiDensity>(params.get('density') === 'comfortable' ? 'comfor
     The root provider applies scheme, density, direction and language to
     <html> and hands the petite-vue-i18n translator to every component.
   -->
-  <UiProvider
+  <SoraProvider
     target="document"
     :color-mode="colorMode"
     :density="density"
     :locale="galleryI18n.locale.value"
     :translator="galleryI18n.translator"
   >
-    <UiToastProvider>
+    <SoraToastProvider>
       <GalleryShell v-model:color-mode="colorMode" v-model:density="density" />
-    </UiToastProvider>
-  </UiProvider>
+    </SoraToastProvider>
+  </SoraProvider>
 </template>

@@ -10,7 +10,7 @@
  *
  * Plain data only: it is imported by Node scripts as well as by the browser.
  */
-export type UiComponentCategory =
+export type SoraComponentCategory =
   | 'foundation'
   | 'actions'
   | 'display'
@@ -21,10 +21,10 @@ export type UiComponentCategory =
   | 'navigation'
   | 'data'
 
-export interface UiComponentManifestEntry {
+export interface SoraComponentManifestEntry {
   /** Exported component name. */
   readonly name: string
-  readonly category: UiComponentCategory
+  readonly category: SoraComponentCategory
   /** Source file, relative to `packages/ui/src`. */
   readonly source: string
   /** Public entry that exports the component. */
@@ -41,18 +41,18 @@ export interface UiComponentManifestEntry {
   readonly styling: readonly string[]
 }
 
-const component = (entry: UiComponentManifestEntry): UiComponentManifestEntry => Object.freeze(entry)
+const component = (entry: SoraComponentManifestEntry): SoraComponentManifestEntry => Object.freeze(entry)
 
-const FIELD_PARTS = '`.vui-field`, `.vui-field__label`, `.vui-field__hint`, `.vui-field__error`'
+const FIELD_PARTS = '`.sora-field`, `.sora-field__label`, `.sora-field__hint`, `.sora-field__error`'
 const CONTROL_ATTRS =
   'class/style go to the root; every other attribute and listener (and `controlAttrs`) goes to the native control.'
 
-export const componentManifest: readonly UiComponentManifestEntry[] = Object.freeze([
+export const componentManifest: readonly SoraComponentManifestEntry[] = Object.freeze([
   // ------------------------------------------------------------- foundation
   component({
-    name: 'UiProvider',
+    name: 'SoraProvider',
     category: 'foundation',
-    source: 'components/foundation/UiProvider.vue',
+    source: 'components/foundation/SoraProvider.vue',
     entry: 'core',
     summary:
       'Scopes colour scheme, density, radius, motion, direction, locale, translator, token overrides and component defaults for a subtree.',
@@ -65,15 +65,15 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Overlays stay inside the provider in the DOM (native top layer), so they inherit its tokens and direction.',
     ],
     styling: [
-      '`.vui-provider`',
-      '`data-vui-theme`, `data-vui-density`, `data-vui-radius`, `data-vui-motion`',
-      'any `--vui-*` token through `themeVars`',
+      '`.sora-provider`',
+      '`data-sora-theme`, `data-sora-density`, `data-sora-radius`, `data-sora-motion`',
+      'any `--sora-*` token through `themeVars`',
     ],
   }),
   component({
-    name: 'UiIcon',
+    name: 'SoraIcon',
     category: 'foundation',
-    source: 'components/foundation/UiIcon.vue',
+    source: 'components/foundation/SoraIcon.vue',
     entry: 'core',
     summary: 'Renders trusted, static SVG path data as a decorative or a named icon.',
     attrs: 'The `<svg>` element.',
@@ -84,16 +84,16 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Path data comes from static definitions; nothing is injected with `v-html`.',
     ],
     styling: [
-      '`.vui-icon`',
+      '`.sora-icon`',
       'inherits `color` (`currentColor`) and scales with `font-size` unless `size` is set',
     ],
   }),
 
   // ---------------------------------------------------------------- actions
   component({
-    name: 'UiButton',
+    name: 'SoraButton',
     category: 'actions',
-    source: 'components/actions/UiButton.vue',
+    source: 'components/actions/SoraButton.vue',
     entry: 'core',
     summary: 'Triggers an action. A native `<button>` with variants, intents, sizes and a loading state.',
     attrs: 'The native `<button>` (including `class`, `style`, `name`, `form`, `aria-*` and listeners).',
@@ -107,43 +107,43 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Hover styles apply only on devices that can hover; the focus ring uses `:focus-visible`.',
     ],
     styling: [
-      '`.vui-button`, `.vui-button__label`, `.vui-button__icon`, `.vui-button__spinner`',
+      '`.sora-button`, `.sora-button__label`, `.sora-button__icon`, `.sora-button__spinner`',
       '`data-variant`, `data-color`, `data-size`, `data-block`, `data-loading`',
     ],
   }),
   component({
-    name: 'UiIconButton',
+    name: 'SoraIconButton',
     category: 'actions',
-    source: 'components/actions/UiIconButton.vue',
+    source: 'components/actions/SoraIconButton.vue',
     entry: 'core',
     summary: 'A square button that shows only an icon and therefore requires an accessible name.',
-    attrs: 'The native `<button>` (through UiButton).',
+    attrs: 'The native `<button>` (through SoraButton).',
     keyboard: ['Enter or Space activates (native).'],
     a11y: [
       '`label` is required and becomes `aria-label`.',
       'The icon is decorative.',
       'Coarse pointers get a 44px hit area.',
     ],
-    styling: ['`.vui-button.vui-icon-button`', '`data-variant`, `data-color`, `data-size`'],
+    styling: ['`.sora-button.sora-icon-button`', '`data-variant`, `data-color`, `data-size`'],
   }),
   component({
-    name: 'UiButtonGroup',
+    name: 'SoraButtonGroup',
     category: 'actions',
-    source: 'components/actions/UiButtonGroup.vue',
+    source: 'components/actions/SoraButtonGroup.vue',
     entry: 'core',
     summary:
       'Groups related buttons, optionally joined into one segmented control, and gives them shared defaults.',
     attrs: 'The group `<div role="group">`.',
     keyboard: ['Each button is a normal tab stop (a group is not a toolbar).'],
     a11y: ['`role="group"` with `aria-label` from `label` (or pass `aria-labelledby`).'],
-    styling: ['`.vui-button-group`', '`data-orientation`, `data-attached`'],
+    styling: ['`.sora-button-group`', '`data-orientation`, `data-attached`'],
   }),
   component({
-    name: 'UiLink',
+    name: 'SoraLink',
     category: 'actions',
-    source: 'components/actions/UiLink.vue',
+    source: 'components/actions/SoraLink.vue',
     entry: 'core',
-    summary: 'Navigates. Always a real `<a>`; use UiButton for actions.',
+    summary: 'Navigates. Always a real `<a>`; use SoraButton for actions.',
     attrs: 'The `<a>` element.',
     keyboard: ['Enter follows the link (native).'],
     a11y: [
@@ -151,14 +151,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       '`external` adds `target="_blank" rel="noopener noreferrer"` and a visually hidden "opens in a new tab".',
       '`disabled` removes `href` and sets `role="link" aria-disabled="true"`.',
     ],
-    styling: ['`.vui-link`, `.vui-link__icon`', '`data-color`, `data-underline`'],
+    styling: ['`.sora-link`, `.sora-link__icon`', '`data-color`, `data-underline`'],
   }),
 
   // ---------------------------------------------------------------- display
   component({
-    name: 'UiCard',
+    name: 'SoraCard',
     category: 'display',
-    source: 'components/display/UiCard.vue',
+    source: 'components/display/SoraCard.vue',
     entry: 'core',
     summary: 'A compact surface with header, body, footer and actions slots.',
     attrs: 'The root element (`as`, default `<div>`).',
@@ -169,26 +169,26 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The card is an inline-size container: narrow cards stack their footer buttons.',
     ],
     styling: [
-      '`.vui-card`, `.vui-card__header`, `.vui-card__title`, `.vui-card__description`, `.vui-card__actions`, `.vui-card__body`, `.vui-card__footer`',
+      '`.sora-card`, `.sora-card__header`, `.sora-card__title`, `.sora-card__description`, `.sora-card__actions`, `.sora-card__body`, `.sora-card__footer`',
       '`data-variant`, `data-padding`',
-      '`--vui-card-min`',
+      '`--sora-card-min`',
     ],
   }),
   component({
-    name: 'UiBadge',
+    name: 'SoraBadge',
     category: 'display',
-    source: 'components/display/UiBadge.vue',
+    source: 'components/display/SoraBadge.vue',
     entry: 'core',
     summary: 'A short status or category label.',
     attrs: 'The `<span>` element.',
     keyboard: [],
     a11y: ['Purely visual: the text carries the meaning; the optional dot is decorative.'],
-    styling: ['`.vui-badge`, `.vui-badge__dot`', '`data-variant`, `data-color`, `data-size`'],
+    styling: ['`.sora-badge`, `.sora-badge__dot`', '`data-variant`, `data-color`, `data-size`'],
   }),
   component({
-    name: 'UiAvatar',
+    name: 'SoraAvatar',
     category: 'display',
-    source: 'components/display/UiAvatar.vue',
+    source: 'components/display/SoraAvatar.vue',
     entry: 'core',
     summary: 'Shows a person or entity as an image, falling back to initials and then to a generic glyph.',
     attrs: 'The root `<span>`.',
@@ -198,12 +198,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'When the fallback shows, the root is `role="img"` named by `name`.',
       'A failed image load switches to the fallback automatically.',
     ],
-    styling: ['`.vui-avatar`, `.vui-avatar__image`, `.vui-avatar__initials`', '`data-size`, `data-shape`'],
+    styling: ['`.sora-avatar`, `.sora-avatar__image`, `.sora-avatar__initials`', '`data-size`, `data-shape`'],
   }),
   component({
-    name: 'UiAvatarGroup',
+    name: 'SoraAvatarGroup',
     category: 'display',
-    source: 'components/display/UiAvatarGroup.vue',
+    source: 'components/display/SoraAvatarGroup.vue',
     entry: 'core',
     summary: 'A row of overlapping avatars from a typed array, with a counter for the remainder.',
     attrs: 'The `<ul>` element.',
@@ -213,14 +213,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The "+N" counter has a translated text alternative.',
     ],
     styling: [
-      '`.vui-avatar-group`, `.vui-avatar-group__item`, `.vui-avatar-group__more`',
-      '`--vui-on-surface` (ring colour)',
+      '`.sora-avatar-group`, `.sora-avatar-group__item`, `.sora-avatar-group__more`',
+      '`--sora-on-surface` (ring colour)',
     ],
   }),
   component({
-    name: 'UiSeparator',
+    name: 'SoraSeparator',
     category: 'display',
-    source: 'components/display/UiSeparator.vue',
+    source: 'components/display/SoraSeparator.vue',
     entry: 'core',
     summary: 'A horizontal or vertical dividing line, optionally with a centred label.',
     attrs: 'The root `<div>`.',
@@ -229,39 +229,39 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Decorative by default (`role="none"`).',
       '`decorative=false` renders `role="separator"` with `aria-orientation`.',
     ],
-    styling: ['`.vui-separator`, `.vui-separator__label`', '`data-orientation`'],
+    styling: ['`.sora-separator`, `.sora-separator__label`', '`data-orientation`'],
   }),
   component({
-    name: 'UiKbd',
+    name: 'SoraKbd',
     category: 'display',
-    source: 'components/display/UiKbd.vue',
+    source: 'components/display/SoraKbd.vue',
     entry: 'core',
     summary: 'Displays a key or a keyboard shortcut.',
     attrs: 'The `<kbd>` element.',
     keyboard: [],
     a11y: ['Uses `<kbd>`; a shortcut nests one `<kbd>` per key, as HTML recommends.'],
-    styling: ['`.vui-kbd`, `.vui-kbd-combo`', '`data-size`'],
+    styling: ['`.sora-kbd`, `.sora-kbd-combo`', '`data-size`'],
   }),
   component({
-    name: 'UiEmptyState',
+    name: 'SoraEmptyState',
     category: 'display',
-    source: 'components/display/UiEmptyState.vue',
+    source: 'components/display/SoraEmptyState.vue',
     entry: 'core',
     summary: 'Explains that there is nothing to show yet and what to do next.',
     attrs: 'The root `<div>`.',
     keyboard: [],
     a11y: ['The title is a real heading (`headingLevel`).', 'The glyph is decorative.'],
     styling: [
-      '`.vui-empty-state`, `.vui-empty-state__icon`, `.vui-empty-state__title`, `.vui-empty-state__description`, `.vui-empty-state__actions`',
+      '`.sora-empty-state`, `.sora-empty-state__icon`, `.sora-empty-state__title`, `.sora-empty-state__description`, `.sora-empty-state__actions`',
       '`data-size`',
     ],
   }),
 
   // --------------------------------------------------------------- feedback
   component({
-    name: 'UiAlert',
+    name: 'SoraAlert',
     category: 'feedback',
-    source: 'components/feedback/UiAlert.vue',
+    source: 'components/feedback/SoraAlert.vue',
     entry: 'core',
     summary: 'An inline message with an intent, optional title, actions and dismissal.',
     attrs: 'The root `<div>`.',
@@ -272,14 +272,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The dismiss button has a translated accessible name.',
     ],
     styling: [
-      '`.vui-alert`, `.vui-alert__icon`, `.vui-alert__title`, `.vui-alert__description`, `.vui-alert__actions`',
+      '`.sora-alert`, `.sora-alert__icon`, `.sora-alert__title`, `.sora-alert__description`, `.sora-alert__actions`',
       '`data-color`, `data-variant`',
     ],
   }),
   component({
-    name: 'UiSpinner',
+    name: 'SoraSpinner',
     category: 'feedback',
-    source: 'components/feedback/UiSpinner.vue',
+    source: 'components/feedback/SoraSpinner.vue',
     entry: 'core',
     summary: 'An indeterminate activity indicator.',
     attrs: 'The root `<span>`.',
@@ -289,12 +289,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       '`decorative` hides it when another element already reports the busy state.',
       'With reduced motion the ring stops spinning; the status text remains.',
     ],
-    styling: ['`.vui-spinner`, `.vui-spinner__ring`', '`data-size`', 'inherits `color`'],
+    styling: ['`.sora-spinner`, `.sora-spinner__ring`', '`data-size`', 'inherits `color`'],
   }),
   component({
-    name: 'UiProgress',
+    name: 'SoraProgress',
     category: 'feedback',
-    source: 'components/feedback/UiProgress.vue',
+    source: 'components/feedback/SoraProgress.vue',
     entry: 'core',
     summary: 'Determinate or indeterminate progress built on the native `<progress>` element.',
     attrs: 'The root `<div>`.',
@@ -305,14 +305,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       '`aria-valuetext` carries the locale-formatted percentage.',
     ],
     styling: [
-      '`.vui-progress`, `.vui-progress__bar`, `.vui-progress__label`, `.vui-progress__value`',
+      '`.sora-progress`, `.sora-progress__bar`, `.sora-progress__label`, `.sora-progress__value`',
       '`data-size`, `data-color`',
     ],
   }),
   component({
-    name: 'UiSkeleton',
+    name: 'SoraSkeleton',
     category: 'feedback',
-    source: 'components/feedback/UiSkeleton.vue',
+    source: 'components/feedback/SoraSkeleton.vue',
     entry: 'core',
     summary: 'A placeholder shape shown while content loads.',
     attrs: 'The root `<span>`.',
@@ -322,12 +322,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       '`announce` renders a polite status instead.',
       'The shimmer stops with reduced motion.',
     ],
-    styling: ['`.vui-skeleton`, `.vui-skeleton__block`', '`data-shape`'],
+    styling: ['`.sora-skeleton`, `.sora-skeleton__block`', '`data-shape`'],
   }),
   component({
-    name: 'UiToastProvider',
+    name: 'SoraToastProvider',
     category: 'feedback',
-    source: 'components/feedback/UiToastProvider.vue',
+    source: 'components/feedback/SoraToastProvider.vue',
     entry: 'core',
     summary: 'Hosts the queue of dismissible notifications that `useToast()` adds to.',
     attrs: 'The notification region (`<section>`); the slot content is rendered next to it, unwrapped.',
@@ -338,19 +338,19 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
     a11y: [
       'A labelled region with two persistent live regions: polite (`role="status"`) and assertive (`role="alert"`, for `urgent` toasts).',
       'Every toast has a dismiss button; `duration: 0` keeps it until dismissed.',
-      'The region is a manual popover in the top layer; while a modal dialog is open it is inert, so use an inline UiAlert for feedback inside dialogs.',
+      'The region is a manual popover in the top layer; while a modal dialog is open it is inert, so use an inline SoraAlert for feedback inside dialogs.',
     ],
     styling: [
-      '`.vui-toast-region`, `.vui-toast`, `.vui-toast__title`, `.vui-toast__description`',
+      '`.sora-toast-region`, `.sora-toast`, `.sora-toast__title`, `.sora-toast__description`',
       '`data-placement`, `data-color`',
     ],
   }),
 
   // ----------------------------------------------------------------- inputs
   component({
-    name: 'UiField',
+    name: 'SoraField',
     category: 'inputs',
-    source: 'components/inputs/UiField.vue',
+    source: 'components/inputs/SoraField.vue',
     entry: 'core',
     summary: 'Label, hint and error wiring for any control; the layout primitive every input is built on.',
     attrs: 'The root element (`<div>` or `<fieldset>`).',
@@ -363,9 +363,9 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
     styling: [FIELD_PARTS, '`data-size`, `data-orientation`, `data-invalid`, `data-disabled`'],
   }),
   component({
-    name: 'UiInput',
+    name: 'SoraInput',
     category: 'inputs',
-    source: 'components/inputs/UiInput.vue',
+    source: 'components/inputs/SoraInput.vue',
     entry: 'core',
     summary: 'A single-line text field (text, email, url, tel, search).',
     attrs: CONTROL_ATTRS,
@@ -375,12 +375,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Caller-supplied `aria-describedby` ids are merged with the generated ones.',
       'On coarse pointers the text is at least 16px, so focusing does not zoom the page.',
     ],
-    styling: [FIELD_PARTS, '`.vui-input`, `.vui-input__control`, `.vui-input__affix`'],
+    styling: [FIELD_PARTS, '`.sora-input`, `.sora-input__control`, `.sora-input__affix`'],
   }),
   component({
-    name: 'UiTextarea',
+    name: 'SoraTextarea',
     category: 'inputs',
-    source: 'components/inputs/UiTextarea.vue',
+    source: 'components/inputs/SoraTextarea.vue',
     entry: 'core',
     summary: 'A multi-line text field with optional content-based autosizing.',
     attrs: CONTROL_ATTRS,
@@ -389,12 +389,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Native `<textarea>` with a real `<label>`.',
       '`autosize` uses `field-sizing: content` between `rows` and `maxRows`, then scrolls.',
     ],
-    styling: [FIELD_PARTS, '`.vui-textarea`', '`data-autosize`'],
+    styling: [FIELD_PARTS, '`.sora-textarea`', '`data-autosize`'],
   }),
   component({
-    name: 'UiPasswordInput',
+    name: 'SoraPasswordInput',
     category: 'inputs',
-    source: 'components/inputs/UiPasswordInput.vue',
+    source: 'components/inputs/SoraPasswordInput.vue',
     entry: 'core',
     summary: 'A password field with an optional reveal toggle.',
     attrs: CONTROL_ATTRS,
@@ -403,12 +403,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The toggle is a button with a constant name and `aria-pressed`.',
       '`autocomplete` defaults to `current-password` and can be overridden (for example `new-password`).',
     ],
-    styling: [FIELD_PARTS, '`.vui-input`, `.vui-input__button`'],
+    styling: [FIELD_PARTS, '`.sora-input`, `.sora-input__button`'],
   }),
   component({
-    name: 'UiNumberInput',
+    name: 'SoraNumberInput',
     category: 'inputs',
-    source: 'components/inputs/UiNumberInput.vue',
+    source: 'components/inputs/SoraNumberInput.vue',
     entry: 'core',
     summary: 'A numeric field whose value is a number or `null`, never a silently coerced zero.',
     attrs: CONTROL_ATTRS,
@@ -418,12 +418,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Empty or unparsable text yields `null`; unparsable text also marks the field invalid with a translated message.',
       'The optional stepper buttons are pointer conveniences (`tabindex="-1"`) with translated names.',
     ],
-    styling: [FIELD_PARTS, '`.vui-input`, `.vui-input__steppers`, `.vui-input__button`'],
+    styling: [FIELD_PARTS, '`.sora-input`, `.sora-input__steppers`, `.sora-input__button`'],
   }),
   component({
-    name: 'UiDateInput',
+    name: 'SoraDateInput',
     category: 'inputs',
-    source: 'components/inputs/UiDateInput.vue',
+    source: 'components/inputs/SoraDateInput.vue',
     entry: 'core',
     summary: 'A native date field whose value is a date-only `YYYY-MM-DD` string.',
     attrs: CONTROL_ATTRS,
@@ -432,12 +432,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Native `<input type="date">`: the platform picker and its accessibility.',
       'The value never becomes a `Date`, so there is no time-zone conversion.',
     ],
-    styling: [FIELD_PARTS, '`.vui-input`, `.vui-input__control`'],
+    styling: [FIELD_PARTS, '`.sora-input`, `.sora-input__control`'],
   }),
   component({
-    name: 'UiCheckbox',
+    name: 'SoraCheckbox',
     category: 'inputs',
-    source: 'components/inputs/UiCheckbox.vue',
+    source: 'components/inputs/SoraCheckbox.vue',
     entry: 'core',
     summary: 'A single checkbox with an optional mixed state.',
     attrs: CONTROL_ATTRS,
@@ -448,14 +448,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'On coarse pointers the row is at least 44px high.',
     ],
     styling: [
-      '`.vui-check`, `.vui-check__row`, `.vui-check__input`, `.vui-check__label`, `.vui-check__hint`',
+      '`.sora-check`, `.sora-check__row`, `.sora-check__input`, `.sora-check__label`, `.sora-check__hint`',
       '`data-size`, `data-invalid`, `data-disabled`',
     ],
   }),
   component({
-    name: 'UiCheckboxGroup',
+    name: 'SoraCheckboxGroup',
     category: 'inputs',
-    source: 'components/inputs/UiCheckboxGroup.vue',
+    source: 'components/inputs/SoraCheckboxGroup.vue',
     entry: 'core',
     summary: 'A labelled group of checkboxes bound to an array of typed values.',
     attrs: 'The `<fieldset>` root. `controlAttrs` is applied to every native checkbox.',
@@ -464,12 +464,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       '`<fieldset>` with a `<legend>`; hint and error describe the group.',
       'A disabled group disables the fieldset natively.',
     ],
-    styling: [FIELD_PARTS, '`.vui-option-list`, `.vui-check`', '`data-orientation`'],
+    styling: [FIELD_PARTS, '`.sora-option-list`, `.sora-check`', '`data-orientation`'],
   }),
   component({
-    name: 'UiRadioGroup',
+    name: 'SoraRadioGroup',
     category: 'inputs',
-    source: 'components/inputs/UiRadioGroup.vue',
+    source: 'components/inputs/SoraRadioGroup.vue',
     entry: 'core',
     summary: 'A labelled group of radios bound to one typed value.',
     attrs: 'The `<fieldset>` root. `controlAttrs` is applied to every native radio.',
@@ -480,12 +480,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       '`<fieldset>` with a `<legend>` and native radios that share one `name`.',
       '`required` is set on the radios, which is how a required radio group is exposed natively.',
     ],
-    styling: [FIELD_PARTS, '`.vui-option-list`, `.vui-check[data-kind="radio"]`', '`data-orientation`'],
+    styling: [FIELD_PARTS, '`.sora-option-list`, `.sora-check[data-kind="radio"]`', '`data-orientation`'],
   }),
   component({
-    name: 'UiSwitch',
+    name: 'SoraSwitch',
     category: 'inputs',
-    source: 'components/inputs/UiSwitch.vue',
+    source: 'components/inputs/SoraSwitch.vue',
     entry: 'core',
     summary: 'An on/off setting that takes effect immediately.',
     attrs: CONTROL_ATTRS,
@@ -496,14 +496,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The thumb position, not only the colour, shows the state.',
     ],
     styling: [
-      '`.vui-switch`, `.vui-switch__track`, `.vui-switch__thumb`, `.vui-switch__label`',
+      '`.sora-switch`, `.sora-switch__track`, `.sora-switch__thumb`, `.sora-switch__label`',
       '`data-size`, `data-label-placement`',
     ],
   }),
   component({
-    name: 'UiSelect',
+    name: 'SoraSelect',
     category: 'inputs',
-    source: 'components/inputs/UiSelect.vue',
+    source: 'components/inputs/SoraSelect.vue',
     entry: 'core',
     summary: 'A native select with typed options and option groups.',
     attrs: CONTROL_ATTRS,
@@ -512,12 +512,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Native `<select>`/`<optgroup>`: platform semantics and pickers on every device.',
       'The empty option represents `null`; with `required` it cannot be chosen again.',
     ],
-    styling: [FIELD_PARTS, '`.vui-input.vui-select`, `.vui-select__control`, `.vui-select__chevron`'],
+    styling: [FIELD_PARTS, '`.sora-input.sora-select`, `.sora-select__control`, `.sora-select__chevron`'],
   }),
   component({
-    name: 'UiCombobox',
+    name: 'SoraCombobox',
     category: 'inputs',
-    source: 'components/inputs/UiCombobox.vue',
+    source: 'components/inputs/SoraCombobox.vue',
     entry: 'core',
     summary: 'A searchable single-select with local filtering or an asynchronous source.',
     attrs: CONTROL_ATTRS,
@@ -535,13 +535,13 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
     ],
     styling: [
       FIELD_PARTS,
-      '`.vui-input.vui-combobox`, `.vui-combobox__popup`, `.vui-listbox`, `.vui-listbox__option`',
+      '`.sora-input.sora-combobox`, `.sora-combobox__popup`, `.sora-listbox`, `.sora-listbox__option`',
     ],
   }),
   component({
-    name: 'UiSlider',
+    name: 'SoraSlider',
     category: 'inputs',
-    source: 'components/inputs/UiSlider.vue',
+    source: 'components/inputs/SoraSlider.vue',
     entry: 'core',
     summary: 'Chooses a number from a range with a native range input.',
     attrs: CONTROL_ATTRS,
@@ -552,12 +552,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Native `<input type="range">` with `min`, `max` and `step`; mirrors in right-to-left text.',
       '`formatValue` also supplies `aria-valuetext`; the visible value is an `<output>` tied to the input.',
     ],
-    styling: [FIELD_PARTS, '`.vui-slider`, `.vui-slider__input`, `.vui-slider__value`', '`data-color`'],
+    styling: [FIELD_PARTS, '`.sora-slider`, `.sora-slider__input`, `.sora-slider__value`', '`data-color`'],
   }),
   component({
-    name: 'UiFileInput',
+    name: 'SoraFileInput',
     category: 'inputs',
-    source: 'components/inputs/UiFileInput.vue',
+    source: 'components/inputs/SoraFileInput.vue',
     entry: 'core',
     summary: 'Chooses files with the native file input and exposes the actual `File` objects.',
     attrs: CONTROL_ATTRS,
@@ -567,14 +567,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Removing a file or a form reset updates both the model and the native input.',
       'Preview object URLs are revoked when their file leaves the selection and on unmount.',
     ],
-    styling: [FIELD_PARTS, '`.vui-file`, `.vui-file__button`, `.vui-file__list`, `.vui-file__item`'],
+    styling: [FIELD_PARTS, '`.sora-file`, `.sora-file__button`, `.sora-file__list`, `.sora-file__item`'],
   }),
 
   // ------------------------------------------------------------------ forms
   component({
-    name: 'UiForm',
+    name: 'SoraForm',
     category: 'forms',
-    source: 'forms/UiForm.vue',
+    source: 'forms/SoraForm.vue',
     entry: 'forms',
     summary: 'A `<form>` bound to a Formisch store that awaits a typed submit callback.',
     attrs: 'The native `<form>`.',
@@ -584,12 +584,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'After a failed submission focus moves to the first invalid field.',
       '`aria-busy` while submitting; further submissions (button, Enter, `requestSubmit()`) are ignored until it settles.',
     ],
-    styling: ['`.vui-form`'],
+    styling: ['`.sora-form`'],
   }),
   component({
-    name: 'UiFormErrorSummary',
+    name: 'SoraFormErrorSummary',
     category: 'forms',
-    source: 'forms/UiFormErrorSummary.vue',
+    source: 'forms/SoraFormErrorSummary.vue',
     entry: 'forms',
     summary: 'Lists every validation error of a form, deep fields included, with links that focus the field.',
     attrs: 'The root `<div>`.',
@@ -599,14 +599,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'A labelled group; it becomes `role="alert"` only for form-level errors, which no field would announce.',
       'Entry text is "<field label>: <message>", taken from the field\'s real label or legend.',
     ],
-    styling: ['`.vui-alert.vui-error-summary`, `.vui-error-summary__list`'],
+    styling: ['`.sora-alert.sora-error-summary`, `.sora-error-summary__list`'],
   }),
 
   // --------------------------------------------------------------- overlays
   component({
-    name: 'UiDialog',
+    name: 'SoraDialog',
     category: 'overlays',
-    source: 'components/overlays/UiDialog.vue',
+    source: 'components/overlays/SoraDialog.vue',
     entry: 'core',
     summary: 'A modal dialog built on `<dialog>.showModal()`.',
     attrs: 'The native `<dialog>`.',
@@ -622,28 +622,28 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Height is bounded with `dvh` and safe-area insets; the body scrolls.',
     ],
     styling: [
-      '`.vui-dialog`, `.vui-dialog__panel`, `.vui-dialog__header`, `.vui-dialog__title`, `.vui-dialog__body`, `.vui-dialog__footer`',
+      '`.sora-dialog`, `.sora-dialog__panel`, `.sora-dialog__header`, `.sora-dialog__title`, `.sora-dialog__body`, `.sora-dialog__footer`',
       '`data-size`',
     ],
   }),
   component({
-    name: 'UiDrawer',
+    name: 'SoraDrawer',
     category: 'overlays',
-    source: 'components/overlays/UiDrawer.vue',
+    source: 'components/overlays/SoraDrawer.vue',
     entry: 'core',
     summary: 'A modal panel docked to an edge of the viewport.',
-    attrs: 'The native `<dialog>` (through UiDialog).',
-    keyboard: ['Same as UiDialog: contained Tab order, Escape, focus restoration.'],
+    attrs: 'The native `<dialog>` (through SoraDialog).',
+    keyboard: ['Same as SoraDialog: contained Tab order, Escape, focus restoration.'],
     a11y: [
-      'A modal dialog with the same semantics as UiDialog.',
+      'A modal dialog with the same semantics as SoraDialog.',
       '`start`/`end` follow the writing direction; the short entry slide is removed with reduced motion.',
     ],
-    styling: ['`.vui-dialog.vui-drawer`', '`data-side`, `data-size`'],
+    styling: ['`.sora-dialog.sora-drawer`', '`data-side`, `data-size`'],
   }),
   component({
-    name: 'UiPopover',
+    name: 'SoraPopover',
     category: 'overlays',
-    source: 'components/overlays/UiPopover.vue',
+    source: 'components/overlays/SoraPopover.vue',
     entry: 'core',
     summary: 'A non-modal panel anchored to its trigger, using the Popover API and CSS anchor positioning.',
     attrs: 'The built-in trigger button. With a custom trigger, bind `attrs`/`on`/`ref` yourself.',
@@ -657,12 +657,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'With `title` or `label` the panel is a named non-modal `role="dialog"`; otherwise it is a plain disclosure.',
       'Light dismiss and focus return are native (`popover="auto"`).',
     ],
-    styling: ['`.vui-popover`, `.vui-popover__title`', '`data-placement`'],
+    styling: ['`.sora-popover`, `.sora-popover__title`', '`data-placement`'],
   }),
   component({
-    name: 'UiTooltip',
+    name: 'SoraTooltip',
     category: 'overlays',
-    source: 'components/overlays/UiTooltip.vue',
+    source: 'components/overlays/SoraTooltip.vue',
     entry: 'core',
     summary: 'A short, supplementary description shown on hover and keyboard focus.',
     attrs: 'The wrapper `<span>` around the trigger.',
@@ -675,12 +675,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Stays while the trigger is hovered or focused, or the tooltip itself is hovered (WCAG 1.4.13).',
       'Text only: never put interactive content in a tooltip.',
     ],
-    styling: ['`.vui-tooltip-anchor`, `.vui-tooltip`', '`data-placement`'],
+    styling: ['`.sora-tooltip-anchor`, `.sora-tooltip`', '`data-placement`'],
   }),
   component({
-    name: 'UiDropdownMenu',
+    name: 'SoraDropdownMenu',
     category: 'overlays',
-    source: 'components/overlays/UiDropdownMenu.vue',
+    source: 'components/overlays/SoraDropdownMenu.vue',
     entry: 'core',
     summary: 'A menu of actions (or links) opened from a button.',
     attrs: 'The built-in trigger button. With a custom trigger, bind `attrs`/`on`/`ref` yourself.',
@@ -696,16 +696,16 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'For actions and in-app commands only: ordinary site navigation should be links, not a menu.',
     ],
     styling: [
-      '`.vui-popover.vui-menu`, `.vui-menu__item`, `.vui-menu__label`, `.vui-menu__separator`',
+      '`.sora-popover.sora-menu`, `.sora-menu__item`, `.sora-menu__label`, `.sora-menu__separator`',
       '`data-placement`, item `data-color`',
     ],
   }),
 
   // ------------------------------------------------------------- navigation
   component({
-    name: 'UiTabs',
+    name: 'SoraTabs',
     category: 'navigation',
-    source: 'components/navigation/UiTabs.vue',
+    source: 'components/navigation/SoraTabs.vue',
     entry: 'core',
     summary: 'Switches between panels from a typed array of tabs.',
     attrs: 'The root `<div>`.',
@@ -720,14 +720,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The selected tab is marked by a bar or fill, not by colour alone.',
     ],
     styling: [
-      '`.vui-tabs`, `.vui-tabs__list`, `.vui-tabs__tab`, `.vui-tabs__panel`',
+      '`.sora-tabs`, `.sora-tabs__list`, `.sora-tabs__tab`, `.sora-tabs__panel`',
       '`data-orientation`, `data-variant`, `data-size`',
     ],
   }),
   component({
-    name: 'UiAccordion',
+    name: 'SoraAccordion',
     category: 'navigation',
-    source: 'components/navigation/UiAccordion.vue',
+    source: 'components/navigation/SoraAccordion.vue',
     entry: 'core',
     summary: 'Expandable sections from a typed array.',
     attrs: 'The root `<div>`.',
@@ -741,14 +741,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Panels are regions when there are six or fewer.',
     ],
     styling: [
-      '`.vui-accordion`, `.vui-accordion__item`, `.vui-accordion__trigger`, `.vui-accordion__panel`, `.vui-accordion__content`',
+      '`.sora-accordion`, `.sora-accordion__item`, `.sora-accordion__trigger`, `.sora-accordion__panel`, `.sora-accordion__content`',
       '`data-size`, `data-open`',
     ],
   }),
   component({
-    name: 'UiBreadcrumbs',
+    name: 'SoraBreadcrumbs',
     category: 'navigation',
-    source: 'components/navigation/UiBreadcrumbs.vue',
+    source: 'components/navigation/SoraBreadcrumbs.vue',
     entry: 'core',
     summary: 'Shows the path to the current page as links.',
     attrs: 'The `<nav>` element.',
@@ -758,12 +758,12 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'The last item is `aria-current="page"` and is not a link.',
       'Separators are decorative and mirror in right-to-left text.',
     ],
-    styling: ['`.vui-breadcrumbs`, `.vui-breadcrumbs__link`, `.vui-breadcrumbs__separator`'],
+    styling: ['`.sora-breadcrumbs`, `.sora-breadcrumbs__link`, `.sora-breadcrumbs__separator`'],
   }),
   component({
-    name: 'UiPagination',
+    name: 'SoraPagination',
     category: 'navigation',
-    source: 'components/navigation/UiPagination.vue',
+    source: 'components/navigation/SoraPagination.vue',
     entry: 'core',
     summary: 'Moves between pages of a result set.',
     attrs: 'The `<nav>` element.',
@@ -773,14 +773,14 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Previous/next have translated names and mirror in right-to-left text.',
       'Narrow containers collapse the page buttons to "Page x of y".',
     ],
-    styling: ['`.vui-pagination`, `.vui-pagination__button`, `.vui-pagination__status`', '`data-size`'],
+    styling: ['`.sora-pagination`, `.sora-pagination__button`, `.sora-pagination__status`', '`data-size`'],
   }),
 
   // ------------------------------------------------------------------- data
   component({
-    name: 'UiTable',
+    name: 'SoraTable',
     category: 'data',
-    source: 'components/data/UiTable.vue',
+    source: 'components/data/SoraTable.vue',
     entry: 'core',
     summary: 'A data table from typed columns and rows, with optional controlled sorting and selection.',
     attrs: 'The scroll wrapper `<div>`.',
@@ -795,13 +795,13 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
       'Row checkboxes are named after the row header cell.',
     ],
     styling: [
-      '`.vui-table-wrap`, `.vui-table`, `.vui-table__cell`, `.vui-table__row`, `.vui-table__sort`',
+      '`.sora-table-wrap`, `.sora-table`, `.sora-table__cell`, `.sora-table__row`, `.sora-table__sort`',
       '`data-size`, `data-striped`',
     ],
   }),
 ])
 
-export const componentCategories: readonly UiComponentCategory[] = Object.freeze([
+export const componentCategories: readonly SoraComponentCategory[] = Object.freeze([
   'foundation',
   'actions',
   'display',

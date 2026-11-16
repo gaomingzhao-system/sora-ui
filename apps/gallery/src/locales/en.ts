@@ -1,6 +1,6 @@
 /** Gallery copy (English). Flat keys, `{name}` placeholders only. */
 const en = {
-  'app.title': 'Vapor UI',
+  'app.title': 'Sora UI',
   'app.subtitle': 'Component gallery',
   'app.skip': 'Skip to content',
   'app.nav': 'Gallery sections',
@@ -119,7 +119,7 @@ const en = {
   'workspace.created': 'Project created',
 
   'foundations.title': 'Foundations',
-  'foundations.lead': 'Every value below is a custom property generated from ui.config.ts.',
+  'foundations.lead': 'Every value below is a custom property generated from sora.config.ts.',
   'foundations.surfaces': 'Surfaces and text',
   'foundations.intents': 'Intents',
   'foundations.type': 'Typography',
@@ -283,7 +283,7 @@ const en = {
   'demo.accordion.q2': 'Do I need Tailwind?',
   'demo.accordion.a2': 'No. The stylesheet is compiled; Tailwind integration is optional.',
   'demo.accordion.q3': 'Can I change the colours?',
-  'demo.accordion.a3': 'Yes, through ui.config.ts or a nested provider.',
+  'demo.accordion.a3': 'Yes, through sora.config.ts or a nested provider.',
   'demo.crumb.home': 'Home',
   'demo.crumb.projects': 'Projects',
   'demo.crumb.current': 'Design system',
@@ -298,7 +298,7 @@ const en = {
   'demo.provider.inner': 'Scoped to this provider',
   'demo.icon.named': 'Search',
   'demo.field.custom': 'Any control',
-  'demo.field.hint': 'UiField wires the label, hint and error.',
+  'demo.field.hint': 'SoraField wires the label, hint and error.',
   'demo.form.note': 'See the Forms page for the complete example.',
   'demo.kbd.palette': 'Command palette',
 } as const

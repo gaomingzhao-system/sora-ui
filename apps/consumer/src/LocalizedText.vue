@@ -1,9 +1,9 @@
 <script setup lang="ts" vapor>
-import { useUiLocale } from '@your-scope/ui'
+import { useSoraLocale } from '@your-scope/ui'
 
 /** Renders one application message through the provider's translator. */
 const { message, count } = defineProps<{ message: string; count?: number | undefined }>()
-const { t, formatNumber } = useUiLocale()
+const { t, formatNumber } = useSoraLocale()
 </script>
 
 <template>

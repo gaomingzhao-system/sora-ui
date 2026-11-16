@@ -6,7 +6,7 @@
  * `pnpm verify:consumer` first) and gzipping the emitted files:
  *
  *   baseline        a Vapor app with no library import (the Vue runtime)
- *   button + card   the same app using UiButton and UiCard
+ *   button + card   the same app using SoraButton and SoraCard
  *   -> incremental  the difference: the budgeted number
  *   every export    an app that keeps every export of the core entry
  *   styles.css      the compiled stylesheet
@@ -48,11 +48,11 @@ const count = ref(0)
     main: `import { createVaporApp } from 'vue'\nimport App from './App.vue'\ncreateVaporApp(App).mount('#app')\n`,
     app: `<script setup lang="ts" vapor>
 import { ref } from 'vue'
-import { UiButton, UiCard } from '@your-scope/ui'
+import { SoraButton, SoraCard } from '@your-scope/ui'
 const count = ref(0)
 </script>
 <template>
-  <UiCard title="Title"><p>{{ count }}</p><template #footer><UiButton @click="count++">Increment</UiButton></template></UiCard>
+  <SoraCard title="Title"><p>{{ count }}</p><template #footer><SoraButton @click="count++">Increment</SoraButton></template></SoraCard>
 </template>
 `,
   },
@@ -61,7 +61,7 @@ const count = ref(0)
 import * as ui from '@your-scope/ui'
 import App from './App.vue'
 // Referencing the namespace object keeps every export of the core entry.
-;(globalThis as { __vui?: unknown }).__vui = ui
+;(globalThis as { __sora?: unknown }).__sora = ui
 createVaporApp(App).mount('#app')
 `,
     app: `<script setup lang="ts" vapor>
@@ -118,7 +118,7 @@ if (!baseline || !buttonCard || !everything) throw new Error('a measurement is m
 const incremental = buttonCard.gzip - baseline.gzip
 const rows: [string, string, string][] = [
   ['baseline (Vue Vapor runtime)', kib(baseline.raw), kib(baseline.gzip)],
-  ['UiButton + UiCard app', kib(buttonCard.raw), kib(buttonCard.gzip)],
+  ['SoraButton + SoraCard app', kib(buttonCard.raw), kib(buttonCard.gzip)],
   ['-> incremental (budget 10 KiB)', kib(buttonCard.raw - baseline.raw), kib(incremental)],
   ['every core export', kib(everything.raw - baseline.raw), kib(everything.gzip - baseline.gzip)],
   ['styles.css (budget 35 KiB)', kib(stylesheet.raw), kib(stylesheet.gzip)],

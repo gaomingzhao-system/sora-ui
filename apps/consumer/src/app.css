@@ -1,8 +1,8 @@
 /* Plain, unlayered application CSS: it must win over the library's layered rules. */
 html {
-  background: var(--vui-canvas);
-  color: var(--vui-text);
-  font-family: var(--vui-font-sans);
+  background: var(--sora-canvas);
+  color: var(--sora-text);
+  font-family: var(--sora-font-sans);
   color-scheme: light dark;
 }
 
@@ -26,6 +26,6 @@ main {
 }
 
 /* Documented override point: an application rule changes a part without !important. */
-.vui-button.app-wide {
+.sora-button.app-wide {
   min-inline-size: 12rem;
 }

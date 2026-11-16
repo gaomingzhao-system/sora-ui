@@ -83,7 +83,7 @@
   },
   "overrides": [
     {
-      "files": ["scripts/**/*.ts", "*.config.ts", "**/*.config.ts", "ui.config.ts"],
+      "files": ["scripts/**/*.ts", "*.config.ts", "**/*.config.ts", "sora.config.ts"],
       "env": {
         "node": true,
         "browser": false

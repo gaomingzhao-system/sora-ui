@@ -6,26 +6,26 @@
  */
 import { computed, ref } from 'vue'
 import {
-  UiBadge,
-  UiBreadcrumbs,
-  UiButton,
-  UiCard,
-  UiDrawer,
-  UiDropdownMenu,
-  UiEmptyState,
-  UiIcon,
-  UiInput,
-  UiPagination,
-  UiProgress,
-  UiSelect,
-  UiTable,
+  SoraBadge,
+  SoraBreadcrumbs,
+  SoraButton,
+  SoraCard,
+  SoraDrawer,
+  SoraDropdownMenu,
+  SoraEmptyState,
+  SoraIcon,
+  SoraInput,
+  SoraPagination,
+  SoraProgress,
+  SoraSelect,
+  SoraTable,
   iconMore,
   iconPlus,
   iconSearch,
   useToast,
-  useUiLocale,
+  useSoraLocale,
 } from '@your-scope/ui'
-import type { UiColor, UiMenuItem, UiTableColumn, UiTableSort } from '@your-scope/ui'
+import type { SoraColor, SoraMenuItem, SoraTableColumn, SoraTableSort } from '@your-scope/ui'
 import { useT } from '../i18n.ts'
 
 type Status = 'active' | 'paused' | 'archived'
@@ -40,7 +40,7 @@ interface Project {
 
 const t = useT()
 const toast = useToast()
-const { locale } = useUiLocale()
+const { locale } = useSoraLocale()
 
 const projects = ref<Project[]>([
   {
@@ -96,13 +96,13 @@ const projects = ref<Project[]>([
 
 const query = ref('')
 const status = ref<Status | 'all' | null>('all')
-const sort = ref<UiTableSort | null>({ key: 'updated', direction: 'descending' })
+const sort = ref<SoraTableSort | null>({ key: 'updated', direction: 'descending' })
 const page = ref(1)
 const pageSize = 4
 const detail = ref<Project | null>(null)
 const drawerOpen = ref(false)
 
-const STATUS_COLOR: Readonly<Record<Status, UiColor>> = {
+const STATUS_COLOR: Readonly<Record<Status, SoraColor>> = {
   active: 'success',
   paused: 'warning',
   archived: 'neutral',
@@ -114,7 +114,7 @@ const statuses = computed(() => [
   { value: 'paused' as const, label: t('workspace.status.paused') },
   { value: 'archived' as const, label: t('workspace.status.archived') },
 ])
-const columns = computed<UiTableColumn<Project>[]>(() => [
+const columns = computed<SoraTableColumn<Project>[]>(() => [
   { key: 'name', header: t('workspace.col.name'), sortable: true, rowHeader: true },
   { key: 'owner', header: t('workspace.col.owner'), sortable: true },
   { key: 'status', header: t('workspace.col.status') },
@@ -126,7 +126,7 @@ const crumbs = computed(() => [
   { label: t('workspace.title'), href: '#/overview' },
   { label: t('workspace.projects') },
 ])
-const rowMenu = computed<UiMenuItem[]>(() => [
+const rowMenu = computed<SoraMenuItem[]>(() => [
   { id: 'rename', label: t('workspace.action.rename') },
   { id: 'duplicate', label: t('workspace.action.duplicate') },
   { id: 'archive', label: t('workspace.action.archive') },
@@ -163,7 +163,7 @@ function showDetails(project: Project): void {
   drawerOpen.value = true
 }
 
-function act(project: Project, item: UiMenuItem): void {
+function act(project: Project, item: SoraMenuItem): void {
   if (item.id === 'delete') projects.value = projects.value.filter((entry) => entry.id !== project.id)
   else if (item.id === 'archive') project.status = 'archived'
   else if (item.id === 'duplicate') {
@@ -188,17 +188,17 @@ function create(): void {
 <template>
   <!-- The section is the size container; `@2xl:`/`@4xl:` variants below query it. -->
   <section
-    class="@container rounded-vui-lg border border-vui-border bg-vui-surface"
+    class="@container rounded-sora-lg border border-sora-border bg-sora-surface"
     :aria-label="t('workspace.title')"
     data-testid="workspace"
   >
     <div class="grid @4xl:grid-cols-[13rem_minmax(0,1fr)]">
-      <aside class="border-b border-vui-border p-3 @4xl:border-e @4xl:border-b-0">
-        <h3 class="mb-2 px-1 text-vui-sm font-semibold">{{ t('workspace.projects') }}</h3>
+      <aside class="border-b border-sora-border p-3 @4xl:border-e @4xl:border-b-0">
+        <h3 class="mb-2 px-1 text-sora-sm font-semibold">{{ t('workspace.projects') }}</h3>
         <!-- Stacked list on wide containers, a horizontally scrolling strip on narrow ones. -->
         <ul class="flex gap-1 overflow-x-auto @4xl:flex-col @4xl:overflow-visible">
           <li v-for="entry in statuses" :key="entry.value" class="shrink-0">
-            <UiButton
+            <SoraButton
               block
               size="sm"
               :variant="status === entry.value ? 'soft' : 'ghost'"
@@ -208,16 +208,16 @@ function create(): void {
               @click="((status = entry.value), (page = 1))"
             >
               {{ entry.label }}
-            </UiButton>
+            </SoraButton>
           </li>
         </ul>
       </aside>
 
       <div class="grid min-w-0 gap-3 p-3">
-        <UiBreadcrumbs :items="crumbs" />
+        <SoraBreadcrumbs :items="crumbs" />
 
         <div class="flex flex-wrap items-end gap-2">
-          <UiInput
+          <SoraInput
             v-model="query"
             class="min-w-40 flex-1"
             type="search"
@@ -226,30 +226,30 @@ function create(): void {
             :placeholder="t('workspace.search')"
             @input="page = 1"
           >
-            <template #leading><UiIcon :icon="iconSearch" /></template>
-          </UiInput>
+            <template #leading><SoraIcon :icon="iconSearch" /></template>
+          </SoraInput>
           <!-- The select duplicates the sidebar filter for containers too narrow to show it comfortably. -->
-          <UiSelect
+          <SoraSelect
             v-model="status"
             class="w-36 @4xl:hidden"
             :options="statuses"
             hide-label
             :label="t('workspace.filter')"
           />
-          <UiButton data-testid="workspace-new" @click="create">
-            <template #leading><UiIcon :icon="iconPlus" /></template>
+          <SoraButton data-testid="workspace-new" @click="create">
+            <template #leading><SoraIcon :icon="iconPlus" /></template>
             {{ t('workspace.new') }}
-          </UiButton>
+          </SoraButton>
         </div>
 
-        <UiEmptyState
+        <SoraEmptyState
           v-if="filtered.length === 0"
           :title="t('workspace.empty')"
           :description="t('workspace.empty.hint')"
         />
         <template v-else>
           <!-- Real table markup at every size: on narrow containers it scrolls inside its labelled region. -->
-          <UiTable
+          <SoraTable
             v-model:sort="sort"
             :columns="columns"
             :rows="visible"
@@ -260,19 +260,19 @@ function create(): void {
             <template #cell-name="{ row }">
               <button
                 type="button"
-                class="rounded-vui-sm text-start font-medium underline decoration-vui-border-strong underline-offset-4"
+                class="rounded-sora-sm text-start font-medium underline decoration-sora-border-strong underline-offset-4"
                 @click="showDetails(row)"
               >
                 {{ row.name }}
               </button>
             </template>
             <template #cell-status="{ row }">
-              <UiBadge :color="STATUS_COLOR[row.status]" dot>{{
+              <SoraBadge :color="STATUS_COLOR[row.status]" dot>{{
                 t(`workspace.status.${row.status}`)
-              }}</UiBadge>
+              }}</SoraBadge>
             </template>
             <template #cell-progress="{ row }">
-              <UiProgress
+              <SoraProgress
                 :value="row.progress"
                 :max="1"
                 size="sm"
@@ -283,7 +283,7 @@ function create(): void {
               <time :datetime="row.updated" class="whitespace-nowrap">{{ formatDate(row.updated) }}</time>
             </template>
             <template #cell-actions="{ row }">
-              <UiDropdownMenu
+              <SoraDropdownMenu
                 :items="rowMenu"
                 placement="bottom-end"
                 :label="`${t('workspace.actions')}: ${row.name}`"
@@ -294,52 +294,52 @@ function create(): void {
                     :ref="setTrigger"
                     type="button"
                     v-bind="attrs"
-                    class="inline-flex items-center justify-center rounded-vui-sm text-vui-muted hover:bg-vui-hover"
+                    class="inline-flex items-center justify-center rounded-sora-sm text-sora-muted hover:bg-sora-hover"
                     style="
-                      inline-size: max(1.75rem, var(--vui-hit-min));
-                      block-size: max(1.75rem, var(--vui-hit-min));
+                      inline-size: max(1.75rem, var(--sora-hit-min));
+                      block-size: max(1.75rem, var(--sora-hit-min));
                     "
                     :aria-label="`${t('workspace.actions')}: ${row.name}`"
                     v-on="on"
                   >
-                    <UiIcon :icon="iconMore" />
+                    <SoraIcon :icon="iconMore" />
                   </button>
                 </template>
-              </UiDropdownMenu>
+              </SoraDropdownMenu>
             </template>
-          </UiTable>
-          <UiPagination v-model:page="page" :page-count="pageCount" size="sm" />
+          </SoraTable>
+          <SoraPagination v-model:page="page" :page-count="pageCount" size="sm" />
         </template>
       </div>
     </div>
 
-    <UiDrawer
+    <SoraDrawer
       v-model:open="drawerOpen"
       :title="detail?.name ?? t('workspace.details')"
       :description="t('workspace.drawer.description')"
       size="sm"
     >
-      <UiCard v-if="detail" variant="plain" padding="none">
-        <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-vui-sm">
-          <dt class="text-vui-muted">{{ t('workspace.col.owner') }}</dt>
+      <SoraCard v-if="detail" variant="plain" padding="none">
+        <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-sora-sm">
+          <dt class="text-sora-muted">{{ t('workspace.col.owner') }}</dt>
           <dd>{{ detail.owner }}</dd>
-          <dt class="text-vui-muted">{{ t('workspace.col.status') }}</dt>
+          <dt class="text-sora-muted">{{ t('workspace.col.status') }}</dt>
           <dd>
-            <UiBadge :color="STATUS_COLOR[detail.status]" dot>{{
+            <SoraBadge :color="STATUS_COLOR[detail.status]" dot>{{
               t(`workspace.status.${detail.status}`)
-            }}</UiBadge>
+            }}</SoraBadge>
           </dd>
-          <dt class="text-vui-muted">{{ t('workspace.col.updated') }}</dt>
+          <dt class="text-sora-muted">{{ t('workspace.col.updated') }}</dt>
           <dd><time :datetime="detail.updated">{{ formatDate(detail.updated) }}</time></dd>
-          <dt class="text-vui-muted">{{ t('workspace.col.progress') }}</dt>
+          <dt class="text-sora-muted">{{ t('workspace.col.progress') }}</dt>
           <dd>
-            <UiProgress :value="detail.progress" :max="1" show-value :label="t('workspace.col.progress')" />
+            <SoraProgress :value="detail.progress" :max="1" show-value :label="t('workspace.col.progress')" />
           </dd>
         </dl>
-      </UiCard>
+      </SoraCard>
       <template #footer="{ close }">
-        <UiButton @click="close">{{ t('actions.done') }}</UiButton>
+        <SoraButton @click="close">{{ t('actions.done') }}</SoraButton>
       </template>
-    </UiDrawer>
+    </SoraDrawer>
   </section>
 </template>

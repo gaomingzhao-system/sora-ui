@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { compileMessages } from '../../scripts/compiled-messages-plugin.ts'
 import { pseudoLocalize } from '../../packages/ui/src/internal/pseudo.ts'
 import {
-  createUiTranslator,
+  createSoraTranslator,
   directionOf,
   englishTranslator,
   formatMessage,
@@ -31,10 +31,10 @@ describe('message formatting', () => {
   })
 })
 
-describe('createUiTranslator', () => {
+describe('createSoraTranslator', () => {
   it('follows a reactive locale and falls back from region to language to fallback locale', () => {
     const locale = ref('ja-JP')
-    const translator = createUiTranslator({ locale, messages: { en, ja }, fallbackLocale: 'en' })
+    const translator = createSoraTranslator({ locale, messages: { en, ja }, fallbackLocale: 'en' })
     expect(translator.locale).toBe('ja-JP')
     expect(translator.translate('dialog.close')).toBe('閉じる')
     locale.value = 'fr'
@@ -45,7 +45,7 @@ describe('createUiTranslator', () => {
 
   it('sees dictionaries added later to a reactive messages object', () => {
     const messages = reactive<Record<string, Record<string, string>>>({ en: { ...en } })
-    const translator = createUiTranslator({ locale: 'ar', messages })
+    const translator = createSoraTranslator({ locale: 'ar', messages })
     expect(translator.translate('dialog.close')).toBeUndefined()
     messages['ar'] = { ...ar }
     expect(translator.translate('dialog.close')).toBe('إغلاق')

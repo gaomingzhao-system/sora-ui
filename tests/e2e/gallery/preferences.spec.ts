@@ -5,7 +5,7 @@ test('reduced motion turns every duration off', async ({ page }) => {
   await openGallery(page, 'components')
   const durations = await page.evaluate(() => {
     const style = getComputedStyle(document.documentElement)
-    return ['--vui-duration-fast', '--vui-duration-overlay'].map((name) =>
+    return ['--sora-duration-fast', '--sora-duration-overlay'].map((name) =>
       Number.parseFloat(style.getPropertyValue(name)),
     )
   })
@@ -31,7 +31,7 @@ test('with motion allowed, overlays use the short token durations', async ({ pag
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await openGallery(page, 'components')
   const overlay = await page.evaluate(() =>
-    getComputedStyle(document.documentElement).getPropertyValue('--vui-duration-overlay').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--sora-duration-overlay').trim(),
   )
   expect(Number.parseFloat(overlay)).toBeGreaterThan(0)
   expect(Number.parseFloat(overlay)).toBeLessThanOrEqual(200)
@@ -44,7 +44,7 @@ test('forced colours keep controls, focus and state visible', async ({ page, bro
   expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true)
 
   // A solid button still has a visible edge (system colours replace the fill).
-  const button = page.locator('#demo-UiButton .vui-button').first()
+  const button = page.locator('#demo-SoraButton .sora-button').first()
   const edge = await button.evaluate((node) => {
     const style = getComputedStyle(node)
     return { width: Number.parseFloat(style.borderTopWidth), style: style.borderTopStyle }
@@ -64,9 +64,9 @@ test('forced colours keep controls, focus and state visible', async ({ page, bro
   expect(outline.style).not.toBe('none')
 
   // A checked checkbox still shows its mark.
-  const checkbox = page.locator('#demo-UiCheckbox input[type="checkbox"]').first()
+  const checkbox = page.locator('#demo-SoraCheckbox input[type="checkbox"]').first()
   await checkbox.check()
-  const mark = page.locator('#demo-UiCheckbox .vui-check__mark--checked').first()
+  const mark = page.locator('#demo-SoraCheckbox .sora-check__mark--checked').first()
   await expect(mark).toBeVisible()
 })
 
@@ -86,16 +86,16 @@ test('touch pointers get 44px targets', async ({ browser, browserName }) => {
   // Every interactive control of the library offers at least a 44 by 44 CSS pixel target.
   const tooSmall = await page.evaluate(() => {
     const selector = [
-      '.vui-button',
-      '.vui-check__row',
-      '.vui-switch__row',
-      '.vui-tabs__tab',
-      '.vui-accordion__trigger',
-      '.vui-pagination__button',
-      '.vui-input',
-      '.vui-select',
-      '.vui-table__sort',
-      '.vui-breadcrumbs__link',
+      '.sora-button',
+      '.sora-check__row',
+      '.sora-switch__row',
+      '.sora-tabs__tab',
+      '.sora-accordion__trigger',
+      '.sora-pagination__button',
+      '.sora-input',
+      '.sora-select',
+      '.sora-table__sort',
+      '.sora-breadcrumbs__link',
     ].join(',')
     const problems: string[] = []
     for (const element of document.querySelectorAll<HTMLElement>(selector)) {

@@ -1,14 +1,14 @@
 import { expect, openGallery, test } from '../support.ts'
 
 /**
- * Opt-in visual checks: `VUI_VISUAL=1 pnpm test:e2e`.
+ * Opt-in visual checks: `SORA_VISUAL=1 pnpm test:e2e`.
  *
  * Screenshots depend on the operating system's font rendering, so baselines
  * are not committed. The first run on a machine records them under
  * .artifacts/e2e-snapshots; later runs on the same machine compare against
  * them (use `--update-snapshots` after an intended change).
  */
-test.skip(!process.env['VUI_VISUAL'], 'visual checks are opt-in: set VUI_VISUAL=1')
+test.skip(!process.env['SORA_VISUAL'], 'visual checks are opt-in: set SORA_VISUAL=1')
 
 for (const theme of ['light', 'dark'] as const) {
   test(`component states (${theme})`, async ({ page }) => {

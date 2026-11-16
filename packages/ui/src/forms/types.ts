@@ -1,18 +1,18 @@
 import type { InjectionKey } from 'vue'
 import type { FormSchema, FormStore } from '@formisch/vue'
 
-/** What UiForm shares with UiFormErrorSummary (typed provide/inject). */
-export interface UiFormContext {
-  /** The Formisch store of the surrounding UiForm. */
+/** What SoraForm shares with SoraFormErrorSummary (typed provide/inject). */
+export interface SoraFormContext {
+  /** The Formisch store of the surrounding SoraForm. */
   readonly form: () => FormStore<FormSchema>
   /** The native `<form>` element once mounted. */
   readonly element: () => HTMLFormElement | null
 }
 
-export const uiFormKey: InjectionKey<UiFormContext> = Symbol('vui.form')
+export const soraFormKey: InjectionKey<SoraFormContext> = Symbol('sora.form')
 
 /** One line of the error summary. */
-export interface UiFormErrorEntry {
+export interface SoraFormErrorEntry {
   /** Stable key for rendering. */
   readonly key: string
   /** Field path, empty for form-level errors. */

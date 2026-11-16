@@ -7,104 +7,104 @@
  *   @import "@your-scope/ui/styles.css";    // compiled component styles (any order works)
  *   @import "@your-scope/ui/tailwind.css";  // this file: theme mapping + variants
  *
- * It maps the runtime `--vui-*` tokens into Tailwind's theme under `vui-`
- * names (`bg-vui-surface`, `text-vui-muted`, `rounded-vui`, `shadow-vui-md`).
+ * It maps the runtime `--sora-*` tokens into Tailwind's theme under `sora-`
+ * names (`bg-sora-surface`, `text-sora-muted`, `rounded-sora`, `shadow-sora-md`).
  * `@theme inline` makes the utilities reference the live custom property, so
- * they follow light/dark and nested UiProvider overrides. Nothing here
+ * they follow light/dark and nested SoraProvider overrides. Nothing here
  * redefines a host theme key.
  */
 @theme inline {
   /* Surfaces, text and boundaries */
-  --color-vui-canvas: var(--vui-canvas);
-  --color-vui-surface: var(--vui-surface);
-  --color-vui-elevated: var(--vui-elevated);
-  --color-vui-subtle: var(--vui-subtle);
-  --color-vui-inverted: var(--vui-inverted);
-  --color-vui-text: var(--vui-text);
-  --color-vui-muted: var(--vui-text-muted);
-  --color-vui-faint: var(--vui-text-subtle);
-  --color-vui-text-inverted: var(--vui-text-inverted);
-  --color-vui-border: var(--vui-border);
-  --color-vui-border-strong: var(--vui-border-strong);
-  --color-vui-focus: var(--vui-focus);
-  --color-vui-hover: var(--vui-hover);
-  --color-vui-pressed: var(--vui-pressed);
-  --color-vui-scrim: var(--vui-scrim);
+  --color-sora-canvas: var(--sora-canvas);
+  --color-sora-surface: var(--sora-surface);
+  --color-sora-elevated: var(--sora-elevated);
+  --color-sora-subtle: var(--sora-subtle);
+  --color-sora-inverted: var(--sora-inverted);
+  --color-sora-text: var(--sora-text);
+  --color-sora-muted: var(--sora-text-muted);
+  --color-sora-faint: var(--sora-text-subtle);
+  --color-sora-text-inverted: var(--sora-text-inverted);
+  --color-sora-border: var(--sora-border);
+  --color-sora-border-strong: var(--sora-border-strong);
+  --color-sora-focus: var(--sora-focus);
+  --color-sora-hover: var(--sora-hover);
+  --color-sora-pressed: var(--sora-pressed);
+  --color-sora-scrim: var(--sora-scrim);
 
   /* Intents: fill, label on fill, readable text, soft fill, boundary */
-  --color-vui-primary: var(--vui-primary);
-  --color-vui-on-primary: var(--vui-on-primary);
-  --color-vui-primary-text: var(--vui-primary-text);
-  --color-vui-primary-soft: var(--vui-primary-soft);
-  --color-vui-primary-border: var(--vui-primary-border);
-  --color-vui-secondary: var(--vui-secondary);
-  --color-vui-on-secondary: var(--vui-on-secondary);
-  --color-vui-secondary-text: var(--vui-secondary-text);
-  --color-vui-secondary-soft: var(--vui-secondary-soft);
-  --color-vui-secondary-border: var(--vui-secondary-border);
-  --color-vui-success: var(--vui-success);
-  --color-vui-on-success: var(--vui-on-success);
-  --color-vui-success-text: var(--vui-success-text);
-  --color-vui-success-soft: var(--vui-success-soft);
-  --color-vui-success-border: var(--vui-success-border);
-  --color-vui-info: var(--vui-info);
-  --color-vui-on-info: var(--vui-on-info);
-  --color-vui-info-text: var(--vui-info-text);
-  --color-vui-info-soft: var(--vui-info-soft);
-  --color-vui-info-border: var(--vui-info-border);
-  --color-vui-warning: var(--vui-warning);
-  --color-vui-on-warning: var(--vui-on-warning);
-  --color-vui-warning-text: var(--vui-warning-text);
-  --color-vui-warning-soft: var(--vui-warning-soft);
-  --color-vui-warning-border: var(--vui-warning-border);
-  --color-vui-error: var(--vui-error);
-  --color-vui-on-error: var(--vui-on-error);
-  --color-vui-error-text: var(--vui-error-text);
-  --color-vui-error-soft: var(--vui-error-soft);
-  --color-vui-error-border: var(--vui-error-border);
-  --color-vui-neutral: var(--vui-neutral);
-  --color-vui-on-neutral: var(--vui-on-neutral);
-  --color-vui-neutral-text: var(--vui-neutral-text);
-  --color-vui-neutral-soft: var(--vui-neutral-soft);
-  --color-vui-neutral-border: var(--vui-neutral-border);
+  --color-sora-primary: var(--sora-primary);
+  --color-sora-on-primary: var(--sora-on-primary);
+  --color-sora-primary-text: var(--sora-primary-text);
+  --color-sora-primary-soft: var(--sora-primary-soft);
+  --color-sora-primary-border: var(--sora-primary-border);
+  --color-sora-secondary: var(--sora-secondary);
+  --color-sora-on-secondary: var(--sora-on-secondary);
+  --color-sora-secondary-text: var(--sora-secondary-text);
+  --color-sora-secondary-soft: var(--sora-secondary-soft);
+  --color-sora-secondary-border: var(--sora-secondary-border);
+  --color-sora-success: var(--sora-success);
+  --color-sora-on-success: var(--sora-on-success);
+  --color-sora-success-text: var(--sora-success-text);
+  --color-sora-success-soft: var(--sora-success-soft);
+  --color-sora-success-border: var(--sora-success-border);
+  --color-sora-info: var(--sora-info);
+  --color-sora-on-info: var(--sora-on-info);
+  --color-sora-info-text: var(--sora-info-text);
+  --color-sora-info-soft: var(--sora-info-soft);
+  --color-sora-info-border: var(--sora-info-border);
+  --color-sora-warning: var(--sora-warning);
+  --color-sora-on-warning: var(--sora-on-warning);
+  --color-sora-warning-text: var(--sora-warning-text);
+  --color-sora-warning-soft: var(--sora-warning-soft);
+  --color-sora-warning-border: var(--sora-warning-border);
+  --color-sora-error: var(--sora-error);
+  --color-sora-on-error: var(--sora-on-error);
+  --color-sora-error-text: var(--sora-error-text);
+  --color-sora-error-soft: var(--sora-error-soft);
+  --color-sora-error-border: var(--sora-error-border);
+  --color-sora-neutral: var(--sora-neutral);
+  --color-sora-on-neutral: var(--sora-on-neutral);
+  --color-sora-neutral-text: var(--sora-neutral-text);
+  --color-sora-neutral-soft: var(--sora-neutral-soft);
+  --color-sora-neutral-border: var(--sora-neutral-border);
 
   /* Shape, type, elevation and motion */
-  --radius-vui-sm: var(--vui-radius-sm);
-  --radius-vui: var(--vui-radius-md);
-  --radius-vui-lg: var(--vui-radius-lg);
-  --font-vui-sans: var(--vui-font-sans);
-  --font-vui-serif: var(--vui-font-serif);
-  --font-vui-mono: var(--vui-font-mono);
-  --font-vui-display: var(--vui-font-display);
-  --text-vui-xs: var(--vui-text-xs);
-  --text-vui-sm: var(--vui-text-sm);
-  --text-vui-md: var(--vui-text-md);
-  --text-vui-lg: var(--vui-text-lg);
-  --text-vui-xl: var(--vui-text-xl);
-  --text-vui-2xl: var(--vui-text-2xl);
-  --shadow-vui-sm: var(--vui-shadow-sm);
-  --shadow-vui-md: var(--vui-shadow-md);
-  --shadow-vui-lg: var(--vui-shadow-lg);
-  --ease-vui-out: var(--vui-ease-out);
-  --ease-vui-in-out: var(--vui-ease-in-out);
+  --radius-sora-sm: var(--sora-radius-sm);
+  --radius-sora: var(--sora-radius-md);
+  --radius-sora-lg: var(--sora-radius-lg);
+  --font-sora-sans: var(--sora-font-sans);
+  --font-sora-serif: var(--sora-font-serif);
+  --font-sora-mono: var(--sora-font-mono);
+  --font-sora-display: var(--sora-font-display);
+  --text-sora-xs: var(--sora-text-xs);
+  --text-sora-sm: var(--sora-text-sm);
+  --text-sora-md: var(--sora-text-md);
+  --text-sora-lg: var(--sora-text-lg);
+  --text-sora-xl: var(--sora-text-xl);
+  --text-sora-2xl: var(--sora-text-2xl);
+  --shadow-sora-sm: var(--sora-shadow-sm);
+  --shadow-sora-md: var(--sora-shadow-md);
+  --shadow-sora-lg: var(--sora-shadow-lg);
+  --ease-sora-out: var(--sora-ease-out);
+  --ease-sora-in-out: var(--sora-ease-in-out);
 }
 
 /* State variants that match the attributes the components expose. */
-@custom-variant vui-invalid (&:where([aria-invalid='true'], [data-invalid]));
-@custom-variant vui-busy (&:where([aria-busy='true'], [data-loading]));
-@custom-variant vui-coarse (@media (pointer: coarse));
-@custom-variant vui-scheme-dark (&:where([data-vui-theme='dark'], [data-vui-theme='dark'] *));
+@custom-variant sora-invalid (&:where([aria-invalid='true'], [data-invalid]));
+@custom-variant sora-busy (&:where([aria-busy='true'], [data-loading]));
+@custom-variant sora-coarse (@media (pointer: coarse));
+@custom-variant sora-scheme-dark (&:where([data-sora-theme='dark'], [data-sora-theme='dark'] *));
 
 /* The library's focus indicator, reusable on host elements. */
-@utility vui-focus-ring {
-  outline: var(--vui-focus-width) solid var(--vui-focus);
-  outline-offset: var(--vui-focus-offset);
+@utility sora-focus-ring {
+  outline: var(--sora-focus-width) solid var(--sora-focus);
+  outline-offset: var(--sora-focus-offset);
 }
 
 /* Durations follow the configured motion level (and reduced motion). */
-@utility duration-vui-fast {
-  transition-duration: var(--vui-duration-fast);
+@utility duration-sora-fast {
+  transition-duration: var(--sora-duration-fast);
 }
-@utility duration-vui-overlay {
-  transition-duration: var(--vui-duration-overlay);
+@utility duration-sora-overlay {
+  transition-duration: var(--sora-duration-overlay);
 }

@@ -9,22 +9,22 @@ import { insert, remove, useFieldArray, useForm } from '@formisch/vue'
 import * as v from 'valibot'
 import { computed, ref } from 'vue'
 import {
-  UiButton,
-  UiCard,
-  UiCheckbox,
-  UiCheckboxGroup,
-  UiDateInput,
-  UiFileInput,
-  UiIcon,
-  UiInput,
-  UiNumberInput,
-  UiRadioGroup,
-  UiSelect,
-  UiTextarea,
+  SoraButton,
+  SoraCard,
+  SoraCheckbox,
+  SoraCheckboxGroup,
+  SoraDateInput,
+  SoraFileInput,
+  SoraIcon,
+  SoraInput,
+  SoraNumberInput,
+  SoraRadioGroup,
+  SoraSelect,
+  SoraTextarea,
   iconPlus,
   useToast,
 } from '@your-scope/ui'
-import { UiForm, UiFormErrorSummary, useUiFormField } from '@your-scope/ui/forms'
+import { SoraForm, SoraFormErrorSummary, useSoraFormField } from '@your-scope/ui/forms'
 import { useT } from '../i18n.ts'
 import ProfileLinkRow from './ProfileLinkRow.vue'
 
@@ -37,7 +37,7 @@ const toast = useToast()
 const TAKEN = new Set(['admin', 'root', 'ada'])
 
 // Messages are functions, so they are produced in the locale that is active
-// when validation runs (and re-run by UiForm when the locale changes).
+// when validation runs (and re-run by SoraForm when the locale changes).
 const required = () => t('validation.required')
 
 const schema = v.pipeAsync(
@@ -124,18 +124,18 @@ const form = useForm({
   revalidate: 'input',
 })
 
-const name = useUiFormField(form, { path: ['name'] })
-const email = useUiFormField(form, { path: ['email'] })
-const username = useUiFormField(form, { path: ['username'] })
-const role = useUiFormField(form, { path: ['role'] })
-const experience = useUiFormField(form, { path: ['experience'] })
-const start = useUiFormField(form, { path: ['start'] })
-const bio = useUiFormField(form, { path: ['bio'] })
-const method = useUiFormField(form, { path: ['contact', 'method'] })
-const phone = useUiFormField(form, { path: ['contact', 'phone'] })
-const topics = useUiFormField(form, { path: ['topics'] })
-const avatar = useUiFormField(form, { path: ['avatar'] })
-const terms = useUiFormField(form, { path: ['terms'] })
+const name = useSoraFormField(form, { path: ['name'] })
+const email = useSoraFormField(form, { path: ['email'] })
+const username = useSoraFormField(form, { path: ['username'] })
+const role = useSoraFormField(form, { path: ['role'] })
+const experience = useSoraFormField(form, { path: ['experience'] })
+const start = useSoraFormField(form, { path: ['start'] })
+const bio = useSoraFormField(form, { path: ['bio'] })
+const method = useSoraFormField(form, { path: ['contact', 'method'] })
+const phone = useSoraFormField(form, { path: ['contact', 'phone'] })
+const topics = useSoraFormField(form, { path: ['topics'] })
+const avatar = useSoraFormField(form, { path: ['avatar'] })
+const terms = useSoraFormField(form, { path: ['terms'] })
 const links = useFieldArray(form, { path: ['links'] })
 
 const roles = computed(() => [
@@ -166,20 +166,20 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
 </script>
 
 <template>
-  <UiCard
+  <SoraCard
     as="section"
     :heading-level="headingLevel"
     :title="t('profile.title')"
     :description="t('profile.description')"
     data-testid="profile-form"
   >
-    <UiForm :of="form" :submit="save" class="grid gap-4" autocomplete="on">
+    <SoraForm :of="form" :submit="save" class="grid gap-4" autocomplete="on">
       <template #default="{ isSubmitting }">
-        <UiFormErrorSummary />
+        <SoraFormErrorSummary />
 
         <div class="grid gap-3 @container sm:grid-cols-2">
-          <UiInput v-bind="name.props" :label="t('profile.name')" autocomplete="name" required />
-          <UiInput
+          <SoraInput v-bind="name.props" :label="t('profile.name')" autocomplete="name" required />
+          <SoraInput
             v-bind="email.props"
             type="email"
             :label="t('profile.email')"
@@ -188,7 +188,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
             inputmode="email"
             required
           />
-          <UiInput
+          <SoraInput
             v-bind="username.props"
             :label="t('profile.username')"
             autocomplete="username"
@@ -196,24 +196,24 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
             spellcheck="false"
             required
           />
-          <UiSelect
+          <SoraSelect
             v-bind="role.props"
             :options="roles"
             :label="t('profile.role')"
             :placeholder="t('profile.role.placeholder')"
             required
           />
-          <UiNumberInput
+          <SoraNumberInput
             v-bind="experience.props"
             :label="t('profile.experience')"
             :min="0"
             :max="60"
             controls
           />
-          <UiDateInput v-bind="start.props" :label="t('profile.start')" />
+          <SoraDateInput v-bind="start.props" :label="t('profile.start')" />
         </div>
 
-        <UiTextarea
+        <SoraTextarea
           v-bind="bio.props"
           :label="t('profile.bio')"
           :hint="t('profile.bio.hint')"
@@ -223,7 +223,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
         />
 
         <div class="grid gap-3 sm:grid-cols-2">
-          <UiRadioGroup
+          <SoraRadioGroup
             v-bind="method.props"
             :options="methods"
             :label="t('profile.contact')"
@@ -231,7 +231,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
             required
           />
           <!-- Conditional field: mounted only while "phone" is selected. -->
-          <UiInput
+          <SoraInput
             v-if="method.field.input === 'phone'"
             v-bind="phone.props"
             type="tel"
@@ -242,7 +242,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
           />
         </div>
 
-        <UiCheckboxGroup
+        <SoraCheckboxGroup
           v-bind="topics.props"
           :options="topicOptions"
           :label="t('profile.topics')"
@@ -252,7 +252,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
 
         <!-- Array field: one row per Formisch item id, so rows keep their state when others are removed. -->
         <fieldset class="grid gap-2">
-          <legend class="mb-1.5 text-vui-sm font-medium">{{ t('profile.links') }}</legend>
+          <legend class="mb-1.5 text-sora-sm font-medium">{{ t('profile.links') }}</legend>
           <ProfileLinkRow
             v-for="(item, index) in links.items"
             :key="item"
@@ -260,7 +260,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
             :index="index"
             @remove="remove(form, { path: ['links'], at: index })"
           />
-          <UiButton
+          <SoraButton
             class="justify-self-start"
             size="sm"
             variant="outline"
@@ -268,35 +268,35 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
             data-testid="add-link"
             @click="insert(form, { path: ['links'], initialInput: '' })"
           >
-            <template #leading><UiIcon :icon="iconPlus" /></template>
+            <template #leading><SoraIcon :icon="iconPlus" /></template>
             {{ t('profile.link.add') }}
-          </UiButton>
+          </SoraButton>
         </fieldset>
 
-        <UiFileInput v-bind="avatar.props" :label="t('profile.avatar')" accept="image/*" previews />
+        <SoraFileInput v-bind="avatar.props" :label="t('profile.avatar')" accept="image/*" previews />
 
-        <UiCheckbox v-bind="terms.props" :label="t('profile.terms')" required />
-        <UiCheckbox v-model="failNext" :label="t('profile.simulateError')" data-testid="simulate-error" />
+        <SoraCheckbox v-bind="terms.props" :label="t('profile.terms')" required />
+        <SoraCheckbox v-model="failNext" :label="t('profile.simulateError')" data-testid="simulate-error" />
 
-        <div class="flex flex-wrap items-center justify-end gap-2 border-t border-vui-border pt-3">
-          <UiButton type="reset" variant="ghost" color="neutral">{{ t('profile.reset') }}</UiButton>
-          <UiButton type="submit" :loading="isSubmitting" data-testid="profile-submit">{{
+        <div class="flex flex-wrap items-center justify-end gap-2 border-t border-sora-border pt-3">
+          <SoraButton type="reset" variant="ghost" color="neutral">{{ t('profile.reset') }}</SoraButton>
+          <SoraButton type="submit" :loading="isSubmitting" data-testid="profile-submit">{{
             t('profile.submit')
-          }}</UiButton>
+          }}</SoraButton>
         </div>
       </template>
-    </UiForm>
+    </SoraForm>
 
     <template v-if="submitted" #footer>
       <figure class="w-full">
-        <figcaption class="mb-1 text-vui-sm font-medium">{{ t('profile.output') }}</figcaption>
+        <figcaption class="mb-1 text-sora-sm font-medium">{{ t('profile.output') }}</figcaption>
         <pre
-          class="max-h-56 overflow-auto rounded-vui bg-vui-subtle p-2 font-vui-mono text-vui-xs"
+          class="max-h-56 overflow-auto rounded-sora bg-sora-subtle p-2 font-sora-mono text-sora-xs"
           dir="ltr"
           data-testid="profile-output"
           tabindex="0"
           >{{ submitted }}</pre>
       </figure>
     </template>
-  </UiCard>
+  </SoraCard>
 </template>

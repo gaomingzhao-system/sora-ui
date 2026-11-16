@@ -47,18 +47,18 @@ function setup(overrides: Partial<InputsState> = {}) {
   const control = <T extends HTMLElement = HTMLInputElement>(
     testId: string,
     selector = 'input, textarea, select',
-  ): T => $<T>(selector, q(testId).closest('.vui-field, .vui-check, .vui-switch') ?? document)
+  ): T => $<T>(selector, q(testId).closest('.sora-field, .sora-check, .sora-switch') ?? document)
   return { state, view, exposed, control }
 }
 
 // `data-testid` falls through to the native control, so q() returns the control itself.
 const root = (control: Element): HTMLElement => {
-  const element = control.closest<HTMLElement>('.vui-field, .vui-check, .vui-switch')
+  const element = control.closest<HTMLElement>('.sora-field, .sora-check, .sora-switch')
   if (!element) throw new Error('no component root')
   return element
 }
 
-describe('UiField', () => {
+describe('SoraField', () => {
   it('wires a label, hint and error to any control through slot props', async () => {
     const { state } = setup({ error: 'Too short' })
     const field = q('field')
@@ -70,13 +70,13 @@ describe('UiField', () => {
     expect(controlEl.getAttribute('aria-invalid')).toBe('true')
     expect(field.hasAttribute('data-invalid')).toBe(true)
     // The asterisk is decoration; the control is what carries `required`.
-    expect($('.vui-field__required', label).getAttribute('aria-hidden')).toBe('true')
+    expect($('.sora-field__required', label).getAttribute('aria-hidden')).toBe('true')
     // Errors pair the colour with an icon and text.
-    expect($('.vui-field__error svg', field)).not.toBeNull()
+    expect($('.sora-field__error svg', field)).not.toBeNull()
 
     state.error = ['First problem', 'Second problem']
     await nextTick()
-    expect(all('.vui-field__message', field).map((line) => line.textContent?.trim())).toEqual([
+    expect(all('.sora-field__message', field).map((line) => line.textContent?.trim())).toEqual([
       'First problem',
       'Second problem',
     ])
@@ -85,7 +85,7 @@ describe('UiField', () => {
     await nextTick()
     expect(description(controlEl)).toBe('Field hint')
     expect(controlEl.hasAttribute('aria-invalid')).toBe(false)
-    expect(field.querySelector('.vui-field__error')).toBeNull()
+    expect(field.querySelector('.sora-field__error')).toBeNull()
   })
 
   it('renders fieldset/legend for groups and disables the group natively', () => {
@@ -99,7 +99,7 @@ describe('UiField', () => {
   })
 })
 
-describe('UiInput', () => {
+describe('SoraInput', () => {
   it('binds v-model in both directions on a labelled native input', async () => {
     const { state } = setup()
     const input = q<HTMLInputElement>('input')
@@ -139,7 +139,7 @@ describe('UiInput', () => {
     for (const attribute of ['name', 'autocomplete', 'form', 'placeholder', 'data-testid']) {
       expect(field.hasAttribute(attribute), attribute).toBe(false)
     }
-    expect(q('leading').closest('.vui-input')).not.toBeNull()
+    expect(q('leading').closest('.sora-input')).not.toBeNull()
   })
 
   it('merges generated hint/error ids with a caller-supplied aria-describedby', async () => {
@@ -224,7 +224,7 @@ describe('UiInput', () => {
   })
 })
 
-describe('UiTextarea', () => {
+describe('SoraTextarea', () => {
   it('is a native textarea that grows with its content up to maxRows', async () => {
     const { state } = setup()
     const textarea = q<HTMLTextAreaElement>('textarea')
@@ -251,7 +251,7 @@ describe('UiTextarea', () => {
   })
 })
 
-describe('UiPasswordInput', () => {
+describe('SoraPasswordInput', () => {
   it('toggles visibility with a button whose state is aria-pressed', async () => {
     const { state } = setup()
     const input = q<HTMLInputElement>('password')
@@ -274,7 +274,7 @@ describe('UiPasswordInput', () => {
   })
 })
 
-describe('UiNumberInput', () => {
+describe('SoraNumberInput', () => {
   it('emits numbers, and null (never 0) for an empty field', async () => {
     const { state } = setup()
     const input = q<HTMLInputElement>('number')
@@ -336,7 +336,7 @@ describe('UiNumberInput', () => {
   it('steps with the optional buttons, respecting step, min and max', async () => {
     const { state } = setup({ amount: 9.5 })
     const input = q<HTMLInputElement>('number')
-    const [decrement, increment] = all<HTMLButtonElement>('.vui-input__steppers button', root(input))
+    const [decrement, increment] = all<HTMLButtonElement>('.sora-input__steppers button', root(input))
     expect([decrement?.getAttribute('aria-label'), increment?.getAttribute('aria-label')]).toEqual([
       'Decrease',
       'Increase',
@@ -355,7 +355,7 @@ describe('UiNumberInput', () => {
   })
 })
 
-describe('UiDateInput', () => {
+describe('SoraDateInput', () => {
   it('is a native date input whose value is a date-only string, or null', async () => {
     const { state } = setup()
     const input = q<HTMLInputElement>('date')
@@ -375,7 +375,7 @@ describe('UiDateInput', () => {
   })
 })
 
-describe('UiCheckbox', () => {
+describe('SoraCheckbox', () => {
   it('is a native checkbox inside its label, with hint wiring and form attributes', async () => {
     const { state } = setup()
     const checkbox = q<HTMLInputElement>('checkbox')
@@ -385,7 +385,7 @@ describe('UiCheckbox', () => {
     expect(description(checkbox)).toBe('Applies to every row')
 
     // Clicking the label text toggles it.
-    await userEvent.click($('.vui-check__label', root(checkbox)))
+    await userEvent.click($('.sora-check__label', root(checkbox)))
     expect(state.checked).toBe(true)
     expect(checkbox.checked).toBe(true)
     checkbox.focus()
@@ -420,7 +420,7 @@ describe('UiCheckbox', () => {
   })
 })
 
-describe('UiCheckboxGroup', () => {
+describe('SoraCheckboxGroup', () => {
   it('is a fieldset whose checkboxes update an array in option order', async () => {
     const { state } = setup()
     const group = q<HTMLFieldSetElement>('checkbox-group')
@@ -446,7 +446,7 @@ describe('UiCheckboxGroup', () => {
   })
 })
 
-describe('UiRadioGroup', () => {
+describe('SoraRadioGroup', () => {
   it('uses native radios with one name, so arrow keys select within the group', async () => {
     const { state, exposed } = setup()
     const group = q<HTMLFieldSetElement>('radio-group')
@@ -477,7 +477,7 @@ describe('UiRadioGroup', () => {
   })
 })
 
-describe('UiSwitch', () => {
+describe('SoraSwitch', () => {
   it('is a native checkbox with the switch role and no mixed state', async () => {
     const { state } = setup()
     const control = q<HTMLInputElement>('switch')
@@ -498,7 +498,7 @@ describe('UiSwitch', () => {
     expect(control.indeterminate).toBe(false)
     expect(state.on).toBe(true)
     // The thumb position, not only the colour, shows the state (wait out the short transition).
-    const thumb = $('.vui-switch__thumb', root(control))
+    const thumb = $('.sora-switch__thumb', root(control))
     await wait(250)
     const onPosition = thumb.getBoundingClientRect().left
     state.on = false
@@ -508,7 +508,7 @@ describe('UiSwitch', () => {
   })
 })
 
-describe('UiSelect', () => {
+describe('SoraSelect', () => {
   it('is a native select that maps string option values back to typed values', async () => {
     const { state } = setup()
     const select = q<HTMLSelectElement>('select')
@@ -534,7 +534,7 @@ describe('UiSelect', () => {
   })
 })
 
-describe('UiSlider', () => {
+describe('SoraSlider', () => {
   it('is a native range input with min, max, step and a readable value', async () => {
     const { state } = setup()
     const slider = q<HTMLInputElement>('slider')
@@ -563,7 +563,7 @@ describe('UiSlider', () => {
   })
 })
 
-describe('UiFileInput', () => {
+describe('SoraFileInput', () => {
   const text = (name: string, content = 'hello'): File => new File([content], name, { type: 'text/plain' })
   const image = (name: string): File =>
     new File([new Uint8Array([137, 80, 78, 71])], name, { type: 'image/png' })
@@ -576,7 +576,7 @@ describe('UiFileInput', () => {
     expect(input.accept).toBe('image/*,.txt')
     expect(input.name).toBe('attachments')
     expect(input.labels?.[0]?.textContent).toContain('Attachments')
-    expect($('.vui-file__summary', root(input)).textContent).toBe('No file selected')
+    expect($('.sora-file__summary', root(input)).textContent).toBe('No file selected')
 
     const first = text('a.txt')
     const second = text('b.txt', 'longer content')
@@ -584,9 +584,9 @@ describe('UiFileInput', () => {
     expect(state.files).toHaveLength(2)
     expect(state.files[0]).toBeInstanceOf(File)
     expect(state.files.map((file) => file.name)).toEqual(['a.txt', 'b.txt'])
-    expect($('.vui-file__summary', root(input)).textContent).toBe('Files selected: 2')
+    expect($('.sora-file__summary', root(input)).textContent).toBe('Files selected: 2')
 
-    const list = $('.vui-file__list', root(input))
+    const list = $('.sora-file__list', root(input))
     expect(list.getAttribute('aria-label')).toBe('Selected files')
     const remove = all<HTMLButtonElement>('button', list)
     expect(remove.map((button) => button.getAttribute('aria-label'))).toEqual([
@@ -631,7 +631,7 @@ describe('UiFileInput', () => {
       await flush()
       expect(create).toHaveBeenCalledTimes(2)
       const urls = create.mock.results.map((result) => result.value as string)
-      expect(all<HTMLImageElement>('.vui-file__preview').map((preview) => preview.src)).toEqual(urls)
+      expect(all<HTMLImageElement>('.sora-file__preview').map((preview) => preview.src)).toEqual(urls)
 
       // Removing one image revokes exactly its URL.
       state.files = state.files.filter((file) => file.name !== 'a.png')

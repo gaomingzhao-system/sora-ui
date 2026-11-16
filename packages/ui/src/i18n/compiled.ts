@@ -1,4 +1,4 @@
-import type { UiMessageKey } from '../locales/en.ts'
+import type { SoraMessageKey } from '../locales/en.ts'
 
 /**
  * A message precompiled at build time (opaque message AST). The published
@@ -8,7 +8,7 @@ import type { UiMessageKey } from '../locales/en.ts'
  * This module has no imports besides the key type: a locale chunk's
  * declarations must not pull in petite-vue-i18n or Vue.
  */
-export type UiCompiledMessage = unknown
+export type SoraCompiledMessage = unknown
 
 /** The library's messages for one locale, precompiled. */
-export type UiCompiledMessages = Readonly<Record<UiMessageKey, UiCompiledMessage>>
+export type SoraCompiledMessages = Readonly<Record<SoraMessageKey, SoraCompiledMessage>>

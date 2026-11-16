@@ -1,6 +1,13 @@
 <script setup lang="ts" vapor>
-import { UiAccordion, UiBreadcrumbs, UiPagination, UiProvider, UiTabs, iconUser } from '@your-scope/ui'
-import type { UiAccordionItem, UiBreadcrumbItem, UiTabItem } from '@your-scope/ui'
+import {
+  SoraAccordion,
+  SoraBreadcrumbs,
+  SoraPagination,
+  SoraProvider,
+  SoraTabs,
+  iconUser,
+} from '@your-scope/ui'
+import type { SoraAccordionItem, SoraBreadcrumbItem, SoraTabItem } from '@your-scope/ui'
 
 export interface NavigationState {
   tab: string
@@ -19,10 +26,10 @@ export interface NavigationState {
 const { state } = defineProps<{ state: NavigationState }>()
 
 // Narrowed item types: the models of these components are `item.value`.
-interface Section extends UiTabItem {
+interface Section extends SoraTabItem {
   value: string
 }
-interface Question extends UiAccordionItem {
+interface Question extends SoraAccordionItem {
   value: string
 }
 
@@ -40,7 +47,7 @@ const questions: Question[] = [
   { value: 'q4', label: 'Where are the docs?', content: 'In the docs folder.' },
 ]
 
-const trail: UiBreadcrumbItem[] = [
+const trail: SoraBreadcrumbItem[] = [
   { label: 'Home', href: '#home' },
   { label: 'Projects', href: '#projects' },
   { label: 'Archive' },
@@ -51,7 +58,7 @@ const trail: UiBreadcrumbItem[] = [
 <template>
   <button type="button" data-testid="before">before</button>
 
-  <UiTabs
+  <SoraTabs
     v-model="state.tab"
     data-testid="tabs"
     label="Account sections"
@@ -62,9 +69,9 @@ const trail: UiBreadcrumbItem[] = [
     <template #content="{ item }">
       <p data-testid="tab-content">{{ item.label }} content</p>
     </template>
-  </UiTabs>
+  </SoraTabs>
 
-  <UiAccordion
+  <SoraAccordion
     v-model="state.open"
     data-testid="accordion"
     :items="questions"
@@ -78,31 +85,31 @@ const trail: UiBreadcrumbItem[] = [
       </span>
       <span v-else :data-testid="`panel-${item.value}`">{{ item.content }}</span>
     </template>
-  </UiAccordion>
+  </SoraAccordion>
 
-  <UiBreadcrumbs data-testid="breadcrumbs" :items="trail" />
-  <UiBreadcrumbs data-testid="breadcrumbs-custom" label="Folder path" :items="trail">
+  <SoraBreadcrumbs data-testid="breadcrumbs" :items="trail" />
+  <SoraBreadcrumbs data-testid="breadcrumbs-custom" label="Folder path" :items="trail">
     <template #item="{ item, current }">
       <span :data-current="current">[{{ item.label }}]</span>
     </template>
-  </UiBreadcrumbs>
+  </SoraBreadcrumbs>
 
-  <UiProvider :locale="state.locale">
+  <SoraProvider :locale="state.locale">
     <div data-testid="pagination-box" :style="{ inlineSize: state.paginationWidth }">
-      <UiPagination
+      <SoraPagination
         v-model:page="state.page"
         data-testid="pagination"
         :page-count="state.pageCount"
         :disabled="state.paginationDisabled"
       />
     </div>
-    <UiPagination
+    <SoraPagination
       v-model:page="state.page"
       data-testid="pagination-total"
       label="Results pages"
       :total="95"
       :page-size="10"
     />
-    <UiBreadcrumbs data-testid="breadcrumbs-localized" :items="trail" />
-  </UiProvider>
+    <SoraBreadcrumbs data-testid="breadcrumbs-localized" :items="trail" />
+  </SoraProvider>
 </template>

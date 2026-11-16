@@ -2,7 +2,7 @@
   "name": "sora-ui",
   "version": "0.0.0",
   "private": true,
-  "description": "Vue Vapor UI component library workspace (@your-scope/ui and @your-scope/theme).",
+  "description": "Vue Sora UI component library workspace (@your-scope/ui and @your-scope/theme).",
   "license": "MIT",
   "type": "module",
   "scripts": {

@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
 import { computed, ref } from 'vue'
-import { UiAccordion, UiBreadcrumbs, UiPagination, UiTabs } from '@your-scope/ui'
+import { SoraAccordion, SoraBreadcrumbs, SoraPagination, SoraTabs } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -30,14 +30,14 @@ const crumbs = computed(() => [
 </script>
 
 <template>
-  <DemoSection name="UiTabs">
+  <DemoSection name="SoraTabs">
     <div class="grid gap-6 lg:grid-cols-2">
-      <UiTabs v-model="tab" :items="tabs" :label="t('demo.tabs.label')">
+      <SoraTabs v-model="tab" :items="tabs" :label="t('demo.tabs.label')">
         <template #content="{ item }">
-          <p class="text-vui-sm text-vui-muted">{{ item.body }}</p>
+          <p class="text-sora-sm text-sora-muted">{{ item.body }}</p>
         </template>
-      </UiTabs>
-      <UiTabs
+      </SoraTabs>
+      <SoraTabs
         v-model="sideTab"
         :items="tabs"
         :label="t('demo.tabs.label')"
@@ -46,34 +46,36 @@ const crumbs = computed(() => [
         activation="manual"
       >
         <template #content="{ item }">
-          <p class="text-vui-sm text-vui-muted">{{ item.body }}</p>
+          <p class="text-sora-sm text-sora-muted">{{ item.body }}</p>
         </template>
-      </UiTabs>
+      </SoraTabs>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiAccordion">
-    <UiAccordion v-model="open" :items="questions" :heading-level="4" class="max-w-xl" />
+  <DemoSection name="SoraAccordion">
+    <SoraAccordion v-model="open" :items="questions" :heading-level="4" class="max-w-xl" />
   </DemoSection>
 
-  <DemoSection name="UiBreadcrumbs">
-    <UiBreadcrumbs :items="crumbs" />
+  <DemoSection name="SoraBreadcrumbs">
+    <SoraBreadcrumbs :items="crumbs" />
   </DemoSection>
 
-  <DemoSection name="UiPagination">
+  <DemoSection name="SoraPagination">
     <div class="grid gap-3">
-      <UiPagination v-model:page="page" :total="240" :page-size="10" />
+      <SoraPagination v-model:page="page" :total="240" :page-size="10" />
       <!-- A narrow container collapses to "Page x of y". -->
-      <div class="w-56 rounded-vui border border-dashed border-vui-border p-2">
+      <div class="w-56 rounded-sora border border-dashed border-sora-border p-2">
         <!-- Two navigation landmarks on one page need distinct names. -->
-        <UiPagination
+        <SoraPagination
           v-model:page="smallPage"
           :page-count="12"
           size="sm"
           :label="t('demo.pagination.compact')"
         />
       </div>
-      <p class="text-vui-sm text-vui-muted" data-testid="page-value">{{ t('demo.page', { value: page }) }}</p>
+      <p class="text-sora-sm text-sora-muted" data-testid="page-value">
+        {{ t('demo.page', { value: page }) }}
+      </p>
     </div>
   </DemoSection>
 </template>

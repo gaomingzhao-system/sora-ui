@@ -1,7 +1,7 @@
 import type { GalleryMessages } from './en.ts'
 
 const ja: GalleryMessages = {
-  'app.title': 'Vapor UI',
+  'app.title': 'Sora UI',
   'app.subtitle': 'コンポーネントギャラリー',
   'app.skip': '本文へスキップ',
   'app.nav': 'ギャラリーのセクション',
@@ -120,7 +120,7 @@ const ja: GalleryMessages = {
   'workspace.created': 'プロジェクトを作成しました',
 
   'foundations.title': '基礎',
-  'foundations.lead': '以下の値はすべて ui.config.ts から生成されたカスタムプロパティです。',
+  'foundations.lead': '以下の値はすべて sora.config.ts から生成されたカスタムプロパティです。',
   'foundations.surfaces': '面とテキスト',
   'foundations.intents': 'インテント',
   'foundations.type': 'タイポグラフィ',
@@ -284,7 +284,7 @@ const ja: GalleryMessages = {
   'demo.accordion.q2': 'Tailwind は必要ですか？',
   'demo.accordion.a2': 'いいえ。スタイルシートはコンパイル済みで、Tailwind との連携は任意です。',
   'demo.accordion.q3': '色は変更できますか？',
-  'demo.accordion.a3': 'はい。ui.config.ts またはネストしたプロバイダーで変更できます。',
+  'demo.accordion.a3': 'はい。sora.config.ts またはネストしたプロバイダーで変更できます。',
   'demo.crumb.home': 'ホーム',
   'demo.crumb.projects': 'プロジェクト',
   'demo.crumb.current': 'デザインシステム',
@@ -299,7 +299,7 @@ const ja: GalleryMessages = {
   'demo.provider.inner': 'このプロバイダーの範囲内',
   'demo.icon.named': '検索',
   'demo.field.custom': '任意のコントロール',
-  'demo.field.hint': 'UiField がラベル、ヒント、エラーを関連付けます。',
+  'demo.field.hint': 'SoraField がラベル、ヒント、エラーを関連付けます。',
   'demo.form.note': '完全な例はフォームのページをご覧ください。',
   'demo.kbd.palette': 'コマンドパレット',
 }

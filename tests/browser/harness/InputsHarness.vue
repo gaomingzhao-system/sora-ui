@@ -1,21 +1,21 @@
 <script setup lang="ts" vapor>
 import { useTemplateRef } from 'vue'
 import {
-  UiCheckbox,
-  UiCheckboxGroup,
-  UiDateInput,
-  UiField,
-  UiFileInput,
-  UiInput,
-  UiNumberInput,
-  UiPasswordInput,
-  UiRadioGroup,
-  UiSelect,
-  UiSlider,
-  UiSwitch,
-  UiTextarea,
+  SoraCheckbox,
+  SoraCheckboxGroup,
+  SoraDateInput,
+  SoraField,
+  SoraFileInput,
+  SoraInput,
+  SoraNumberInput,
+  SoraPasswordInput,
+  SoraRadioGroup,
+  SoraSelect,
+  SoraSlider,
+  SoraSwitch,
+  SoraTextarea,
 } from '@your-scope/ui'
-import type { UiControlAttrs, UiOption, UiOptionGroup } from '@your-scope/ui'
+import type { SoraControlAttrs, SoraOption, SoraOptionGroup } from '@your-scope/ui'
 
 export interface InputsState {
   text: string | null | undefined
@@ -23,7 +23,7 @@ export interface InputsState {
   hint: string | undefined
   disabled: boolean
   describedBy: string | undefined
-  controlAttrs: UiControlAttrs | undefined
+  controlAttrs: SoraControlAttrs | undefined
   events: string[]
   showInput: boolean
   textarea: string
@@ -51,17 +51,17 @@ const number = useTemplateRef('number')
 const radios = useTemplateRef('radios')
 const files = useTemplateRef('files')
 
-const languages: UiOption[] = [
+const languages: SoraOption[] = [
   { value: 'ts', label: 'TypeScript' },
   { value: 'rs', label: 'Rust', description: 'Systems programming' },
   { value: 'go', label: 'Go', disabled: true },
 ]
-const plans: UiOption<number>[] = [
+const plans: SoraOption<number>[] = [
   { value: 1, label: 'Free', description: 'For individuals' },
   { value: 2, label: 'Team' },
   { value: 3, label: 'Enterprise', disabled: true },
 ]
-const countries: (UiOption<number> | UiOptionGroup<number>)[] = [
+const countries: (SoraOption<number> | SoraOptionGroup<number>)[] = [
   { value: 81, label: 'Japan' },
   { value: 33, label: 'France' },
   {
@@ -82,7 +82,7 @@ defineExpose({
 </script>
 
 <template>
-  <UiField data-testid="field" label="Custom" hint="Field hint" :error="state.error" required>
+  <SoraField data-testid="field" label="Custom" hint="Field hint" :error="state.error" required>
     <template #default="{ id, describedBy, invalid }">
       <input
         :id="id"
@@ -91,12 +91,12 @@ defineExpose({
         :aria-invalid="invalid ? 'true' : undefined"
       />
     </template>
-  </UiField>
-  <UiField data-testid="fieldset" as="fieldset" label="Group" hint="Group hint" disabled>
+  </SoraField>
+  <SoraField data-testid="fieldset" as="fieldset" label="Group" hint="Group hint" disabled>
     <input data-testid="fieldset-control" />
-  </UiField>
+  </SoraField>
 
-  <UiInput
+  <SoraInput
     v-if="state.showInput"
     ref="input"
     v-model="state.text"
@@ -120,9 +120,9 @@ defineExpose({
     @keydown="state.events.push(`key:${$event.key}`)"
   >
     <template #leading><span data-testid="leading">@</span></template>
-  </UiInput>
+  </SoraInput>
 
-  <UiTextarea
+  <SoraTextarea
     v-model="state.textarea"
     data-testid="textarea"
     label="Bio"
@@ -131,7 +131,7 @@ defineExpose({
     :max-rows="4"
     name="bio"
   />
-  <UiPasswordInput
+  <SoraPasswordInput
     v-model="state.password"
     v-model:revealed="state.revealed"
     data-testid="password"
@@ -139,7 +139,7 @@ defineExpose({
     autocomplete="new-password"
   />
 
-  <UiNumberInput
+  <SoraNumberInput
     ref="number"
     v-model="state.amount"
     data-testid="number"
@@ -150,9 +150,9 @@ defineExpose({
     controls
     name="seats"
   />
-  <UiDateInput v-model="state.date" data-testid="date" label="Start" min="2026-01-01" name="start" />
+  <SoraDateInput v-model="state.date" data-testid="date" label="Start" min="2026-01-01" name="start" />
 
-  <UiCheckbox
+  <SoraCheckbox
     v-model="state.checked"
     v-model:indeterminate="state.mixed"
     data-testid="checkbox"
@@ -161,14 +161,14 @@ defineExpose({
     name="all"
     value="yes"
   />
-  <UiCheckbox
+  <SoraCheckbox
     :model-value="false"
     data-testid="checkbox-invalid"
     label="Terms"
     error="You must accept."
     required
   />
-  <UiCheckboxGroup
+  <SoraCheckboxGroup
     v-model="state.selected"
     data-testid="checkbox-group"
     :options="languages"
@@ -176,7 +176,7 @@ defineExpose({
     hint="Pick some"
     name="lang"
   />
-  <UiRadioGroup
+  <SoraRadioGroup
     ref="radios"
     v-model="state.plan"
     data-testid="radio-group"
@@ -184,9 +184,9 @@ defineExpose({
     label="Plan"
     required
   />
-  <UiSwitch v-model="state.on" data-testid="switch" label="Notifications" hint="Weekly" name="notify" />
+  <SoraSwitch v-model="state.on" data-testid="switch" label="Notifications" hint="Weekly" name="notify" />
 
-  <UiSelect
+  <SoraSelect
     v-model="state.country"
     data-testid="select"
     :options="countries"
@@ -194,7 +194,7 @@ defineExpose({
     placeholder="Choose"
     name="country"
   />
-  <UiSlider
+  <SoraSlider
     v-model="state.volume"
     data-testid="slider"
     label="Volume"
@@ -206,7 +206,7 @@ defineExpose({
   />
 
   <form data-testid="file-form" @reset="state.resets++">
-    <UiFileInput
+    <SoraFileInput
       v-if="state.showFiles"
       ref="files"
       v-model="state.files"

@@ -2,13 +2,13 @@
 
 ## One file defines the design system
 
-[`ui.config.ts`](../ui.config.ts) at the repository root is the single editable source of the default
+[`sora.config.ts`](../sora.config.ts) at the repository root is the single editable source of the default
 design system:
 
 ```ts
-import { defineUiConfig } from '@your-scope/theme'
+import { defineSoraConfig } from '@your-scope/theme'
 
-export default defineUiConfig({
+export default defineSoraConfig({
   colors: {
     primary: 'neutral',
     secondary: 'terracotta',
@@ -30,7 +30,7 @@ export default defineUiConfig({
 
 `pnpm generate:theme` (also the first step of `pnpm dev` and `pnpm build`) turns it into
 
-- `packages/ui/src/styles/theme.generated.css`: the `--vui-*` tokens of the shipped stylesheet, and
+- `packages/ui/src/styles/theme.generated.css`: the `--sora-*` tokens of the shipped stylesheet, and
 - `packages/ui/src/config.generated.ts`: the runtime prop defaults,
 
 with the **same resolver** that the runtime helpers use, so the generated stylesheet and a runtime
@@ -49,7 +49,7 @@ touching a component.
 | `motion`    | `'none' \| 'subtle' \| 'standard'`                                                                               | `'subtle'`        |
 | `fonts`     | `sans`, `serif`, `mono` stacks and `display: 'sans' \| 'serif'`                                                  | system stacks     |
 | `defaults`  | prop defaults for `button`, `iconButton`, `link`, `card`, `badge`, `alert`, `avatar`, `control`, `tabs`, `table` | see `defaults.ts` |
-| `tokens`    | raw `--vui-*` overrides: `both`, `light`, `dark`                                                                 | none              |
+| `tokens`    | raw `--sora-*` overrides: `both`, `light`, `dark`                                                                | none              |
 
 ### Colours name palettes, not roles
 
@@ -61,16 +61,16 @@ Built-in palettes: `neutral`, `taupe`, `terracotta`, `green`, `blue`, `amber`, `
 `teal`. Each is an eleven-step OKLCH scale (50 to 950). A custom palette is declared and then named:
 
 ```ts
-import { createPalette, defineUiConfig } from '@your-scope/theme'
+import { createPalette, defineSoraConfig } from '@your-scope/theme'
 
-export default defineUiConfig({
+export default defineSoraConfig({
   palettes: { brand: createPalette({ hue: 250, chroma: 0.12 }) },
   colors: { primary: 'brand' },
 })
 ```
 
-`defineUiConfig` is typed: a value that is neither a built-in palette nor a key of `palettes` does
-not compile, and `normalizeUiConfig` throws for it at run time with the list of known palettes.
+`defineSoraConfig` is typed: a value that is neither a built-in palette nor a key of `palettes` does
+not compile, and `normalizeSoraConfig` throws for it at run time with the list of known palettes.
 
 ### Contrast is checked when the theme is generated
 
@@ -84,22 +84,22 @@ gallery's Foundations page shows the count.
 
 ## Tokens
 
-Everything visual is a custom property with the `--vui-` prefix in `@layer theme.vui`.
+Everything visual is a custom property with the `--sora-` prefix in `@layer theme.sora`.
 
-| Group      | Examples                                                                                                                               |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Surfaces   | `--vui-canvas`, `--vui-surface`, `--vui-elevated`, `--vui-subtle`, `--vui-inverted`                                                    |
-| Text       | `--vui-text`, `--vui-text-muted`, `--vui-text-subtle`, `--vui-text-inverted`                                                           |
-| Boundaries | `--vui-border`, `--vui-border-strong`, `--vui-focus`, `--vui-focus-width`, `--vui-focus-offset`                                        |
-| Intents    | per role: `--vui-<role>` (and `-hover`, `-active`), `--vui-on-<role>`, `--vui-<role>-text`, `--vui-<role>-soft`, `--vui-<role>-border` |
-| States     | `--vui-hover`, `--vui-pressed`, `--vui-disabled-opacity`                                                                               |
-| Density    | `--vui-control-sm\|md\|lg`, `--vui-gap-*`, `--vui-pad-*`, `--vui-row`, `--vui-hit-min`                                                 |
-| Shape      | `--vui-radius-sm\|md\|lg`, `--vui-border-width`                                                                                        |
-| Type       | `--vui-font-sans\|serif\|mono\|display`, `--vui-text-xs` … `--vui-text-2xl`, `--vui-leading-*`, `--vui-weight-*`                       |
-| Elevation  | `--vui-shadow-sm\|md\|lg`                                                                                                              |
-| Motion     | `--vui-duration-fast`, `--vui-duration-overlay`, `--vui-ease-out`, `--vui-ease-in-out`                                                 |
+| Group      | Examples                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Surfaces   | `--sora-canvas`, `--sora-surface`, `--sora-elevated`, `--sora-subtle`, `--sora-inverted`                                                    |
+| Text       | `--sora-text`, `--sora-text-muted`, `--sora-text-subtle`, `--sora-text-inverted`                                                            |
+| Boundaries | `--sora-border`, `--sora-border-strong`, `--sora-focus`, `--sora-focus-width`, `--sora-focus-offset`                                        |
+| Intents    | per role: `--sora-<role>` (and `-hover`, `-active`), `--sora-on-<role>`, `--sora-<role>-text`, `--sora-<role>-soft`, `--sora-<role>-border` |
+| States     | `--sora-hover`, `--sora-pressed`, `--sora-disabled-opacity`                                                                                 |
+| Density    | `--sora-control-sm\|md\|lg`, `--sora-gap-*`, `--sora-pad-*`, `--sora-row`, `--sora-hit-min`                                                 |
+| Shape      | `--sora-radius-sm\|md\|lg`, `--sora-border-width`                                                                                           |
+| Type       | `--sora-font-sans\|serif\|mono\|display`, `--sora-text-xs` … `--sora-text-2xl`, `--sora-leading-*`, `--sora-weight-*`                       |
+| Elevation  | `--sora-shadow-sm\|md\|lg`                                                                                                                  |
+| Motion     | `--sora-duration-fast`, `--sora-duration-overlay`, `--sora-ease-out`, `--sora-ease-in-out`                                                  |
 
-Colours are `light-dark()` pairs, so one set of declarations serves both schemes. `--vui-hit-min` is
+Colours are `light-dark()` pairs, so one set of declarations serves both schemes. `--sora-hit-min` is
 `0px` for fine pointers and `2.75rem` (44 CSS px) under `@media (pointer: coarse)`; every interactive
 control uses it as its minimum size.
 
@@ -116,32 +116,32 @@ dark. To opt in:
 }
 ```
 
-or use the provider, which sets `data-vui-theme` (and with it `color-scheme`) for a subtree or for
+or use the provider, which sets `data-sora-theme` (and with it `color-scheme`) for a subtree or for
 the document:
 
 ```vue
-<UiProvider target="document" color-mode="system">…</UiProvider>
-<UiProvider color-mode="dark">always dark, whatever surrounds it</UiProvider>
+<SoraProvider target="document" color-mode="system">…</SoraProvider>
+<SoraProvider color-mode="dark">always dark, whatever surrounds it</SoraProvider>
 ```
 
-## Scoped overrides with `UiProvider`
+## Scoped overrides with `SoraProvider`
 
-`UiProvider` changes scheme, density, radius, motion, direction, locale, tokens and prop defaults for
+`SoraProvider` changes scheme, density, radius, motion, direction, locale, tokens and prop defaults for
 a subtree. Providers nest and merge; only what a provider mentions is overridden.
 
 ```vue
 <script setup lang="ts" vapor>
-import { UiButton, UiProvider } from '@your-scope/ui'
+import { SoraButton, SoraProvider } from '@your-scope/ui'
 import { createProviderTheme } from '@your-scope/ui/theme'
 
-// A partial ui.config.ts-style object, resolved by the same resolver as the generated stylesheet.
+// A partial sora.config.ts-style object, resolved by the same resolver as the generated stylesheet.
 const brand = createProviderTheme({ colors: { primary: 'violet' }, radius: 'lg' })
 </script>
 
 <template>
-  <UiProvider v-bind="brand" :defaults="{ button: { size: 'lg' } }">
-    <UiButton>Violet, large, rounder</UiButton>
-  </UiProvider>
+  <SoraProvider v-bind="brand" :defaults="{ button: { size: 'lg' } }">
+    <SoraButton>Violet, large, rounder</SoraButton>
+  </SoraProvider>
 </template>
 ```
 
@@ -149,14 +149,14 @@ const brand = createProviderTheme({ colors: { primary: 'violet' }, radius: 'lg' 
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | `colorMode`                   | `light`, `dark` or `system` for the subtree                                                                                  |
 | `density`, `radius`, `motion` | switch the corresponding token group                                                                                         |
-| `themeVars`                   | raw `--vui-*` overrides (what `createThemeVars()` / `createProviderTheme()` return)                                          |
+| `themeVars`                   | raw `--sora-*` overrides (what `createThemeVars()` / `createProviderTheme()` return)                                         |
 | `defaults`                    | component prop defaults, merged over the outer provider's                                                                    |
 | `locale`, `dir`, `translator` | language, direction and messages (see [i18n.md](./i18n.md))                                                                  |
 | `target`                      | `self` (default) renders a `display: contents` wrapper; `document` applies everything to `<html>` and restores it on unmount |
 | `as`                          | wrapper element for `target="self"`                                                                                          |
 
 Resolution order for a prop such as a button's `size`: explicit prop, nearest provider `defaults`,
-outer providers, `ui.config.ts`.
+outer providers, `sora.config.ts`.
 
 `@your-scope/ui/theme` is an optional entry: the palettes and the resolver are only bundled by
 applications that override colours at run time.
@@ -168,14 +168,14 @@ All library rules are in cascade layers, so ordinary application CSS wins withou
 ```css
 /* a token, globally or for a subtree */
 :root {
-  --vui-radius-md: 0.25rem;
+  --sora-radius-md: 0.25rem;
 }
 .checkout {
-  --vui-primary: light-dark(oklch(45% 0.15 250), oklch(80% 0.1 250));
+  --sora-primary: light-dark(oklch(45% 0.15 250), oklch(80% 0.1 250));
 }
 
 /* a part of a component */
-.vui-button.cta {
+.sora-button.cta {
   min-inline-size: 12rem;
 }
 ```
@@ -193,12 +193,12 @@ under "Styling" on its page in [docs/components](./components/README.md).
 
 - The import order does not matter: the library's rules live in sub-layers of Tailwind's canonical
   layers, so your utilities always override component styles and your Preflight never undoes them.
-- `tailwind.css` maps the tokens into your theme under `vui-` names with `@theme inline`, so the
+- `tailwind.css` maps the tokens into your theme under `sora-` names with `@theme inline`, so the
   utilities reference the live custom properties and follow dark mode and nested providers:
-  `bg-vui-surface`, `text-vui-muted`, `border-vui-border`, `rounded-vui`, `shadow-vui-md`,
-  `font-vui-display`, `text-vui-sm`.
-- It adds the variants `vui-invalid:`, `vui-busy:`, `vui-coarse:` and `vui-scheme-dark:`, the
-  `vui-focus-ring` utility and the `duration-vui-fast` / `duration-vui-overlay` utilities.
+  `bg-sora-surface`, `text-sora-muted`, `border-sora-border`, `rounded-sora`, `shadow-sora-md`,
+  `font-sora-display`, `text-sora-sm`.
+- It adds the variants `sora-invalid:`, `sora-busy:`, `sora-coarse:` and `sora-scheme-dark:`, the
+  `sora-focus-ring` utility and the `duration-sora-fast` / `duration-sora-overlay` utilities.
 - It does not redefine any key of your theme and emits no CSS on its own.
 
 The gallery ([`apps/gallery/src/styles.css`](../apps/gallery/src/styles.css)) is a working host.

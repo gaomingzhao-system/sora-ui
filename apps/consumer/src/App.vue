@@ -2,16 +2,16 @@
 import { useForm } from '@formisch/vue'
 import * as v from 'valibot'
 import { ref } from 'vue'
-import { UiButton, UiCard, UiDialog, UiInput, UiPagination, UiProvider } from '@your-scope/ui'
-import type { UiButtonProps } from '@your-scope/ui'
+import { SoraButton, SoraCard, SoraDialog, SoraInput, SoraPagination, SoraProvider } from '@your-scope/ui'
+import type { SoraButtonProps } from '@your-scope/ui'
 // A per-component subpath (default export) next to the barrel import.
-import UiBadge from '@your-scope/ui/components/UiBadge'
-import { UiForm, UiFormErrorSummary, useUiFormField } from '@your-scope/ui/forms'
+import SoraBadge from '@your-scope/ui/components/SoraBadge'
+import { SoraForm, SoraFormErrorSummary, useSoraFormField } from '@your-scope/ui/forms'
 import { createProviderTheme } from '@your-scope/ui/theme'
 import { ui } from './i18n'
 import LocalizedText from './LocalizedText.vue'
 
-const size = ref<NonNullable<UiButtonProps['size']>>('md')
+const size = ref<NonNullable<SoraButtonProps['size']>>('md')
 const clicks = ref(0)
 const open = ref(false)
 const page = ref(2)
@@ -21,7 +21,7 @@ const schema = v.object({
   email: v.pipe(v.string(), v.nonEmpty('required'), v.email('invalid')),
 })
 const form = useForm({ schema, initialInput: { email: '' } })
-const email = useUiFormField(form, { path: ['email'] })
+const email = useSoraFormField(form, { path: ['email'] })
 
 async function save(output: v.InferOutput<typeof schema>): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 50))
@@ -32,12 +32,12 @@ const accent = createProviderTheme({ colors: { primary: 'terracotta' } })
 </script>
 
 <template>
-  <UiProvider target="document" :locale="ui.locale.value" :translator="ui.translator">
+  <SoraProvider target="document" :locale="ui.locale.value" :translator="ui.translator">
     <main>
       <h1 data-testid="title"><LocalizedText message="app.title" /></h1>
 
       <div class="row">
-        <UiButton
+        <SoraButton
           :size="size"
           class="app-wide"
           data-testid="consumer-button"
@@ -47,10 +47,10 @@ const accent = createProviderTheme({ colors: { primary: 'terracotta' } })
           @click="clicks++"
         >
           <LocalizedText message="app.count" :count="clicks" />
-        </UiButton>
-        <UiBadge color="success" data-testid="consumer-badge">{{ clicks }}</UiBadge>
+        </SoraButton>
+        <SoraBadge color="success" data-testid="consumer-badge">{{ clicks }}</SoraBadge>
         <span id="counter-help" hidden>help</span>
-        <UiButton
+        <SoraButton
           v-for="locale in ['en', 'ja', 'ar']"
           :key="locale"
           variant="outline"
@@ -60,13 +60,13 @@ const accent = createProviderTheme({ colors: { primary: 'terracotta' } })
           @click="ui.setLocale(locale)"
         >
           {{ locale }}
-        </UiButton>
+        </SoraButton>
       </div>
 
-      <UiCard title="Form" :heading-level="2" data-testid="consumer-card">
-        <UiForm :of="form" :submit="save">
-          <UiFormErrorSummary />
-          <UiInput
+      <SoraCard title="Form" :heading-level="2" data-testid="consumer-card">
+        <SoraForm :of="form" :submit="save">
+          <SoraFormErrorSummary />
+          <SoraInput
             v-bind="email.props"
             type="email"
             autocomplete="email"
@@ -74,28 +74,30 @@ const accent = createProviderTheme({ colors: { primary: 'terracotta' } })
             data-testid="consumer-email"
             required
           />
-          <UiButton type="submit" :loading="form.isSubmitting" data-testid="consumer-submit">Submit</UiButton>
-        </UiForm>
+          <SoraButton type="submit" :loading="form.isSubmitting" data-testid="consumer-submit"
+            >Submit</SoraButton
+          >
+        </SoraForm>
         <template #footer>
           <output data-testid="consumer-saved">{{ saved }}</output>
         </template>
-      </UiCard>
+      </SoraCard>
 
-      <UiProvider v-bind="accent" data-testid="consumer-accent">
+      <SoraProvider v-bind="accent" data-testid="consumer-accent">
         <div class="row">
-          <UiButton data-testid="consumer-open" @click="open = true"
+          <SoraButton data-testid="consumer-open" @click="open = true"
             ><LocalizedText message="app.open"
-          /></UiButton>
-          <UiPagination v-model:page="page" :page-count="5" />
+          /></SoraButton>
+          <SoraPagination v-model:page="page" :page-count="5" />
         </div>
-      </UiProvider>
+      </SoraProvider>
 
-      <UiDialog v-model:open="open" title="Dialog" data-testid="consumer-dialog">
+      <SoraDialog v-model:open="open" title="Dialog" data-testid="consumer-dialog">
         <p data-testid="consumer-dialog-body">{{ page }}</p>
         <template #footer="{ close }">
-          <UiButton data-testid="consumer-close" @click="close">OK</UiButton>
+          <SoraButton data-testid="consumer-close" @click="close">OK</SoraButton>
         </template>
-      </UiDialog>
+      </SoraDialog>
     </main>
-  </UiProvider>
+  </SoraProvider>
 </template>

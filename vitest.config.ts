@@ -11,9 +11,9 @@ const root = fileURLToPath(new URL('.', import.meta.url))
 
 /**
  * In containers that ship their own Chromium build (instead of the one
- * `playwright install` downloads) point VUI_CHROMIUM_PATH at the binary.
+ * `playwright install` downloads) point SORA_CHROMIUM_PATH at the binary.
  */
-const chromiumPath = process.env['VUI_CHROMIUM_PATH']
+const chromiumPath = process.env['SORA_CHROMIUM_PATH']
 
 /**
  * Half a click each (at the current pointer position), so a test can observe

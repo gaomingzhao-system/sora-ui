@@ -1,33 +1,33 @@
-@layer components.vui {
-  /* ---------------------------------------------------------------- UiButton */
-  .vui-button {
-    --_h: var(--vui-control-md);
+@layer components.sora {
+  /* ---------------------------------------------------------------- SoraButton */
+  .sora-button {
+    --_h: var(--sora-control-md);
     --_px: --spacing(3);
-    --_fs: var(--vui-text-md);
+    --_fs: var(--sora-text-md);
 
     @apply relative inline-flex items-center justify-center gap-1.5 select-none;
     /* Minimum sizes instead of fixed heights: labels may wrap and text may be enlarged. */
-    min-block-size: max(var(--_h), var(--vui-hit-min));
-    min-inline-size: max(var(--_h), var(--vui-hit-min));
+    min-block-size: max(var(--_h), var(--sora-hit-min));
+    min-inline-size: max(var(--_h), var(--sora-hit-min));
     padding-block: --spacing(1);
     padding-inline: var(--_px);
-    border: var(--vui-border-width) solid transparent;
-    border-radius: var(--vui-radius-md);
+    border: var(--sora-border-width) solid transparent;
+    border-radius: var(--sora-radius-md);
     font-size: var(--_fs);
-    font-weight: var(--vui-weight-medium);
-    line-height: var(--vui-leading-tight);
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
     text-align: center;
     overflow-wrap: anywhere;
     vertical-align: middle;
 
     &[data-size='sm'] {
-      --_h: var(--vui-control-sm);
+      --_h: var(--sora-control-sm);
       --_px: --spacing(2);
-      --_fs: var(--vui-text-sm);
+      --_fs: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
-      --_h: var(--vui-control-lg);
+      --_h: var(--sora-control-lg);
       --_px: --spacing(4);
     }
 
@@ -36,43 +36,43 @@
     }
 
     &[data-variant='solid'] {
-      background-color: var(--vui-c);
-      color: var(--vui-c-on);
+      background-color: var(--sora-c);
+      color: var(--sora-c-on);
 
       &:where(:not(:disabled, [data-loading])) {
         @variant hover {
-          background-color: var(--vui-c-hover);
+          background-color: var(--sora-c-hover);
         }
 
         &:active {
-          background-color: var(--vui-c-active);
+          background-color: var(--sora-c-active);
         }
       }
     }
 
     &[data-variant='soft'] {
-      background-color: var(--vui-c-soft);
-      color: var(--vui-c-text);
+      background-color: var(--sora-c-soft);
+      color: var(--sora-c-text);
     }
 
     &[data-variant='outline'] {
-      border-color: var(--vui-c-border);
-      color: var(--vui-c-text);
+      border-color: var(--sora-c-border);
+      color: var(--sora-c-text);
     }
 
     &[data-variant='ghost'] {
-      color: var(--vui-c-text);
+      color: var(--sora-c-text);
     }
 
     &:where([data-variant='soft'], [data-variant='outline'], [data-variant='ghost']):where(
         :not(:disabled, [data-loading])
       ) {
       @variant hover {
-        background-color: var(--vui-c-soft-hover);
+        background-color: var(--sora-c-soft-hover);
       }
 
       &:active {
-        background-color: var(--vui-c-soft-hover);
+        background-color: var(--sora-c-soft-hover);
       }
     }
 
@@ -80,8 +80,8 @@
       --_h: 0px;
       --_px: 0px;
       padding-block: 0;
-      border-radius: var(--vui-radius-sm);
-      color: var(--vui-c-text);
+      border-radius: var(--sora-radius-sm);
+      color: var(--sora-c-text);
       text-decoration-line: underline;
       text-underline-offset: 0.2em;
       text-decoration-thickness: 1px;
@@ -94,33 +94,33 @@
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
 
     &[data-loading] {
       cursor: progress;
 
       /* Still in the accessibility tree (opacity, not visibility), so the label and width are kept. */
-      & > :where(.vui-button__label, .vui-button__icon) {
+      & > :where(.sora-button__label, .sora-button__icon) {
         opacity: 0;
       }
     }
   }
 
-  .vui-button__label {
+  .sora-button__label {
     min-inline-size: 0;
   }
 
-  .vui-button__icon {
+  .sora-button__icon {
     @apply inline-flex shrink-0 items-center;
     font-size: 1.15em;
   }
 
-  .vui-button__spinner {
+  .sora-button__spinner {
     @apply absolute inset-0 m-auto rounded-full;
     inline-size: 1.1em;
     block-size: 1.1em;
@@ -128,11 +128,11 @@
     border-inline-end-color: transparent;
   }
 
-  /* ------------------------------------------------------------ UiIconButton */
-  .vui-icon-button {
+  /* ------------------------------------------------------------ SoraIconButton */
+  .sora-icon-button {
     --_px: 0px;
     padding-block: 0;
-    inline-size: max(var(--_h), var(--vui-hit-min));
+    inline-size: max(var(--_h), var(--sora-hit-min));
 
     &[data-size='sm'] {
       --_px: 0px;
@@ -143,10 +143,10 @@
     }
   }
 
-  /* ----------------------------------------------------------- UiButtonGroup */
-  .vui-button-group {
+  /* ----------------------------------------------------------- SoraButtonGroup */
+  .sora-button-group {
     @apply inline-flex flex-wrap items-center;
-    gap: var(--vui-gap-sm);
+    gap: var(--sora-gap-sm);
     max-inline-size: 100%;
 
     &[data-orientation='vertical'] {
@@ -157,7 +157,7 @@
       @apply flex-nowrap;
       gap: 0;
 
-      & > .vui-button {
+      & > .sora-button {
         border-radius: 0;
 
         &:focus-visible {
@@ -165,44 +165,44 @@
         }
       }
 
-      &[data-orientation='horizontal'] > .vui-button {
+      &[data-orientation='horizontal'] > .sora-button {
         &:not(:first-child) {
-          margin-inline-start: calc(var(--vui-border-width) * -1);
+          margin-inline-start: calc(var(--sora-border-width) * -1);
         }
 
         &:first-child {
-          border-start-start-radius: var(--vui-radius-md);
-          border-end-start-radius: var(--vui-radius-md);
+          border-start-start-radius: var(--sora-radius-md);
+          border-end-start-radius: var(--sora-radius-md);
         }
 
         &:last-child {
-          border-start-end-radius: var(--vui-radius-md);
-          border-end-end-radius: var(--vui-radius-md);
+          border-start-end-radius: var(--sora-radius-md);
+          border-end-end-radius: var(--sora-radius-md);
         }
       }
 
-      &[data-orientation='vertical'] > .vui-button {
+      &[data-orientation='vertical'] > .sora-button {
         &:not(:first-child) {
-          margin-block-start: calc(var(--vui-border-width) * -1);
+          margin-block-start: calc(var(--sora-border-width) * -1);
         }
 
         &:first-child {
-          border-start-start-radius: var(--vui-radius-md);
-          border-start-end-radius: var(--vui-radius-md);
+          border-start-start-radius: var(--sora-radius-md);
+          border-start-end-radius: var(--sora-radius-md);
         }
 
         &:last-child {
-          border-end-start-radius: var(--vui-radius-md);
-          border-end-end-radius: var(--vui-radius-md);
+          border-end-start-radius: var(--sora-radius-md);
+          border-end-end-radius: var(--sora-radius-md);
         }
       }
     }
   }
 
-  /* ------------------------------------------------------------------ UiLink */
-  .vui-link {
-    border-radius: var(--vui-radius-sm);
-    color: var(--vui-c-text);
+  /* ------------------------------------------------------------------ SoraLink */
+  .sora-link {
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-c-text);
     text-decoration-line: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.2em;
@@ -226,17 +226,17 @@
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     &[aria-disabled='true'] {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
       text-decoration-line: none;
       cursor: not-allowed;
     }
   }
 
-  .vui-link__icon {
+  .sora-link__icon {
     display: inline-block;
     margin-inline-start: 0.2em;
     vertical-align: -0.125em;

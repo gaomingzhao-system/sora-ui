@@ -1,16 +1,16 @@
 <script setup lang="ts" vapor>
 import { computed } from 'vue'
 import {
-  UiButton,
-  UiButtonGroup,
-  UiIcon,
-  UiPopover,
-  UiSelect,
+  SoraButton,
+  SoraButtonGroup,
+  SoraIcon,
+  SoraPopover,
+  SoraSelect,
   iconMonitor,
   iconMoon,
   iconSun,
 } from '@your-scope/ui'
-import type { UiColorModeSetting, UiDensity } from '@your-scope/ui'
+import type { SoraColorModeSetting, SoraDensity } from '@your-scope/ui'
 import { LOCALES, galleryI18n, isGalleryLocale, useT } from './i18n.ts'
 import type { GalleryLocale } from './i18n.ts'
 import Accessibility from './pages/Accessibility.vue'
@@ -20,8 +20,8 @@ import Foundations from './pages/Foundations.vue'
 import Overview from './pages/Overview.vue'
 import { PAGES, useRoute } from './router.ts'
 
-const colorMode = defineModel<UiColorModeSetting>('colorMode', { required: true })
-const density = defineModel<UiDensity>('density', { required: true })
+const colorMode = defineModel<SoraColorModeSetting>('colorMode', { required: true })
+const density = defineModel<SoraDensity>('density', { required: true })
 
 const t = useT()
 const { page, href } = useRoute()
@@ -61,20 +61,20 @@ async function setLocale(value: GalleryLocale | null): Promise<void> {
     <a
       href="#main"
       data-testid="skip-link"
-      class="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-10 focus:rounded-vui focus:bg-vui-elevated focus:px-3 focus:py-2"
+      class="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-10 focus:rounded-sora focus:bg-sora-elevated focus:px-3 focus:py-2"
       @click.prevent="skipToContent"
     >
       {{ t('app.skip') }}
     </a>
 
-    <header class="sticky top-0 z-10 border-b border-vui-border bg-vui-canvas/95 backdrop-blur-sm">
+    <header class="sticky top-0 z-10 border-b border-sora-border bg-sora-canvas/95 backdrop-blur-sm">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2">
         <p class="flex items-baseline gap-2 font-semibold">
-          <span class="font-vui-display text-vui-lg">{{ t('app.title') }}</span>
-          <span class="text-vui-sm font-normal text-vui-muted max-sm:hidden">{{ t('app.subtitle') }}</span>
+          <span class="font-sora-display text-sora-lg">{{ t('app.title') }}</span>
+          <span class="text-sora-sm font-normal text-sora-muted max-sm:hidden">{{ t('app.subtitle') }}</span>
         </p>
 
-        <UiPopover
+        <SoraPopover
           class="ms-auto"
           :trigger-label="t('app.settings')"
           :title="t('app.settings')"
@@ -84,15 +84,15 @@ async function setLocale(value: GalleryLocale | null): Promise<void> {
         >
           <div class="grid w-64 max-w-full gap-3">
             <div class="grid gap-1.5">
-              <span id="g-theme-label" class="text-vui-sm font-medium">{{ t('app.theme') }}</span>
-              <UiButtonGroup
+              <span id="g-theme-label" class="text-sora-sm font-medium">{{ t('app.theme') }}</span>
+              <SoraButtonGroup
                 attached
                 aria-labelledby="g-theme-label"
                 size="sm"
                 variant="outline"
                 color="neutral"
               >
-                <UiButton
+                <SoraButton
                   v-for="theme in themes"
                   :key="theme.value"
                   block
@@ -101,12 +101,12 @@ async function setLocale(value: GalleryLocale | null): Promise<void> {
                   :data-testid="`theme-${theme.value}`"
                   @click="colorMode = theme.value"
                 >
-                  <template #leading><UiIcon :icon="theme.icon" /></template>
+                  <template #leading><SoraIcon :icon="theme.icon" /></template>
                   {{ t(theme.label) }}
-                </UiButton>
-              </UiButtonGroup>
+                </SoraButton>
+              </SoraButtonGroup>
             </div>
-            <UiSelect
+            <SoraSelect
               :model-value="galleryI18n.locale.value as GalleryLocale"
               :options="LOCALES"
               :label="t('app.locale')"
@@ -114,7 +114,7 @@ async function setLocale(value: GalleryLocale | null): Promise<void> {
               data-testid="locale-select"
               @update:model-value="setLocale"
             />
-            <UiSelect
+            <SoraSelect
               :model-value="density"
               :options="densities"
               :label="t('app.density')"
@@ -123,7 +123,7 @@ async function setLocale(value: GalleryLocale | null): Promise<void> {
               @update:model-value="(value) => value && (density = value)"
             />
           </div>
-        </UiPopover>
+        </SoraPopover>
 
         <!-- Site navigation is a list of links in a nav landmark: not tabs, not a menu. -->
         <nav class="order-last w-full overflow-x-auto" :aria-label="t('app.nav')">

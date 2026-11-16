@@ -1,6 +1,6 @@
-import type { UiMessages } from './en.ts'
+import type { SoraMessages } from './en.ts'
 
-const ja: UiMessages = {
+const ja: SoraMessages = {
   'actions.cancel': 'キャンセル',
   'actions.close': '閉じる',
   'actions.done': '完了',

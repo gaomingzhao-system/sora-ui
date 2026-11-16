@@ -1,18 +1,18 @@
 <script setup lang="ts" vapor>
 import { computed, ref } from 'vue'
 import {
-  UiButton,
-  UiDialog,
-  UiDrawer,
-  UiDropdownMenu,
-  UiIconButton,
-  UiInput,
-  UiPopover,
-  UiSwitch,
-  UiTooltip,
+  SoraButton,
+  SoraDialog,
+  SoraDrawer,
+  SoraDropdownMenu,
+  SoraIconButton,
+  SoraInput,
+  SoraPopover,
+  SoraSwitch,
+  SoraTooltip,
   iconMore,
 } from '@your-scope/ui'
-import type { UiMenuGroup, UiMenuItem } from '@your-scope/ui'
+import type { SoraMenuGroup, SoraMenuItem } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -25,7 +25,7 @@ const workspace = ref('Acme')
 const notify = ref(true)
 const lastAction = ref('')
 
-const menu = computed<(UiMenuItem | UiMenuGroup)[]>(() => [
+const menu = computed<(SoraMenuItem | SoraMenuGroup)[]>(() => [
   { id: 'edit', label: t('demo.menu.edit'), shortcut: ['E'] },
   { id: 'duplicate', label: t('demo.menu.duplicate') },
   { id: 'move', label: t('demo.menu.move'), disabled: true },
@@ -45,30 +45,30 @@ function openDrawer(side: 'start' | 'end' | 'bottom'): void {
 </script>
 
 <template>
-  <DemoSection name="UiDialog">
+  <DemoSection name="SoraDialog">
     <div class="flex flex-wrap gap-2">
-      <UiButton variant="outline" color="neutral" data-testid="dialog-open" @click="dialogOpen = true">{{
+      <SoraButton variant="outline" color="neutral" data-testid="dialog-open" @click="dialogOpen = true">{{
         t('demo.dialog.open')
-      }}</UiButton>
-      <UiButton variant="outline" color="error" data-testid="confirm-open" @click="confirmOpen = true">{{
+      }}</SoraButton>
+      <SoraButton variant="outline" color="error" data-testid="confirm-open" @click="confirmOpen = true">{{
         t('demo.delete')
-      }}</UiButton>
+      }}</SoraButton>
     </div>
-    <UiDialog
+    <SoraDialog
       v-model:open="dialogOpen"
       :title="t('demo.dialog.title')"
       :description="t('demo.dialog.description')"
     >
       <div class="grid gap-3">
-        <UiInput v-model="workspace" :label="t('settings.name')" data-autofocus />
-        <UiSwitch v-model="notify" :label="t('demo.notifications')" label-placement="start" />
+        <SoraInput v-model="workspace" :label="t('settings.name')" data-autofocus />
+        <SoraSwitch v-model="notify" :label="t('demo.notifications')" label-placement="start" />
       </div>
       <template #footer="{ close }">
-        <UiButton variant="ghost" color="neutral" @click="close">{{ t('demo.cancel') }}</UiButton>
-        <UiButton @click="close">{{ t('actions.done') }}</UiButton>
+        <SoraButton variant="ghost" color="neutral" @click="close">{{ t('demo.cancel') }}</SoraButton>
+        <SoraButton @click="close">{{ t('actions.done') }}</SoraButton>
       </template>
-    </UiDialog>
-    <UiDialog
+    </SoraDialog>
+    <SoraDialog
       v-model:open="confirmOpen"
       role="alertdialog"
       size="sm"
@@ -78,100 +78,100 @@ function openDrawer(side: 'start' | 'end' | 'bottom'): void {
       :close-on-backdrop="false"
     >
       <template #footer="{ close }">
-        <UiButton variant="ghost" color="neutral" data-autofocus @click="close">{{
+        <SoraButton variant="ghost" color="neutral" data-autofocus @click="close">{{
           t('demo.dialog.keep')
-        }}</UiButton>
-        <UiButton color="error" @click="close">{{ t('demo.dialog.discard') }}</UiButton>
+        }}</SoraButton>
+        <SoraButton color="error" @click="close">{{ t('demo.dialog.discard') }}</SoraButton>
       </template>
-    </UiDialog>
+    </SoraDialog>
   </DemoSection>
 
-  <DemoSection name="UiDrawer">
+  <DemoSection name="SoraDrawer">
     <div class="flex flex-wrap gap-2">
-      <UiButton variant="outline" color="neutral" data-testid="drawer-open" @click="openDrawer('end')">{{
+      <SoraButton variant="outline" color="neutral" data-testid="drawer-open" @click="openDrawer('end')">{{
         t('demo.drawer.open')
-      }}</UiButton>
-      <UiButton variant="ghost" color="neutral" @click="openDrawer('start')">start</UiButton>
-      <UiButton variant="ghost" color="neutral" @click="openDrawer('bottom')">bottom</UiButton>
+      }}</SoraButton>
+      <SoraButton variant="ghost" color="neutral" @click="openDrawer('start')">start</SoraButton>
+      <SoraButton variant="ghost" color="neutral" @click="openDrawer('bottom')">bottom</SoraButton>
     </div>
-    <UiDrawer
+    <SoraDrawer
       v-model:open="drawerOpen"
       :side="drawerSide"
       :title="t('demo.drawer.title')"
       :description="t('demo.dialog.description')"
     >
       <div class="grid gap-3">
-        <UiSwitch v-model="notify" :label="t('demo.notifications')" label-placement="start" />
-        <UiInput v-model="workspace" :label="t('settings.name')" />
+        <SoraSwitch v-model="notify" :label="t('demo.notifications')" label-placement="start" />
+        <SoraInput v-model="workspace" :label="t('settings.name')" />
       </div>
       <template #footer="{ close }">
-        <UiButton @click="close">{{ t('actions.done') }}</UiButton>
+        <SoraButton @click="close">{{ t('actions.done') }}</SoraButton>
       </template>
-    </UiDrawer>
+    </SoraDrawer>
   </DemoSection>
 
-  <DemoSection name="UiPopover">
+  <DemoSection name="SoraPopover">
     <div class="flex flex-wrap gap-2">
-      <UiPopover
+      <SoraPopover
         :trigger-label="t('demo.popover.trigger')"
         :title="t('demo.popover.title')"
         data-testid="popover-trigger"
       >
         <template #default="{ close }">
-          <p class="mb-3 max-w-56 text-vui-sm text-vui-muted">{{ t('demo.popover.body') }}</p>
-          <UiButton size="sm" @click="close">{{ t('demo.popover.copy') }}</UiButton>
+          <p class="mb-3 max-w-56 text-sora-sm text-sora-muted">{{ t('demo.popover.body') }}</p>
+          <SoraButton size="sm" @click="close">{{ t('demo.popover.copy') }}</SoraButton>
         </template>
-      </UiPopover>
+      </SoraPopover>
       <!-- A custom trigger binds attrs, listeners and the element ref explicitly. -->
-      <UiPopover placement="top" :label="t('demo.popover.title')">
+      <SoraPopover placement="top" :label="t('demo.popover.title')">
         <template #custom-trigger="{ attrs, on, ref: setTrigger, open }">
           <button
             :ref="setTrigger"
             type="button"
             v-bind="attrs"
-            class="rounded-vui border border-vui-border-strong px-3 text-vui-md"
-            style="min-block-size: max(2.25rem, var(--vui-hit-min))"
+            class="rounded-sora border border-sora-border-strong px-3 text-sora-md"
+            style="min-block-size: max(2.25rem, var(--sora-hit-min))"
             v-on="on"
           >
             {{ t('demo.open') }} ({{ open ? '−' : '+' }})
           </button>
         </template>
-        <p class="max-w-56 text-vui-sm">{{ t('demo.popover.body') }}</p>
-      </UiPopover>
+        <p class="max-w-56 text-sora-sm">{{ t('demo.popover.body') }}</p>
+      </SoraPopover>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiTooltip">
+  <DemoSection name="SoraTooltip">
     <div class="flex flex-wrap gap-3">
-      <UiTooltip :text="t('demo.tooltip')">
+      <SoraTooltip :text="t('demo.tooltip')">
         <template #default="{ describedBy }">
-          <UiButton
+          <SoraButton
             variant="outline"
             color="neutral"
             :aria-describedby="describedBy"
             data-testid="tooltip-trigger"
           >
             {{ t('demo.popover.copy') }}
-          </UiButton>
+          </SoraButton>
         </template>
-      </UiTooltip>
-      <UiTooltip :text="t('demo.tooltip')" placement="bottom">
+      </SoraTooltip>
+      <SoraTooltip :text="t('demo.tooltip')" placement="bottom">
         <template #default="{ describedBy }">
-          <UiIconButton :label="t('demo.more')" :icon="iconMore" :aria-describedby="describedBy" />
+          <SoraIconButton :label="t('demo.more')" :icon="iconMore" :aria-describedby="describedBy" />
         </template>
-      </UiTooltip>
+      </SoraTooltip>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiDropdownMenu">
+  <DemoSection name="SoraDropdownMenu">
     <div class="flex flex-wrap items-center gap-3">
-      <UiDropdownMenu
+      <SoraDropdownMenu
         :items="menu"
         :trigger-label="t('demo.menu.trigger')"
         data-testid="menu-trigger"
         @select="lastAction = $event.id"
       />
-      <span class="text-vui-sm text-vui-muted" data-testid="menu-result">{{
+      <span class="text-sora-sm text-sora-muted" data-testid="menu-result">{{
         t('demo.selected', { value: lastAction || '—' })
       }}</span>
     </div>

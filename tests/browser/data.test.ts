@@ -41,7 +41,7 @@ const header = (label: string, testId = 'table'): HTMLTableCellElement => {
 }
 const checkboxes = (): HTMLInputElement[] => all<HTMLInputElement>('input[type="checkbox"]', q('table'))
 
-describe('UiTable', () => {
+describe('SoraTable', () => {
   it('renders a real table: caption, column headers and row headers', () => {
     setup()
     const element = table()
@@ -198,7 +198,7 @@ describe('UiTable', () => {
     expect(status.textContent?.trim()).toBe('Loading data')
     expect(bodyRows()).toHaveLength(3)
     expect(bodyRows().every((row) => row.getAttribute('aria-hidden') === 'true')).toBe(true)
-    expect(all('.vui-skeleton', q('table')).length).toBe(12)
+    expect(all('.sora-skeleton', q('table')).length).toBe(12)
 
     // Refreshing existing data keeps the rows in place.
     state.rows = structuredClone(members)
@@ -215,7 +215,7 @@ describe('UiTable', () => {
   it('becomes a focusable, labelled scroll region only when it overflows', async () => {
     const { state } = setup()
     const wrap = q('table')
-    expect(wrap.classList.contains('vui-table-wrap')).toBe(true)
+    expect(wrap.classList.contains('sora-table-wrap')).toBe(true)
     expect(wrap.hasAttribute('role')).toBe(false)
     expect(wrap.hasAttribute('tabindex')).toBe(false)
 

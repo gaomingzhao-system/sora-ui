@@ -8,87 +8,87 @@
 
 | Component | Purpose |
 | --- | --- |
-| [UiProvider](./UiProvider.md) | Scopes colour scheme, density, radius, motion, direction, locale, translator, token overrides and component defaults for a subtree. |
-| [UiIcon](./UiIcon.md) | Renders trusted, static SVG path data as a decorative or a named icon. |
+| [SoraProvider](./SoraProvider.md) | Scopes colour scheme, density, radius, motion, direction, locale, translator, token overrides and component defaults for a subtree. |
+| [SoraIcon](./SoraIcon.md) | Renders trusted, static SVG path data as a decorative or a named icon. |
 
 ## Actions
 
 | Component | Purpose |
 | --- | --- |
-| [UiButton](./UiButton.md) | Triggers an action. A native `<button>` with variants, intents, sizes and a loading state. |
-| [UiIconButton](./UiIconButton.md) | A square button that shows only an icon and therefore requires an accessible name. |
-| [UiButtonGroup](./UiButtonGroup.md) | Groups related buttons, optionally joined into one segmented control, and gives them shared defaults. |
-| [UiLink](./UiLink.md) | Navigates. Always a real `<a>`; use UiButton for actions. |
+| [SoraButton](./SoraButton.md) | Triggers an action. A native `<button>` with variants, intents, sizes and a loading state. |
+| [SoraIconButton](./SoraIconButton.md) | A square button that shows only an icon and therefore requires an accessible name. |
+| [SoraButtonGroup](./SoraButtonGroup.md) | Groups related buttons, optionally joined into one segmented control, and gives them shared defaults. |
+| [SoraLink](./SoraLink.md) | Navigates. Always a real `<a>`; use SoraButton for actions. |
 
 ## Display
 
 | Component | Purpose |
 | --- | --- |
-| [UiCard](./UiCard.md) | A compact surface with header, body, footer and actions slots. |
-| [UiBadge](./UiBadge.md) | A short status or category label. |
-| [UiAvatar](./UiAvatar.md) | Shows a person or entity as an image, falling back to initials and then to a generic glyph. |
-| [UiAvatarGroup](./UiAvatarGroup.md) | A row of overlapping avatars from a typed array, with a counter for the remainder. |
-| [UiSeparator](./UiSeparator.md) | A horizontal or vertical dividing line, optionally with a centred label. |
-| [UiKbd](./UiKbd.md) | Displays a key or a keyboard shortcut. |
-| [UiEmptyState](./UiEmptyState.md) | Explains that there is nothing to show yet and what to do next. |
+| [SoraCard](./SoraCard.md) | A compact surface with header, body, footer and actions slots. |
+| [SoraBadge](./SoraBadge.md) | A short status or category label. |
+| [SoraAvatar](./SoraAvatar.md) | Shows a person or entity as an image, falling back to initials and then to a generic glyph. |
+| [SoraAvatarGroup](./SoraAvatarGroup.md) | A row of overlapping avatars from a typed array, with a counter for the remainder. |
+| [SoraSeparator](./SoraSeparator.md) | A horizontal or vertical dividing line, optionally with a centred label. |
+| [SoraKbd](./SoraKbd.md) | Displays a key or a keyboard shortcut. |
+| [SoraEmptyState](./SoraEmptyState.md) | Explains that there is nothing to show yet and what to do next. |
 
 ## Feedback
 
 | Component | Purpose |
 | --- | --- |
-| [UiAlert](./UiAlert.md) | An inline message with an intent, optional title, actions and dismissal. |
-| [UiSpinner](./UiSpinner.md) | An indeterminate activity indicator. |
-| [UiProgress](./UiProgress.md) | Determinate or indeterminate progress built on the native `<progress>` element. |
-| [UiSkeleton](./UiSkeleton.md) | A placeholder shape shown while content loads. |
-| [UiToastProvider](./UiToastProvider.md) | Hosts the queue of dismissible notifications that `useToast()` adds to. |
+| [SoraAlert](./SoraAlert.md) | An inline message with an intent, optional title, actions and dismissal. |
+| [SoraSpinner](./SoraSpinner.md) | An indeterminate activity indicator. |
+| [SoraProgress](./SoraProgress.md) | Determinate or indeterminate progress built on the native `<progress>` element. |
+| [SoraSkeleton](./SoraSkeleton.md) | A placeholder shape shown while content loads. |
+| [SoraToastProvider](./SoraToastProvider.md) | Hosts the queue of dismissible notifications that `useToast()` adds to. |
 
 ## Inputs
 
 | Component | Purpose |
 | --- | --- |
-| [UiField](./UiField.md) | Label, hint and error wiring for any control; the layout primitive every input is built on. |
-| [UiInput](./UiInput.md) | A single-line text field (text, email, url, tel, search). |
-| [UiTextarea](./UiTextarea.md) | A multi-line text field with optional content-based autosizing. |
-| [UiPasswordInput](./UiPasswordInput.md) | A password field with an optional reveal toggle. |
-| [UiNumberInput](./UiNumberInput.md) | A numeric field whose value is a number or `null`, never a silently coerced zero. |
-| [UiDateInput](./UiDateInput.md) | A native date field whose value is a date-only `YYYY-MM-DD` string. |
-| [UiCheckbox](./UiCheckbox.md) | A single checkbox with an optional mixed state. |
-| [UiCheckboxGroup](./UiCheckboxGroup.md) | A labelled group of checkboxes bound to an array of typed values. |
-| [UiRadioGroup](./UiRadioGroup.md) | A labelled group of radios bound to one typed value. |
-| [UiSwitch](./UiSwitch.md) | An on/off setting that takes effect immediately. |
-| [UiSelect](./UiSelect.md) | A native select with typed options and option groups. |
-| [UiCombobox](./UiCombobox.md) | A searchable single-select with local filtering or an asynchronous source. |
-| [UiSlider](./UiSlider.md) | Chooses a number from a range with a native range input. |
-| [UiFileInput](./UiFileInput.md) | Chooses files with the native file input and exposes the actual `File` objects. |
+| [SoraField](./SoraField.md) | Label, hint and error wiring for any control; the layout primitive every input is built on. |
+| [SoraInput](./SoraInput.md) | A single-line text field (text, email, url, tel, search). |
+| [SoraTextarea](./SoraTextarea.md) | A multi-line text field with optional content-based autosizing. |
+| [SoraPasswordInput](./SoraPasswordInput.md) | A password field with an optional reveal toggle. |
+| [SoraNumberInput](./SoraNumberInput.md) | A numeric field whose value is a number or `null`, never a silently coerced zero. |
+| [SoraDateInput](./SoraDateInput.md) | A native date field whose value is a date-only `YYYY-MM-DD` string. |
+| [SoraCheckbox](./SoraCheckbox.md) | A single checkbox with an optional mixed state. |
+| [SoraCheckboxGroup](./SoraCheckboxGroup.md) | A labelled group of checkboxes bound to an array of typed values. |
+| [SoraRadioGroup](./SoraRadioGroup.md) | A labelled group of radios bound to one typed value. |
+| [SoraSwitch](./SoraSwitch.md) | An on/off setting that takes effect immediately. |
+| [SoraSelect](./SoraSelect.md) | A native select with typed options and option groups. |
+| [SoraCombobox](./SoraCombobox.md) | A searchable single-select with local filtering or an asynchronous source. |
+| [SoraSlider](./SoraSlider.md) | Chooses a number from a range with a native range input. |
+| [SoraFileInput](./SoraFileInput.md) | Chooses files with the native file input and exposes the actual `File` objects. |
 
 ## Forms
 
 | Component | Purpose |
 | --- | --- |
-| [UiForm](./UiForm.md) | A `<form>` bound to a Formisch store that awaits a typed submit callback. |
-| [UiFormErrorSummary](./UiFormErrorSummary.md) | Lists every validation error of a form, deep fields included, with links that focus the field. |
+| [SoraForm](./SoraForm.md) | A `<form>` bound to a Formisch store that awaits a typed submit callback. |
+| [SoraFormErrorSummary](./SoraFormErrorSummary.md) | Lists every validation error of a form, deep fields included, with links that focus the field. |
 
 ## Overlays
 
 | Component | Purpose |
 | --- | --- |
-| [UiDialog](./UiDialog.md) | A modal dialog built on `<dialog>.showModal()`. |
-| [UiDrawer](./UiDrawer.md) | A modal panel docked to an edge of the viewport. |
-| [UiPopover](./UiPopover.md) | A non-modal panel anchored to its trigger, using the Popover API and CSS anchor positioning. |
-| [UiTooltip](./UiTooltip.md) | A short, supplementary description shown on hover and keyboard focus. |
-| [UiDropdownMenu](./UiDropdownMenu.md) | A menu of actions (or links) opened from a button. |
+| [SoraDialog](./SoraDialog.md) | A modal dialog built on `<dialog>.showModal()`. |
+| [SoraDrawer](./SoraDrawer.md) | A modal panel docked to an edge of the viewport. |
+| [SoraPopover](./SoraPopover.md) | A non-modal panel anchored to its trigger, using the Popover API and CSS anchor positioning. |
+| [SoraTooltip](./SoraTooltip.md) | A short, supplementary description shown on hover and keyboard focus. |
+| [SoraDropdownMenu](./SoraDropdownMenu.md) | A menu of actions (or links) opened from a button. |
 
 ## Navigation
 
 | Component | Purpose |
 | --- | --- |
-| [UiTabs](./UiTabs.md) | Switches between panels from a typed array of tabs. |
-| [UiAccordion](./UiAccordion.md) | Expandable sections from a typed array. |
-| [UiBreadcrumbs](./UiBreadcrumbs.md) | Shows the path to the current page as links. |
-| [UiPagination](./UiPagination.md) | Moves between pages of a result set. |
+| [SoraTabs](./SoraTabs.md) | Switches between panels from a typed array of tabs. |
+| [SoraAccordion](./SoraAccordion.md) | Expandable sections from a typed array. |
+| [SoraBreadcrumbs](./SoraBreadcrumbs.md) | Shows the path to the current page as links. |
+| [SoraPagination](./SoraPagination.md) | Moves between pages of a result set. |
 
 ## Data
 
 | Component | Purpose |
 | --- | --- |
-| [UiTable](./UiTable.md) | A data table from typed columns and rows, with optional controlled sorting and selection. |
+| [SoraTable](./SoraTable.md) | A data table from typed columns and rows, with optional controlled sorting and selection. |

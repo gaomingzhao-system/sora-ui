@@ -1,4 +1,4 @@
-import { createUiI18n } from '@your-scope/ui/i18n'
+import { createSoraI18n } from '@your-scope/ui/i18n'
 import english from '@your-scope/ui/i18n/locales/en'
 
 const app = {
@@ -28,7 +28,7 @@ const app = {
  * that would need the (dropped) runtime compiler, except `app.count`, which is
  * formatted by hand below.
  */
-export const ui = createUiI18n({
+export const ui = createSoraI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages: { en: { ...english, ...app.en } },

@@ -1,13 +1,13 @@
-@layer components.vui {
+@layer components.sora {
   /* A modal dialog makes the page inert; this also stops it scrolling behind the backdrop. */
-  :root:has(.vui-dialog:modal) {
+  :root:has(.sora-dialog:modal) {
     overflow: hidden;
   }
 
-  /* ---------------------------------------------------------------- UiDialog */
-  .vui-dialog {
+  /* ---------------------------------------------------------------- SoraDialog */
+  .sora-dialog {
     --_w: 32rem;
-    --vui-on-surface: var(--vui-elevated);
+    --sora-on-surface: var(--sora-elevated);
 
     inline-size: min(100vw - 2rem, var(--_w));
     max-inline-size: none;
@@ -15,13 +15,13 @@
     max-block-size: min(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom), 44rem);
     margin: auto;
     padding: 0;
-    border: var(--vui-border-width) solid var(--vui-border);
-    border-radius: var(--vui-radius-lg);
-    background-color: var(--vui-elevated);
-    color: var(--vui-text);
-    box-shadow: var(--vui-shadow-lg);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-normal);
+    border: var(--sora-border-width) solid var(--sora-border);
+    border-radius: var(--sora-radius-lg);
+    background-color: var(--sora-elevated);
+    color: var(--sora-text);
+    box-shadow: var(--sora-shadow-lg);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
     overflow: hidden;
 
     &[data-size='sm'] {
@@ -43,7 +43,7 @@
     }
 
     &::backdrop {
-      background-color: var(--vui-scrim);
+      background-color: var(--sora-scrim);
     }
 
     @media (forced-colors: active) {
@@ -52,31 +52,31 @@
   }
 
   /* The panel fills the dialog box, so a click that lands on <dialog> itself is a backdrop click. */
-  .vui-dialog__panel {
+  .sora-dialog__panel {
     @apply flex min-h-0 min-w-0 flex-1 flex-col;
   }
 
-  .vui-dialog__header {
+  .sora-dialog__header {
     @apply flex items-start justify-between;
-    gap: var(--vui-gap-md);
-    padding: var(--vui-pad-overlay) var(--vui-pad-overlay) 0.5rem;
+    gap: var(--sora-gap-md);
+    padding: var(--sora-pad-overlay) var(--sora-pad-overlay) 0.5rem;
 
     /* With a hidden title and no close button there is nothing to show. */
-    &[data-title-hidden]:not(:has(.vui-dialog__close, .vui-dialog__description)) {
+    &[data-title-hidden]:not(:has(.sora-dialog__close, .sora-dialog__description)) {
       padding: 0;
     }
   }
 
-  .vui-dialog__heading {
+  .sora-dialog__heading {
     @apply grid min-w-0 flex-1;
     gap: 0.25rem;
   }
 
-  .vui-dialog__title {
-    font-family: var(--vui-font-display);
-    font-size: var(--vui-text-lg);
-    font-weight: var(--vui-weight-semibold);
-    line-height: var(--vui-leading-tight);
+  .sora-dialog__title {
+    font-family: var(--sora-font-display);
+    font-size: var(--sora-text-lg);
+    font-weight: var(--sora-weight-semibold);
+    line-height: var(--sora-leading-tight);
     text-wrap: balance;
     overflow-wrap: anywhere;
 
@@ -85,34 +85,34 @@
     }
   }
 
-  .vui-dialog__description {
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+  .sora-dialog__description {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
     text-wrap: pretty;
     overflow-wrap: anywhere;
   }
 
-  .vui-dialog__close {
+  .sora-dialog__close {
     margin: -0.25rem;
   }
 
-  .vui-dialog__body {
+  .sora-dialog__body {
     @apply min-h-0 flex-1 overflow-y-auto;
-    padding: 0.5rem var(--vui-pad-overlay) var(--vui-pad-overlay);
+    padding: 0.5rem var(--sora-pad-overlay) var(--sora-pad-overlay);
     overscroll-behavior: contain;
     overflow-wrap: anywhere;
   }
 
-  .vui-dialog__footer {
+  .sora-dialog__footer {
     @apply flex flex-wrap items-center justify-end;
-    gap: var(--vui-gap-sm);
-    padding: 0.75rem var(--vui-pad-overlay);
+    gap: var(--sora-gap-sm);
+    padding: 0.75rem var(--sora-pad-overlay);
     padding-block-end: max(0.75rem, env(safe-area-inset-bottom));
-    border-block-start: var(--vui-border-width) solid var(--vui-border);
+    border-block-start: var(--sora-border-width) solid var(--sora-border);
   }
 
-  /* ---------------------------------------------------------------- UiDrawer */
-  .vui-dialog.vui-drawer {
+  /* ---------------------------------------------------------------- SoraDrawer */
+  .sora-dialog.sora-drawer {
     --_w: 26rem;
 
     max-inline-size: none;
@@ -147,15 +147,15 @@
     &[data-side='end'] {
       inset-inline: auto 0;
       border-inline-end: 0;
-      border-start-start-radius: var(--vui-radius-lg);
-      border-end-start-radius: var(--vui-radius-lg);
+      border-start-start-radius: var(--sora-radius-lg);
+      border-end-start-radius: var(--sora-radius-lg);
     }
 
     &[data-side='start'] {
       inset-inline: 0 auto;
       border-inline-start: 0;
-      border-start-end-radius: var(--vui-radius-lg);
-      border-end-end-radius: var(--vui-radius-lg);
+      border-start-end-radius: var(--sora-radius-lg);
+      border-end-end-radius: var(--sora-radius-lg);
     }
 
     &:where([data-side='top'], [data-side='bottom']) {
@@ -169,21 +169,21 @@
     &[data-side='top'] {
       inset-block: 0 auto;
       border-block-start: 0;
-      border-end-start-radius: var(--vui-radius-lg);
-      border-end-end-radius: var(--vui-radius-lg);
+      border-end-start-radius: var(--sora-radius-lg);
+      border-end-end-radius: var(--sora-radius-lg);
     }
 
     &[data-side='bottom'] {
       inset-block: auto 0;
       border-block-end: 0;
-      border-start-start-radius: var(--vui-radius-lg);
-      border-start-end-radius: var(--vui-radius-lg);
+      border-start-start-radius: var(--sora-radius-lg);
+      border-start-end-radius: var(--sora-radius-lg);
     }
   }
 
-  /* ----------------------------------------------- UiPopover (anchored panel) */
-  .vui-popover {
-    --vui-on-surface: var(--vui-elevated);
+  /* ----------------------------------------------- SoraPopover (anchored panel) */
+  .sora-popover {
+    --sora-on-surface: var(--sora-elevated);
 
     /* Replace the UA popover box (centred, canvas colours) with an anchored panel. */
     position: fixed;
@@ -193,14 +193,14 @@
     max-block-size: min(100dvh - 1rem, 28rem);
     margin: 0;
     margin-block: 0.25rem;
-    padding: var(--vui-pad-md);
-    border: var(--vui-border-width) solid var(--vui-border);
-    border-radius: var(--vui-radius-lg);
-    background-color: var(--vui-elevated);
-    color: var(--vui-text);
-    box-shadow: var(--vui-shadow-lg);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-normal);
+    padding: var(--sora-pad-md);
+    border: var(--sora-border-width) solid var(--sora-border);
+    border-radius: var(--sora-radius-lg);
+    background-color: var(--sora-elevated);
+    color: var(--sora-text);
+    box-shadow: var(--sora-shadow-lg);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
     overflow: auto;
     overscroll-behavior: contain;
     /* CSS anchor positioning, with logical areas (mirrors in RTL) and collision fallbacks. */
@@ -248,18 +248,18 @@
     }
   }
 
-  .vui-popover__title {
+  .sora-popover__title {
     margin-block-end: 0.375rem;
-    font-weight: var(--vui-weight-semibold);
+    font-weight: var(--sora-weight-semibold);
     overflow-wrap: anywhere;
   }
 
-  /* --------------------------------------------------------------- UiTooltip */
-  .vui-tooltip-anchor {
+  /* --------------------------------------------------------------- SoraTooltip */
+  .sora-tooltip-anchor {
     @apply inline-flex max-w-full;
   }
 
-  .vui-tooltip {
+  .sora-tooltip {
     position: fixed;
     inset: auto;
     inline-size: max-content;
@@ -267,12 +267,12 @@
     margin: 0.375rem;
     padding: 0.25rem 0.5rem;
     border: 0;
-    border-radius: var(--vui-radius-sm);
-    background-color: var(--vui-inverted);
-    color: var(--vui-text-inverted);
-    box-shadow: var(--vui-shadow-md);
-    font-size: var(--vui-text-sm);
-    line-height: var(--vui-leading-tight);
+    border-radius: var(--sora-radius-sm);
+    background-color: var(--sora-inverted);
+    color: var(--sora-text-inverted);
+    box-shadow: var(--sora-shadow-md);
+    font-size: var(--sora-text-sm);
+    line-height: var(--sora-leading-tight);
     overflow: visible;
     overflow-wrap: anywhere;
     position-area: block-start;
@@ -311,54 +311,54 @@
     }
   }
 
-  /* ---------------------------------------------------------- UiDropdownMenu */
-  .vui-menu {
+  /* ---------------------------------------------------------- SoraDropdownMenu */
+  .sora-menu {
     min-inline-size: 10rem;
     padding: 0.25rem;
   }
 
-  .vui-menu__group {
+  .sora-menu__group {
     @apply grid;
   }
 
-  .vui-menu__label {
+  .sora-menu__label {
     padding: 0.375rem 0.5rem 0.25rem;
-    color: var(--vui-text-subtle);
-    font-size: var(--vui-text-xs);
-    font-weight: var(--vui-weight-medium);
+    color: var(--sora-text-subtle);
+    font-size: var(--sora-text-xs);
+    font-weight: var(--sora-weight-medium);
   }
 
-  .vui-menu__separator {
-    block-size: var(--vui-border-width);
+  .sora-menu__separator {
+    block-size: var(--sora-border-width);
     margin: 0.25rem -0.25rem;
-    background-color: var(--vui-border);
+    background-color: var(--sora-border);
   }
 
-  .vui-menu__item {
+  .sora-menu__item {
     @apply flex w-full items-center;
     gap: 0.5rem;
-    min-block-size: max(2rem, var(--vui-hit-min));
+    min-block-size: max(2rem, var(--sora-hit-min));
     padding: 0.25rem 0.5rem;
-    border-radius: var(--vui-radius-sm);
-    color: var(--vui-c-text);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-tight);
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-c-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-tight);
     text-align: start;
     cursor: pointer;
 
     /* Focus is the single highlight for both pointer and keyboard. */
     &:focus {
-      background-color: var(--vui-c-soft-hover);
+      background-color: var(--sora-c-soft-hover);
       outline: none;
     }
 
     &:focus-visible {
-      outline: var(--vui-focus-width) solid var(--vui-focus);
-      outline-offset: calc(var(--vui-focus-width) * -1);
+      outline: var(--sora-focus-width) solid var(--sora-focus);
+      outline-offset: calc(var(--sora-focus-width) * -1);
     }
 
     &[aria-disabled='true'] {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
       cursor: not-allowed;
 
       &:focus {
@@ -367,23 +367,23 @@
     }
   }
 
-  .vui-menu__icon {
+  .sora-menu__icon {
     font-size: 1rem;
   }
 
-  .vui-menu__text {
+  .sora-menu__text {
     @apply min-w-0 flex-1;
     overflow-wrap: anywhere;
   }
 
-  .vui-menu__shortcut {
-    color: var(--vui-text-subtle);
-    font-family: var(--vui-font-mono);
-    font-size: var(--vui-text-xs);
+  .sora-menu__shortcut {
+    color: var(--sora-text-subtle);
+    font-family: var(--sora-font-mono);
+    font-size: var(--sora-text-xs);
   }
 
-  /* ------------------------------------------------------- UiCombobox popup */
-  .vui-combobox__popup {
+  /* ------------------------------------------------------- SoraCombobox popup */
+  .sora-combobox__popup {
     min-inline-size: 10rem;
     max-inline-size: none;
     max-block-size: min(18rem, 45dvh);
@@ -394,33 +394,33 @@
     inline-size: anchor-size(inline);
   }
 
-  .vui-listbox {
+  .sora-listbox {
     @apply grid;
     gap: 1px;
   }
 
-  .vui-listbox__option {
+  .sora-listbox__option {
     @apply flex items-center;
     gap: 0.5rem;
-    min-block-size: max(2rem, var(--vui-hit-min));
+    min-block-size: max(2rem, var(--sora-hit-min));
     padding: 0.25rem 0.5rem;
-    border-radius: var(--vui-radius-sm);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-tight);
+    border-radius: var(--sora-radius-sm);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-tight);
     cursor: pointer;
 
     /* The active option is the combobox's virtual focus: fill plus a 3:1 boundary. */
     &[data-active] {
-      background-color: var(--vui-neutral-soft-hover);
-      box-shadow: inset 0 0 0 1px var(--vui-border-strong);
+      background-color: var(--sora-neutral-soft-hover);
+      box-shadow: inset 0 0 0 1px var(--sora-border-strong);
     }
 
     &[aria-selected='true'] {
-      font-weight: var(--vui-weight-medium);
+      font-weight: var(--sora-weight-medium);
     }
 
     &[aria-disabled='true'] {
-      color: var(--vui-text-subtle);
+      color: var(--sora-text-subtle);
       cursor: not-allowed;
     }
 
@@ -432,28 +432,28 @@
     }
   }
 
-  .vui-listbox__text {
+  .sora-listbox__text {
     @apply grid min-w-0 flex-1;
     overflow-wrap: anywhere;
   }
 
-  .vui-listbox__description {
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
-    font-weight: var(--vui-weight-normal);
+  .sora-listbox__description {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    font-weight: var(--sora-weight-normal);
   }
 
-  .vui-listbox__check {
+  .sora-listbox__check {
     font-size: 1rem;
   }
 
-  .vui-combobox__status {
+  .sora-combobox__status {
     padding: 0.5rem;
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
 
     &[data-tone='error'] {
-      color: var(--vui-error-text);
+      color: var(--sora-error-text);
     }
   }
 }

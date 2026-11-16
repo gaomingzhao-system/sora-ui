@@ -51,7 +51,7 @@ interface PluginContextLike {
 export function compiledMessagesPlugin() {
   let version = 0
   return {
-    name: 'vui:compiled-messages',
+    name: 'sora:compiled-messages',
     enforce: 'pre' as const,
     async resolveId(this: PluginContextLike, source: string, importer?: string) {
       if (!source.endsWith(QUERY)) return null

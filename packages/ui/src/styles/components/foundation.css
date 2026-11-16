@@ -1,11 +1,11 @@
-@layer components.vui {
-  /* UiProvider: layout-neutral scope for tokens, direction and language. */
-  .vui-provider {
+@layer components.sora {
+  /* SoraProvider: layout-neutral scope for tokens, direction and language. */
+  .sora-provider {
     display: contents;
   }
 
-  /* UiIcon */
-  .vui-icon {
+  /* SoraIcon */
+  .sora-icon {
     inline-size: 1em;
     block-size: 1em;
     fill: none;

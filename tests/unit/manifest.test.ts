@@ -13,30 +13,38 @@ const root = fileURLToPath(new URL('../..', import.meta.url))
 
 /** The initial catalogue from the specification (section 10), by directory. */
 const REQUIRED: Readonly<Record<string, readonly string[]>> = {
-  foundation: ['UiProvider', 'UiIcon'],
-  actions: ['UiButton', 'UiIconButton', 'UiButtonGroup', 'UiLink'],
-  display: ['UiCard', 'UiBadge', 'UiAvatar', 'UiAvatarGroup', 'UiSeparator', 'UiKbd', 'UiEmptyState'],
-  feedback: ['UiAlert', 'UiSpinner', 'UiProgress', 'UiSkeleton', 'UiToastProvider'],
-  inputs: [
-    'UiInput',
-    'UiTextarea',
-    'UiPasswordInput',
-    'UiNumberInput',
-    'UiDateInput',
-    'UiCheckbox',
-    'UiCheckboxGroup',
-    'UiRadioGroup',
-    'UiSwitch',
-    'UiSelect',
-    'UiCombobox',
-    'UiSlider',
-    'UiFileInput',
-    'UiField',
+  foundation: ['SoraProvider', 'SoraIcon'],
+  actions: ['SoraButton', 'SoraIconButton', 'SoraButtonGroup', 'SoraLink'],
+  display: [
+    'SoraCard',
+    'SoraBadge',
+    'SoraAvatar',
+    'SoraAvatarGroup',
+    'SoraSeparator',
+    'SoraKbd',
+    'SoraEmptyState',
   ],
-  forms: ['UiForm', 'UiFormErrorSummary'],
-  overlays: ['UiDialog', 'UiDrawer', 'UiPopover', 'UiTooltip', 'UiDropdownMenu'],
-  navigation: ['UiTabs', 'UiAccordion', 'UiBreadcrumbs', 'UiPagination'],
-  data: ['UiTable'],
+  feedback: ['SoraAlert', 'SoraSpinner', 'SoraProgress', 'SoraSkeleton', 'SoraToastProvider'],
+  inputs: [
+    'SoraInput',
+    'SoraTextarea',
+    'SoraPasswordInput',
+    'SoraNumberInput',
+    'SoraDateInput',
+    'SoraCheckbox',
+    'SoraCheckboxGroup',
+    'SoraRadioGroup',
+    'SoraSwitch',
+    'SoraSelect',
+    'SoraCombobox',
+    'SoraSlider',
+    'SoraFileInput',
+    'SoraField',
+  ],
+  forms: ['SoraForm', 'SoraFormErrorSummary'],
+  overlays: ['SoraDialog', 'SoraDrawer', 'SoraPopover', 'SoraTooltip', 'SoraDropdownMenu'],
+  navigation: ['SoraTabs', 'SoraAccordion', 'SoraBreadcrumbs', 'SoraPagination'],
+  data: ['SoraTable'],
 }
 
 describe('component manifest', () => {
@@ -74,14 +82,14 @@ describe('component manifest', () => {
     }
     // Interactive composites must describe their keyboard model.
     for (const name of [
-      'UiDialog',
-      'UiDrawer',
-      'UiDropdownMenu',
-      'UiCombobox',
-      'UiTabs',
-      'UiAccordion',
-      'UiRadioGroup',
-      'UiSlider',
+      'SoraDialog',
+      'SoraDrawer',
+      'SoraDropdownMenu',
+      'SoraCombobox',
+      'SoraTabs',
+      'SoraAccordion',
+      'SoraRadioGroup',
+      'SoraSlider',
     ]) {
       expect(componentManifest.find((entry) => entry.name === name)?.keyboard.length, name).toBeGreaterThan(0)
     }

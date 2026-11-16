@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
 import { useToast } from '@your-scope/ui'
 
-// No UiToastProvider above: useToast() must fail with a clear message.
+// No SoraToastProvider above: useToast() must fail with a clear message.
 const { report } = defineProps<{ report: (message: string) => void }>()
 try {
   useToast()

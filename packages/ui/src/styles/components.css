@@ -1,6 +1,6 @@
 /*
- * Component styles. Every selector starts with a `vui-` class and lives in
- * the `components.vui` layer. Variants are data attributes with complete,
+ * Component styles. Every selector starts with a `sora-` class and lives in
+ * the `components.sora` layer. Variants are data attributes with complete,
  * static values; nothing is assembled at runtime.
  */
 @import './components/foundation.css';

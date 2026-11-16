@@ -40,7 +40,7 @@ describe('attributes', () => {
   })
 
   it('derives a valid CSS dashed ident for anchors', () => {
-    expect(anchorName('vui-v-0-anchor')).toBe('--vui-v-0-anchor')
+    expect(anchorName('sora-v-0-anchor')).toBe('--sora-v-0-anchor')
     expect(anchorName('a:b c')).toBe('--a-b-c')
   })
 })

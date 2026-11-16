@@ -3,23 +3,23 @@ import { insert, remove, useFieldArray, useForm } from '@formisch/vue'
 import * as v from 'valibot'
 import { useTemplateRef } from 'vue'
 import {
-  UiButton,
-  UiCheckbox,
-  UiCheckboxGroup,
-  UiInput,
-  UiNumberInput,
-  UiProvider,
-  UiRadioGroup,
-  UiSelect,
+  SoraButton,
+  SoraCheckbox,
+  SoraCheckboxGroup,
+  SoraInput,
+  SoraNumberInput,
+  SoraProvider,
+  SoraRadioGroup,
+  SoraSelect,
 } from '@your-scope/ui'
-import { UiForm, UiFormErrorSummary, useUiFormField } from '@your-scope/ui/forms'
+import { SoraForm, SoraFormErrorSummary, useSoraFormField } from '@your-scope/ui/forms'
 import FormsTagRow from './FormsTagRow.vue'
 
 export interface FormsState {
   locale: 'en' | 'ja'
   /** Validated outputs the submit callback received, in order. */
   outputs: unknown[]
-  /** Events emitted by UiForm, in order. */
+  /** Events emitted by SoraForm, in order. */
   events: string[]
   /** When set, the submit callback stays pending until `release()` is called. */
   hold: boolean
@@ -64,13 +64,13 @@ const form = useForm({
   revalidate: 'input',
 })
 
-const email = useUiFormField(form, { path: ['email'] })
-const age = useUiFormField(form, { path: ['age'] })
-const plan = useUiFormField(form, { path: ['plan'] })
-const contact = useUiFormField(form, { path: ['contact'] })
-const topics = useUiFormField(form, { path: ['topics'] })
-const city = useUiFormField(form, { path: ['address', 'city'] })
-const terms = useUiFormField(form, { path: ['terms'] })
+const email = useSoraFormField(form, { path: ['email'] })
+const age = useSoraFormField(form, { path: ['age'] })
+const plan = useSoraFormField(form, { path: ['plan'] })
+const contact = useSoraFormField(form, { path: ['contact'] })
+const topics = useSoraFormField(form, { path: ['topics'] })
+const city = useSoraFormField(form, { path: ['address', 'city'] })
+const terms = useSoraFormField(form, { path: ['terms'] })
 const tags = useFieldArray(form, { path: ['tags'] })
 
 const plans = [
@@ -112,8 +112,8 @@ defineExpose({
 </script>
 
 <template>
-  <UiProvider :locale="state.locale">
-    <UiForm
+  <SoraProvider :locale="state.locale">
+    <SoraForm
       ref="formRef"
       :of="form"
       :submit="save"
@@ -123,8 +123,8 @@ defineExpose({
       @error="state.events.push(`error:${($event as Error).message}`)"
     >
       <template #default="{ isSubmitting, isValid, isDirty }">
-        <UiFormErrorSummary data-testid="summary" />
-        <UiInput
+        <SoraFormErrorSummary data-testid="summary" />
+        <SoraInput
           v-bind="email.props"
           label="Email"
           type="email"
@@ -132,8 +132,8 @@ defineExpose({
           required
           data-testid="email"
         />
-        <UiNumberInput v-bind="age.props" label="Age" data-testid="age" />
-        <UiSelect
+        <SoraNumberInput v-bind="age.props" label="Age" data-testid="age" />
+        <SoraSelect
           v-bind="plan.props"
           label="Plan"
           placeholder="Choose a plan"
@@ -141,21 +141,21 @@ defineExpose({
           required
           data-testid="plan"
         />
-        <UiRadioGroup
+        <SoraRadioGroup
           v-bind="contact.props"
           label="Contact method"
           :options="methods"
           required
           data-testid="contact"
         />
-        <UiCheckboxGroup
+        <SoraCheckboxGroup
           v-bind="topics.props"
           label="Topics"
           :options="topicOptions"
           required
           data-testid="topics"
         />
-        <UiInput v-bind="city.props" label="City" data-testid="city" />
+        <SoraInput v-bind="city.props" label="City" data-testid="city" />
         <fieldset>
           <legend>Tags</legend>
           <FormsTagRow
@@ -165,28 +165,28 @@ defineExpose({
             :index="index"
             @remove="remove(form, { path: ['tags'], at: index })"
           />
-          <UiButton data-testid="add-tag" @click="insert(form, { path: ['tags'], initialInput: '' })"
-            >Add tag</UiButton
+          <SoraButton data-testid="add-tag" @click="insert(form, { path: ['tags'], initialInput: '' })"
+            >Add tag</SoraButton
           >
         </fieldset>
-        <UiCheckbox v-bind="terms.props" label="I accept the terms" required data-testid="terms" />
-        <UiButton type="reset" data-testid="reset">Reset</UiButton>
-        <UiButton type="submit" :loading="isSubmitting" data-testid="submit">Save</UiButton>
+        <SoraCheckbox v-bind="terms.props" label="I accept the terms" required data-testid="terms" />
+        <SoraButton type="reset" data-testid="reset">Reset</SoraButton>
+        <SoraButton type="submit" :loading="isSubmitting" data-testid="submit">Save</SoraButton>
         <output data-testid="flags"
           >{{ isSubmitting ? 'submitting' : 'idle' }}|{{ isValid ? 'valid' : 'invalid' }}|{{
             isDirty ? 'dirty' : 'pristine'
           }}</output
         >
       </template>
-    </UiForm>
-  </UiProvider>
+    </SoraForm>
+  </SoraProvider>
 
-  <!-- Outside any UiForm: the store is passed explicitly. -->
-  <UiFormErrorSummary :of="form" title="Fix these fields" :heading-level="3" data-testid="summary-outside">
+  <!-- Outside any SoraForm: the store is passed explicitly. -->
+  <SoraFormErrorSummary :of="form" title="Fix these fields" :heading-level="3" data-testid="summary-outside">
     <template #entry="{ entry, focus }">
       <button type="button" data-testid="summary-entry" @click="focus">
         {{ entry.path.join('.') }}: {{ entry.message }}
       </button>
     </template>
-  </UiFormErrorSummary>
+  </SoraFormErrorSummary>
 </template>

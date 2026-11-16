@@ -1,7 +1,7 @@
 import { palettes } from './palettes.ts'
-import type { UiComponentDefaults, UiConfig, UiFontConfig } from './types.ts'
+import type { SoraComponentDefaults, SoraConfig, SoraFontConfig } from './types.ts'
 
-export const defaultFonts: UiFontConfig = Object.freeze({
+export const defaultFonts: SoraFontConfig = Object.freeze({
   sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Hiragino Sans", "Noto Sans JP", "Noto Sans Arabic", sans-serif',
   serif:
     'ui-serif, "Iowan Old Style", "Palatino Linotype", Georgia, "Noto Serif", "Hiragino Mincho ProN", serif',
@@ -9,7 +9,7 @@ export const defaultFonts: UiFontConfig = Object.freeze({
   display: 'sans',
 })
 
-export const defaultComponentDefaults: UiComponentDefaults = Object.freeze({
+export const defaultComponentDefaults: SoraComponentDefaults = Object.freeze({
   button: Object.freeze({ size: 'md', variant: 'solid', color: 'primary' }),
   iconButton: Object.freeze({ size: 'md', variant: 'ghost', color: 'neutral' }),
   link: Object.freeze({ color: 'secondary' }),
@@ -20,10 +20,10 @@ export const defaultComponentDefaults: UiComponentDefaults = Object.freeze({
   control: Object.freeze({ size: 'md' }),
   tabs: Object.freeze({ size: 'md' }),
   table: Object.freeze({ size: 'md' }),
-} satisfies UiComponentDefaults)
+} satisfies SoraComponentDefaults)
 
-/** The library's built-in design system when no `ui.config.ts` overrides it. */
-export const defaultUiConfig: UiConfig = Object.freeze({
+/** The library's built-in design system when no `sora.config.ts` overrides it. */
+export const defaultSoraConfig: SoraConfig = Object.freeze({
   colors: Object.freeze({
     primary: 'neutral',
     secondary: 'terracotta',

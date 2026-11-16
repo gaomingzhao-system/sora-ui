@@ -1,4 +1,4 @@
-import type { UiIconDefinition } from '../types/common.ts'
+import type { SoraIconDefinition } from '../types/common.ts'
 
 /**
  * Built-in glyphs: original, hand-authored paths on a 24x24 grid.
@@ -6,10 +6,10 @@ import type { UiIconDefinition } from '../types/common.ts'
  * Each icon is a separate export so bundlers keep only what is imported;
  * there is no name-indexed catalogue. Paths are static, trusted data.
  */
-const stroke = (...paths: string[]): UiIconDefinition => Object.freeze({ paths: Object.freeze(paths) })
-const directional = (...paths: string[]): UiIconDefinition =>
+const stroke = (...paths: string[]): SoraIconDefinition => Object.freeze({ paths: Object.freeze(paths) })
+const directional = (...paths: string[]): SoraIconDefinition =>
   Object.freeze({ paths: Object.freeze(paths), directional: true })
-const filled = (...paths: string[]): UiIconDefinition =>
+const filled = (...paths: string[]): SoraIconDefinition =>
   Object.freeze({ paths: Object.freeze(paths), filled: true })
 
 const CIRCLE = 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0z'

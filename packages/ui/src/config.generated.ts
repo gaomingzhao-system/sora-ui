@@ -1,12 +1,12 @@
 /*
  * GENERATED FILE - do not edit.
- * Source: ui.config.ts -> @your-scope/theme resolveTheme() -> scripts/generate-theme.ts
+ * Source: sora.config.ts -> @your-scope/theme resolveTheme() -> scripts/generate-theme.ts
  * Regenerate with `pnpm generate:theme`.
  */
-import type { UiComponentDefaults, UiDensity, UiMotion, UiRadius } from '@your-scope/theme'
+import type { SoraComponentDefaults, SoraDensity, SoraMotion, SoraRadius } from '@your-scope/theme'
 
-/** Component prop defaults resolved from ui.config.ts. */
-export const generatedDefaults: UiComponentDefaults = {
+/** Component prop defaults resolved from sora.config.ts. */
+export const generatedDefaults: SoraComponentDefaults = {
   "button": {
     "size": "md",
     "variant": "solid",
@@ -47,6 +47,6 @@ export const generatedDefaults: UiComponentDefaults = {
   }
 }
 
-export const generatedDensity: UiDensity = 'compact'
-export const generatedRadius: UiRadius = 'md'
-export const generatedMotion: UiMotion = 'subtle'
+export const generatedDensity: SoraDensity = 'compact'
+export const generatedRadius: SoraRadius = 'md'
+export const generatedMotion: SoraMotion = 'subtle'

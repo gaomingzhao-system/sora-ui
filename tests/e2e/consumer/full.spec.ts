@@ -19,16 +19,16 @@ test('core components and a per-component subpath import work together', async (
   await button.click()
   await button.click()
   await expect(button).toHaveText('Clicked 2')
-  // UiBadge comes from '@your-scope/ui/components/UiBadge'.
+  // SoraBadge comes from '@your-scope/ui/components/SoraBadge'.
   await expect(page.getByTestId('consumer-badge')).toHaveText('2')
-  await expect(page.getByTestId('consumer-badge')).toHaveClass(/vui-badge/)
+  await expect(page.getByTestId('consumer-badge')).toHaveClass(/sora-badge/)
 })
 
 test('an unlayered application rule overrides the library without !important', async ({ page }) => {
   const width = await page
     .getByTestId('consumer-button')
     .evaluate((node) => node.getBoundingClientRect().width)
-  // app.css: `.vui-button.app-wide { min-inline-size: 12rem }`
+  // app.css: `.sora-button.app-wide { min-inline-size: 12rem }`
   expect(width).toBeGreaterThanOrEqual(192)
 })
 
@@ -83,7 +83,7 @@ test('a nested provider themes its subtree from createProviderTheme()', async ({
   const primary = (testId: string): Promise<string> =>
     page.getByTestId(testId).evaluate((node) => getComputedStyle(node).backgroundColor)
   expect(await primary('consumer-open')).not.toBe(await primary('consumer-button'))
-  await expect(page.getByTestId('consumer-accent')).toHaveAttribute('style', /--vui-primary/)
+  await expect(page.getByTestId('consumer-accent')).toHaveAttribute('style', /--sora-primary/)
 })
 
 test('a native modal dialog opens, traps the page behind it and restores focus', async ({ page }) => {

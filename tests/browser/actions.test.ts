@@ -22,7 +22,7 @@ function setup(overrides: Partial<ActionsState> = {}) {
   return { state, view }
 }
 
-describe('UiButton', () => {
+describe('SoraButton', () => {
   it('is a native button that defaults to type="button" and never submits by accident', async () => {
     const { state } = setup()
     const button = q<HTMLButtonElement>('button')
@@ -36,7 +36,7 @@ describe('UiButton', () => {
     expect(state.submits).toBe(1)
   })
 
-  it('resolves variant, colour and size from props, then the provider, then ui.config.ts', async () => {
+  it('resolves variant, colour and size from props, then the provider, then sora.config.ts', async () => {
     const { state } = setup()
     const button = q('button')
     expect(button.dataset['variant']).toBe('solid')
@@ -60,7 +60,7 @@ describe('UiButton', () => {
     const button = q<HTMLButtonElement>('button')
     expect(button.name).toBe('action')
     expect(button.getAttribute('aria-describedby')).toBe('help')
-    expect(button.classList.contains('vui-button')).toBe(true)
+    expect(button.classList.contains('sora-button')).toBe(true)
     expect(button.classList.contains('from-caller')).toBe(true)
     expect(q('trailing').closest('button')).toBe(button)
   })
@@ -92,10 +92,10 @@ describe('UiButton', () => {
     expect(button.getAttribute('aria-busy')).toBe('true')
     // The label stays in the accessibility tree (opacity, not display/visibility).
     expect(button.textContent).toContain('Save changes')
-    const label = button.querySelector<HTMLElement>('.vui-button__label')
+    const label = button.querySelector<HTMLElement>('.sora-button__label')
     expect(label && getComputedStyle(label).visibility).toBe('visible')
     expect(label && getComputedStyle(label).display).not.toBe('none')
-    expect(button.querySelector('.vui-button__spinner')?.getAttribute('aria-hidden')).toBe('true')
+    expect(button.querySelector('.sora-button__spinner')?.getAttribute('aria-hidden')).toBe('true')
     // Same width as before.
     expect(button.getBoundingClientRect().width).toBeCloseTo(width, 0)
 
@@ -134,7 +134,7 @@ describe('UiButton', () => {
   })
 })
 
-describe('UiIconButton', () => {
+describe('SoraIconButton', () => {
   it('requires a label, which becomes the accessible name; the icon is decorative', async () => {
     const { state } = setup()
     const button = q<HTMLButtonElement>('icon-button')
@@ -150,7 +150,7 @@ describe('UiIconButton', () => {
   })
 })
 
-describe('UiButtonGroup', () => {
+describe('SoraButtonGroup', () => {
   it('is a labelled group that gives its buttons shared defaults', () => {
     setup()
     const group = q('group')
@@ -173,7 +173,7 @@ describe('UiButtonGroup', () => {
   })
 })
 
-describe('UiLink', () => {
+describe('SoraLink', () => {
   it('renders a real anchor', () => {
     setup()
     const link = q<HTMLAnchorElement>('link')

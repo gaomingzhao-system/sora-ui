@@ -1,5 +1,5 @@
 {
-  "name": "vui-consumer",
+  "name": "sora-consumer",
   "version": "0.0.0",
   "private": true,
   "description": "Independent consumer of the packed @your-scope/ui tarballs (core, forms, i18n, theme). Not a workspace member: scripts/verify-consumer.ts copies it out, installs the tarballs and builds it.",

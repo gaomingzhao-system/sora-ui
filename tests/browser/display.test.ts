@@ -25,38 +25,38 @@ function setup(overrides: Partial<DisplayState> = {}) {
   return { state }
 }
 
-describe('UiCard', () => {
+describe('SoraCard', () => {
   it('renders header, body, actions and footer from props and slots', () => {
     setup()
     const card = q('card')
     expect(card.tagName).toBe('SECTION')
     expect([card.dataset['variant'], card.dataset['padding']]).toEqual(['elevated', 'lg'])
-    const title = $('.vui-card__title', card)
+    const title = $('.sora-card__title', card)
     expect(title.tagName).toBe('H2')
     expect(title.textContent).toBe('Account')
     // A sectioning root is named by its title.
     expect(card.getAttribute('aria-labelledby')).toBe(title.id)
-    expect($('.vui-card__description', card).textContent).toBe('Manage preferences')
-    expect(q('card-badge').closest('.vui-card__actions')).not.toBeNull()
-    expect(q('card-body').closest('.vui-card__body')).not.toBeNull()
-    expect(q('card-save').closest('.vui-card__footer')).not.toBeNull()
+    expect($('.sora-card__description', card).textContent).toBe('Manage preferences')
+    expect(q('card-badge').closest('.sora-card__actions')).not.toBeNull()
+    expect(q('card-body').closest('.sora-card__body')).not.toBeNull()
+    expect(q('card-save').closest('.sora-card__footer')).not.toBeNull()
   })
 
   it('uses the header slot instead of the title, and omits empty parts', () => {
     setup()
     const card = q('card-plain')
-    expect(q('custom-header').closest('.vui-card__header')).not.toBeNull()
-    expect(card.querySelector('.vui-card__title')).toBeNull()
-    expect(card.querySelector('.vui-card__body')).toBeNull()
-    expect(card.querySelector('.vui-card__footer')).toBeNull()
-    // Defaults come from ui.config.ts.
+    expect(q('custom-header').closest('.sora-card__header')).not.toBeNull()
+    expect(card.querySelector('.sora-card__title')).toBeNull()
+    expect(card.querySelector('.sora-card__body')).toBeNull()
+    expect(card.querySelector('.sora-card__footer')).toBeNull()
+    // Defaults come from sora.config.ts.
     expect([card.dataset['variant'], card.dataset['padding']]).toEqual(['outline', 'md'])
     expect(card.hasAttribute('aria-labelledby')).toBe(false)
   })
 
   it('adapts to its own width: a narrow card stacks its footer buttons', async () => {
     const { state } = setup()
-    const footer = $('.vui-card__footer', q('card'))
+    const footer = $('.sora-card__footer', q('card'))
     expect(getComputedStyle(footer).flexDirection).toBe('row')
     state.width = '14rem'
     await flush()
@@ -66,7 +66,7 @@ describe('UiCard', () => {
   })
 })
 
-describe('UiBadge', () => {
+describe('SoraBadge', () => {
   it('exposes variant, colour and size and renders the leading slot', () => {
     setup()
     const badge = q('badge')
@@ -78,18 +78,18 @@ describe('UiBadge', () => {
     expect(badge.textContent?.trim()).toBe('Failed')
     expect(badge.querySelector('svg')).not.toBeNull()
     // The status dot is decoration.
-    expect($('.vui-badge__dot', q('card-badge')).getAttribute('aria-hidden')).toBe('true')
+    expect($('.sora-badge__dot', q('card-badge')).getAttribute('aria-hidden')).toBe('true')
   })
 })
 
-describe('UiAvatar', () => {
+describe('SoraAvatar', () => {
   it('falls back to initials named by `name`, then to a generic glyph', () => {
     setup()
     const avatar = q('avatar')
     expect(avatar.querySelector('img')).toBeNull()
     expect(avatar.getAttribute('role')).toBe('img')
     expect(avatar.getAttribute('aria-label')).toBe('Ada Lovelace')
-    expect($('.vui-avatar__initials', avatar).textContent).toBe('AL')
+    expect($('.sora-avatar__initials', avatar).textContent).toBe('AL')
     expect([avatar.dataset['size'], avatar.dataset['shape']]).toEqual(['lg', 'square'])
 
     const anonymous = q('avatar-anon')
@@ -108,7 +108,7 @@ describe('UiAvatar', () => {
 
     state.src = 'data:image/png;base64,broken'
     await until(() => avatar.querySelector('img') === null)
-    expect($('.vui-avatar__initials', avatar).textContent).toBe('AL')
+    expect($('.sora-avatar__initials', avatar).textContent).toBe('AL')
 
     // A new source gets a fresh chance.
     state.src = pixel
@@ -117,25 +117,25 @@ describe('UiAvatar', () => {
   })
 })
 
-describe('UiAvatarGroup', () => {
+describe('SoraAvatarGroup', () => {
   it('is a labelled list that collapses the remainder into a counter with a text alternative', async () => {
     const { state } = setup()
     const group = q('avatar-group')
     expect(group.tagName).toBe('UL')
     expect(group.getAttribute('aria-label')).toBe('Team')
     expect(all('li', group)).toHaveLength(4)
-    const more = $('.vui-avatar-group__more', group)
+    const more = $('.sora-avatar-group__more', group)
     expect(more.textContent).toContain('+2')
-    expect($('.vui-sr-only', more).textContent).toBe('More: 2')
+    expect($('.sora-sr-only', more).textContent).toBe('More: 2')
 
     state.max = 5
     await nextTick()
     expect(all('li', group)).toHaveLength(5)
-    expect(group.querySelector('.vui-avatar-group__more')).toBeNull()
+    expect(group.querySelector('.sora-avatar-group__more')).toBeNull()
   })
 })
 
-describe('UiSeparator', () => {
+describe('SoraSeparator', () => {
   it('is decorative by default and a real separator on request', async () => {
     const { state } = setup()
     const separator = q('separator')
@@ -149,7 +149,7 @@ describe('UiSeparator', () => {
   })
 })
 
-describe('UiKbd', () => {
+describe('SoraKbd', () => {
   it('uses kbd elements, one per key for a shortcut', () => {
     setup()
     expect(q('kbd').tagName).toBe('KBD')
@@ -157,26 +157,26 @@ describe('UiKbd', () => {
     const combo = q('kbd-combo')
     expect(combo.tagName).toBe('KBD')
     expect(all('kbd', combo).map((key) => key.textContent)).toEqual(['Ctrl', 'Shift', 'K'])
-    for (const separator of all('.vui-kbd-combo__separator', combo)) {
+    for (const separator of all('.sora-kbd-combo__separator', combo)) {
       expect(separator.getAttribute('aria-hidden')).toBe('true')
     }
   })
 })
 
-describe('UiEmptyState', () => {
+describe('SoraEmptyState', () => {
   it('has a real heading, a description and an actions slot', () => {
     setup()
     const empty = q('empty')
-    const title = $('.vui-empty-state__title', empty)
+    const title = $('.sora-empty-state__title', empty)
     expect(title.tagName).toBe('H4')
     expect(title.textContent).toBe('No projects')
-    expect($('.vui-empty-state__description', empty).textContent?.trim()).toBe('Create one to get started.')
-    expect($('.vui-empty-state__icon', empty).getAttribute('aria-hidden')).toBe('true')
-    expect(q('empty-action').closest('.vui-empty-state__actions')).not.toBeNull()
+    expect($('.sora-empty-state__description', empty).textContent?.trim()).toBe('Create one to get started.')
+    expect($('.sora-empty-state__icon', empty).getAttribute('aria-hidden')).toBe('true')
+    expect(q('empty-action').closest('.sora-empty-state__actions')).not.toBeNull()
   })
 })
 
-describe('UiIcon', () => {
+describe('SoraIcon', () => {
   it('is hidden when decorative and an image when named', () => {
     setup()
     const decorative = q('icon-decorative')

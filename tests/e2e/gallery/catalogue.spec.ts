@@ -39,8 +39,8 @@ test('demos are grouped by category, in manifest order, with working in-page lin
   }
 
   // The link scrolls to the demo and does not disturb the hash route.
-  await page.locator('[data-category="data"] a', { hasText: 'UiTable' }).click()
-  await expect(page.locator('#demo-UiTable')).toBeInViewport()
+  await page.locator('[data-category="data"] a', { hasText: 'SoraTable' }).click()
+  await expect(page.locator('#demo-SoraTable')).toBeInViewport()
   expect(new URL(page.url()).hash).toBe('#/components')
 })
 

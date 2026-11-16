@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
 import { computed } from 'vue'
-import { UiBadge } from '@your-scope/ui'
+import { SoraBadge } from '@your-scope/ui'
 import { componentManifest } from '../../../../packages/ui/src/components.manifest.ts'
 import { useT } from '../i18n.ts'
 
@@ -15,12 +15,12 @@ const entry = computed(() => componentManifest.find((candidate) => candidate.nam
 <template>
   <section
     :id="`demo-${name}`"
-    class="grid gap-3 border-t border-vui-border py-5 first:border-t-0"
+    class="grid gap-3 border-t border-sora-border py-5 first:border-t-0"
     :data-demo="name"
   >
     <header class="flex flex-wrap items-center gap-2">
-      <h3 class="font-vui-mono text-vui-md font-semibold">{{ name }}</h3>
-      <UiBadge v-if="entry" size="sm" variant="outline">{{ t(`category.${entry.category}`) }}</UiBadge>
+      <h3 class="font-sora-mono text-sora-md font-semibold">{{ name }}</h3>
+      <SoraBadge v-if="entry" size="sm" variant="outline">{{ t(`category.${entry.category}`) }}</SoraBadge>
     </header>
     <!-- Reference text comes from the manifest and is English: marked as such for assistive technology. -->
     <p v-if="entry" class="g-reference max-w-prose" lang="en" dir="ltr">{{ entry.summary }}</p>

@@ -1,5 +1,12 @@
 <script setup lang="ts" vapor>
-import { UiAlert, UiButton, UiProgress, UiSkeleton, UiSpinner, UiToastProvider } from '@your-scope/ui'
+import {
+  SoraAlert,
+  SoraButton,
+  SoraProgress,
+  SoraSkeleton,
+  SoraSpinner,
+  SoraToastProvider,
+} from '@your-scope/ui'
 import ToastButtons from './ToastButtons.vue'
 
 export interface FeedbackState {
@@ -18,16 +25,16 @@ const { state } = defineProps<{ state: FeedbackState }>()
 </script>
 
 <template>
-  <UiAlert data-testid="alert-info" title="Heads up" description="Trial ends soon." />
-  <UiAlert data-testid="alert-error" color="error" title="Failed">Payment failed.</UiAlert>
-  <UiAlert
+  <SoraAlert data-testid="alert-info" title="Heads up" description="Trial ends soon." />
+  <SoraAlert data-testid="alert-error" color="error" title="Failed">Payment failed.</SoraAlert>
+  <SoraAlert
     data-testid="alert-static"
     color="warning"
     announce="off"
     :icon="null"
     description="Static note."
   />
-  <UiAlert
+  <SoraAlert
     v-model:open="state.alertOpen"
     data-testid="alert-dismissible"
     color="success"
@@ -37,27 +44,27 @@ const { state } = defineProps<{ state: FeedbackState }>()
     @dismiss="state.dismissed++"
   >
     Done.
-    <template #actions><UiButton data-testid="alert-action" size="sm">Undo</UiButton></template>
-  </UiAlert>
+    <template #actions><SoraButton data-testid="alert-action" size="sm">Undo</SoraButton></template>
+  </SoraAlert>
 
-  <UiSpinner data-testid="spinner" />
-  <UiSpinner data-testid="spinner-custom" label="Uploading files" size="lg" />
-  <UiSpinner data-testid="spinner-decorative" decorative />
+  <SoraSpinner data-testid="spinner" />
+  <SoraSpinner data-testid="spinner-custom" label="Uploading files" size="lg" />
+  <SoraSpinner data-testid="spinner-decorative" decorative />
 
-  <UiProgress data-testid="progress" :value="state.progress" label="Upload" show-value />
-  <UiProgress data-testid="progress-unnamed" :value="5" :max="20" />
+  <SoraProgress data-testid="progress" :value="state.progress" label="Upload" show-value />
+  <SoraProgress data-testid="progress-unnamed" :value="5" :max="20" />
 
-  <UiSkeleton data-testid="skeleton" :lines="3" />
-  <UiSkeleton data-testid="skeleton-status" shape="rect" announce />
+  <SoraSkeleton data-testid="skeleton" :lines="3" />
+  <SoraSkeleton data-testid="skeleton-status" shape="rect" announce />
 
-  <UiAlert
+  <SoraAlert
     v-model:open="state.lateAlertOpen"
     data-testid="alert-late"
     class="from-caller"
     title="Mounted closed"
   />
 
-  <UiToastProvider
+  <SoraToastProvider
     v-if="state.showProvider"
     :duration="state.duration"
     :max="state.max"
@@ -66,5 +73,5 @@ const { state } = defineProps<{ state: FeedbackState }>()
     data-testid="toast-region"
   >
     <ToastButtons :actions="state.actions" />
-  </UiToastProvider>
+  </SoraToastProvider>
 </template>

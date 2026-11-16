@@ -1,11 +1,11 @@
 import { computed, shallowRef, useAttrs, watch } from 'vue'
 import type { ComputedRef, ShallowRef } from 'vue'
 import { composeHandlers, mergeIds } from '../internal/attributes.ts'
-import type { UiControlAttrs } from '../types/common.ts'
+import type { SoraControlAttrs } from '../types/common.ts'
 
 type Attrs = Record<string, unknown>
 
-export interface UiControl<E extends HTMLElement> {
+export interface SoraControl<E extends HTMLElement> {
   /** `class` and `style` from the caller: they customise the root element. */
   readonly rootAttrs: ComputedRef<Attrs>
   /** Everything else, merged with `controlAttrs`: bound to the native control. */
@@ -31,8 +31,8 @@ const isListener = (key: string): boolean => /^on[A-Z]/.test(key)
  *   own ref (and `null` on unmount).
  */
 export function useControl<E extends HTMLElement = HTMLElement>(
-  controlAttrs: () => UiControlAttrs | undefined,
-): UiControl<E> {
+  controlAttrs: () => SoraControlAttrs | undefined,
+): SoraControl<E> {
   const attrs = useAttrs()
   const element = shallowRef(null) as ShallowRef<E | null>
   /** `controlAttrs` as a plain record (it may carry arbitrary attributes). */

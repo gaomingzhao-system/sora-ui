@@ -82,5 +82,5 @@ const en = {
 
 export default en
 
-export type UiMessageKey = keyof typeof en
-export type UiMessages = Readonly<Record<UiMessageKey, string>>
+export type SoraMessageKey = keyof typeof en
+export type SoraMessages = Readonly<Record<SoraMessageKey, string>>

@@ -1,4 +1,4 @@
-import type { Oklch, UiColorValue } from './types.ts'
+import type { Oklch, SoraColorValue } from './types.ts'
 
 /** Gamma-encoded sRGB, channels 0..1. */
 export type Rgb = readonly [red: number, green: number, blue: number]
@@ -85,7 +85,7 @@ export function contrastRatio(a: Rgb, b: Rgb): number {
 }
 
 /** Resolve a (possibly translucent) colour to opaque sRGB over a background. */
-export function flatten(color: UiColorValue, background: Rgb): Rgb {
+export function flatten(color: SoraColorValue, background: Rgb): Rgb {
   const rgb = oklchToSrgb(color.oklch)
   return color.alpha >= 1 ? rgb : compositeOver(rgb, color.alpha, background)
 }

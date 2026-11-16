@@ -36,7 +36,7 @@ const selectedTab = (): string | undefined =>
     .find((element) => element.getAttribute('aria-selected') === 'true')
     ?.textContent?.trim()
 
-describe('UiTabs', () => {
+describe('SoraTabs', () => {
   it('exposes the APG tabs pattern: tablist, tabs and one labelled panel', () => {
     setup()
     const list = $('[role="tablist"]', q('tabs'))
@@ -168,7 +168,7 @@ describe('UiTabs', () => {
   })
 })
 
-const triggers = (): HTMLButtonElement[] => all<HTMLButtonElement>('.vui-accordion__trigger', q('accordion'))
+const triggers = (): HTMLButtonElement[] => all<HTMLButtonElement>('.sora-accordion__trigger', q('accordion'))
 const trigger = (index: number): HTMLButtonElement => {
   const found = triggers()[index]
   if (!found) throw new Error(`no accordion header ${index}`)
@@ -176,7 +176,7 @@ const trigger = (index: number): HTMLButtonElement => {
 }
 const expanded = (): string[] => triggers().map((element) => element.getAttribute('aria-expanded') ?? '')
 
-describe('UiAccordion', () => {
+describe('SoraAccordion', () => {
   it('uses heading-wrapped buttons that control labelled panels', () => {
     setup()
     for (const element of triggers()) {
@@ -255,7 +255,7 @@ describe('UiAccordion', () => {
   })
 })
 
-describe('UiBreadcrumbs', () => {
+describe('SoraBreadcrumbs', () => {
   it('is a navigation landmark with an ordered list of links and a current page', () => {
     setup()
     const nav = q('breadcrumbs')
@@ -277,11 +277,11 @@ describe('UiBreadcrumbs', () => {
 
   it('hides separators from assistive technology and mirrors them in RTL', () => {
     setup({ locale: 'ar' })
-    const separators = all<SVGElement & HTMLElement>('.vui-breadcrumbs__separator', q('breadcrumbs'))
+    const separators = all<SVGElement & HTMLElement>('.sora-breadcrumbs__separator', q('breadcrumbs'))
     expect(separators).toHaveLength(3)
     expect(separators.every((icon) => icon.getAttribute('aria-hidden') === 'true')).toBe(true)
     expect(getComputedStyle(separators[0] as Element).transform).toBe('none')
-    const mirrored = $('.vui-breadcrumbs__separator', q('breadcrumbs-localized'))
+    const mirrored = $('.sora-breadcrumbs__separator', q('breadcrumbs-localized'))
     expect(getComputedStyle(mirrored).transform).toBe('matrix(-1, 0, 0, 1, 0, 0)')
   })
 
@@ -295,13 +295,13 @@ describe('UiBreadcrumbs', () => {
 })
 
 const pageButtons = (testId = 'pagination'): HTMLButtonElement[] =>
-  all<HTMLButtonElement>('.vui-pagination__page .vui-pagination__button', q(testId))
+  all<HTMLButtonElement>('.sora-pagination__page .sora-pagination__button', q(testId))
 const pageLabels = (testId = 'pagination'): string[] =>
-  all('.vui-pagination__page', q(testId)).map((item) => item.textContent?.trim() ?? '')
+  all('.sora-pagination__page', q(testId)).map((item) => item.textContent?.trim() ?? '')
 const arrow = (label: string, testId = 'pagination'): HTMLButtonElement =>
   $<HTMLButtonElement>(`button[aria-label="${label}"]`, q(testId))
 
-describe('UiPagination', () => {
+describe('SoraPagination', () => {
   it('is a labelled navigation landmark with a current page', () => {
     setup()
     const nav = q('pagination')
@@ -320,7 +320,7 @@ describe('UiPagination', () => {
       'Page 10',
     ])
     // Gaps are decoration, not content.
-    expect(all('.vui-pagination__gap', nav).every((gap) => gap.getAttribute('aria-hidden') === 'true')).toBe(
+    expect(all('.sora-pagination__gap', nav).every((gap) => gap.getAttribute('aria-hidden') === 'true')).toBe(
       true,
     )
   })
@@ -362,7 +362,7 @@ describe('UiPagination', () => {
 
   it('collapses to a "Page x of y" status when its container is narrow', async () => {
     const { state } = setup()
-    const status = $('.vui-pagination__status', q('pagination'))
+    const status = $('.sora-pagination__status', q('pagination'))
     expect(getComputedStyle(status).display).toBe('none')
     expect(getComputedStyle(pageButtons()[0] as Element).display).not.toBe('none')
 
@@ -370,7 +370,7 @@ describe('UiPagination', () => {
     await flush()
     expect(getComputedStyle(status).display).toBe('block')
     expect(status.textContent?.trim()).toBe('Page 5 of 10')
-    expect(getComputedStyle($('.vui-pagination__page', q('pagination'))).display).toBe('none')
+    expect(getComputedStyle($('.sora-pagination__page', q('pagination'))).display).toBe('none')
     // Previous and next stay available, and nothing overflows the container.
     expect(arrow('Previous page').getBoundingClientRect().width).toBeGreaterThan(0)
     expect(q('pagination').scrollWidth).toBeLessThanOrEqual(q('pagination-box').clientWidth)

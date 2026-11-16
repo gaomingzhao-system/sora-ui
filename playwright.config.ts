@@ -9,16 +9,16 @@ import { PORTS, origin } from './tests/e2e/ports.ts'
  *   consumer  .artifacts/consumers/{basic,full}/dist (`pnpm verify:consumer`:
  *             applications that installed the packed tarballs)
  *
- * VUI_E2E_BROWSERS  comma-separated list of chromium, firefox, webkit
+ * SORA_E2E_BROWSERS  comma-separated list of chromium, firefox, webkit
  *                   (default: all three, as in CI)
- * VUI_CHROMIUM_PATH use an existing Chromium binary instead of the one
+ * SORA_CHROMIUM_PATH use an existing Chromium binary instead of the one
  *                   `playwright install` downloads
  */
-const requested = (process.env['VUI_E2E_BROWSERS'] ?? 'chromium,firefox,webkit')
+const requested = (process.env['SORA_E2E_BROWSERS'] ?? 'chromium,firefox,webkit')
   .split(',')
   .map((name) => name.trim())
   .filter(Boolean)
-const chromiumPath = process.env['VUI_CHROMIUM_PATH']
+const chromiumPath = process.env['SORA_CHROMIUM_PATH']
 const chromium = {
   ...devices['Desktop Chrome'],
   launchOptions: chromiumPath ? { executablePath: chromiumPath } : {},
@@ -34,7 +34,7 @@ const consumers = {
   full: '.artifacts/consumers/full/dist',
 }
 const hasConsumers = Object.values(consumers).every((directory) => existsSync(`${directory}/index.html`))
-if (!hasConsumers && !process.env['VUI_E2E_QUIET']) {
+if (!hasConsumers && !process.env['SORA_E2E_QUIET']) {
   console.warn(
     'playwright: the packed consumers are not built; `pnpm verify:consumer` builds and tests them.',
   )
@@ -68,7 +68,7 @@ export default defineConfig({
   projects: [
     ...requested.map((name) => {
       const device = browsers[name as keyof typeof browsers]
-      if (!device) throw new Error(`VUI_E2E_BROWSERS: unknown browser "${name}"`)
+      if (!device) throw new Error(`SORA_E2E_BROWSERS: unknown browser "${name}"`)
       return { name, testDir: 'tests/e2e/gallery', use: { ...device, baseURL: origin('gallery') } }
     }),
     // Packaging is not a cross-browser question: one engine is enough here.

@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url'
 import { parse } from '@vue/compiler-sfc'
 import ts from 'typescript'
 import { componentCategories, componentManifest } from '../packages/ui/src/components.manifest.ts'
-import type { UiComponentManifestEntry } from '../packages/ui/src/components.manifest.ts'
+import type { SoraComponentManifestEntry } from '../packages/ui/src/components.manifest.ts'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const outDir = `${root}docs/components`
@@ -54,7 +54,7 @@ const oneLine = (text: string): string => text.replace(/\s+/g, ' ').trim()
 
 /**
  * The shared prop vocabulary. Many components take these props with exactly
- * the same meaning, so the sources document them once (UiField, UiButton);
+ * the same meaning, so the sources document them once (SoraField, SoraButton);
  * the reference repeats that meaning wherever a prop has no comment of its own.
  */
 const SHARED_PROPS: Readonly<Record<string, string>> = {
@@ -69,11 +69,11 @@ const SHARED_PROPS: Readonly<Record<string, string>> = {
   hideLabel: 'Keeps the label for assistive technology but hides it visually.',
   controlAttrs:
     "Attributes, listeners and a `ref` callback for the native control, for example Formisch's `field.props`.",
-  size: 'Size. Where no default is listed, it falls back to the nearest `UiProvider` `defaults`, then to `ui.config.ts`.',
+  size: 'Size. Where no default is listed, it falls back to the nearest `SoraProvider` `defaults`, then to `sora.config.ts`.',
   color:
-    'Colour role. Where no default is listed, it falls back to the nearest `UiProvider` `defaults`, then to `ui.config.ts`.',
+    'Colour role. Where no default is listed, it falls back to the nearest `SoraProvider` `defaults`, then to `sora.config.ts`.',
   variant:
-    'Visual variant. Where no default is listed, it falls back to the nearest `UiProvider` `defaults`, then to `ui.config.ts`.',
+    'Visual variant. Where no default is listed, it falls back to the nearest `SoraProvider` `defaults`, then to `sora.config.ts`.',
   orientation: 'Layout direction.',
   placement: 'Preferred position relative to the trigger. It flips when there is no room.',
 }
@@ -288,7 +288,7 @@ function readApi(file: string, code: string): Api {
 }
 
 // ------------------------------------------------------------ gallery examples
-/** `<DemoSection name="UiX">…</DemoSection>` blocks of the gallery, by component name. */
+/** `<DemoSection name="SoraX">…</DemoSection>` blocks of the gallery, by component name. */
 async function readExamples(): Promise<Map<string, { file: string; code: string }>> {
   const examples = new Map<string, { file: string; code: string }>()
   for await (const file of glob('apps/gallery/src/demos/*.vue', { cwd: root })) {
@@ -323,7 +323,7 @@ function table(headers: readonly string[], rows: readonly (readonly string[])[])
 const list = (items: readonly string[]): string => items.map((item) => `- ${item}`).join('\n')
 
 function render(
-  entry: UiComponentManifestEntry,
+  entry: SoraComponentManifestEntry,
   api: Api,
   example: { file: string; code: string } | undefined,
 ): string {

@@ -1,17 +1,17 @@
-@layer components.vui {
-  /* ----------------------------------------------------------------- UiTable */
+@layer components.sora {
+  /* ----------------------------------------------------------------- SoraTable */
   /* A wide table scrolls inside this wrapper; table semantics are never traded for layout. */
-  .vui-table-wrap {
-    --vui-on-surface: var(--vui-surface);
+  .sora-table-wrap {
+    --sora-on-surface: var(--sora-surface);
 
     inline-size: 100%;
-    border: var(--vui-border-width) solid var(--vui-border);
-    border-radius: var(--vui-radius-lg);
-    background-color: var(--vui-surface);
+    border: var(--sora-border-width) solid var(--sora-border);
+    border-radius: var(--sora-radius-lg);
+    background-color: var(--sora-surface);
     overflow-x: auto;
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     @media (forced-colors: active) {
@@ -19,19 +19,19 @@
     }
   }
 
-  .vui-table {
+  .sora-table {
     --_py: 0.5rem;
     --_px: 0.75rem;
 
     inline-size: 100%;
-    color: var(--vui-text);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-tight);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-tight);
 
     &[data-size='sm'] {
       --_py: 0.3125rem;
       --_px: 0.5rem;
-      font-size: var(--vui-text-sm);
+      font-size: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
@@ -44,10 +44,10 @@
     }
   }
 
-  .vui-table__caption {
+  .sora-table__caption {
     padding: 0.625rem var(--_px);
     caption-side: top;
-    font-weight: var(--vui-weight-semibold);
+    font-weight: var(--sora-weight-semibold);
     text-align: start;
 
     &[data-visually-hidden] {
@@ -55,10 +55,10 @@
     }
   }
 
-  .vui-table__cell {
+  .sora-table__cell {
     padding: var(--_py) var(--_px);
-    border-block-end: var(--vui-border-width) solid var(--vui-border);
-    font-weight: var(--vui-weight-normal);
+    border-block-end: var(--sora-border-width) solid var(--sora-border);
+    font-weight: var(--sora-weight-normal);
     text-align: start;
     vertical-align: middle;
 
@@ -70,78 +70,78 @@
       text-align: end;
     }
 
-    .vui-table > tbody > tr:last-child > & {
+    .sora-table > tbody > tr:last-child > & {
       border-block-end: 0;
     }
 
-    .vui-table > tbody > tr > th& {
-      font-weight: var(--vui-weight-medium);
+    .sora-table > tbody > tr > th& {
+      font-weight: var(--sora-weight-medium);
     }
   }
 
-  .vui-table__cell--head {
-    background-color: var(--vui-subtle);
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
-    font-weight: var(--vui-weight-medium);
+  .sora-table__cell--head {
+    background-color: var(--sora-subtle);
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    font-weight: var(--sora-weight-medium);
     white-space: nowrap;
   }
 
-  .vui-table__cell--select {
+  .sora-table__cell--select {
     inline-size: 2.5rem;
     padding-inline-end: 0;
 
-    .vui-table > thead & {
-      background-color: var(--vui-subtle);
+    .sora-table > thead & {
+      background-color: var(--sora-subtle);
     }
   }
 
-  .vui-table__cell--empty {
+  .sora-table__cell--empty {
     padding-block: 2rem;
-    color: var(--vui-text-muted);
+    color: var(--sora-text-muted);
     text-align: center;
   }
 
-  .vui-table__row {
-    .vui-table[data-striped] > tbody > &:nth-child(even) {
-      background-color: color-mix(in oklab, var(--vui-subtle) 55%, transparent);
+  .sora-table__row {
+    .sora-table[data-striped] > tbody > &:nth-child(even) {
+      background-color: color-mix(in oklab, var(--sora-subtle) 55%, transparent);
     }
 
     @variant hover {
-      background-color: var(--vui-hover);
+      background-color: var(--sora-hover);
     }
 
     /* Selected rows are tinted; the checked box in the row is the non-colour cue. */
     &[data-selected] {
-      background-color: var(--vui-neutral-soft);
+      background-color: var(--sora-neutral-soft);
     }
   }
 
-  .vui-table__sort {
+  .sora-table__sort {
     @apply inline-flex items-center;
     gap: 0.25rem;
-    min-block-size: var(--vui-hit-min);
+    min-block-size: var(--sora-hit-min);
     margin: -0.25rem;
     padding: 0.25rem;
-    border-radius: var(--vui-radius-sm);
+    border-radius: var(--sora-radius-sm);
     font-weight: inherit;
 
     @variant hover {
-      color: var(--vui-text);
+      color: var(--sora-text);
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
   }
 
-  .vui-table__sort-icon {
-    color: var(--vui-text-subtle);
+  .sora-table__sort-icon {
+    color: var(--sora-text-subtle);
     font-size: 0.875rem;
 
-    .vui-table__cell[aria-sort='ascending'] &,
-    .vui-table__cell[aria-sort='descending'] & {
-      color: var(--vui-text);
+    .sora-table__cell[aria-sort='ascending'] &,
+    .sora-table__cell[aria-sort='descending'] & {
+      color: var(--sora-text);
     }
   }
 }

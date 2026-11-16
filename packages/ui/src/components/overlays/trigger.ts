@@ -7,7 +7,7 @@
  *
  *   <button :ref="trigger.ref" v-bind="trigger.attrs" v-on="trigger.on">...</button>
  */
-export interface UiTriggerBindings {
+export interface SoraTriggerBindings {
   /** ARIA state, the id and the CSS anchor name. Use `v-bind`. */
   readonly attrs: {
     readonly id: string

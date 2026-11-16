@@ -43,7 +43,7 @@ The stylesheet and the overlays use current platform features without fallbacks 
 | `light-dark()`, `color-mix()`, OKLCH                                              | every colour token                                                           | no colours                                            |
 | Cascade layers, CSS nesting, `:has()`, logical properties, container queries      | the whole stylesheet                                                         | broken layout                                         |
 | `@starting-style`, `transition-behavior: allow-discrete`                          | entry and exit transitions of overlays                                       | overlays appear without a transition                  |
-| `field-sizing: content`                                                           | auto-growing `UiTextarea`                                                    | the textarea keeps its `rows` height                  |
+| `field-sizing: content`                                                           | auto-growing `SoraTextarea`                                                  | the textarea keeps its `rows` height                  |
 | `inert`                                                                           | closed accordion panels                                                      | closed panels stay reachable                          |
 
 In practice this means current Chromium-based browsers, and Firefox and Safari releases recent enough
@@ -84,7 +84,7 @@ Each of these was reproduced and has a workaround in the repository. They are ti
 versions and should be re-checked on every update.
 
 1. **vue-tsc 3.3.14: `//` in a static attribute of a component in a Vapor SFC.** A template such as
-   `<UiLink href="https://example.com">` is mis-parsed by the template code generator
+   `<SoraLink href="https://example.com">` is mis-parsed by the template code generator
    (`@vue/language-core`), and unrelated identifiers in the template are then reported as
    "Cannot find name". The compiled output is correct; only the type check is affected.
    Workaround: keep such strings in `<script>` and bind them (`:href="url"`).
@@ -96,7 +96,7 @@ versions and should be re-checked on every update.
    works; the adapter uses only the instance's global composer.
 4. **A component whose root is conditional (`v-if`) or a fragment** warns about "extraneous
    attributes" when it receives attributes while nothing is rendered. Such components bind `$attrs`
-   explicitly (`UiAlert`, `UiFormErrorSummary`, `UiToastProvider`, the overlays).
+   explicitly (`SoraAlert`, `SoraFormErrorSummary`, `SoraToastProvider`, the overlays).
 5. **Formisch 1.2.0 assigns errors to every field on any validation.** The forms integration decides
    when a field shows them (see [forms.md](./forms.md)). Formisch's own `Form` and `Field` components
    are virtual-DOM SFCs and are not used.
@@ -127,12 +127,12 @@ Measured on the commit this document belongs to (`pnpm build` first):
 Measured by [`scripts/measure-bundle.ts`](../scripts/measure-bundle.ts): applications built with Vite
 against the packed tarball, minified, gzip level 9.
 
-| Measurement                                   | Minified   | gzip      | Budget       |
-| --------------------------------------------- | ---------- | --------- | ------------ |
-| Baseline: Vue Vapor runtime, empty app        | 47.36 KiB  | 17.74 KiB |              |
-| App with `UiButton` and `UiCard`              | 66.36 KiB  | 24.21 KiB |              |
-| **Incremental cost of `UiButton` + `UiCard`** | 19.01 KiB  | 6.47 KiB  | under 10 KiB |
-| Every core export, incremental                | 122.87 KiB | 36.79 KiB |              |
-| **`styles.css`**                              | 70.12 KiB  | 11.23 KiB | under 35 KiB |
+| Measurement                                       | Minified   | gzip      | Budget       |
+| ------------------------------------------------- | ---------- | --------- | ------------ |
+| Baseline: Vue Vapor runtime, empty app            | 47.36 KiB  | 17.74 KiB |              |
+| App with `SoraButton` and `SoraCard`              | 66.36 KiB  | 24.21 KiB |              |
+| **Incremental cost of `SoraButton` + `SoraCard`** | 19.01 KiB  | 6.47 KiB  | under 10 KiB |
+| Every core export, incremental                    | 122.87 KiB | 36.79 KiB |              |
+| **`styles.css`**                                  | 70.12 KiB  | 11.23 KiB | under 35 KiB |
 
 Both budgets are enforced by `pnpm measure:bundle`.

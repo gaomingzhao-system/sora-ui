@@ -3,10 +3,10 @@
 A compact Vue component library written entirely for **Vue Vapor mode**, with a warm, quiet visual
 language: warm neutrals, thin borders, modest radii and small, purposeful motion.
 
-| Package             | What it is                                                                       |
-| ------------------- | -------------------------------------------------------------------------------- |
-| `@your-scope/ui`    | 44 components, a Formisch forms integration, an i18n adapter, compiled CSS       |
-| `@your-scope/theme` | The design-system configuration: palettes, `defineUiConfig`, CSS token generator |
+| Package             | What it is                                                                         |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| `@your-scope/ui`    | 44 components, a Formisch forms integration, an i18n adapter, compiled CSS         |
+| `@your-scope/theme` | The design-system configuration: palettes, `defineSoraConfig`, CSS token generator |
 
 `@your-scope` is a placeholder scope. `node scripts/set-scope.ts @your-real-scope` renames it
 everywhere before the first publish.
@@ -16,7 +16,7 @@ everywhere before the first publish.
 - Traditional API: props for behaviour and variants, `v-model` for state, named and scoped slots.
 - Native platform first: `<dialog>`, the Popover API, CSS anchor positioning, native form controls.
 - Works **without** Tailwind (one compiled stylesheet, no global reset) and **with** Tailwind v4.
-- One editable file, [`ui.config.ts`](./ui.config.ts), defines the default design system.
+- One editable file, [`sora.config.ts`](./sora.config.ts), defines the default design system.
 
 ## Requirements
 
@@ -55,7 +55,7 @@ or, where a Chromium build already exists (containers, CI images), point the tes
 the E2E run to Chromium:
 
 ```bash
-export VUI_CHROMIUM_PATH=/path/to/chromium VUI_E2E_BROWSERS=chromium
+export SORA_CHROMIUM_PATH=/path/to/chromium SORA_E2E_BROWSERS=chromium
 ```
 
 ## Commands
@@ -63,7 +63,7 @@ export VUI_CHROMIUM_PATH=/path/to/chromium VUI_E2E_BROWSERS=chromium
 | Command                | What it does                                                                                                                |
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `pnpm dev`             | Gallery dev server                                                                                                          |
-| `pnpm generate:theme`  | `ui.config.ts` → generated CSS tokens and runtime defaults (fails on a contrast regression)                                 |
+| `pnpm generate:theme`  | `sora.config.ts` → generated CSS tokens and runtime defaults (fails on a contrast regression)                               |
 | `pnpm lint`            | Oxlint, then Oxfmt in check mode (`pnpm lint:fix` / `pnpm format` to apply)                                                 |
 | `pnpm typecheck`       | `vue-tsc` over every project (TypeScript 7 engine through the bridge)                                                       |
 | `pnpm check:vapor`     | Every SFC is Vapor: marker, compiled output, built packages, production module graph                                        |
@@ -99,19 +99,19 @@ createVaporApp(App).mount('#app')
 ```vue
 <script setup lang="ts" vapor>
 import { ref } from 'vue'
-import { UiButton, UiCard, UiInput } from '@your-scope/ui'
+import { SoraButton, SoraCard, SoraInput } from '@your-scope/ui'
 
 const name = ref('')
 </script>
 
 <template>
-  <UiCard title="Profile" description="Visible to your team.">
-    <UiInput v-model="name" label="Name" hint="As it appears on your profile." required />
+  <SoraCard title="Profile" description="Visible to your team.">
+    <SoraInput v-model="name" label="Name" hint="As it appears on your profile." required />
     <template #footer>
-      <UiButton variant="ghost" color="neutral">Cancel</UiButton>
-      <UiButton type="submit">Save</UiButton>
+      <SoraButton variant="ghost" color="neutral">Cancel</SoraButton>
+      <SoraButton type="submit">Save</SoraButton>
     </template>
-  </UiCard>
+  </SoraCard>
 </template>
 ```
 
@@ -146,8 +146,8 @@ at this release candidate.
 ## Repository layout
 
 ```text
-ui.config.ts               the design-system configuration (single source of truth)
-packages/theme             palettes, defineUiConfig, token resolver, contrast audit
+sora.config.ts               the design-system configuration (single source of truth)
+packages/theme             palettes, defineSoraConfig, token resolver, contrast audit
 packages/ui                components, forms, i18n, styles, component manifest
 apps/gallery               Vapor + Tailwind host that demonstrates everything
 apps/consumer              outside application used by verify:consumer (no Tailwind)

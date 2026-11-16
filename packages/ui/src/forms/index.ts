@@ -7,10 +7,10 @@
  * Only Formisch's composables and methods are used. Its own `Form`/`Field`
  * components are ordinary VDOM SFCs and are deliberately not rendered here.
  */
-export { default as UiForm } from './UiForm.vue'
-export type { UiFormProps } from './UiForm.vue'
-export { default as UiFormErrorSummary } from './UiFormErrorSummary.vue'
-export type { UiFormErrorSummaryProps } from './UiFormErrorSummary.vue'
-export { useUiFormField } from './use-ui-form-field.ts'
-export type { UiFormField, UiFormFieldBinding, UseUiFormFieldOptions } from './use-ui-form-field.ts'
-export type { UiFormContext, UiFormErrorEntry } from './types.ts'
+export { default as SoraForm } from './SoraForm.vue'
+export type { SoraFormProps } from './SoraForm.vue'
+export { default as SoraFormErrorSummary } from './SoraFormErrorSummary.vue'
+export type { SoraFormErrorSummaryProps } from './SoraFormErrorSummary.vue'
+export { useSoraFormField } from './use-sora-form-field.ts'
+export type { SoraFormField, SoraFormFieldBinding, UseSoraFormFieldOptions } from './use-sora-form-field.ts'
+export type { SoraFormContext, SoraFormErrorEntry } from './types.ts'

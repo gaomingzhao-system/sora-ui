@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
-import { UiIconButton, UiInput, iconClose } from '@your-scope/ui'
-import type { UiFormFieldBinding } from '@your-scope/ui/forms'
+import { SoraIconButton, SoraInput, iconClose } from '@your-scope/ui'
+import type { SoraFormFieldBinding } from '@your-scope/ui/forms'
 import { useT } from '../i18n.ts'
 
 /**
@@ -8,8 +8,8 @@ import { useT } from '../i18n.ts'
  * field store (it owns the schema types) and this row only renders it.
  */
 const { link, index } = defineProps<{
-  /** Binding from `useUiFormField()` for `['links', index]`. */
-  link: UiFormFieldBinding<string | undefined>
+  /** Binding from `useSoraFormField()` for `['links', index]`. */
+  link: SoraFormFieldBinding<string | undefined>
   index: number
 }>()
 const emit = defineEmits<{ remove: [] }>()
@@ -21,7 +21,7 @@ const placeholder = 'https://'
 
 <template>
   <div class="flex items-start gap-2">
-    <UiInput
+    <SoraInput
       v-bind="link"
       class="min-w-0 flex-1"
       type="url"
@@ -30,7 +30,7 @@ const placeholder = 'https://'
       hide-label
       :label="t('profile.link', { index: index + 1 })"
     />
-    <UiIconButton
+    <SoraIconButton
       :label="t('profile.link.remove', { index: index + 1 })"
       :icon="iconClose"
       variant="ghost"

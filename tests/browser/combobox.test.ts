@@ -18,16 +18,16 @@ function setup(overrides: Partial<ComboboxState> = {}) {
   })
   const view = mountVapor(ComboboxHarness, { props: { state } })
   const input = q<HTMLInputElement>('combobox')
-  const field = input.closest<HTMLElement>('.vui-field') as HTMLElement
-  const popup = $('.vui-combobox__popup', field)
+  const field = input.closest<HTMLElement>('.sora-field') as HTMLElement
+  const popup = $('.sora-combobox__popup', field)
   const listbox = $('[role="listbox"]', field)
   const options = (): HTMLElement[] => all('[role="option"]', listbox)
   const labels = (): string[] =>
-    options().map((option) => $('.vui-listbox__text > span', option).textContent ?? '')
+    options().map((option) => $('.sora-listbox__text > span', option).textContent ?? '')
   const active = (): string | undefined => {
     const id = input.getAttribute('aria-activedescendant')
     return id
-      ? (document.getElementById(id)?.querySelector('.vui-listbox__text > span')?.textContent ?? undefined)
+      ? (document.getElementById(id)?.querySelector('.sora-listbox__text > span')?.textContent ?? undefined)
       : undefined
   }
   const isOpen = (): boolean => popup.matches(':popover-open')
@@ -35,7 +35,7 @@ function setup(overrides: Partial<ComboboxState> = {}) {
   return { state, view, input, field, popup, listbox, options, labels, active, isOpen, status }
 }
 
-describe('UiCombobox: semantics', () => {
+describe('SoraCombobox: semantics', () => {
   it('follows the ARIA combobox pattern with a labelled listbox popup', async () => {
     const { input, listbox, popup, isOpen, options } = setup()
     expect(input.getAttribute('role')).toBe('combobox')
@@ -74,7 +74,7 @@ describe('UiCombobox: semantics', () => {
     input.focus()
     await press('{ArrowDown}')
     await flush()
-    const wrapper = (input.closest('.vui-input') as HTMLElement).getBoundingClientRect()
+    const wrapper = (input.closest('.sora-input') as HTMLElement).getBoundingClientRect()
     const box = popup.getBoundingClientRect()
     expect(box.top).toBeGreaterThanOrEqual(wrapper.bottom)
     expect(box.top - wrapper.bottom).toBeLessThan(12)
@@ -83,7 +83,7 @@ describe('UiCombobox: semantics', () => {
   })
 })
 
-describe('UiCombobox: keyboard', () => {
+describe('SoraCombobox: keyboard', () => {
   it('moves the active option with the arrows, skipping disabled options and wrapping', async () => {
     const { input, active } = setup()
     input.focus()
@@ -161,7 +161,7 @@ describe('UiCombobox: keyboard', () => {
   })
 })
 
-describe('UiCombobox: filtering and pointer', () => {
+describe('SoraCombobox: filtering and pointer', () => {
   it('filters as the user types, ignoring case and accents, and highlights the first match', async () => {
     const { input, labels, active, isOpen, status } = setup()
     await userEvent.fill(input, 'ap')
@@ -174,7 +174,7 @@ describe('UiCombobox: filtering and pointer', () => {
     expect(labels()).toEqual(['Crème brûlée'])
     await userEvent.fill(input, 'zzz')
     expect(labels()).toEqual([])
-    expect($('.vui-combobox__status').textContent?.trim()).toBe('No results')
+    expect($('.sora-combobox__status').textContent?.trim()).toBe('No results')
     expect(status()).toBe('No results')
     expect(active()).toBeUndefined()
   })
@@ -223,13 +223,13 @@ describe('UiCombobox: filtering and pointer', () => {
   })
 })
 
-describe('UiCombobox: asynchronous source', () => {
+describe('SoraCombobox: asynchronous source', () => {
   function asyncSetup() {
     const context = setup()
     const input = q<HTMLInputElement>('combobox-async')
-    const field = input.closest<HTMLElement>('.vui-field') as HTMLElement
+    const field = input.closest<HTMLElement>('.sora-field') as HTMLElement
     const labels = (): string[] =>
-      all('[role="option"] .vui-listbox__text > span', field).map((node) => node.textContent ?? '')
+      all('[role="option"] .sora-listbox__text > span', field).map((node) => node.textContent ?? '')
     const status = (): string => $('[role="status"]', field).textContent ?? ''
     return { ...context, input, field, labels, status }
   }
@@ -241,8 +241,8 @@ describe('UiCombobox: asynchronous source', () => {
     await until(() => state.pending.length === 1)
     expect(state.pending[0]?.query).toBe('')
     expect(status()).toBe('Loading options')
-    expect($('.vui-combobox__status', field).textContent?.trim()).toBe('Loading options')
-    expect(field.querySelector('.vui-spinner')).not.toBeNull()
+    expect($('.sora-combobox__status', field).textContent?.trim()).toBe('Loading options')
+    expect(field.querySelector('.sora-spinner')).not.toBeNull()
 
     state.pending[0]?.resolve([
       { value: 'kiwi', label: 'Kiwi' },
@@ -251,7 +251,7 @@ describe('UiCombobox: asynchronous source', () => {
     await until(() => labels().length === 2)
     expect(labels()).toEqual(['Kiwi', 'Lime'])
     expect(status()).toBe('Results available: 2')
-    expect(field.querySelector('.vui-spinner')).toBeNull()
+    expect(field.querySelector('.sora-spinner')).toBeNull()
 
     await press('{ArrowDown}{Enter}')
     expect(state.asyncValue).toBe('lime')
@@ -284,7 +284,7 @@ describe('UiCombobox: asynchronous source', () => {
     await until(() => state.pending.length === 1)
     state.pending[0]?.reject(new Error('offline'))
     await until(() => status() === 'Options could not be loaded.')
-    expect($('.vui-combobox__status', field).dataset['tone']).toBe('error')
+    expect($('.sora-combobox__status', field).dataset['tone']).toBe('error')
 
     await userEvent.fill(input, 'xy')
     await until(() => state.pending.length === 2)

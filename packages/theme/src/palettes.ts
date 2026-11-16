@@ -1,6 +1,6 @@
 import { toGamut } from './color.ts'
-import { UI_SHADES } from './types.ts'
-import type { Oklch, UiBuiltinPalette, UiPaletteScale, UiShade } from './types.ts'
+import { SORA_SHADES } from './types.ts'
+import type { Oklch, SoraBuiltinPalette, SoraPaletteScale, SoraShade } from './types.ts'
 
 /**
  * Tonal scales are original project values (not measurements of any
@@ -12,7 +12,7 @@ import type { Oklch, UiBuiltinPalette, UiPaletteScale, UiShade } from './types.t
  */
 
 /** Lightness per shade for low-chroma (surface/text) palettes. */
-const NEUTRAL_LIGHTNESS: Readonly<Record<UiShade, number>> = {
+const NEUTRAL_LIGHTNESS: Readonly<Record<SoraShade, number>> = {
   50: 0.982,
   100: 0.962,
   200: 0.922,
@@ -27,7 +27,7 @@ const NEUTRAL_LIGHTNESS: Readonly<Record<UiShade, number>> = {
 }
 
 /** Lightness per shade for chromatic (intent) palettes. */
-const CHROMATIC_LIGHTNESS: Readonly<Record<UiShade, number>> = {
+const CHROMATIC_LIGHTNESS: Readonly<Record<SoraShade, number>> = {
   50: 0.975,
   100: 0.945,
   200: 0.895,
@@ -42,7 +42,7 @@ const CHROMATIC_LIGHTNESS: Readonly<Record<UiShade, number>> = {
 }
 
 /** Share of the peak chroma used at each shade (pale ends, saturated middle). */
-const CHROMA_CURVE: Readonly<Record<UiShade, number>> = {
+const CHROMA_CURVE: Readonly<Record<SoraShade, number>> = {
   50: 0.14,
   100: 0.28,
   200: 0.5,
@@ -66,24 +66,24 @@ interface ScaleRecipe {
   kind: 'neutral' | 'chromatic'
 }
 
-function buildScale({ hue, chroma, hueShift = 0, kind }: ScaleRecipe): UiPaletteScale {
+function buildScale({ hue, chroma, hueShift = 0, kind }: ScaleRecipe): SoraPaletteScale {
   const lightness = kind === 'neutral' ? NEUTRAL_LIGHTNESS : CHROMATIC_LIGHTNESS
-  const entries = UI_SHADES.map((shade, index): [UiShade, Oklch] => {
-    const progress = index / (UI_SHADES.length - 1)
+  const entries = SORA_SHADES.map((shade, index): [SoraShade, Oklch] => {
+    const progress = index / (SORA_SHADES.length - 1)
     // Neutral scales keep a flat, faint tint; chromatic ones follow the curve.
     const stepChroma =
       kind === 'neutral' ? chroma * (0.6 + 0.4 * Math.sin(progress * Math.PI)) : chroma * CHROMA_CURVE[shade]
     const color = toGamut([lightness[shade], stepChroma, hue + hueShift * (progress - 0.5)])
     return [shade, [round(color[0]), round(color[1]), round(color[2])]]
   })
-  return Object.freeze(Object.fromEntries(entries)) as UiPaletteScale
+  return Object.freeze(Object.fromEntries(entries)) as SoraPaletteScale
 }
 
 function round(value: number): number {
   return Math.round(value * 10000) / 10000
 }
 
-export const palettes: Readonly<Record<UiBuiltinPalette, UiPaletteScale>> = Object.freeze({
+export const palettes: Readonly<Record<SoraBuiltinPalette, SoraPaletteScale>> = Object.freeze({
   /** Near-achromatic grey with a trace of warmth. */
   neutral: buildScale({ hue: 85, chroma: 0.004, kind: 'neutral' }),
   /** Warm paper/charcoal neutral used for canvas, surfaces and text. */
@@ -98,7 +98,7 @@ export const palettes: Readonly<Record<UiBuiltinPalette, UiPaletteScale>> = Obje
   teal: buildScale({ hue: 192, chroma: 0.105, hueShift: 8, kind: 'chromatic' }),
 })
 
-export const builtinPaletteNames = Object.freeze(Object.keys(palettes)) as readonly UiBuiltinPalette[]
+export const builtinPaletteNames = Object.freeze(Object.keys(palettes)) as readonly SoraBuiltinPalette[]
 
 /** Build a complete custom scale from a hue and peak chroma. */
 export function createPalette(recipe: {
@@ -106,11 +106,11 @@ export function createPalette(recipe: {
   chroma: number
   hueShift?: number
   kind?: 'neutral' | 'chromatic'
-}): UiPaletteScale {
+}): SoraPaletteScale {
   return buildScale({ kind: 'chromatic', ...recipe })
 }
 
 /** True when a scale carries so little chroma that it reads as grey. */
-export function isNeutralScale(scale: UiPaletteScale): boolean {
-  return UI_SHADES.every((shade) => scale[shade][1] < 0.03)
+export function isNeutralScale(scale: SoraPaletteScale): boolean {
+  return SORA_SHADES.every((shade) => scale[shade][1] < 0.03)
 }

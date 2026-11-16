@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
-import { UiBadge, UiButton, UiCard, UiPagination, UiProvider } from '@your-scope/ui'
-import type { UiTranslator } from '@your-scope/ui'
+import { SoraBadge, SoraButton, SoraCard, SoraPagination, SoraProvider } from '@your-scope/ui'
+import type { SoraTranslator } from '@your-scope/ui'
 import { createProviderTheme } from '@your-scope/ui/theme'
 
 export interface ProviderState {
@@ -10,7 +10,7 @@ export interface ProviderState {
   motion: 'none' | 'subtle' | 'standard' | undefined
   locale: string | undefined
   dir: 'ltr' | 'rtl' | undefined
-  translator: UiTranslator | undefined
+  translator: SoraTranslator | undefined
   /** Mount the `target="document"` provider. */
   documentProvider: boolean
   page: number
@@ -18,7 +18,7 @@ export interface ProviderState {
 
 const { state } = defineProps<{ state: ProviderState }>()
 
-// A partial ui.config.ts-style object turned into provider props.
+// A partial sora.config.ts-style object turned into provider props.
 const violet = createProviderTheme({
   colors: { primary: 'violet' },
   density: 'comfortable',
@@ -28,7 +28,7 @@ const violet = createProviderTheme({
 </script>
 
 <template>
-  <UiProvider
+  <SoraProvider
     data-testid="outer"
     class="from-caller"
     :color-mode="state.colorMode"
@@ -40,38 +40,38 @@ const violet = createProviderTheme({
     :translator="state.translator"
     :defaults="{ button: { size: 'lg', variant: 'outline' }, badge: { color: 'success' } }"
   >
-    <UiButton data-testid="outer-button">Outer</UiButton>
-    <UiCard data-testid="outer-card" title="Card">Body</UiCard>
-    <UiPagination v-model:page="state.page" data-testid="pagination" :page-count="3" />
+    <SoraButton data-testid="outer-button">Outer</SoraButton>
+    <SoraCard data-testid="outer-card" title="Card">Body</SoraCard>
+    <SoraPagination v-model:page="state.page" data-testid="pagination" :page-count="3" />
 
-    <UiProvider
+    <SoraProvider
       data-testid="inner"
       as="section"
       color-mode="light"
       :defaults="{ button: { variant: 'soft' } }"
-      :theme-vars="{ '--vui-primary': 'rgb(1, 2, 3)' }"
+      :theme-vars="{ '--sora-primary': 'rgb(1, 2, 3)' }"
     >
-      <UiButton data-testid="inner-button">Inner</UiButton>
-      <UiBadge data-testid="inner-badge">Badge</UiBadge>
-      <UiCard data-testid="inner-card" title="Card">Body</UiCard>
-    </UiProvider>
+      <SoraButton data-testid="inner-button">Inner</SoraButton>
+      <SoraBadge data-testid="inner-badge">Badge</SoraBadge>
+      <SoraCard data-testid="inner-card" title="Card">Body</SoraCard>
+    </SoraProvider>
 
-    <UiProvider data-testid="violet" v-bind="violet">
-      <UiButton data-testid="violet-button">Violet</UiButton>
-    </UiProvider>
-  </UiProvider>
+    <SoraProvider data-testid="violet" v-bind="violet">
+      <SoraButton data-testid="violet-button">Violet</SoraButton>
+    </SoraProvider>
+  </SoraProvider>
 
-  <UiButton data-testid="plain-button">Plain</UiButton>
-  <UiCard data-testid="plain-card" title="Card">Body</UiCard>
+  <SoraButton data-testid="plain-button">Plain</SoraButton>
+  <SoraCard data-testid="plain-card" title="Card">Body</SoraCard>
 
-  <UiProvider
+  <SoraProvider
     v-if="state.documentProvider"
     target="document"
     :color-mode="state.colorMode"
     :density="state.density"
     :locale="state.locale"
-    :theme-vars="{ '--vui-test-token': '7px' }"
+    :theme-vars="{ '--sora-test-token': '7px' }"
   >
     <span data-testid="document-child">child</span>
-  </UiProvider>
+  </SoraProvider>
 </template>

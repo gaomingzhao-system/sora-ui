@@ -1,21 +1,21 @@
-import type { UiColor, UiSize, UiVariant } from '@your-scope/theme'
+import type { SoraColor, SoraSize, SoraVariant } from '@your-scope/theme'
 
 export type {
-  UiColor,
-  UiColorRole,
-  UiComponentDefaults,
-  UiComponentDefaultsInput,
-  UiDensity,
-  UiMotion,
-  UiPadding,
-  UiRadius,
-  UiSize,
-  UiSurfaceVariant,
-  UiVariant,
+  SoraColor,
+  SoraColorRole,
+  SoraComponentDefaults,
+  SoraComponentDefaultsInput,
+  SoraDensity,
+  SoraMotion,
+  SoraPadding,
+  SoraRadius,
+  SoraSize,
+  SoraSurfaceVariant,
+  SoraVariant,
 } from '@your-scope/theme'
 
 /** A selectable value with a human-readable label. */
-export interface UiOption<T extends string | number = string> {
+export interface SoraOption<T extends string | number = string> {
   value: T
   label: string
   disabled?: boolean | undefined
@@ -23,19 +23,19 @@ export interface UiOption<T extends string | number = string> {
   description?: string | undefined
 }
 
-/** A labelled group of options (native `<optgroup>` in UiSelect). */
-export interface UiOptionGroup<T extends string | number = string> {
+/** A labelled group of options (native `<optgroup>` in SoraSelect). */
+export interface SoraOptionGroup<T extends string | number = string> {
   label: string
-  options: readonly UiOption<T>[]
+  options: readonly SoraOption<T>[]
   disabled?: boolean | undefined
 }
 
-export type UiDirection = 'ltr' | 'rtl'
-export type UiOrientation = 'horizontal' | 'vertical'
-export type UiColorModeSetting = 'light' | 'dark' | 'system'
+export type SoraDirection = 'ltr' | 'rtl'
+export type SoraOrientation = 'horizontal' | 'vertical'
+export type SoraColorModeSetting = 'light' | 'dark' | 'system'
 
 /** Logical placement of an anchored overlay relative to its trigger. */
-export type UiPlacement =
+export type SoraPlacement =
   | 'bottom-start'
   | 'bottom'
   | 'bottom-end'
@@ -46,7 +46,7 @@ export type UiPlacement =
   | 'end'
 
 /** The well-known part of a native-control binding. */
-export interface UiControlBinding {
+export interface SoraControlBinding {
   readonly name?: string | undefined
   readonly autofocus?: boolean | undefined
   /** Receives the native element on mount and `null` on unmount. */
@@ -66,10 +66,10 @@ export interface UiControlBinding {
  * forms library, even at the type level. The union lets both an interface
  * typed binding and an object literal with extra attributes type-check.
  */
-export type UiControlAttrs = UiControlBinding | (UiControlBinding & Readonly<Record<string, unknown>>)
+export type SoraControlAttrs = SoraControlBinding | (SoraControlBinding & Readonly<Record<string, unknown>>)
 
-/** Trusted, static SVG path data rendered by UiIcon. */
-export interface UiIconDefinition {
+/** Trusted, static SVG path data rendered by SoraIcon. */
+export interface SoraIconDefinition {
   /** One or more `d` attribute values, drawn on a 24x24 grid. */
   readonly paths: readonly string[]
   /** Filled glyph instead of the default 1.75px stroke. */
@@ -79,8 +79,8 @@ export interface UiIconDefinition {
 }
 
 /** Shared appearance vocabulary. */
-export interface UiAppearanceProps {
-  size?: UiSize | undefined
-  color?: UiColor | undefined
-  variant?: UiVariant | undefined
+export interface SoraAppearanceProps {
+  size?: SoraSize | undefined
+  color?: SoraColor | undefined
+  variant?: SoraVariant | undefined
 }

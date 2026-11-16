@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
 import { useForm } from '@formisch/vue'
 import * as v from 'valibot'
-import { useUiFormField } from '@your-scope/ui/forms'
+import { useSoraFormField } from '@your-scope/ui/forms'
 import ProfileLink from './ProfileLink.vue'
 
 /**
@@ -20,7 +20,7 @@ const { form, index } = defineProps<{
 defineEmits<{ remove: [] }>()
 
 // The path is a getter, so the row follows its item when earlier rows are removed.
-const link = useUiFormField(form as LinksForm, () => ({ path: ['links', index] as const }))
+const link = useSoraFormField(form as LinksForm, () => ({ path: ['links', index] as const }))
 </script>
 
 <template>

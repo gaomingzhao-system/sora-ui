@@ -40,16 +40,16 @@ const CONSUMERS: readonly Consumer[] = [
     forbidden: [
       /Next page/, // the English message dictionary (Button and Card need no text)
       /次のページ|الصفحة التالية/, // any other locale
-      /vui-dialog|vui-combobox|vui-toast/, // unrelated components' markup
+      /sora-dialog|sora-combobox|sora-toast/, // unrelated components' markup
     ],
-    required: [/vui-button/, /vui-card/],
+    required: [/sora-button/, /sora-card/],
   },
   {
     name: 'full',
     source: 'apps/consumer',
     absent: [],
     forbidden: [],
-    required: [/vui-button/, /vui-dialog/, /vui-pagination/],
+    required: [/sora-button/, /sora-dialog/, /sora-pagination/],
   },
 ]
 
@@ -128,7 +128,7 @@ for (const consumer of CONSUMERS) {
     if (!pattern.test(js) && !pattern.test(css))
       throw new Error(`${consumer.name}: build is missing ${pattern.source}`)
   }
-  if (!css.includes('--vui-canvas'))
+  if (!css.includes('--sora-canvas'))
     throw new Error(`${consumer.name}: the documented CSS import produced no tokens`)
 
   const sizes = {
@@ -152,7 +152,7 @@ if (process.argv.includes('--no-e2e')) {
     'pnpm',
     ['exec', 'playwright', 'test', '--project=consumer', '--reporter=line', '--trace', 'off'],
     {
-      env: { VUI_E2E_QUIET: '1' },
+      env: { SORA_E2E_QUIET: '1' },
     },
   )
   const summary = /(\d+) passed[^\n]*/.exec(output)?.[0] ?? 'passed'

@@ -1,24 +1,24 @@
 <script setup lang="ts" vapor>
 import { computed, ref } from 'vue'
 import {
-  UiCheckbox,
-  UiCheckboxGroup,
-  UiCombobox,
-  UiDateInput,
-  UiField,
-  UiFileInput,
-  UiIcon,
-  UiInput,
-  UiNumberInput,
-  UiPasswordInput,
-  UiRadioGroup,
-  UiSelect,
-  UiSlider,
-  UiSwitch,
-  UiTextarea,
+  SoraCheckbox,
+  SoraCheckboxGroup,
+  SoraCombobox,
+  SoraDateInput,
+  SoraField,
+  SoraFileInput,
+  SoraIcon,
+  SoraInput,
+  SoraNumberInput,
+  SoraPasswordInput,
+  SoraRadioGroup,
+  SoraSelect,
+  SoraSlider,
+  SoraSwitch,
+  SoraTextarea,
   iconSearch,
 } from '@your-scope/ui'
-import type { UiOption } from '@your-scope/ui'
+import type { SoraOption } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -88,10 +88,10 @@ const FRUITS = [
   'Pear',
   'Plum',
 ]
-const fruitOptions: UiOption[] = FRUITS.map((label) => ({ value: label.toLowerCase(), label }))
+const fruitOptions: SoraOption[] = FRUITS.map((label) => ({ value: label.toLowerCase(), label }))
 
 /** A slow source: the signal lets the combobox cancel a superseded request. */
-function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
+function searchFruit(query: string, signal: AbortSignal): Promise<SoraOption[]> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       const needle = query.trim().toLowerCase()
@@ -106,23 +106,23 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
 </script>
 
 <template>
-  <DemoSection name="UiField">
-    <UiField :label="t('demo.field.custom')" :hint="t('demo.field.hint')" class="max-w-sm">
+  <DemoSection name="SoraField">
+    <SoraField :label="t('demo.field.custom')" :hint="t('demo.field.hint')" class="max-w-sm">
       <template #default="{ id, describedBy }">
         <input
           :id="id"
           v-model="custom"
           :aria-describedby="describedBy"
-          class="w-full rounded-vui border border-vui-border-strong bg-vui-surface px-2.5 py-1.5 text-vui-md"
+          class="w-full rounded-sora border border-sora-border-strong bg-sora-surface px-2.5 py-1.5 text-sora-md"
         />
       </template>
-    </UiField>
+    </SoraField>
   </DemoSection>
 
-  <DemoSection name="UiInput">
+  <DemoSection name="SoraInput">
     <div class="grid max-w-2xl gap-3 sm:grid-cols-2">
-      <UiInput v-model="name" :label="t('demo.name')" autocomplete="name" required />
-      <UiInput
+      <SoraInput v-model="name" :label="t('demo.name')" autocomplete="name" required />
+      <SoraInput
         v-model="email"
         type="email"
         :label="t('demo.email')"
@@ -130,17 +130,17 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
         :error="t('demo.email.error')"
         autocomplete="email"
       >
-        <template #leading><UiIcon :icon="iconSearch" /></template>
-      </UiInput>
-      <UiInput v-model="name" size="sm" :label="t('demo.name')" />
-      <UiInput v-model="name" :label="t('demo.disabled')" disabled />
+        <template #leading><SoraIcon :icon="iconSearch" /></template>
+      </SoraInput>
+      <SoraInput v-model="name" size="sm" :label="t('demo.name')" />
+      <SoraInput v-model="name" :label="t('demo.disabled')" disabled />
     </div>
   </DemoSection>
 
-  <DemoSection name="UiTextarea">
+  <DemoSection name="SoraTextarea">
     <div class="grid max-w-2xl gap-3 sm:grid-cols-2">
-      <UiTextarea v-model="message" :label="t('demo.message')" :rows="3" />
-      <UiTextarea
+      <SoraTextarea v-model="message" :label="t('demo.message')" :rows="3" />
+      <SoraTextarea
         v-model="message"
         :label="t('demo.message')"
         autosize
@@ -151,8 +151,8 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
     </div>
   </DemoSection>
 
-  <DemoSection name="UiPasswordInput">
-    <UiPasswordInput
+  <DemoSection name="SoraPasswordInput">
+    <SoraPasswordInput
       v-model="password"
       :label="t('demo.password')"
       autocomplete="new-password"
@@ -160,27 +160,27 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
     />
   </DemoSection>
 
-  <DemoSection name="UiNumberInput">
+  <DemoSection name="SoraNumberInput">
     <div class="grid max-w-md grid-cols-2 gap-3">
-      <UiNumberInput v-model="amount" :label="t('demo.amount')" :min="0" :max="99" controls />
-      <UiNumberInput v-model="amount" :label="t('demo.amount')" :step="0.5" />
+      <SoraNumberInput v-model="amount" :label="t('demo.amount')" :min="0" :max="99" controls />
+      <SoraNumberInput v-model="amount" :label="t('demo.amount')" :step="0.5" />
     </div>
-    <p class="mt-2 text-vui-sm text-vui-muted" data-testid="number-value">
+    <p class="mt-2 text-sora-sm text-sora-muted" data-testid="number-value">
       {{ t('demo.value', { value: String(amount) }) }}
     </p>
   </DemoSection>
 
-  <DemoSection name="UiDateInput">
-    <UiDateInput v-model="date" :label="t('demo.date')" min="2026-01-01" class="max-w-xs" />
-    <p class="mt-2 text-vui-sm text-vui-muted">{{ t('demo.value', { value: String(date) }) }}</p>
+  <DemoSection name="SoraDateInput">
+    <SoraDateInput v-model="date" :label="t('demo.date')" min="2026-01-01" class="max-w-xs" />
+    <p class="mt-2 text-sora-sm text-sora-muted">{{ t('demo.value', { value: String(date) }) }}</p>
   </DemoSection>
 
-  <DemoSection name="UiCheckbox">
+  <DemoSection name="SoraCheckbox">
     <div class="grid gap-1">
-      <UiCheckbox v-model="terms" :label="t('demo.terms')" :hint="t('demo.email.hint')" />
-      <UiCheckbox v-model="all" v-model:indeterminate="mixed" :label="t('demo.selectAll')" />
-      <UiCheckbox :model-value="true" :label="t('demo.disabled')" disabled />
-      <UiCheckbox
+      <SoraCheckbox v-model="terms" :label="t('demo.terms')" :hint="t('demo.email.hint')" />
+      <SoraCheckbox v-model="all" v-model:indeterminate="mixed" :label="t('demo.selectAll')" />
+      <SoraCheckbox :model-value="true" :label="t('demo.disabled')" disabled />
+      <SoraCheckbox
         :model-value="false"
         :label="t('demo.invalid')"
         :error="t('validation.accepted')"
@@ -189,42 +189,42 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
     </div>
   </DemoSection>
 
-  <DemoSection name="UiCheckboxGroup">
-    <UiCheckboxGroup
+  <DemoSection name="SoraCheckboxGroup">
+    <SoraCheckboxGroup
       v-model="channels"
       :options="channelOptions"
       :label="t('demo.notifications')"
       orientation="horizontal"
     />
-    <p class="mt-2 text-vui-sm text-vui-muted">{{ t('demo.selected', { value: channels.join(', ') }) }}</p>
+    <p class="mt-2 text-sora-sm text-sora-muted">{{ t('demo.selected', { value: channels.join(', ') }) }}</p>
   </DemoSection>
 
-  <DemoSection name="UiRadioGroup">
-    <UiRadioGroup v-model="plan" :options="planOptions" :label="t('demo.plan')" />
+  <DemoSection name="SoraRadioGroup">
+    <SoraRadioGroup v-model="plan" :options="planOptions" :label="t('demo.plan')" />
   </DemoSection>
 
-  <DemoSection name="UiSwitch">
+  <DemoSection name="SoraSwitch">
     <div class="grid max-w-sm gap-1">
-      <UiSwitch v-model="dark" :label="t('demo.darkMode')" />
-      <UiSwitch
+      <SoraSwitch v-model="dark" :label="t('demo.darkMode')" />
+      <SoraSwitch
         v-model="dark"
         :label="t('demo.notifications')"
         :hint="t('settings.email.hint')"
         label-placement="start"
       />
-      <UiSwitch :model-value="false" :label="t('demo.disabled')" disabled />
+      <SoraSwitch :model-value="false" :label="t('demo.disabled')" disabled />
     </div>
   </DemoSection>
 
-  <DemoSection name="UiSelect">
+  <DemoSection name="SoraSelect">
     <div class="grid max-w-2xl gap-3 sm:grid-cols-2">
-      <UiSelect
+      <SoraSelect
         v-model="country"
         :options="countries"
         :label="t('demo.country')"
         :placeholder="t('demo.country.placeholder')"
       />
-      <UiSelect
+      <SoraSelect
         v-model="country"
         :options="countries"
         :label="t('demo.country')"
@@ -234,16 +234,16 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
     </div>
   </DemoSection>
 
-  <DemoSection name="UiCombobox">
+  <DemoSection name="SoraCombobox">
     <div class="grid max-w-2xl gap-3 sm:grid-cols-2">
-      <UiCombobox
+      <SoraCombobox
         v-model="fruit"
         :options="fruitOptions"
         :label="t('demo.fruit')"
         :placeholder="t('demo.search')"
         data-testid="combobox-local"
       />
-      <UiCombobox
+      <SoraCombobox
         v-model="asyncFruit"
         :search="searchFruit"
         :label="t('demo.fruit.async')"
@@ -251,15 +251,15 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
         data-testid="combobox-async"
       />
     </div>
-    <p class="mt-2 text-vui-sm text-vui-muted" data-testid="combobox-value">
+    <p class="mt-2 text-sora-sm text-sora-muted" data-testid="combobox-value">
       {{ t('demo.selected', { value: String(fruit) }) }}
     </p>
   </DemoSection>
 
-  <DemoSection name="UiSlider">
+  <DemoSection name="SoraSlider">
     <div class="grid max-w-md gap-3">
-      <UiSlider v-model="volume" :label="t('demo.volume')" show-value />
-      <UiSlider
+      <SoraSlider v-model="volume" :label="t('demo.volume')" show-value />
+      <SoraSlider
         v-model="volume"
         :label="t('demo.volume')"
         color="secondary"
@@ -267,12 +267,12 @@ function searchFruit(query: string, signal: AbortSignal): Promise<UiOption[]> {
         show-value
         :format-value="(value) => `${value} %`"
       />
-      <UiSlider :model-value="30" :label="t('demo.disabled')" disabled />
+      <SoraSlider :model-value="30" :label="t('demo.disabled')" disabled />
     </div>
   </DemoSection>
 
-  <DemoSection name="UiFileInput">
-    <UiFileInput
+  <DemoSection name="SoraFileInput">
+    <SoraFileInput
       v-model="files"
       :label="t('demo.attachment')"
       multiple

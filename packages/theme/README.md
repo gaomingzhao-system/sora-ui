@@ -1,13 +1,13 @@
 # @your-scope/theme
 
-The design-system configuration behind `@your-scope/ui`: OKLCH palettes, a typed `defineUiConfig()`,
-the resolver that turns a configuration into `--vui-*` custom properties, and a contrast audit. It has
+The design-system configuration behind `@your-scope/ui`: OKLCH palettes, a typed `defineSoraConfig()`,
+the resolver that turns a configuration into `--sora-*` custom properties, and a contrast audit. It has
 no dependencies and runs in Node and in the browser.
 
 ```ts
-import { createPalette, createThemeVars, defineUiConfig, resolveTheme, themeToCss } from '@your-scope/theme'
+import { createPalette, createThemeVars, defineSoraConfig, resolveTheme, themeToCss } from '@your-scope/theme'
 
-const config = defineUiConfig({
+const config = defineSoraConfig({
   palettes: { brand: createPalette({ hue: 250, chroma: 0.12 }) },
   colors: { primary: 'brand' },
   radius: 'lg',

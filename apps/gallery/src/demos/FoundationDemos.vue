@@ -1,10 +1,10 @@
 <script setup lang="ts" vapor>
 import {
-  UiBadge,
-  UiButton,
-  UiCard,
-  UiIcon,
-  UiProvider,
+  SoraBadge,
+  SoraButton,
+  SoraCard,
+  SoraIcon,
+  SoraProvider,
   iconCheck,
   iconChevronRight,
   iconSearch,
@@ -17,31 +17,31 @@ const t = useT()
 </script>
 
 <template>
-  <DemoSection name="UiProvider">
+  <DemoSection name="SoraProvider">
     <div class="grid gap-3 sm:grid-cols-2">
-      <UiProvider color-mode="dark" density="comfortable" class="contents">
-        <UiCard variant="outline" class="bg-vui-canvas">
-          <p class="mb-2 text-vui-sm text-vui-muted">{{ t('demo.provider.inner') }}</p>
-          <UiButton>{{ t('demo.save') }}</UiButton>
-        </UiCard>
-      </UiProvider>
-      <UiProvider radius="none" :defaults="{ button: { variant: 'outline', color: 'secondary' } }">
-        <UiCard>
-          <p class="mb-2 text-vui-sm text-vui-muted">{{ t('demo.provider.inner') }}</p>
-          <UiButton>{{ t('demo.save') }}</UiButton>
-        </UiCard>
-      </UiProvider>
+      <SoraProvider color-mode="dark" density="comfortable" class="contents">
+        <SoraCard variant="outline" class="bg-sora-canvas">
+          <p class="mb-2 text-sora-sm text-sora-muted">{{ t('demo.provider.inner') }}</p>
+          <SoraButton>{{ t('demo.save') }}</SoraButton>
+        </SoraCard>
+      </SoraProvider>
+      <SoraProvider radius="none" :defaults="{ button: { variant: 'outline', color: 'secondary' } }">
+        <SoraCard>
+          <p class="mb-2 text-sora-sm text-sora-muted">{{ t('demo.provider.inner') }}</p>
+          <SoraButton>{{ t('demo.save') }}</SoraButton>
+        </SoraCard>
+      </SoraProvider>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiIcon">
-    <div class="flex flex-wrap items-center gap-4 text-vui-muted">
-      <UiIcon :icon="iconCheck" size="sm" />
-      <UiIcon :icon="iconSun" size="md" />
-      <UiIcon :icon="iconSearch" size="lg" :label="t('demo.icon.named')" />
-      <UiIcon :icon="iconChevronRight" size="lg" />
-      <UiBadge color="info"
-        ><template #leading><UiIcon :icon="iconCheck" /></template>{{ t('demo.badge.active') }}</UiBadge
+  <DemoSection name="SoraIcon">
+    <div class="flex flex-wrap items-center gap-4 text-sora-muted">
+      <SoraIcon :icon="iconCheck" size="sm" />
+      <SoraIcon :icon="iconSun" size="md" />
+      <SoraIcon :icon="iconSearch" size="lg" :label="t('demo.icon.named')" />
+      <SoraIcon :icon="iconChevronRight" size="lg" />
+      <SoraBadge color="info"
+        ><template #leading><SoraIcon :icon="iconCheck" /></template>{{ t('demo.badge.active') }}</SoraBadge
       >
     </div>
   </DemoSection>

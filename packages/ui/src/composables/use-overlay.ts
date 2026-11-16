@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { activeElement, canFocus, closestFocusable } from '../internal/focus.ts'
 
 /** Why an overlay closed. */
-export type UiCloseReason = 'escape' | 'backdrop' | 'action' | 'programmatic'
+export type SoraCloseReason = 'escape' | 'backdrop' | 'action' | 'programmatic'
 
 export interface UseModalDialogOptions {
   element: () => HTMLDialogElement | null
@@ -14,12 +14,12 @@ export interface UseModalDialogOptions {
   initialFocus?: () => HTMLElement | null | undefined
   /** Where focus goes on close when the opener is gone, or to override it. */
   returnFocus?: () => HTMLElement | null | undefined
-  onClose?: (reason: UiCloseReason) => void
+  onClose?: (reason: SoraCloseReason) => void
 }
 
 export interface ModalDialogBindings {
   /** Close through the component (`reason` is reported to `onClose`). */
-  close(reason?: UiCloseReason): void
+  close(reason?: SoraCloseReason): void
   onCancel(event: Event): void
   onClose(): void
   onPointerdown(event: PointerEvent): void
@@ -36,7 +36,7 @@ export interface ModalDialogBindings {
  */
 export function useModalDialog(options: UseModalDialogOptions): ModalDialogBindings {
   let opener: Element | null = null
-  let reason: UiCloseReason = 'programmatic'
+  let reason: SoraCloseReason = 'programmatic'
   let pressedOnBackdrop = false
 
   function show(): void {
@@ -49,7 +49,7 @@ export function useModalDialog(options: UseModalDialogOptions): ModalDialogBindi
     target?.focus()
   }
 
-  function close(nextReason: UiCloseReason = 'programmatic'): void {
+  function close(nextReason: SoraCloseReason = 'programmatic'): void {
     const element = options.element()
     reason = nextReason
     if (element?.open) element.close()

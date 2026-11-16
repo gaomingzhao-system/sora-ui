@@ -1,11 +1,11 @@
 <script setup lang="ts" vapor>
 import { ref } from 'vue'
 import {
-  UiButton,
-  UiButtonGroup,
-  UiIcon,
-  UiIconButton,
-  UiLink,
+  SoraButton,
+  SoraButtonGroup,
+  SoraIcon,
+  SoraIconButton,
+  SoraLink,
   iconMore,
   iconPlus,
   iconSearch,
@@ -28,58 +28,58 @@ function save(): void {
 </script>
 
 <template>
-  <DemoSection name="UiButton">
+  <DemoSection name="SoraButton">
     <div class="grid gap-2">
       <div v-for="variant in variants" :key="variant" class="flex flex-wrap items-center gap-2">
-        <UiButton v-for="color in colors" :key="color" :variant="variant" :color="color">{{
+        <SoraButton v-for="color in colors" :key="color" :variant="variant" :color="color">{{
           t('demo.label')
-        }}</UiButton>
+        }}</SoraButton>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <UiButton size="sm">{{ t('demo.add') }}</UiButton>
-        <UiButton>{{ t('demo.add') }}</UiButton>
-        <UiButton size="lg">{{ t('demo.add') }}</UiButton>
-        <UiButton variant="outline" color="neutral">
-          <template #leading><UiIcon :icon="iconPlus" /></template>
+        <SoraButton size="sm">{{ t('demo.add') }}</SoraButton>
+        <SoraButton>{{ t('demo.add') }}</SoraButton>
+        <SoraButton size="lg">{{ t('demo.add') }}</SoraButton>
+        <SoraButton variant="outline" color="neutral">
+          <template #leading><SoraIcon :icon="iconPlus" /></template>
           {{ t('demo.add') }}
-        </UiButton>
-        <UiButton :loading="saving" data-testid="demo-save" @click="save">{{ t('demo.save') }}</UiButton>
-        <UiButton disabled>{{ t('demo.disabled') }}</UiButton>
+        </SoraButton>
+        <SoraButton :loading="saving" data-testid="demo-save" @click="save">{{ t('demo.save') }}</SoraButton>
+        <SoraButton disabled>{{ t('demo.disabled') }}</SoraButton>
       </div>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiIconButton">
+  <DemoSection name="SoraIconButton">
     <div class="flex flex-wrap items-center gap-2">
-      <UiIconButton :label="t('demo.search')" :icon="iconSearch" />
-      <UiIconButton :label="t('demo.add')" :icon="iconPlus" variant="outline" />
-      <UiIconButton :label="t('demo.more')" :icon="iconMore" variant="soft" size="sm" />
-      <UiIconButton :label="t('demo.add')" :icon="iconPlus" variant="solid" color="primary" size="lg" />
-      <UiIconButton :label="t('demo.search')" :icon="iconSearch" loading />
-      <UiIconButton :label="t('demo.search')" :icon="iconSearch" disabled />
+      <SoraIconButton :label="t('demo.search')" :icon="iconSearch" />
+      <SoraIconButton :label="t('demo.add')" :icon="iconPlus" variant="outline" />
+      <SoraIconButton :label="t('demo.more')" :icon="iconMore" variant="soft" size="sm" />
+      <SoraIconButton :label="t('demo.add')" :icon="iconPlus" variant="solid" color="primary" size="lg" />
+      <SoraIconButton :label="t('demo.search')" :icon="iconSearch" loading />
+      <SoraIconButton :label="t('demo.search')" :icon="iconSearch" disabled />
     </div>
   </DemoSection>
 
-  <DemoSection name="UiButtonGroup">
+  <DemoSection name="SoraButtonGroup">
     <div class="flex flex-wrap items-center gap-4">
-      <UiButtonGroup attached variant="outline" color="neutral" :label="t('demo.date')">
-        <UiButton :aria-pressed="view === 'day'" @click="view = 'day'">1</UiButton>
-        <UiButton :aria-pressed="view === 'week'" @click="view = 'week'">7</UiButton>
-        <UiButton :aria-pressed="view === 'month'" @click="view = 'month'">30</UiButton>
-      </UiButtonGroup>
-      <UiButtonGroup size="sm" :label="t('workspace.actions')">
-        <UiButton variant="ghost" color="neutral">{{ t('demo.cancel') }}</UiButton>
-        <UiButton>{{ t('demo.save') }}</UiButton>
-      </UiButtonGroup>
+      <SoraButtonGroup attached variant="outline" color="neutral" :label="t('demo.date')">
+        <SoraButton :aria-pressed="view === 'day'" @click="view = 'day'">1</SoraButton>
+        <SoraButton :aria-pressed="view === 'week'" @click="view = 'week'">7</SoraButton>
+        <SoraButton :aria-pressed="view === 'month'" @click="view = 'month'">30</SoraButton>
+      </SoraButtonGroup>
+      <SoraButtonGroup size="sm" :label="t('workspace.actions')">
+        <SoraButton variant="ghost" color="neutral">{{ t('demo.cancel') }}</SoraButton>
+        <SoraButton>{{ t('demo.save') }}</SoraButton>
+      </SoraButtonGroup>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiLink">
+  <DemoSection name="SoraLink">
     <p class="flex flex-wrap items-center gap-4">
-      <UiLink href="#/foundations">{{ t('nav.foundations') }}</UiLink>
-      <UiLink :href="docsUrl" external>{{ t('demo.docs') }}</UiLink>
-      <UiLink href="#/forms" color="neutral" underline="hover">{{ t('nav.forms') }}</UiLink>
-      <UiLink href="#/forms" disabled>{{ t('demo.disabled') }}</UiLink>
+      <SoraLink href="#/foundations">{{ t('nav.foundations') }}</SoraLink>
+      <SoraLink :href="docsUrl" external>{{ t('demo.docs') }}</SoraLink>
+      <SoraLink href="#/forms" color="neutral" underline="hover">{{ t('nav.forms') }}</SoraLink>
+      <SoraLink href="#/forms" disabled>{{ t('demo.disabled') }}</SoraLink>
     </p>
   </DemoSection>
 </template>

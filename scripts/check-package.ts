@@ -242,7 +242,7 @@ if (
 // (A private-use character stands in for each `@layer x {` opener.)
 const unlayered = css.replace(/\/\*[\s\S]*?\*\//g, '').replace(/@layer\s+[\w.-]+\s*\{/g, '\uE000')
 if (/^[^@\uE000]*\{/.test(unlayered.trimStart())) fail('styles.css starts with an unlayered rule')
-for (const needle of ['--vui-canvas', '.vui-button', '.vui-dialog', 'light-dark(', 'position-area']) {
+for (const needle of ['--sora-canvas', '.sora-button', '.sora-dialog', 'light-dark(', 'position-area']) {
   if (!css.includes(needle)) fail(`styles.css is missing ${needle}`)
 }
 if (/\.(?:container|sr-only|flex|hidden)\s*\{/.test(css))

@@ -1,14 +1,14 @@
 /*
  * Scoped resets. There is deliberately no global Preflight: only elements
- * that carry a `vui-` class are touched, and `:where()` keeps specificity at 0.
+ * that carry a `sora-` class are touched, and `:where()` keeps specificity at 0.
  */
-@layer base.vui {
-  :where([class^='vui-'], [class*=' vui-']) {
+@layer base.sora {
+  :where([class^='sora-'], [class*=' sora-']) {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     border: 0 solid;
-    font-family: var(--vui-font-sans);
+    font-family: var(--sora-font-sans);
     -webkit-tap-highlight-color: transparent;
     min-inline-size: 0;
 
@@ -19,21 +19,21 @@
   }
 
   :where(
-    button[class*='vui-'],
-    input[class*='vui-'],
-    select[class*='vui-'],
-    textarea[class*='vui-'],
-    a[class*='vui-']
+    button[class*='sora-'],
+    input[class*='sora-'],
+    select[class*='sora-'],
+    textarea[class*='sora-'],
+    a[class*='sora-']
   ) {
     font: inherit;
     letter-spacing: inherit;
     color: inherit;
     background: none;
     text-decoration: none;
-    accent-color: var(--vui-primary);
+    accent-color: var(--sora-primary);
   }
 
-  :where(button[class*='vui-']) {
+  :where(button[class*='sora-']) {
     cursor: pointer;
     touch-action: manipulation;
 
@@ -42,26 +42,26 @@
     }
   }
 
-  :where(ul[class*='vui-'], ol[class*='vui-']) {
+  :where(ul[class*='sora-'], ol[class*='sora-']) {
     list-style: none;
   }
 
-  :where(fieldset[class*='vui-']) {
+  :where(fieldset[class*='sora-']) {
     min-inline-size: 0;
   }
 
-  :where(table[class*='vui-']) {
+  :where(table[class*='sora-']) {
     border-collapse: collapse;
     border-spacing: 0;
   }
 
-  :where(svg[class*='vui-']) {
+  :where(svg[class*='sora-']) {
     display: block;
     flex: none;
   }
 
   /* Visually hidden but available to assistive technology. */
-  :where(.vui-sr-only) {
+  :where(.sora-sr-only) {
     @apply sr-only;
   }
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
 import { computed } from 'vue'
-import { UiBadge, UiProvider, UiTable } from '@your-scope/ui'
-import type { UiTableColumn, UiTableRowKey, UiTableSort } from '@your-scope/ui'
+import { SoraBadge, SoraProvider, SoraTable } from '@your-scope/ui'
+import type { SoraTableColumn, SoraTableRowKey, SoraTableSort } from '@your-scope/ui'
 
 export interface Member {
   id: number
@@ -13,8 +13,8 @@ export interface Member {
 
 export interface DataState {
   rows: Member[]
-  sort: UiTableSort | null
-  selected: UiTableRowKey[]
+  sort: SoraTableSort | null
+  selected: SoraTableRowKey[]
   loading: boolean
   selectable: boolean
   width: string
@@ -24,7 +24,7 @@ export interface DataState {
 
 const { state } = defineProps<{ state: DataState }>()
 
-const columns: UiTableColumn<Member>[] = [
+const columns: SoraTableColumn<Member>[] = [
   { key: 'name', header: 'Name', sortable: true, rowHeader: true },
   { key: 'role', header: 'Role', width: '12rem' },
   { key: 'seats', header: 'Seats', align: 'end', sortable: true },
@@ -43,9 +43,9 @@ const sorted = computed(() => {
 </script>
 
 <template>
-  <UiProvider :locale="state.locale">
+  <SoraProvider :locale="state.locale">
     <div data-testid="table-box" :style="{ inlineSize: state.width }">
-      <UiTable
+      <SoraTable
         v-model:sort="state.sort"
         v-model:selected="state.selected"
         data-testid="table"
@@ -57,15 +57,15 @@ const sorted = computed(() => {
         :selectable="state.selectable"
       >
         <template #cell-status="{ value, row }">
-          <UiBadge :color="row.active ? 'success' : 'neutral'" data-testid="status-badge">{{
+          <SoraBadge :color="row.active ? 'success' : 'neutral'" data-testid="status-badge">{{
             value
-          }}</UiBadge>
+          }}</SoraBadge>
         </template>
-      </UiTable>
+      </SoraTable>
     </div>
-  </UiProvider>
+  </SoraProvider>
 
-  <UiTable
+  <SoraTable
     data-testid="table-plain"
     caption="Hidden caption"
     hide-caption
@@ -77,7 +77,7 @@ const sorted = computed(() => {
     :rows="[]"
   />
 
-  <UiTable
+  <SoraTable
     data-testid="table-slots"
     :row-key="(row: Member) => row.id"
     :columns="columns"
@@ -89,11 +89,11 @@ const sorted = computed(() => {
     <template #cell="{ value, index }">
       <span data-testid="generic-cell">{{ index }}:{{ value }}</span>
     </template>
-  </UiTable>
+  </SoraTable>
 
-  <UiTable data-testid="table-empty-slot" row-key="id" :columns="columns" :rows="[]" selectable>
+  <SoraTable data-testid="table-empty-slot" row-key="id" :columns="columns" :rows="[]" selectable>
     <template #empty>
       <strong data-testid="empty-slot">No members</strong>
     </template>
-  </UiTable>
+  </SoraTable>
 </template>

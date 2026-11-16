@@ -5,20 +5,20 @@
  */
 import { computed, ref, watch } from 'vue'
 import {
-  UiAlert,
-  UiAvatar,
-  UiButton,
-  UiCard,
-  UiDialog,
-  UiInput,
-  UiNumberInput,
-  UiSelect,
-  UiSwitch,
-  UiTable,
-  UiTabs,
+  SoraAlert,
+  SoraAvatar,
+  SoraButton,
+  SoraCard,
+  SoraDialog,
+  SoraInput,
+  SoraNumberInput,
+  SoraSelect,
+  SoraSwitch,
+  SoraTable,
+  SoraTabs,
   useToast,
 } from '@your-scope/ui'
-import type { UiTableColumn } from '@your-scope/ui'
+import type { SoraTableColumn } from '@your-scope/ui'
 import { useT } from '../i18n.ts'
 
 type Role = 'owner' | 'editor' | 'viewer'
@@ -59,7 +59,7 @@ const roles = computed(() => [
   { value: 'editor' as const, label: t('settings.role.editor') },
   { value: 'viewer' as const, label: t('settings.role.viewer') },
 ])
-const columns = computed<UiTableColumn<Member>[]>(() => [
+const columns = computed<SoraTableColumn<Member>[]>(() => [
   { key: 'name', header: t('settings.member'), rowHeader: true },
   { key: 'role', header: t('settings.role'), width: '10rem' },
 ])
@@ -79,24 +79,24 @@ function setRole(member: Member, role: Role | null): void {
 </script>
 
 <template>
-  <UiCard
+  <SoraCard
     as="section"
     :title="t('settings.title')"
     :description="t('settings.description')"
     data-testid="settings-panel"
   >
-    <UiTabs v-model="section" :items="sections" :label="t('settings.title')" size="sm">
+    <SoraTabs v-model="section" :items="sections" :label="t('settings.title')" size="sm">
       <template #content="{ item }">
         <div v-if="item.value === 'general'" class="grid gap-3">
-          <UiInput
+          <SoraInput
             v-model="name"
             :label="t('settings.name')"
             :hint="t('settings.name.hint')"
             orientation="horizontal"
           />
           <div class="grid gap-3 sm:grid-cols-2">
-            <UiSelect v-model="region" :options="regions" :label="t('settings.region')" />
-            <UiNumberInput
+            <SoraSelect v-model="region" :options="regions" :label="t('settings.region')" />
+            <SoraNumberInput
               v-model="retention"
               :label="t('settings.retention')"
               :min="1"
@@ -104,7 +104,7 @@ function setRole(member: Member, role: Role | null): void {
               controls
             />
           </div>
-          <UiAlert
+          <SoraAlert
             color="error"
             variant="outline"
             announce="off"
@@ -112,7 +112,7 @@ function setRole(member: Member, role: Role | null): void {
             :description="t('settings.danger.description')"
           >
             <template #actions>
-              <UiButton
+              <SoraButton
                 size="sm"
                 color="error"
                 variant="outline"
@@ -120,19 +120,19 @@ function setRole(member: Member, role: Role | null): void {
                 @click="confirmOpen = true"
               >
                 {{ t('settings.danger.action') }}
-              </UiButton>
+              </SoraButton>
             </template>
-          </UiAlert>
+          </SoraAlert>
         </div>
 
         <div v-else-if="item.value === 'notifications'" class="grid gap-1">
-          <UiSwitch
+          <SoraSwitch
             v-model="digests"
             :label="t('settings.email')"
             :hint="t('settings.email.hint')"
             label-placement="start"
           />
-          <UiSwitch
+          <SoraSwitch
             v-model="mentions"
             :label="t('settings.mentions')"
             :hint="t('settings.mentions.hint')"
@@ -141,7 +141,7 @@ function setRole(member: Member, role: Role | null): void {
         </div>
 
         <div v-else class="grid gap-3">
-          <UiTable
+          <SoraTable
             :columns="columns"
             :rows="members"
             row-key="id"
@@ -151,11 +151,11 @@ function setRole(member: Member, role: Role | null): void {
           >
             <template #cell-name="{ row }">
               <span class="flex items-center gap-2"
-                ><UiAvatar :name="row.name" size="sm" />{{ row.name }}</span
+                ><SoraAvatar :name="row.name" size="sm" />{{ row.name }}</span
               >
             </template>
             <template #cell-role="{ row }">
-              <UiSelect
+              <SoraSelect
                 :model-value="row.role"
                 :options="roles"
                 size="sm"
@@ -164,15 +164,15 @@ function setRole(member: Member, role: Role | null): void {
                 @update:model-value="setRole(row, $event)"
               />
             </template>
-          </UiTable>
-          <UiButton class="justify-self-start" size="sm" variant="outline" color="neutral">{{
+          </SoraTable>
+          <SoraButton class="justify-self-start" size="sm" variant="outline" color="neutral">{{
             t('settings.invite')
-          }}</UiButton>
+          }}</SoraButton>
         </div>
       </template>
-    </UiTabs>
+    </SoraTabs>
 
-    <UiDialog
+    <SoraDialog
       v-model:open="confirmOpen"
       role="alertdialog"
       size="sm"
@@ -181,11 +181,11 @@ function setRole(member: Member, role: Role | null): void {
       :closable="false"
     >
       <template #footer="{ close }">
-        <UiButton variant="ghost" color="neutral" data-autofocus @click="close">{{
+        <SoraButton variant="ghost" color="neutral" data-autofocus @click="close">{{
           t('actions.cancel')
-        }}</UiButton>
-        <UiButton color="error" @click="close">{{ t('settings.danger.action') }}</UiButton>
+        }}</SoraButton>
+        <SoraButton color="error" @click="close">{{ t('settings.danger.action') }}</SoraButton>
       </template>
-    </UiDialog>
-  </UiCard>
+    </SoraDialog>
+  </SoraCard>
 </template>

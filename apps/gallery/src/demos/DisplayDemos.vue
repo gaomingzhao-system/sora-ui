@@ -1,13 +1,13 @@
 <script setup lang="ts" vapor>
 import {
-  UiAvatar,
-  UiAvatarGroup,
-  UiBadge,
-  UiButton,
-  UiCard,
-  UiEmptyState,
-  UiKbd,
-  UiSeparator,
+  SoraAvatar,
+  SoraAvatarGroup,
+  SoraBadge,
+  SoraButton,
+  SoraCard,
+  SoraEmptyState,
+  SoraKbd,
+  SoraSeparator,
 } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
@@ -25,9 +25,9 @@ const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', '
 </script>
 
 <template>
-  <DemoSection name="UiCard">
+  <DemoSection name="SoraCard">
     <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      <UiCard
+      <SoraCard
         v-for="variant in ['outline', 'soft', 'elevated', 'plain'] as const"
         :key="variant"
         :variant="variant"
@@ -35,79 +35,79 @@ const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', '
         :heading-level="4"
       >
         <p>{{ t('demo.card.body') }}</p>
-        <template #actions><UiBadge color="success" dot>{{ t('demo.badge.active') }}</UiBadge></template>
+        <template #actions><SoraBadge color="success" dot>{{ t('demo.badge.active') }}</SoraBadge></template>
         <template #footer>
-          <UiButton variant="ghost" color="neutral" size="sm">{{ t('demo.cancel') }}</UiButton>
-          <UiButton size="sm">{{ t('demo.save') }}</UiButton>
+          <SoraButton variant="ghost" color="neutral" size="sm">{{ t('demo.cancel') }}</SoraButton>
+          <SoraButton size="sm">{{ t('demo.save') }}</SoraButton>
         </template>
-      </UiCard>
+      </SoraCard>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiBadge">
+  <DemoSection name="SoraBadge">
     <div class="grid gap-2">
       <div
         v-for="variant in ['soft', 'solid', 'outline'] as const"
         :key="variant"
         class="flex flex-wrap items-center gap-2"
       >
-        <UiBadge v-for="color in colors" :key="color" :variant="variant" :color="color">{{
+        <SoraBadge v-for="color in colors" :key="color" :variant="variant" :color="color">{{
           t('demo.badge.new')
-        }}</UiBadge>
+        }}</SoraBadge>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <UiBadge size="sm">{{ t('demo.badge.beta') }}</UiBadge>
-        <UiBadge color="success" dot>{{ t('demo.badge.active') }}</UiBadge>
-        <UiBadge size="lg" color="error" dot>{{ t('demo.badge.failed') }}</UiBadge>
+        <SoraBadge size="sm">{{ t('demo.badge.beta') }}</SoraBadge>
+        <SoraBadge color="success" dot>{{ t('demo.badge.active') }}</SoraBadge>
+        <SoraBadge size="lg" color="error" dot>{{ t('demo.badge.failed') }}</SoraBadge>
       </div>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiAvatar">
+  <DemoSection name="SoraAvatar">
     <div class="flex flex-wrap items-center gap-3">
-      <UiAvatar name="Ada Lovelace" size="sm" />
-      <UiAvatar name="Grace Hopper" />
-      <UiAvatar name="山田 太郎" size="lg" />
-      <UiAvatar name="Alan Turing" shape="square" />
+      <SoraAvatar name="Ada Lovelace" size="sm" />
+      <SoraAvatar name="Grace Hopper" />
+      <SoraAvatar name="山田 太郎" size="lg" />
+      <SoraAvatar name="Alan Turing" shape="square" />
       <!-- A source that cannot be decoded: the avatar falls back to initials (no network request involved). -->
-      <UiAvatar name="Broken image" src="data:image/png;base64,AAAA" />
-      <UiAvatar />
+      <SoraAvatar name="Broken image" src="data:image/png;base64,AAAA" />
+      <SoraAvatar />
     </div>
   </DemoSection>
 
-  <DemoSection name="UiAvatarGroup">
-    <UiAvatarGroup :items="team" :max="4" :label="t('demo.team')" />
+  <DemoSection name="SoraAvatarGroup">
+    <SoraAvatarGroup :items="team" :max="4" :label="t('demo.team')" />
   </DemoSection>
 
-  <DemoSection name="UiSeparator">
+  <DemoSection name="SoraSeparator">
     <div class="grid gap-3">
-      <UiSeparator />
-      <UiSeparator>{{ t('demo.or') }}</UiSeparator>
-      <div class="flex h-6 items-center gap-3 text-vui-sm">
+      <SoraSeparator />
+      <SoraSeparator>{{ t('demo.or') }}</SoraSeparator>
+      <div class="flex h-6 items-center gap-3 text-sora-sm">
         <span>{{ t('demo.name') }}</span>
-        <UiSeparator orientation="vertical" :decorative="false" />
+        <SoraSeparator orientation="vertical" :decorative="false" />
         <span>{{ t('demo.email') }}</span>
       </div>
     </div>
   </DemoSection>
 
-  <DemoSection name="UiKbd">
-    <p class="flex flex-wrap items-center gap-3 text-vui-sm">
+  <DemoSection name="SoraKbd">
+    <p class="flex flex-wrap items-center gap-3 text-sora-sm">
       <span>{{ t('demo.kbd.palette') }}</span>
-      <UiKbd :keys="['Ctrl', 'K']" />
-      <UiKbd>Esc</UiKbd>
-      <UiKbd size="sm">Tab</UiKbd>
-      <UiKbd size="lg" :keys="['Shift', 'Alt', 'F']" />
+      <SoraKbd :keys="['Ctrl', 'K']" />
+      <SoraKbd>Esc</SoraKbd>
+      <SoraKbd size="sm">Tab</SoraKbd>
+      <SoraKbd size="lg" :keys="['Shift', 'Alt', 'F']" />
     </p>
   </DemoSection>
 
-  <DemoSection name="UiEmptyState">
-    <UiCard variant="soft">
-      <UiEmptyState :title="t('demo.empty.title')" :description="t('demo.empty.body')" :heading-level="4">
+  <DemoSection name="SoraEmptyState">
+    <SoraCard variant="soft">
+      <SoraEmptyState :title="t('demo.empty.title')" :description="t('demo.empty.body')" :heading-level="4">
         <template #actions>
-          <UiButton>{{ t('demo.empty.action') }}</UiButton>
+          <SoraButton>{{ t('demo.empty.action') }}</SoraButton>
         </template>
-      </UiEmptyState>
-    </UiCard>
+      </SoraEmptyState>
+    </SoraCard>
   </DemoSection>
 </template>

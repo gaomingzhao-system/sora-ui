@@ -1,7 +1,7 @@
 import type { GalleryMessages } from './en.ts'
 
 const ar: GalleryMessages = {
-  'app.title': 'Vapor UI',
+  'app.title': 'Sora UI',
   'app.subtitle': 'معرض المكوّنات',
   'app.skip': 'تخطَّ إلى المحتوى',
   'app.nav': 'أقسام المعرض',
@@ -120,7 +120,7 @@ const ar: GalleryMessages = {
   'workspace.created': 'تم إنشاء المشروع',
 
   'foundations.title': 'الأساسيات',
-  'foundations.lead': 'كل قيمة أدناه خاصية مخصصة مولَّدة من ui.config.ts.',
+  'foundations.lead': 'كل قيمة أدناه خاصية مخصصة مولَّدة من sora.config.ts.',
   'foundations.surfaces': 'الأسطح والنص',
   'foundations.intents': 'الدلالات',
   'foundations.type': 'الخطوط',
@@ -283,7 +283,7 @@ const ar: GalleryMessages = {
   'demo.accordion.q2': 'هل أحتاج إلى Tailwind؟',
   'demo.accordion.a2': 'لا. ورقة الأنماط مُصرَّفة مسبقًا، والتكامل مع Tailwind اختياري.',
   'demo.accordion.q3': 'هل يمكنني تغيير الألوان؟',
-  'demo.accordion.a3': 'نعم، عبر ui.config.ts أو مزوِّد متداخل.',
+  'demo.accordion.a3': 'نعم، عبر sora.config.ts أو مزوِّد متداخل.',
   'demo.crumb.home': 'الرئيسية',
   'demo.crumb.projects': 'المشاريع',
   'demo.crumb.current': 'نظام التصميم',
@@ -298,7 +298,7 @@ const ar: GalleryMessages = {
   'demo.provider.inner': 'ضمن نطاق هذا المزوِّد',
   'demo.icon.named': 'بحث',
   'demo.field.custom': 'أي عنصر تحكم',
-  'demo.field.hint': 'يربط UiField التسمية والتلميح والخطأ.',
+  'demo.field.hint': 'يربط SoraField التسمية والتلميح والخطأ.',
   'demo.form.note': 'راجع صفحة النماذج للمثال الكامل.',
   'demo.kbd.palette': 'لوحة الأوامر',
 }

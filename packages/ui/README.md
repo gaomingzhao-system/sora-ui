@@ -19,14 +19,14 @@ createVaporApp(App).mount('#app')
 ```vue
 <script setup lang="ts" vapor>
 import { ref } from 'vue'
-import { UiButton, UiInput } from '@your-scope/ui'
+import { SoraButton, SoraInput } from '@your-scope/ui'
 
 const name = ref('')
 </script>
 
 <template>
-  <UiInput v-model="name" label="Name" required />
-  <UiButton type="submit">Save</UiButton>
+  <SoraInput v-model="name" label="Name" required />
+  <SoraButton type="submit">Save</SoraButton>
 </template>
 ```
 
@@ -36,7 +36,7 @@ const name = ref('')
 | -------------------------------------- | --------------------------------------------------------- | -------------------------- |
 | `@your-scope/ui`                       | components, composables, icons, types                     |                            |
 | `@your-scope/ui/components/<Name>`     | one component (default export)                            |                            |
-| `@your-scope/ui/forms`                 | `UiForm`, `UiFormErrorSummary`, `useUiFormField`          | `@formisch/vue`, `valibot` |
+| `@your-scope/ui/forms`                 | `SoraForm`, `SoraFormErrorSummary`, `useSoraFormField`    | `@formisch/vue`, `valibot` |
 | `@your-scope/ui/i18n`                  | petite-vue-i18n adapter                                   | `petite-vue-i18n`          |
 | `@your-scope/ui/i18n/locales/<locale>` | precompiled messages: `en`, `ja`, `ar`, `pseudo`          |                            |
 | `@your-scope/ui/locales/<locale>`      | the same messages as plain strings                        |                            |

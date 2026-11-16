@@ -1,8 +1,8 @@
-import { createUiI18n } from '@your-scope/ui/i18n'
-import type { UiI18nMessages } from '@your-scope/ui/i18n'
+import { createSoraI18n } from '@your-scope/ui/i18n'
+import type { SoraI18nMessages } from '@your-scope/ui/i18n'
 import uiEnglish from '@your-scope/ui/i18n/locales/en'
-import { useUiLocale } from '@your-scope/ui'
-import type { UiMessageKey, UiMessageParams } from '@your-scope/ui'
+import { useSoraLocale } from '@your-scope/ui'
+import type { SoraMessageKey, SoraMessageParams } from '@your-scope/ui'
 import galleryEnglish from './locales/en.ts?compiled'
 import type { GalleryKey } from './locales/en.ts'
 
@@ -20,7 +20,7 @@ export function isGalleryLocale(value: string | null): value is GalleryLocale {
 }
 
 // Each locale is one lazily loaded chunk holding the library's and the gallery's messages.
-const loaders: Readonly<Record<string, () => Promise<UiI18nMessages>>> = {
+const loaders: Readonly<Record<string, () => Promise<SoraI18nMessages>>> = {
   ja: async () => {
     const [ui, gallery] = await Promise.all([
       import('@your-scope/ui/i18n/locales/ja'),
@@ -48,7 +48,7 @@ const loaders: Readonly<Record<string, () => Promise<UiI18nMessages>>> = {
  * The gallery's single petite-vue-i18n instance. English is bundled with the
  * entry; every other locale is fetched on first use.
  */
-export const galleryI18n = createUiI18n({
+export const galleryI18n = createSoraI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages: { en: { ...uiEnglish, ...galleryEnglish } },
@@ -56,6 +56,6 @@ export const galleryI18n = createUiI18n({
 })
 
 /** `t()` typed with the gallery's keys (and the library's). */
-export function useT(): (key: GalleryKey | UiMessageKey, params?: UiMessageParams) => string {
-  return useUiLocale().t
+export function useT(): (key: GalleryKey | SoraMessageKey, params?: SoraMessageParams) => string {
+  return useSoraLocale().t
 }

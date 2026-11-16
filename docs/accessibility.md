@@ -10,7 +10,7 @@ what the automated tests cover, and what has **not** been verified.
    the dialog is `<dialog>`, the table is `<table>`. ARIA is added only where HTML has no element
    (tabs, combobox, menu, switch).
 2. **The accessible name comes from visible text.** Every control takes a `label`; an icon-only
-   button cannot be created without one (`UiIconButton` requires `label`; the type tests check it).
+   button cannot be created without one (`SoraIconButton` requires `label`; the type tests check it).
 3. **State is exposed, not only drawn.** `aria-invalid`, `aria-expanded`, `aria-selected`,
    `aria-current`, `aria-sort`, `aria-busy`, `aria-pressed` carry the state; colour is never the only
    signal (an icon, text, a border or a mark accompanies it).
@@ -20,38 +20,38 @@ what the automated tests cover, and what has **not** been verified.
 
 ## Patterns
 
-| Component                                                                                      | Semantics                                                                                                          | Keyboard                                                                        |
-| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| `UiButton`                                                                                     | native button; `loading` is `aria-disabled` + `aria-busy`, keeps focus and label                                   | Enter, Space                                                                    |
-| `UiLink`                                                                                       | native anchor; external links are named as such; a disabled link has no `href`                                     | Enter                                                                           |
-| `UiDialog`, `UiDrawer`                                                                         | `<dialog>.showModal()`: labelled by its title, described by its description; `alertdialog` on request              | Tab stays inside; Escape closes; focus returns to the opener                    |
-| `UiPopover`                                                                                    | non-modal; a titled panel is `role="dialog"`; trigger has `aria-expanded` / `aria-controls`                        | Enter/Space toggles; Escape closes and returns focus                            |
-| `UiDropdownMenu`                                                                               | menu button, `role="menu"` / `menuitem`; disabled items stay focusable                                             | ArrowDown/Up open; arrows wrap; Home/End; typeahead; Enter; Escape; Tab         |
-| `UiTooltip`                                                                                    | `role="tooltip"` referenced by `aria-describedby`; supplementary text only                                         | appears on focus; Escape dismisses; stays while hovered                         |
-| `UiCombobox`                                                                                   | `role="combobox"` input, listbox popup, `aria-activedescendant`; results announced politely                        | type to filter; arrows; Enter; Escape closes, then clears; Alt+arrows           |
-| `UiTabs`                                                                                       | `tablist` / `tab` / `tabpanel`; one tab stop                                                                       | arrows (follow direction and orientation); Home/End; manual activation optional |
-| `UiAccordion`                                                                                  | heading-wrapped buttons with `aria-expanded`; closed panels are `inert`                                            | Enter/Space; arrows, Home, End between headers                                  |
-| `UiPagination`                                                                                 | `nav` landmark; `aria-current="page"`; named buttons                                                               | Tab, Enter                                                                      |
-| `UiBreadcrumbs`                                                                                | `nav` landmark with an ordered list; current page is not a link                                                    | Tab, Enter                                                                      |
-| `UiTable`                                                                                      | real table with caption and header scopes; `aria-sort`; becomes a focusable labelled region only when it overflows | sort buttons; checkboxes; arrow keys scroll the region                          |
-| `UiCheckbox`, `UiSwitch`, `UiRadioGroup`, `UiSelect`, `UiSlider`, `UiDateInput`, `UiFileInput` | native controls; groups are `fieldset` / `legend`; the switch is a checkbox with `role="switch"`                   | native                                                                          |
-| `UiNumberInput`                                                                                | native number input (a spin button); the optional stepper buttons are named and out of the Tab order               | type; ArrowUp/ArrowDown step (native)                                           |
-| `UiAlert`                                                                                      | `role="alert"` for error/warning, `role="status"` otherwise, none for static notes                                 |                                                                                 |
-| `UiToastProvider`                                                                              | labelled region with a persistent polite and a persistent assertive live region; every toast is dismissible        | toast buttons are in the Tab order; focus or hover pauses the timer             |
-| `UiFormErrorSummary`                                                                           | labelled group of links to the fields; `role="alert"` only for form-level errors                                   | Enter moves focus to the field                                                  |
-| `UiProgress`, `UiSpinner`, `UiSkeleton`                                                        | native `<progress>`; `role="status"` with a name, or decorative on request                                         |                                                                                 |
+| Component                                                                                                    | Semantics                                                                                                          | Keyboard                                                                        |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| `SoraButton`                                                                                                 | native button; `loading` is `aria-disabled` + `aria-busy`, keeps focus and label                                   | Enter, Space                                                                    |
+| `SoraLink`                                                                                                   | native anchor; external links are named as such; a disabled link has no `href`                                     | Enter                                                                           |
+| `SoraDialog`, `SoraDrawer`                                                                                   | `<dialog>.showModal()`: labelled by its title, described by its description; `alertdialog` on request              | Tab stays inside; Escape closes; focus returns to the opener                    |
+| `SoraPopover`                                                                                                | non-modal; a titled panel is `role="dialog"`; trigger has `aria-expanded` / `aria-controls`                        | Enter/Space toggles; Escape closes and returns focus                            |
+| `SoraDropdownMenu`                                                                                           | menu button, `role="menu"` / `menuitem`; disabled items stay focusable                                             | ArrowDown/Up open; arrows wrap; Home/End; typeahead; Enter; Escape; Tab         |
+| `SoraTooltip`                                                                                                | `role="tooltip"` referenced by `aria-describedby`; supplementary text only                                         | appears on focus; Escape dismisses; stays while hovered                         |
+| `SoraCombobox`                                                                                               | `role="combobox"` input, listbox popup, `aria-activedescendant`; results announced politely                        | type to filter; arrows; Enter; Escape closes, then clears; Alt+arrows           |
+| `SoraTabs`                                                                                                   | `tablist` / `tab` / `tabpanel`; one tab stop                                                                       | arrows (follow direction and orientation); Home/End; manual activation optional |
+| `SoraAccordion`                                                                                              | heading-wrapped buttons with `aria-expanded`; closed panels are `inert`                                            | Enter/Space; arrows, Home, End between headers                                  |
+| `SoraPagination`                                                                                             | `nav` landmark; `aria-current="page"`; named buttons                                                               | Tab, Enter                                                                      |
+| `SoraBreadcrumbs`                                                                                            | `nav` landmark with an ordered list; current page is not a link                                                    | Tab, Enter                                                                      |
+| `SoraTable`                                                                                                  | real table with caption and header scopes; `aria-sort`; becomes a focusable labelled region only when it overflows | sort buttons; checkboxes; arrow keys scroll the region                          |
+| `SoraCheckbox`, `SoraSwitch`, `SoraRadioGroup`, `SoraSelect`, `SoraSlider`, `SoraDateInput`, `SoraFileInput` | native controls; groups are `fieldset` / `legend`; the switch is a checkbox with `role="switch"`                   | native                                                                          |
+| `SoraNumberInput`                                                                                            | native number input (a spin button); the optional stepper buttons are named and out of the Tab order               | type; ArrowUp/ArrowDown step (native)                                           |
+| `SoraAlert`                                                                                                  | `role="alert"` for error/warning, `role="status"` otherwise, none for static notes                                 |                                                                                 |
+| `SoraToastProvider`                                                                                          | labelled region with a persistent polite and a persistent assertive live region; every toast is dismissible        | toast buttons are in the Tab order; focus or hover pauses the timer             |
+| `SoraFormErrorSummary`                                                                                       | labelled group of links to the fields; `role="alert"` only for form-level errors                                   | Enter moves focus to the field                                                  |
+| `SoraProgress`, `SoraSpinner`, `SoraSkeleton`                                                                | native `<progress>`; `role="status"` with a name, or decorative on request                                         |                                                                                 |
 
 The per-component pages in [docs/components](./components/README.md) carry the full notes.
 
 ## Cross-cutting behaviour
 
-**Focus.** A visible focus indicator on every interactive element (`--vui-focus`, 2px, offset), drawn
+**Focus.** A visible focus indicator on every interactive element (`--sora-focus`, 2px, offset), drawn
 with `:focus-visible`, and checked for 3:1 contrast against every surface in both schemes. Overlays
 move focus in when they open and return it to the opener when they close; when the opener no longer
 exists, focus goes to the closest focusable ancestor or to `returnFocus`. A modal dialog makes the
 rest of the page inert natively, which is stronger than a scripted focus trap.
 
-**Target size.** `--vui-hit-min` is `44px` under `@media (pointer: coarse)` and every interactive
+**Target size.** `--sora-hit-min` is `44px` under `@media (pointer: coarse)` and every interactive
 control uses it as its minimum block size (and inline size where the content can be narrow). With a
 fine pointer the compact density applies; targets then meet the 24px minimum of WCAG 2.2 (2.5.8) or
 its spacing exception, which axe's `target-size` rule checks on every page.
@@ -69,7 +69,7 @@ pixels of movement. `prefers-reduced-motion: reduce` sets every duration token t
 **Zoom and reflow.** Sizes are in `rem`; layouts wrap, and components adapt to their container with
 container queries. Wide content (tables, tab lists) scrolls inside its own region instead of the page.
 
-**Language and direction.** `UiProvider` sets `lang` and `dir`; see [i18n.md](./i18n.md).
+**Language and direction.** `SoraProvider` sets `lang` and `dir`; see [i18n.md](./i18n.md).
 
 **Forms.** Errors are text, associated with their field, and appear after the field was left or the
 form was submitted. A failed submission moves focus to the first invalid field and shows a summary
@@ -110,7 +110,7 @@ items, not assumptions of success:
 
 - **Toasts and modal dialogs.** A modal dialog makes everything outside it inert, including the toast
   region. A toast raised while a dialog is open is painted above the backdrop but cannot be reached
-  until the dialog closes. Use an inline `UiAlert` for feedback inside a dialog.
+  until the dialog closes. Use an inline `SoraAlert` for feedback inside a dialog.
 - **Tooltips** are for supplementary text. They are not shown on touch and must not carry essential
   information.
 - **Tab containment in dialogs is native.** Tab can move from the dialog to the browser's own
@@ -118,5 +118,5 @@ items, not assumptions of success:
   behind.
 - **Anchor positioning.** In a browser without CSS anchor positioning, popups open but are not placed
   next to their trigger. See [compatibility.md](./compatibility.md).
-- **`UiDateInput` and `UiFileInput`** rely on the browser's native pickers, whose accessibility
+- **`SoraDateInput` and `SoraFileInput`** rely on the browser's native pickers, whose accessibility
   differs between browsers and platforms.

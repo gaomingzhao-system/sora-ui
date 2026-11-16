@@ -1,11 +1,11 @@
 import { toValue } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 import en from '../locales/en.ts'
-import type { UiMessageParams, UiTranslator } from '../types/config.ts'
-import type { UiDirection } from '../types/common.ts'
+import type { SoraMessageParams, SoraTranslator } from '../types/config.ts'
+import type { SoraDirection } from '../types/common.ts'
 
 /** Replace `{name}` placeholders. Unknown placeholders are left visible. */
-export function formatMessage(template: string, params?: UiMessageParams): string {
+export function formatMessage(template: string, params?: SoraMessageParams): string {
   if (!params) return template
   return template.replace(/\{(\w+)\}/g, (match, name: string) => {
     const value = params[name]
@@ -14,15 +14,15 @@ export function formatMessage(template: string, params?: UiMessageParams): strin
 }
 
 /** Built-in English used when no provider supplies a translator or a key is missing. */
-export const englishTranslator: UiTranslator = Object.freeze({
+export const englishTranslator: SoraTranslator = Object.freeze({
   locale: 'en',
-  translate(key: string, params?: UiMessageParams): string | undefined {
+  translate(key: string, params?: SoraMessageParams): string | undefined {
     const template = (en as Readonly<Record<string, string>>)[key]
     return template === undefined ? undefined : formatMessage(template, params)
   },
 })
 
-export interface CreateUiTranslatorOptions {
+export interface CreateSoraTranslatorOptions {
   /** Active locale; pass a ref or getter to make it switchable. */
   locale: MaybeRefOrGetter<string>
   /** Flat message dictionaries by locale. May be a reactive object to add locales lazily. */
@@ -34,7 +34,7 @@ export interface CreateUiTranslatorOptions {
  * Dependency-free translator for apps that do not use an i18n library.
  * It reads `locale` and `messages` lazily, so reactive inputs update the UI.
  */
-export function createUiTranslator(options: CreateUiTranslatorOptions): UiTranslator {
+export function createSoraTranslator(options: CreateSoraTranslatorOptions): SoraTranslator {
   const lookup = (locale: string, key: string): string | undefined => {
     const exact = options.messages[locale]?.[key]
     if (exact !== undefined) return exact
@@ -81,7 +81,7 @@ type LocaleWithTextInfo = Intl.Locale & {
 }
 
 /** Writing direction of a BCP 47 locale (uses `Intl.Locale` text info where available). */
-export function directionOf(locale: string): UiDirection {
+export function directionOf(locale: string): SoraDirection {
   try {
     const parsed = new Intl.Locale(locale) as LocaleWithTextInfo
     const direction = parsed.getTextInfo?.().direction ?? parsed.textInfo?.direction

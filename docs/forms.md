@@ -16,8 +16,8 @@ virtual-DOM SFCs and are not rendered by this library.
 <script setup lang="ts" vapor>
 import { useForm } from '@formisch/vue'
 import * as v from 'valibot'
-import { UiButton, UiCheckbox, UiInput } from '@your-scope/ui'
-import { UiForm, UiFormErrorSummary, useUiFormField } from '@your-scope/ui/forms'
+import { SoraButton, SoraCheckbox, SoraInput } from '@your-scope/ui'
+import { SoraForm, SoraFormErrorSummary, useSoraFormField } from '@your-scope/ui/forms'
 
 const schema = v.object({
   email: v.pipe(v.string(), v.nonEmpty('Enter your email.'), v.email('Enter a valid email address.')),
@@ -25,8 +25,8 @@ const schema = v.object({
 })
 
 const form = useForm({ schema, initialInput: { email: '' }, validate: 'blur', revalidate: 'input' })
-const email = useUiFormField(form, { path: ['email'] })
-const terms = useUiFormField(form, { path: ['terms'] })
+const email = useSoraFormField(form, { path: ['email'] })
+const terms = useSoraFormField(form, { path: ['terms'] })
 
 // `output` is the validated, typed output of the schema. The form waits for this promise.
 async function save(output: v.InferOutput<typeof schema>): Promise<void> {
@@ -35,18 +35,18 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
 </script>
 
 <template>
-  <UiForm :of="form" :submit="save">
+  <SoraForm :of="form" :submit="save">
     <template #default="{ isSubmitting }">
-      <UiFormErrorSummary />
-      <UiInput v-bind="email.props" type="email" label="Email" autocomplete="email" required />
-      <UiCheckbox v-bind="terms.props" label="I accept the terms" required />
-      <UiButton type="submit" :loading="isSubmitting">Save</UiButton>
+      <SoraFormErrorSummary />
+      <SoraInput v-bind="email.props" type="email" label="Email" autocomplete="email" required />
+      <SoraCheckbox v-bind="terms.props" label="I accept the terms" required />
+      <SoraButton type="submit" :loading="isSubmitting">Save</SoraButton>
     </template>
-  </UiForm>
+  </SoraForm>
 </template>
 ```
 
-## `useUiFormField(form, config, options?)`
+## `useSoraFormField(form, config, options?)`
 
 Wraps Formisch's `useField()` and returns `{ field, props }`. `v-bind="x.props"` on any control of the
 library supplies four things:
@@ -65,14 +65,14 @@ register every native option under the one field name.
 The path may be a getter, so a row of an array field follows its item when earlier rows are removed:
 
 ```ts
-const link = useUiFormField(form, () => ({ path: ['links', index] as const }))
+const link = useSoraFormField(form, () => ({ path: ['links', index] as const }))
 ```
 
 ### When messages appear
 
 Formisch validates the whole form at once and assigns errors to **every** field, so with
 `validate: 'blur'` leaving the first field would mark all the fields the user has not reached yet.
-`useUiFormField` therefore decides what is shown:
+`useSoraFormField` therefore decides what is shown:
 
 | Option   | Values                              | Meaning                                                                                                                                                        |
 | -------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -86,7 +86,7 @@ blur is caused by pressing a button, the button would move between pointer down 
 the click would be lost. While a pointer is held down, message changes are held back and applied
 right after the click. Formisch's validation timing is not altered; only the display waits.
 
-## `UiForm`
+## `SoraForm`
 
 Renders a native `<form novalidate>`.
 
@@ -109,13 +109,13 @@ a field and `requestSubmit()` alike.
 Slot props: `isSubmitting`, `isValid`, `isDirty`. Exposed: `requestSubmit()`, `reset()` and `element`.
 A `type="reset"` button resets the Formisch store (a native reset would only restore DOM values).
 
-When the active locale changes, `UiForm` regenerates the messages that are currently visible in the
+When the active locale changes, `SoraForm` regenerates the messages that are currently visible in the
 new language. Values, touched and dirty state are untouched. This works when schema messages are
 functions (`v.nonEmpty(() => t('validation.required'))`), which is how the gallery writes them.
 
-## `UiFormErrorSummary`
+## `SoraFormErrorSummary`
 
-Lists the errors of the surrounding `UiForm` (or of `of`): nested and array fields included, one line
+Lists the errors of the surrounding `SoraForm` (or of `of`): nested and array fields included, one line
 per field, as links that focus the field. Each line is named after the field's own `<label>`, or the
 `<legend>` for radio and checkbox groups. It appears after a submission attempt (`reveal="always"`
 shows it whenever the store holds an error) and lists the first message per field (`errors="all"`

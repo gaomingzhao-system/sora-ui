@@ -6,9 +6,9 @@
  * The library never ships unlayered rules. It uses sub-layers of Tailwind's
  * canonical layers and declares that canonical order itself:
  *
- *   theme.vui       custom properties generated from ui.config.ts
- *   base.vui        element resets scoped to `vui-*` classes (no global Preflight)
- *   components.vui  component styles and motion
+ *   theme.sora       custom properties generated from sora.config.ts
+ *   base.sora        element resets scoped to `sora-*` classes (no global Preflight)
+ *   components.sora  component styles and motion
  *
  * Consequences:
  *   - Unlayered consumer CSS always wins.
@@ -30,7 +30,7 @@
 
 /* Library-build-only theme keys (never shipped in tailwind.css, so a host's own scale is untouched). */
 @theme inline {
-  --spacing: var(--vui-space-unit);
+  --spacing: var(--sora-space-unit);
 }
 
 @import './theme.generated.css';

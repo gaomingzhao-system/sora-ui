@@ -1,19 +1,19 @@
 import { inject } from 'vue'
 import type { InjectionKey } from 'vue'
-import type { UiColor } from '@your-scope/theme'
+import type { SoraColor } from '@your-scope/theme'
 
-export interface UiToastAction {
+export interface SoraToastAction {
   label: string
   onClick: () => void
 }
 
-export interface UiToastInput {
+export interface SoraToastInput {
   title: string
   description?: string | undefined
-  color?: UiColor | undefined
+  color?: SoraColor | undefined
   /**
    * Milliseconds before the toast dismisses itself. `0` keeps it until the
-   * user dismisses it; use that (or an inline UiAlert) for information people
+   * user dismisses it; use that (or an inline SoraAlert) for information people
    * must not miss. Default: the provider's `duration`.
    */
   duration?: number | undefined
@@ -22,37 +22,37 @@ export interface UiToastInput {
    * critical messages; ordinary toasts are polite status messages.
    */
   urgent?: boolean | undefined
-  action?: UiToastAction | undefined
+  action?: SoraToastAction | undefined
   /** Stable id; re-adding an existing id replaces that toast. */
   id?: string | undefined
 }
 
-export interface UiToast {
+export interface SoraToast {
   readonly id: string
   readonly title: string
   readonly description: string | undefined
-  readonly color: UiColor
+  readonly color: SoraColor
   readonly duration: number
   readonly urgent: boolean
-  readonly action: UiToastAction | undefined
+  readonly action: SoraToastAction | undefined
 }
 
-export interface UiToastApi {
+export interface SoraToastApi {
   /** Queue a notification and return its id. */
-  add(toast: UiToastInput): string
+  add(toast: SoraToastInput): string
   dismiss(id: string): void
   clear(): void
   /** Visible and queued toasts, oldest first (reactive, read-only). */
-  readonly toasts: readonly UiToast[]
+  readonly toasts: readonly SoraToast[]
 }
 
-export const uiToastKey: InjectionKey<UiToastApi> = Symbol('vui.toast')
+export const soraToastKey: InjectionKey<SoraToastApi> = Symbol('sora.toast')
 
-/** Access the notification queue of the nearest UiToastProvider. */
-export function useToast(): UiToastApi {
-  const api = inject(uiToastKey, undefined)
+/** Access the notification queue of the nearest SoraToastProvider. */
+export function useToast(): SoraToastApi {
+  const api = inject(soraToastKey, undefined)
   if (!api) {
-    throw new Error('[@your-scope/ui] useToast() needs a <UiToastProvider> ancestor.')
+    throw new Error('[@your-scope/ui] useToast() needs a <SoraToastProvider> ancestor.')
   }
   return api
 }

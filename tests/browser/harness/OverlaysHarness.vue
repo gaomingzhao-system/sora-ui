@@ -1,21 +1,21 @@
 <script setup lang="ts" vapor>
 import { computed, useTemplateRef } from 'vue'
 import {
-  UiButton,
-  UiCombobox,
-  UiDialog,
-  UiDrawer,
-  UiDropdownMenu,
-  UiPopover,
-  UiTooltip,
+  SoraButton,
+  SoraCombobox,
+  SoraDialog,
+  SoraDrawer,
+  SoraDropdownMenu,
+  SoraPopover,
+  SoraTooltip,
 } from '@your-scope/ui'
-import type { UiCloseReason, UiMenuGroup, UiMenuItem } from '@your-scope/ui'
+import type { SoraCloseReason, SoraMenuGroup, SoraMenuItem } from '@your-scope/ui'
 
 export interface OverlaysState {
   dialogOpen: boolean
   closeOnEscape: boolean
   closeOnBackdrop: boolean
-  closes: UiCloseReason[]
+  closes: SoraCloseReason[]
   showTrigger: boolean
   showDialog: boolean
   useReturnFocus: boolean
@@ -35,7 +35,7 @@ const { state } = defineProps<{ state: OverlaysState }>()
 const dialog = useTemplateRef('dialog')
 const fallback = useTemplateRef<HTMLButtonElement>('fallback')
 
-const items = computed<(UiMenuItem | UiMenuGroup)[]>(() => [
+const items = computed<(SoraMenuItem | SoraMenuGroup)[]>(() => [
   { id: 'edit', label: 'Edit', shortcut: ['E'], onSelect: () => state.ran.push('edit') },
   { id: 'duplicate', label: 'Duplicate' },
   { id: 'move', label: 'Move', disabled: true },
@@ -68,7 +68,7 @@ defineExpose({ dialog: () => dialog.value })
       open
     </button>
 
-    <UiDialog
+    <SoraDialog
       v-if="state.showDialog"
       ref="dialog"
       v-model:open="state.dialogOpen"
@@ -83,17 +83,17 @@ defineExpose({ dialog: () => dialog.value })
       <input data-testid="dialog-first" />
       <input data-testid="dialog-auto" data-autofocus />
       <template #footer="{ close }">
-        <UiButton data-testid="dialog-done" @click="close">Done</UiButton>
+        <SoraButton data-testid="dialog-done" @click="close">Done</SoraButton>
       </template>
-    </UiDialog>
+    </SoraDialog>
   </div>
 
   <button type="button" data-testid="drawer-trigger" @click="state.drawerOpen = true">drawer</button>
-  <UiDrawer v-model:open="state.drawerOpen" data-testid="drawer" title="Filters" side="start" size="sm">
+  <SoraDrawer v-model:open="state.drawerOpen" data-testid="drawer" title="Filters" side="start" size="sm">
     <p data-testid="drawer-body">content</p>
-  </UiDrawer>
+  </SoraDrawer>
 
-  <UiPopover
+  <SoraPopover
     v-model:open="state.popoverOpen"
     data-testid="popover-trigger"
     trigger-label="Share"
@@ -103,25 +103,25 @@ defineExpose({ dialog: () => dialog.value })
     <template #default="{ close }">
       <button type="button" data-testid="popover-inner" @click="close">Copy</button>
     </template>
-  </UiPopover>
-  <UiPopover
+  </SoraPopover>
+  <SoraPopover
     v-model:open="state.manualOpen"
     data-testid="manual-trigger"
     trigger-label="Manual"
     dismiss="manual"
   >
     <p data-testid="manual-body">stays</p>
-  </UiPopover>
-  <UiPopover v-model:open="state.customOpen" label="Custom panel">
+  </SoraPopover>
+  <SoraPopover v-model:open="state.customOpen" label="Custom panel">
     <template #custom-trigger="{ attrs, on, ref: setTrigger, open }">
       <button :ref="setTrigger" type="button" data-testid="custom-trigger" v-bind="attrs" v-on="on">
         {{ open ? 'close' : 'open' }}
       </button>
     </template>
     <p data-testid="custom-body">custom</p>
-  </UiPopover>
+  </SoraPopover>
 
-  <UiTooltip
+  <SoraTooltip
     text="Copies the link"
     :open-delay="60"
     :close-delay="60"
@@ -131,9 +131,9 @@ defineExpose({ dialog: () => dialog.value })
     <template #default="{ describedBy }">
       <button type="button" data-testid="tooltip-trigger" :aria-describedby="describedBy">Copy</button>
     </template>
-  </UiTooltip>
+  </SoraTooltip>
 
-  <UiDropdownMenu
+  <SoraDropdownMenu
     v-model:open="state.menuOpen"
     data-testid="menu-trigger"
     :items="items"
@@ -142,19 +142,19 @@ defineExpose({ dialog: () => dialog.value })
   />
 
   <button type="button" data-testid="nested-trigger" @click="state.nestedOpen = true">nested</button>
-  <UiDialog v-model:open="state.nestedOpen" data-testid="nested-dialog" title="Nested">
-    <UiCombobox v-model="state.fruit" data-testid="nested-combobox" :options="fruits" label="Fruit" />
-    <UiDropdownMenu
+  <SoraDialog v-model:open="state.nestedOpen" data-testid="nested-dialog" title="Nested">
+    <SoraCombobox v-model="state.fruit" data-testid="nested-combobox" :options="fruits" label="Fruit" />
+    <SoraDropdownMenu
       data-testid="nested-menu"
       :items="items"
       trigger-label="More"
       @select="state.selected.push($event.id)"
     />
-    <UiTooltip text="Inside a dialog" :open-delay="0">
+    <SoraTooltip text="Inside a dialog" :open-delay="0">
       <template #default="{ describedBy }">
         <button type="button" data-testid="nested-tooltip" :aria-describedby="describedBy">Tip</button>
       </template>
-    </UiTooltip>
-  </UiDialog>
+    </SoraTooltip>
+  </SoraDialog>
   <button type="button" data-testid="after">after</button>
 </template>

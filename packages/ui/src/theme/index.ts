@@ -6,49 +6,49 @@
  * happy with the generated stylesheet do not pay for them.
  */
 import { createThemeVars } from '@your-scope/theme'
-import type { UiConfigInput } from '@your-scope/theme'
-import type { UiProviderProps } from '../components/foundation/UiProvider.vue'
+import type { SoraConfigInput } from '@your-scope/theme'
+import type { SoraProviderProps } from '../components/foundation/SoraProvider.vue'
 
 export {
   auditContrast,
   builtinPaletteNames,
   createPalette,
   createThemeVars,
-  defineUiConfig,
+  defineSoraConfig,
   palettes,
   resolveTheme,
   themeToCss,
   themeToVars,
 } from '@your-scope/theme'
 export type {
-  UiBuiltinPalette,
-  UiColorMode,
-  UiConfig,
-  UiConfigInput,
-  UiContrastCheck,
-  UiDeclarations,
-  UiPaletteScale,
-  UiResolvedTheme,
+  SoraBuiltinPalette,
+  SoraColorMode,
+  SoraConfig,
+  SoraConfigInput,
+  SoraContrastCheck,
+  SoraDeclarations,
+  SoraPaletteScale,
+  SoraResolvedTheme,
 } from '@your-scope/theme'
 
-export type UiProviderTheme = Pick<
-  UiProviderProps,
+export type SoraProviderTheme = Pick<
+  SoraProviderProps,
   'themeVars' | 'density' | 'radius' | 'motion' | 'defaults' | 'colorMode'
 >
 
 /**
- * Turn a partial `ui.config.ts`-style object into props for a (nested)
- * `UiProvider`:
+ * Turn a partial `sora.config.ts`-style object into props for a (nested)
+ * `SoraProvider`:
  *
  * ```vue
- * <UiProvider v-bind="createProviderTheme({ colors: { primary: 'violet' }, density: 'comfortable' })">
+ * <SoraProvider v-bind="createProviderTheme({ colors: { primary: 'violet' }, density: 'comfortable' })">
  * ```
  *
  * Only what the object mentions is overridden; everything else keeps
  * inheriting from the surrounding provider or the stylesheet.
  */
-export function createProviderTheme(input: UiConfigInput<string>): UiProviderTheme {
-  const theme: UiProviderTheme = {}
+export function createProviderTheme(input: SoraConfigInput<string>): SoraProviderTheme {
+  const theme: SoraProviderTheme = {}
   // Density, radius and motion are attribute switches in the stylesheet, so they need no variables.
   const { density, radius, motion, defaults, colorMode, ...colorsAndTokens } = input
   const vars = createThemeVars(colorsAndTokens)

@@ -9,5 +9,5 @@ Initial release.
   Valibot forms integration (`@your-scope/ui/forms`), a petite-vue-i18n adapter with English,
   Japanese, Arabic and pseudo-locale messages (`@your-scope/ui/i18n`), a compiled stylesheet that
   works with and without Tailwind CSS v4, and runtime theming helpers (`@your-scope/ui/theme`).
-- `@your-scope/theme`: palettes, `defineUiConfig`, the token resolver and the contrast audit behind
+- `@your-scope/theme`: palettes, `defineSoraConfig`, the token resolver and the contrast audit behind
   the design system.

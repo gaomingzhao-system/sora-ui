@@ -14,11 +14,11 @@
 
 @layer base {
   html {
-    background-color: var(--vui-canvas);
-    color: var(--vui-text);
-    font-family: var(--vui-font-sans);
+    background-color: var(--sora-canvas);
+    color: var(--sora-text);
+    font-family: var(--sora-font-sans);
     font-size: 100%;
-    line-height: var(--vui-leading-normal);
+    line-height: var(--sora-leading-normal);
     /* Reserved gutter: opening a modal dialog (which locks scrolling) does not shift the page. */
     scrollbar-gutter: stable;
     -webkit-text-size-adjust: 100%;
@@ -29,38 +29,38 @@
   }
 
   :where(h1, h2, h3, h4) {
-    font-family: var(--vui-font-display);
+    font-family: var(--sora-font-display);
     text-wrap: balance;
   }
 
   :where(a, button, [tabindex]):focus-visible {
-    outline: var(--vui-focus-width) solid var(--vui-focus);
-    outline-offset: var(--vui-focus-offset);
+    outline: var(--sora-focus-width) solid var(--sora-focus);
+    outline-offset: var(--sora-focus-offset);
   }
 }
 
 @layer components {
   /* Header navigation: ordinary links, the current one marked with aria-current. */
   .g-nav-link {
-    @apply inline-flex items-center rounded-vui-sm px-2.5 text-vui-sm font-medium whitespace-nowrap text-vui-muted;
-    min-block-size: max(2rem, var(--vui-hit-min));
+    @apply inline-flex items-center rounded-sora-sm px-2.5 text-sora-sm font-medium whitespace-nowrap text-sora-muted;
+    min-block-size: max(2rem, var(--sora-hit-min));
 
     @variant hover {
-      @apply bg-vui-hover text-vui-text;
+      @apply bg-sora-hover text-sora-text;
     }
 
     &[aria-current='page'] {
-      @apply bg-vui-neutral-soft text-vui-text;
-      box-shadow: inset 0 -2px 0 var(--vui-text);
+      @apply bg-sora-neutral-soft text-sora-text;
+      box-shadow: inset 0 -2px 0 var(--sora-text);
     }
   }
 
   .g-swatch {
-    @apply grid min-h-14 content-end rounded-vui border border-vui-border p-2 text-vui-xs;
+    @apply grid min-h-14 content-end rounded-sora border border-sora-border p-2 text-sora-xs;
   }
 
   /* English reference text taken from the component manifest. */
   .g-reference {
-    @apply text-vui-sm text-vui-muted;
+    @apply text-sora-sm text-sora-muted;
   }
 }

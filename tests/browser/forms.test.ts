@@ -38,7 +38,7 @@ function setup(overrides: Partial<FormsState> = {}) {
 const input = (testId: string): HTMLInputElement => q<HTMLInputElement>(testId)
 const errorOf = (testId: string): string =>
   referenced(q(testId), 'aria-describedby')
-    .filter((element) => element.classList.contains('vui-field__error'))
+    .filter((element) => element.classList.contains('sora-field__error'))
     .map((element) => element.textContent?.trim() ?? '')
     .join(' | ')
 
@@ -67,7 +67,7 @@ const settled = (exposed: Exposed): Promise<void> => until(() => !exposed.store(
 const summaryLines = (testId = 'summary'): string[] =>
   all('li', q(testId)).map((item) => item.textContent?.replace(/\s+/g, ' ').trim() ?? '')
 
-describe('useUiFormField', () => {
+describe('useSoraFormField', () => {
   it('hands Formisch the native controls, named by their JSON path', () => {
     const { exposed } = setup()
     const form = q<HTMLFormElement>('form')
@@ -194,7 +194,7 @@ describe('useUiFormField', () => {
   })
 })
 
-describe('UiForm', () => {
+describe('SoraForm', () => {
   it('validates on submit, focuses the first invalid control and reports "invalid"', async () => {
     const { state, exposed } = setup()
     await userEvent.click(q('submit'))
@@ -406,7 +406,7 @@ describe('UiForm', () => {
   })
 })
 
-describe('UiFormErrorSummary', () => {
+describe('SoraFormErrorSummary', () => {
   it('lists every error, including nested and array fields, with links that focus the control', async () => {
     const { exposed } = setup()
     expect(maybe('summary')).toBeNull()
@@ -458,7 +458,7 @@ describe('UiFormErrorSummary', () => {
     expect(summaryLines().some((line) => line.startsWith('City'))).toBe(false)
   })
 
-  it('works outside a UiForm with an explicit store, a custom title and an entry slot', async () => {
+  it('works outside a SoraForm with an explicit store, a custom title and an entry slot', async () => {
     const { exposed } = setup()
     expect(maybe('summary-outside')).toBeNull()
     await userEvent.click(q('submit'))

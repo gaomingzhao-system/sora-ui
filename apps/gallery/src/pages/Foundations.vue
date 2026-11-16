@@ -1,12 +1,20 @@
 <script setup lang="ts" vapor>
-import { UiBadge, UiButton, UiCard, UiInput, UiProvider, UiSwitch, useUiLocale } from '@your-scope/ui'
+import {
+  SoraBadge,
+  SoraButton,
+  SoraCard,
+  SoraInput,
+  SoraProvider,
+  SoraSwitch,
+  useSoraLocale,
+} from '@your-scope/ui'
 import { auditContrast, createProviderTheme, resolveTheme } from '@your-scope/ui/theme'
 import { ref } from 'vue'
-import uiConfig from '../../../../ui.config.ts'
+import uiConfig from '../../../../sora.config.ts'
 import { useT } from '../i18n.ts'
 
 const t = useT()
-const { formatNumber } = useUiLocale()
+const { formatNumber } = useSoraLocale()
 
 // The same resolver that generated the stylesheet, run in the browser.
 const checks = auditContrast(resolveTheme(uiConfig)).length
@@ -26,61 +34,61 @@ const on = ref(true)
   <div class="grid gap-8">
     <header class="grid max-w-3xl gap-2">
       <h1 class="text-2xl font-semibold tracking-tight">{{ t('foundations.title') }}</h1>
-      <p class="text-vui-muted">{{ t('foundations.lead') }}</p>
+      <p class="text-sora-muted">{{ t('foundations.lead') }}</p>
       <p>
-        <UiBadge color="success" dot data-testid="contrast-count">{{
+        <SoraBadge color="success" dot data-testid="contrast-count">{{
           t('foundations.contrast', { count: formatNumber(checks) })
-        }}</UiBadge>
+        }}</SoraBadge>
       </p>
     </header>
 
     <section class="grid gap-3" aria-labelledby="surfaces-title">
-      <h2 id="surfaces-title" class="text-vui-xl font-semibold">{{ t('foundations.surfaces') }}</h2>
+      <h2 id="surfaces-title" class="text-sora-xl font-semibold">{{ t('foundations.surfaces') }}</h2>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-5">
         <div
           v-for="name in surfaces"
           :key="name"
           class="g-swatch"
           :style="{
-            backgroundColor: `var(--vui-${name})`,
-            color: name === 'inverted' ? 'var(--vui-text-inverted)' : 'var(--vui-text)',
+            backgroundColor: `var(--sora-${name})`,
+            color: name === 'inverted' ? 'var(--sora-text-inverted)' : 'var(--sora-text)',
           }"
         >
-          <code dir="ltr">--vui-{{ name }}</code>
+          <code dir="ltr">--sora-{{ name }}</code>
         </div>
       </div>
       <div class="grid gap-2 sm:grid-cols-3">
         <p
           v-for="name in texts"
           :key="name"
-          class="g-swatch bg-vui-surface"
-          :style="{ color: `var(--vui-${name})` }"
+          class="g-swatch bg-sora-surface"
+          :style="{ color: `var(--sora-${name})` }"
         >
-          <span class="text-vui-md">{{ t('foundations.type.sample') }}</span>
-          <code dir="ltr">--vui-{{ name }}</code>
+          <span class="text-sora-md">{{ t('foundations.type.sample') }}</span>
+          <code dir="ltr">--sora-{{ name }}</code>
         </p>
       </div>
     </section>
 
     <section class="grid gap-3" aria-labelledby="intents-title">
-      <h2 id="intents-title" class="text-vui-xl font-semibold">{{ t('foundations.intents') }}</h2>
+      <h2 id="intents-title" class="text-sora-xl font-semibold">{{ t('foundations.intents') }}</h2>
       <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
         <div v-for="name in intents" :key="name" class="grid gap-1">
           <div
             class="g-swatch border-transparent"
-            :style="{ backgroundColor: `var(--vui-${name})`, color: `var(--vui-on-${name})` }"
+            :style="{ backgroundColor: `var(--sora-${name})`, color: `var(--sora-on-${name})` }"
           >
             <code dir="ltr">{{ name }}</code>
           </div>
           <div
             class="g-swatch min-h-9 border-transparent"
-            :style="{ backgroundColor: `var(--vui-${name}-soft)`, color: `var(--vui-${name}-text)` }"
+            :style="{ backgroundColor: `var(--sora-${name}-soft)`, color: `var(--sora-${name}-text)` }"
           >
             <code dir="ltr">soft</code>
           </div>
           <div
-            class="g-swatch min-h-9 bg-vui-surface"
-            :style="{ borderColor: `var(--vui-${name}-border)`, color: `var(--vui-${name}-text)` }"
+            class="g-swatch min-h-9 bg-sora-surface"
+            :style="{ borderColor: `var(--sora-${name}-border)`, color: `var(--sora-${name}-text)` }"
           >
             <code dir="ltr">border</code>
           </div>
@@ -89,28 +97,28 @@ const on = ref(true)
     </section>
 
     <section class="grid gap-3" aria-labelledby="type-title">
-      <h2 id="type-title" class="text-vui-xl font-semibold">{{ t('foundations.type') }}</h2>
-      <UiCard>
+      <h2 id="type-title" class="text-sora-xl font-semibold">{{ t('foundations.type') }}</h2>
+      <SoraCard>
         <p
           v-for="size in sizes"
           :key="size"
           class="flex flex-wrap items-baseline gap-x-3"
-          :style="{ fontSize: `var(--vui-text-${size})` }"
+          :style="{ fontSize: `var(--sora-text-${size})` }"
         >
-          <code class="w-24 shrink-0 text-vui-xs text-vui-muted" dir="ltr">text-{{ size }}</code>
+          <code class="w-24 shrink-0 text-sora-xs text-sora-muted" dir="ltr">text-{{ size }}</code>
           <span>{{ t('foundations.type.sample') }}</span>
         </p>
-      </UiCard>
+      </SoraCard>
     </section>
 
     <section class="grid gap-3" aria-labelledby="shape-title">
-      <h2 id="shape-title" class="text-vui-xl font-semibold">{{ t('foundations.shape') }}</h2>
+      <h2 id="shape-title" class="text-sora-xl font-semibold">{{ t('foundations.shape') }}</h2>
       <div class="grid gap-3 sm:grid-cols-3">
         <div
           v-for="radius in ['sm', 'md', 'lg'] as const"
           :key="radius"
-          class="g-swatch bg-vui-surface"
-          :style="{ borderRadius: `var(--vui-radius-${radius})`, boxShadow: `var(--vui-shadow-${radius})` }"
+          class="g-swatch bg-sora-surface"
+          :style="{ borderRadius: `var(--sora-radius-${radius})`, boxShadow: `var(--sora-shadow-${radius})` }"
         >
           <code dir="ltr">radius-{{ radius }} / shadow-{{ radius }}</code>
         </div>
@@ -118,43 +126,43 @@ const on = ref(true)
     </section>
 
     <section class="grid gap-3" aria-labelledby="nested-title">
-      <h2 id="nested-title" class="text-vui-xl font-semibold">{{ t('foundations.nested') }}</h2>
-      <p class="text-vui-muted">{{ t('foundations.nested.lead') }}</p>
+      <h2 id="nested-title" class="text-sora-xl font-semibold">{{ t('foundations.nested') }}</h2>
+      <p class="text-sora-muted">{{ t('foundations.nested.lead') }}</p>
       <div class="grid gap-3 md:grid-cols-3">
-        <UiProvider color-mode="dark" density="comfortable" data-testid="nested-dark">
-          <div class="grid gap-2 rounded-vui-lg bg-vui-canvas p-3 text-vui-text">
-            <h3 class="text-vui-sm font-semibold">{{ t('foundations.nested.dark') }}</h3>
-            <UiCard :title="t('foundations.sample.title')" :heading-level="4">
-              <UiInput v-model="sample" :label="t('demo.name')" />
-              <template #footer><UiButton>{{ t('foundations.sample.action') }}</UiButton></template>
-            </UiCard>
+        <SoraProvider color-mode="dark" density="comfortable" data-testid="nested-dark">
+          <div class="grid gap-2 rounded-sora-lg bg-sora-canvas p-3 text-sora-text">
+            <h3 class="text-sora-sm font-semibold">{{ t('foundations.nested.dark') }}</h3>
+            <SoraCard :title="t('foundations.sample.title')" :heading-level="4">
+              <SoraInput v-model="sample" :label="t('demo.name')" />
+              <template #footer><SoraButton>{{ t('foundations.sample.action') }}</SoraButton></template>
+            </SoraCard>
           </div>
-        </UiProvider>
-        <UiProvider v-bind="violet" data-testid="nested-custom">
-          <div class="grid gap-2 rounded-vui-lg bg-vui-subtle p-3">
-            <h3 class="text-vui-sm font-semibold">{{ t('foundations.nested.custom') }}</h3>
-            <UiCard :title="t('foundations.sample.title')" :heading-level="4">
-              <UiSwitch v-model="on" :label="t('demo.notifications')" />
+        </SoraProvider>
+        <SoraProvider v-bind="violet" data-testid="nested-custom">
+          <div class="grid gap-2 rounded-sora-lg bg-sora-subtle p-3">
+            <h3 class="text-sora-sm font-semibold">{{ t('foundations.nested.custom') }}</h3>
+            <SoraCard :title="t('foundations.sample.title')" :heading-level="4">
+              <SoraSwitch v-model="on" :label="t('demo.notifications')" />
               <template #footer>
-                <UiButton variant="soft" color="secondary">{{ t('demo.cancel') }}</UiButton>
-                <UiButton>{{ t('foundations.sample.action') }}</UiButton>
+                <SoraButton variant="soft" color="secondary">{{ t('demo.cancel') }}</SoraButton>
+                <SoraButton>{{ t('foundations.sample.action') }}</SoraButton>
               </template>
-            </UiCard>
+            </SoraCard>
           </div>
-        </UiProvider>
-        <UiProvider radius="none" motion="none" data-testid="nested-sharp">
-          <div class="grid gap-2 bg-vui-subtle p-3">
-            <h3 class="text-vui-sm font-semibold">{{ t('foundations.nested.sharp') }}</h3>
-            <UiCard :title="t('foundations.sample.title')" :heading-level="4">
-              <p class="text-vui-sm text-vui-muted">{{ t('foundations.sample.body') }}</p>
+        </SoraProvider>
+        <SoraProvider radius="none" motion="none" data-testid="nested-sharp">
+          <div class="grid gap-2 bg-sora-subtle p-3">
+            <h3 class="text-sora-sm font-semibold">{{ t('foundations.nested.sharp') }}</h3>
+            <SoraCard :title="t('foundations.sample.title')" :heading-level="4">
+              <p class="text-sora-sm text-sora-muted">{{ t('foundations.sample.body') }}</p>
               <template #footer
-                ><UiButton variant="outline" color="neutral">{{
+                ><SoraButton variant="outline" color="neutral">{{
                   t('foundations.sample.action')
-                }}</UiButton></template
+                }}</SoraButton></template
               >
-            </UiCard>
+            </SoraCard>
           </div>
-        </UiProvider>
+        </SoraProvider>
       </div>
     </section>
   </div>

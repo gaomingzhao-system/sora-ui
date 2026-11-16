@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
 import { computed, ref } from 'vue'
-import { UiAvatar, UiBadge, UiButton, UiTable } from '@your-scope/ui'
-import type { UiTableColumn, UiTableRowKey, UiTableSort } from '@your-scope/ui'
+import { SoraAvatar, SoraBadge, SoraButton, SoraTable } from '@your-scope/ui'
+import type { SoraTableColumn, SoraTableRowKey, SoraTableSort } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -20,12 +20,12 @@ const members: Member[] = [
   { id: 4, name: 'ليلى حسن', role: 'editor', seats: 7 },
 ]
 
-const sort = ref<UiTableSort | null>({ key: 'name', direction: 'ascending' })
-const selected = ref<UiTableRowKey[]>([2])
+const sort = ref<SoraTableSort | null>({ key: 'name', direction: 'ascending' })
+const selected = ref<SoraTableRowKey[]>([2])
 const loading = ref(false)
 const empty = ref(false)
 
-const columns = computed<UiTableColumn<Member>[]>(() => [
+const columns = computed<SoraTableColumn<Member>[]>(() => [
   { key: 'name', header: t('demo.table.name'), sortable: true, rowHeader: true },
   { key: 'role', header: t('demo.table.role'), sortable: true },
   { key: 'seats', header: t('demo.table.seats'), align: 'end', sortable: true, width: '6rem' },
@@ -55,17 +55,22 @@ function reload(): void {
 </script>
 
 <template>
-  <DemoSection name="UiTable">
+  <DemoSection name="SoraTable">
     <div class="grid gap-3">
       <div class="flex flex-wrap gap-2">
-        <UiButton size="sm" variant="outline" color="neutral" @click="reload">{{
+        <SoraButton size="sm" variant="outline" color="neutral" @click="reload">{{
           t('demo.loading')
-        }}</UiButton>
-        <UiButton size="sm" variant="outline" color="neutral" :aria-pressed="empty" @click="empty = !empty">{{
-          t('table.empty')
-        }}</UiButton>
+        }}</SoraButton>
+        <SoraButton
+          size="sm"
+          variant="outline"
+          color="neutral"
+          :aria-pressed="empty"
+          @click="empty = !empty"
+          >{{ t('table.empty') }}</SoraButton
+        >
       </div>
-      <UiTable
+      <SoraTable
         v-model:sort="sort"
         v-model:selected="selected"
         :columns="columns"
@@ -77,15 +82,15 @@ function reload(): void {
         data-testid="demo-table"
       >
         <template #cell-name="{ row }">
-          <span class="flex items-center gap-2"><UiAvatar :name="row.name" size="sm" />{{ row.name }}</span>
+          <span class="flex items-center gap-2"><SoraAvatar :name="row.name" size="sm" />{{ row.name }}</span>
         </template>
         <template #cell-role="{ row }">
-          <UiBadge :color="row.role === 'owner' ? 'secondary' : 'neutral'">{{
+          <SoraBadge :color="row.role === 'owner' ? 'secondary' : 'neutral'">{{
             t(`settings.role.${row.role}`)
-          }}</UiBadge>
+          }}</SoraBadge>
         </template>
-      </UiTable>
-      <p class="text-vui-sm text-vui-muted" data-testid="table-selected">
+      </SoraTable>
+      <p class="text-sora-sm text-sora-muted" data-testid="table-selected">
         {{ t('demo.selected', { value: selected.join(', ') || '—' }) }}
       </p>
     </div>

@@ -3,7 +3,7 @@ import { expect, expectNoAxeViolations, test } from '../support.ts'
 
 /**
  * An application that installed the packed tarballs and imports only
- * UiButton, UiCard and the stylesheet. No Tailwind, no forms, no i18n.
+ * SoraButton, SoraCard and the stylesheet. No Tailwind, no forms, no i18n.
  */
 test.beforeEach(async ({ page }) => {
   await page.goto(origin('basic'))
@@ -27,7 +27,7 @@ test('the one documented stylesheet import styles the components without Tailwin
       radius: Number.parseFloat(computed.borderTopLeftRadius),
       height: node.getBoundingClientRect().height,
       cursor: computed.cursor,
-      primary: computed.getPropertyValue('--vui-primary').trim(),
+      primary: computed.getPropertyValue('--sora-primary').trim(),
     }
   })
   expect(style.background).not.toBe('rgba(0, 0, 0, 0)')

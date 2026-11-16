@@ -1,8 +1,8 @@
 <script setup lang="ts" vapor>
 import { useForm } from '@formisch/vue'
 import * as v from 'valibot'
-import { UiIconButton, UiInput, iconClose } from '@your-scope/ui'
-import { useUiFormField } from '@your-scope/ui/forms'
+import { SoraIconButton, SoraInput, iconClose } from '@your-scope/ui'
+import { useSoraFormField } from '@your-scope/ui/forms'
 
 /**
  * One row of the `tags` array field. Each row is its own component (keyed by
@@ -19,13 +19,13 @@ const { form, index } = defineProps<{
 defineEmits<{ remove: [] }>()
 
 // A getter path: the row follows its item when earlier rows are removed.
-const tag = useUiFormField(form as TagsForm, () => ({ path: ['tags', index] as const }))
+const tag = useSoraFormField(form as TagsForm, () => ({ path: ['tags', index] as const }))
 </script>
 
 <template>
   <div data-testid="tag-row">
-    <UiInput v-bind="tag.props" :label="`Tag ${index + 1}`" data-testid="tag" />
-    <UiIconButton
+    <SoraInput v-bind="tag.props" :label="`Tag ${index + 1}`" data-testid="tag" />
+    <SoraIconButton
       :label="`Remove tag ${index + 1}`"
       :icon="iconClose"
       data-testid="tag-remove"

@@ -12,7 +12,7 @@ if (isGalleryLocale(requested) && requested !== 'en') await galleryI18n.setLocal
 
 const app = createVaporApp(App)
 // Installing the instance is optional for the library (it only needs the
-// translator passed to UiProvider), but it is what an application using
+// translator passed to SoraProvider), but it is what an application using
 // `useI18n()` in its own components would do.
 app.use(galleryI18n.i18n)
 app.mount('#app')

@@ -182,7 +182,7 @@ test('async combobox: announces loading, then offers the results', async ({ page
   await input.focus()
   await page.keyboard.type('pe')
   // The pending request is announced through a polite status, then the result count is.
-  const status = page.locator('#demo-UiCombobox [role="status"]')
+  const status = page.locator('#demo-SoraCombobox [role="status"]')
   await expect(status.filter({ hasText: 'Loading options' })).toHaveCount(1)
   const listbox = page.getByRole('listbox').filter({ visible: true })
   await expect(listbox.getByRole('option').first()).toBeVisible()

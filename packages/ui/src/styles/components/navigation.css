@@ -1,21 +1,21 @@
-@layer components.vui {
-  /* ------------------------------------------------------------------ UiTabs */
-  .vui-tabs {
-    --_h: var(--vui-control-md);
+@layer components.sora {
+  /* ------------------------------------------------------------------ SoraTabs */
+  .sora-tabs {
+    --_h: var(--sora-control-md);
 
     @apply flex min-w-0 flex-col;
-    gap: var(--vui-gap-md);
-    color: var(--vui-text);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-normal);
+    gap: var(--sora-gap-md);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
 
     &[data-size='sm'] {
-      --_h: var(--vui-control-sm);
-      font-size: var(--vui-text-sm);
+      --_h: var(--sora-control-sm);
+      font-size: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
-      --_h: var(--vui-control-lg);
+      --_h: var(--sora-control-lg);
     }
 
     &[data-orientation='vertical'] {
@@ -23,53 +23,53 @@
     }
   }
 
-  .vui-tabs__list {
+  .sora-tabs__list {
     @apply flex shrink-0;
     gap: 0.125rem;
     /* Many tabs on a narrow screen scroll instead of wrapping; focus keeps the active one in view. */
     overflow-x: auto;
     scrollbar-width: none;
 
-    .vui-tabs[data-variant='underline'][data-orientation='horizontal'] > & {
-      border-block-end: var(--vui-border-width) solid var(--vui-border);
+    .sora-tabs[data-variant='underline'][data-orientation='horizontal'] > & {
+      border-block-end: var(--sora-border-width) solid var(--sora-border);
     }
 
-    .vui-tabs[data-orientation='vertical'] > & {
+    .sora-tabs[data-orientation='vertical'] > & {
       @apply flex-col;
       overflow: visible;
     }
 
-    .vui-tabs[data-variant='underline'][data-orientation='vertical'] > & {
-      border-inline-end: var(--vui-border-width) solid var(--vui-border);
+    .sora-tabs[data-variant='underline'][data-orientation='vertical'] > & {
+      border-inline-end: var(--sora-border-width) solid var(--sora-border);
     }
   }
 
-  .vui-tabs__tab {
+  .sora-tabs__tab {
     @apply relative inline-flex shrink-0 items-center whitespace-nowrap;
     gap: 0.375rem;
-    min-block-size: max(var(--_h), var(--vui-hit-min));
+    min-block-size: max(var(--_h), var(--sora-hit-min));
     padding-inline: 0.75rem;
-    border-radius: var(--vui-radius-sm);
-    color: var(--vui-text-muted);
-    font-weight: var(--vui-weight-medium);
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-text-muted);
+    font-weight: var(--sora-weight-medium);
 
-    .vui-tabs__list[data-fitted] > & {
+    .sora-tabs__list[data-fitted] > & {
       @apply flex-1 justify-center;
     }
 
     &:where(:not(:disabled, [aria-selected='true'])) {
       @variant hover {
-        background-color: var(--vui-hover);
-        color: var(--vui-text);
+        background-color: var(--sora-hover);
+        color: var(--sora-text);
       }
     }
 
     &[aria-selected='true'] {
-      color: var(--vui-text);
+      color: var(--sora-text);
     }
 
     /* Selection indicator: a bar (underline) or a fill (pill), never colour alone. */
-    .vui-tabs[data-variant='underline'] &::after {
+    .sora-tabs[data-variant='underline'] &::after {
       @apply absolute;
       content: '';
       inset-inline: 0.5rem;
@@ -79,28 +79,28 @@
       background-color: transparent;
     }
 
-    .vui-tabs[data-variant='underline'][data-orientation='vertical'] &::after {
+    .sora-tabs[data-variant='underline'][data-orientation='vertical'] &::after {
       inset-block: 0.375rem;
       inset-inline: auto 0;
       inline-size: 2px;
       block-size: auto;
     }
 
-    .vui-tabs[data-variant='underline'] &[aria-selected='true']::after {
-      background-color: var(--vui-text);
+    .sora-tabs[data-variant='underline'] &[aria-selected='true']::after {
+      background-color: var(--sora-text);
     }
 
-    .vui-tabs[data-variant='pill'] &[aria-selected='true'] {
-      background-color: var(--vui-neutral-soft-hover);
+    .sora-tabs[data-variant='pill'] &[aria-selected='true'] {
+      background-color: var(--sora-neutral-soft-hover);
     }
 
     &:focus-visible {
-      outline: var(--vui-focus-width) solid var(--vui-focus);
-      outline-offset: calc(var(--vui-focus-width) * -1);
+      outline: var(--sora-focus-width) solid var(--sora-focus);
+      outline-offset: calc(var(--sora-focus-width) * -1);
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
 
     @media (forced-colors: active) {
@@ -111,161 +111,161 @@
     }
   }
 
-  .vui-tabs__panel {
+  .sora-tabs__panel {
     @apply min-w-0 flex-1;
-    border-radius: var(--vui-radius-sm);
+    border-radius: var(--sora-radius-sm);
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
   }
 
-  /* ------------------------------------------------------------- UiAccordion */
-  .vui-accordion {
+  /* ------------------------------------------------------------- SoraAccordion */
+  .sora-accordion {
     @apply grid;
-    color: var(--vui-text);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-normal);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
 
     &[data-size='sm'] {
-      font-size: var(--vui-text-sm);
+      font-size: var(--sora-text-sm);
     }
   }
 
-  .vui-accordion__item {
+  .sora-accordion__item {
     &:not(:first-child) {
-      border-block-start: var(--vui-border-width) solid var(--vui-border);
+      border-block-start: var(--sora-border-width) solid var(--sora-border);
     }
   }
 
-  .vui-accordion__heading {
+  .sora-accordion__heading {
     font-size: inherit;
     font-weight: inherit;
   }
 
-  .vui-accordion__trigger {
+  .sora-accordion__trigger {
     @apply flex w-full items-center justify-between;
     gap: 0.75rem;
-    min-block-size: max(var(--vui-control-lg), var(--vui-hit-min));
+    min-block-size: max(var(--sora-control-lg), var(--sora-hit-min));
     padding: 0.5rem 0.25rem;
-    border-radius: var(--vui-radius-sm);
-    font-weight: var(--vui-weight-medium);
+    border-radius: var(--sora-radius-sm);
+    font-weight: var(--sora-weight-medium);
     text-align: start;
 
-    .vui-accordion[data-size='sm'] & {
-      min-block-size: max(var(--vui-control-md), var(--vui-hit-min));
+    .sora-accordion[data-size='sm'] & {
+      min-block-size: max(var(--sora-control-md), var(--sora-hit-min));
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
   }
 
-  .vui-accordion__label {
+  .sora-accordion__label {
     @apply min-w-0 flex-1;
     overflow-wrap: anywhere;
   }
 
-  .vui-accordion__chevron {
-    color: var(--vui-text-muted);
+  .sora-accordion__chevron {
+    color: var(--sora-text-muted);
     font-size: 1rem;
 
-    .vui-accordion__item[data-open] & {
+    .sora-accordion__item[data-open] & {
       rotate: 180deg;
     }
   }
 
   /* Height animates through the grid track (0fr -> 1fr); no JS measurement. */
-  .vui-accordion__panel {
+  .sora-accordion__panel {
     @apply grid;
     grid-template-rows: 0fr;
 
-    .vui-accordion__item[data-open] > & {
+    .sora-accordion__item[data-open] > & {
       grid-template-rows: 1fr;
     }
   }
 
-  .vui-accordion__content {
+  .sora-accordion__content {
     @apply min-h-0 overflow-hidden;
     padding-inline: 0.25rem;
-    color: var(--vui-text-muted);
+    color: var(--sora-text-muted);
     overflow-wrap: anywhere;
 
-    .vui-accordion__item[data-open] & {
+    .sora-accordion__item[data-open] & {
       padding-block-end: 0.75rem;
     }
   }
 
-  /* ----------------------------------------------------------- UiBreadcrumbs */
-  .vui-breadcrumbs {
-    color: var(--vui-text-muted);
-    font-size: var(--vui-text-sm);
-    line-height: var(--vui-leading-normal);
+  /* ----------------------------------------------------------- SoraBreadcrumbs */
+  .sora-breadcrumbs {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    line-height: var(--sora-leading-normal);
   }
 
-  .vui-breadcrumbs__list {
+  .sora-breadcrumbs__list {
     @apply flex flex-wrap items-center;
     gap: 0.125rem 0.25rem;
   }
 
-  .vui-breadcrumbs__item {
+  .sora-breadcrumbs__item {
     @apply inline-flex min-w-0 items-center;
     gap: 0.25rem;
   }
 
-  .vui-breadcrumbs__separator {
-    color: var(--vui-text-subtle);
+  .sora-breadcrumbs__separator {
+    color: var(--sora-text-subtle);
     font-size: 0.875rem;
   }
 
-  .vui-breadcrumbs__link {
+  .sora-breadcrumbs__link {
     @apply inline-flex items-center justify-center;
-    min-inline-size: var(--vui-hit-min);
-    min-block-size: var(--vui-hit-min);
-    border-radius: var(--vui-radius-sm);
-    color: var(--vui-text-muted);
+    min-inline-size: var(--sora-hit-min);
+    min-block-size: var(--sora-hit-min);
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-text-muted);
     text-decoration-line: underline;
     text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
     text-underline-offset: 0.2em;
     overflow-wrap: anywhere;
 
     @variant hover {
-      color: var(--vui-text);
+      color: var(--sora-text);
       text-decoration-color: currentColor;
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
   }
 
-  .vui-breadcrumbs__text {
+  .sora-breadcrumbs__text {
     overflow-wrap: anywhere;
 
     &[aria-current='page'] {
-      color: var(--vui-text);
-      font-weight: var(--vui-weight-medium);
+      color: var(--sora-text);
+      font-weight: var(--sora-weight-medium);
     }
   }
 
-  /* ------------------------------------------------------------ UiPagination */
-  .vui-pagination {
+  /* ------------------------------------------------------------ SoraPagination */
+  .sora-pagination {
     --_h: 2rem;
 
     /* The nav is its own inline-size container: it collapses to "Page x of y" when narrow. */
     container-type: inline-size;
     min-inline-size: min(100%, 9rem);
-    color: var(--vui-text);
-    font-size: var(--vui-text-md);
-    line-height: var(--vui-leading-tight);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-tight);
 
     &[data-size='sm'] {
       --_h: 1.75rem;
-      font-size: var(--vui-text-sm);
+      font-size: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
@@ -273,38 +273,38 @@
     }
   }
 
-  .vui-pagination__list {
+  .sora-pagination__list {
     @apply flex items-center;
     gap: 0.25rem;
   }
 
-  .vui-pagination__button {
+  .sora-pagination__button {
     @apply inline-flex items-center justify-center;
-    min-inline-size: max(var(--_h), var(--vui-hit-min));
-    min-block-size: max(var(--_h), var(--vui-hit-min));
+    min-inline-size: max(var(--_h), var(--sora-hit-min));
+    min-block-size: max(var(--_h), var(--sora-hit-min));
     padding-inline: 0.375rem;
-    border-radius: var(--vui-radius-md);
+    border-radius: var(--sora-radius-md);
     font-variant-numeric: tabular-nums;
 
     &:where(:not(:disabled, [aria-current='page'])) {
       @variant hover {
-        background-color: var(--vui-hover);
+        background-color: var(--sora-hover);
       }
     }
 
     /* Current page: filled, plus `aria-current`. */
     &[aria-current='page'] {
-      background-color: var(--vui-neutral);
-      color: var(--vui-on-neutral);
-      font-weight: var(--vui-weight-medium);
+      background-color: var(--sora-neutral);
+      color: var(--sora-on-neutral);
+      font-weight: var(--sora-weight-medium);
     }
 
     &:focus-visible {
-      @apply vui-focus-ring;
+      @apply sora-focus-ring;
     }
 
     &:disabled {
-      opacity: var(--vui-disabled-opacity);
+      opacity: var(--sora-disabled-opacity);
     }
 
     @media (forced-colors: active) {
@@ -315,30 +315,30 @@
     }
   }
 
-  .vui-pagination__gap {
+  .sora-pagination__gap {
     @apply inline-block text-center;
     min-inline-size: 1.5rem;
-    color: var(--vui-text-subtle);
+    color: var(--sora-text-subtle);
   }
 
-  .vui-pagination__status {
+  .sora-pagination__status {
     display: none;
     padding-inline: 0.5rem;
-    color: var(--vui-text-muted);
+    color: var(--sora-text-muted);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
 
   @container (inline-size < 26rem) {
-    .vui-pagination__list {
+    .sora-pagination__list {
       @apply justify-between;
     }
 
-    .vui-pagination__page {
+    .sora-pagination__page {
       display: none;
     }
 
-    .vui-pagination__status {
+    .sora-pagination__status {
       display: block;
     }
   }
