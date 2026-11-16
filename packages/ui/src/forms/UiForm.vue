@@ -7,7 +7,7 @@ import { useUiLocale } from '../composables/use-ui-locale.ts'
 import { uiFormKey } from './types.ts'
 
 export interface UiFormProps<TFormSchema extends FormSchema = FormSchema>
-  extends /* @vue-ignore */ Omit<FormHTMLAttributes, 'onSubmit' | 'novalidate'> {
+  extends /* @vue-ignore */ Omit<FormHTMLAttributes, 'onSubmit' | 'onInvalid' | 'onError' | 'novalidate'> {
   /** The Formisch store returned by `useForm()`. */
   of: FormStore<TFormSchema>
   /**
@@ -45,7 +45,11 @@ provide(uiFormKey, {
   element: () => element.value,
 })
 
+/** Whether the current submission got past validation (the callback was called). */
+let reachedSubmit = false
+
 const handler: SubmitEventHandler<TSchema> = async (output, event) => {
+  reachedSubmit = true
   try {
     await submit(output, event)
   } catch (error) {
@@ -67,9 +71,11 @@ async function onSubmit(event: SubmitEvent): Promise<void> {
   event.preventDefault()
   if (inFlight || of.isSubmitting) return
   inFlight = true
+  reachedSubmit = false
   try {
     await run.value(event)
-    if (getDeepErrorEntries(of).length > 0) emit('invalid')
+    // A rejected callback also leaves an error behind (form-level); that is `error`, not `invalid`.
+    if (!reachedSubmit && getDeepErrorEntries(of).length > 0) emit('invalid')
   } finally {
     inFlight = false
   }

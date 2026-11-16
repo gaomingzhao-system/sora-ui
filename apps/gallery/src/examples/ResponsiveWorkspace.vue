@@ -23,6 +23,7 @@ import {
   iconPlus,
   iconSearch,
   useToast,
+  useUiLocale,
 } from '@your-scope/ui'
 import type { UiColor, UiMenuItem, UiTableColumn, UiTableSort } from '@your-scope/ui'
 import { useT } from '../i18n.ts'
@@ -39,6 +40,7 @@ interface Project {
 
 const t = useT()
 const toast = useToast()
+const { locale } = useUiLocale()
 
 const projects = ref<Project[]>([
   {
@@ -152,8 +154,7 @@ const visible = computed(() => {
 
 // Dates stay date-only strings; formatting names the calendar day explicitly in UTC.
 const dateFormat = computed(
-  () =>
-    new Intl.DateTimeFormat(document.documentElement.lang || 'en', { dateStyle: 'medium', timeZone: 'UTC' }),
+  () => new Intl.DateTimeFormat(locale.value, { dateStyle: 'medium', timeZone: 'UTC' }),
 )
 const formatDate = (value: string): string => dateFormat.value.format(new Date(`${value}T00:00:00Z`))
 

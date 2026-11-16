@@ -5,7 +5,7 @@ import type { UiCloseReason } from '../../composables/use-overlay.ts'
 import UiDialog from './UiDialog.vue'
 
 export interface UiDrawerProps
-  extends /* @vue-ignore */ Omit<DialogHTMLAttributes, 'open' | 'title' | 'role'> {
+  extends /* @vue-ignore */ Omit<DialogHTMLAttributes, 'open' | 'title' | 'role' | 'onClose'> {
   /** Accessible name and visible heading. */
   title: string
   description?: string | undefined

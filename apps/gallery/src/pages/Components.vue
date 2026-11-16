@@ -31,6 +31,11 @@ const demos = {
 
 const namesIn = (category: UiComponentCategory): string[] =>
   componentManifest.filter((entry) => entry.category === category).map((entry) => entry.name)
+
+// The gallery routes on the hash, so in-page links scroll instead of navigating.
+function scrollToDemo(name: string): void {
+  document.getElementById(`demo-${name}`)?.scrollIntoView()
+}
 </script>
 
 <template>
@@ -63,7 +68,7 @@ const namesIn = (category: UiComponentCategory): string[] =>
             <a
               class="underline decoration-vui-border-strong underline-offset-4"
               :href="`#demo-${name}`"
-              @click.prevent="$el.ownerDocument.getElementById(`demo-${name}`)?.scrollIntoView()"
+              @click.prevent="scrollToDemo(name)"
               >{{ name }}</a
             >
           </li>

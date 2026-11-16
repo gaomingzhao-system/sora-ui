@@ -53,7 +53,7 @@ const crumbs = computed(() => [
   </DemoSection>
 
   <DemoSection name="UiAccordion">
-    <UiAccordion v-model="open" :items="questions" class="max-w-xl" />
+    <UiAccordion v-model="open" :items="questions" :heading-level="4" class="max-w-xl" />
   </DemoSection>
 
   <DemoSection name="UiBreadcrumbs">
@@ -65,7 +65,13 @@ const crumbs = computed(() => [
       <UiPagination v-model:page="page" :total="240" :page-size="10" />
       <!-- A narrow container collapses to "Page x of y". -->
       <div class="w-56 rounded-vui border border-dashed border-vui-border p-2">
-        <UiPagination v-model:page="smallPage" :page-count="12" size="sm" />
+        <!-- Two navigation landmarks on one page need distinct names. -->
+        <UiPagination
+          v-model:page="smallPage"
+          :page-count="12"
+          size="sm"
+          :label="t('demo.pagination.compact')"
+        />
       </div>
       <p class="text-vui-sm text-vui-muted" data-testid="page-value">{{ t('demo.page', { value: page }) }}</p>
     </div>

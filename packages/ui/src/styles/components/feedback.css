@@ -231,12 +231,24 @@
     }
   }
 
+  /* ------------------------------------------------------ UiFormErrorSummary */
+  /* The summary is an alert box (`.vui-alert.vui-error-summary`) with a list of links. */
+  .vui-error-summary__list {
+    @apply grid justify-items-start;
+    overflow-wrap: anywhere;
+
+    /* Every line is its own target: at least 24px tall, 44px for coarse pointers. */
+    & > li > :where(a, span) {
+      @apply inline-flex items-center;
+      min-block-size: max(1.5rem, var(--vui-hit-min));
+    }
+  }
+
   /* --------------------------------------------------------- UiToastProvider */
   .vui-toast-region {
     /* Undo the UA popover box: this is an invisible, click-through positioning layer. */
     @apply fixed flex flex-col overflow-visible;
     inset: auto;
-    gap: var(--vui-gap-sm);
     inline-size: min(100vw, 24rem);
     max-block-size: 100dvh;
     margin: 0;
@@ -270,12 +282,17 @@
     }
   }
 
+  /*
+   * The two lists are the live regions. They stay rendered while empty (an
+   * empty list has no box of its own), because a live region has to be in
+   * the accessibility tree before content is inserted to be announced.
+   */
   .vui-toast-region__list {
     @apply flex flex-col;
     gap: var(--vui-gap-sm);
 
-    &:not(:has(> .vui-toast)) {
-      display: none;
+    &:has(> .vui-toast) + &:has(> .vui-toast) {
+      margin-block-start: var(--vui-gap-sm);
     }
   }
 

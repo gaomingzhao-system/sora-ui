@@ -14,11 +14,6 @@ const en = {
   'actions.save': 'Save',
   'actions.submit': 'Submit',
 
-  'common.clear': 'Clear',
-  'common.loading': 'Loading',
-  'common.optional': 'optional',
-  'common.required': 'required',
-
   'alert.dismiss': 'Dismiss alert',
   'avatarGroup.more': 'More: {count}',
   'breadcrumbs.label': 'Breadcrumb',
@@ -31,18 +26,15 @@ const en = {
   'combobox.toggle': 'Show options',
 
   'dialog.close': 'Close',
-  'drawer.close': 'Close panel',
 
   'file.choose': 'Choose file',
   'file.chooseMultiple': 'Choose files',
-  'file.clear': 'Remove all files',
   'file.count': 'Files selected: {count}',
   'file.list': 'Selected files',
   'file.none': 'No file selected',
   'file.remove': 'Remove {name}',
 
   'form.errorSummary.title': 'There is a problem',
-  'form.errorSummary.form': 'Form',
 
   'link.external': 'opens in a new tab',
 
@@ -57,7 +49,6 @@ const en = {
   'pagination.previous': 'Previous page',
   'pagination.status': 'Page {page} of {total}',
 
-  'password.hide': 'Hide password',
   'password.show': 'Show password',
 
   'progress.label': 'Progress',

@@ -1,17 +1,6 @@
 import type { I18n } from 'petite-vue-i18n'
 import type { WritableComputedRef } from 'vue'
-import type { UiMessageKey } from '../locales/en.ts'
 import type { UiTranslator } from '../types/config.ts'
-
-/**
- * A message precompiled at build time (opaque message AST). The published
- * `@your-scope/ui/i18n/locales/*` modules contain these, so they also work
- * when the application drops the runtime message compiler.
- */
-export type UiCompiledMessage = unknown
-
-/** The library's messages for one locale, precompiled. */
-export type UiCompiledMessages = Readonly<Record<UiMessageKey, UiCompiledMessage>>
 
 /** Flat dictionary accepted by petite-vue-i18n: strings, or precompiled messages. */
 export type UiI18nMessages = Readonly<Record<string, unknown>>

@@ -71,13 +71,9 @@ export function createUiI18n(options: CreateUiI18nOptions): UiI18n {
     locale: string,
     loader: NonNullable<CreateUiI18nOptions['loadLocale']>,
   ): Promise<void> {
-    try {
-      const loaded = await loader(locale)
-      const messages = ('default' in loaded ? loaded.default : loaded) as UiI18nMessages
-      composer.setLocaleMessage(locale, { ...messages } as Record<string, string>)
-    } finally {
-      loading.delete(locale)
-    }
+    const loaded = await loader(locale)
+    const messages = ('default' in loaded ? loaded.default : loaded) as UiI18nMessages
+    composer.setLocaleMessage(locale, { ...messages } as Record<string, string>)
   }
 
   // Concurrent requests for one locale share a single load.
@@ -87,6 +83,12 @@ export function createUiI18n(options: CreateUiI18nOptions): UiI18n {
     if (!pending) {
       pending = fetchLocale(locale, options.loadLocale)
       loading.set(locale, pending)
+      // Forget the request once it has settled (registered after `set`, so it
+      // also covers a loader that throws synchronously): a failure can be retried.
+      const forget = (): void => {
+        loading.delete(locale)
+      }
+      pending.then(forget, forget)
     }
     await pending
   }

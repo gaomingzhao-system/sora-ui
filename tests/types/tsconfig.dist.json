@@ -1,0 +1,18 @@
+{
+  // The same type tests against the *built* declaration files, i.e. what a
+  // consumer of the published packages gets (`pnpm test:types` after a build).
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "paths": {
+      "@your-scope/theme": ["../../packages/theme/dist/index.d.ts"],
+      "@your-scope/ui": ["../../packages/ui/dist/index.d.ts"],
+      "@your-scope/ui/forms": ["../../packages/ui/dist/forms.d.ts"],
+      "@your-scope/ui/i18n": ["../../packages/ui/dist/i18n.d.ts"],
+      "@your-scope/ui/theme": ["../../packages/ui/dist/theme.d.ts"],
+      "@your-scope/ui/i18n/locales/*": ["../../packages/ui/dist/i18n/locales/*.d.ts"],
+      "@your-scope/ui/locales/*": ["../../packages/ui/dist/locales/*.d.ts"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.vue"]
+}

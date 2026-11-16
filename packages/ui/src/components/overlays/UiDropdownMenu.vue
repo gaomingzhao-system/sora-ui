@@ -1,5 +1,6 @@
 <script setup lang="ts" vapor generic="T extends UiMenuItem">
-import { computed, nextTick, useTemplateRef } from 'vue'
+import { computed, useTemplateRef, watch } from 'vue'
+import type { ButtonHTMLAttributes } from 'vue'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { isItemDisabled, useRovingFocus } from '../../composables/use-roving-focus.ts'
 import { useTypeahead } from '../../composables/use-typeahead.ts'
@@ -33,7 +34,8 @@ export interface UiMenuGroup<TItem extends UiMenuItem = UiMenuItem> {
   items: readonly TItem[]
 }
 
-export interface UiDropdownMenuProps<TItem extends UiMenuItem = UiMenuItem> {
+export interface UiDropdownMenuProps<TItem extends UiMenuItem = UiMenuItem>
+  extends /* @vue-ignore */ Omit<ButtonHTMLAttributes, 'type' | 'disabled' | 'onSelect'> {
   /** Items, or groups of items. */
   items: readonly (TItem | UiMenuGroup<TItem>)[]
   /** Text of the built-in trigger button. Use the `trigger` slot for richer content. */
@@ -137,17 +139,24 @@ function close(): void {
   open.value = false
 }
 
-function onToggle(event: Event): void {
-  popover.onToggle(event)
-  if ((event as ToggleEvent).newState !== 'open') {
-    typeahead.reset()
-    return
-  }
-  void nextTick(() => {
+// Focus enters the menu in the same flush that opens the popover (this
+// watcher is registered after usePopover's, so the popover is already in the
+// top layer). Waiting for the asynchronous `toggle` event instead would let
+// a quick second key press still land on the trigger.
+watch(
+  open,
+  (isOpen) => {
+    if (!isOpen) return
     const list = roving.items()
     ;(focusOnOpen === 'last' ? list.at(-1) : list[0])?.focus()
     focusOnOpen = 'first'
-  })
+  },
+  { flush: 'post' },
+)
+
+function onToggle(event: Event): void {
+  popover.onToggle(event)
+  if ((event as ToggleEvent).newState !== 'open') typeahead.reset()
 }
 
 function onTriggerKeydown(event: KeyboardEvent): void {

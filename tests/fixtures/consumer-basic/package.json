@@ -1,0 +1,17 @@
+{
+  "name": "vui-consumer-basic",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Button/Card-only consumer of the packed @your-scope/ui tarball. It installs none of the optional peers (Formisch, Valibot, petite-vue-i18n), so it proves the core entry and its declarations do not need them.",
+  "type": "module",
+  "dependencies": {
+    "@your-scope/ui": "0.1.0",
+    "vue": "3.6.0-rc.15"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.11",
+    "typescript": "npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2",
+    "vite": "8.3.8",
+    "vue-tsc": "3.3.14"
+  }
+}

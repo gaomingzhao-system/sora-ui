@@ -330,7 +330,7 @@ export const componentManifest: readonly UiComponentManifestEntry[] = Object.fre
     source: 'components/feedback/UiToastProvider.vue',
     entry: 'core',
     summary: 'Hosts the queue of dismissible notifications that `useToast()` adds to.',
-    attrs: 'None (it renders its slot plus the notification region).',
+    attrs: 'The notification region (`<section>`); the slot content is rendered next to it, unwrapped.',
     keyboard: [
       'Toast buttons are ordinary buttons in the page tab order.',
       'Focus or hover inside the region pauses auto-dismissal.',

@@ -15,7 +15,7 @@ import UiField from './UiField.vue'
 export interface UiComboboxProps<TValue extends string | number = string>
   extends /* @vue-ignore */ Omit<
     InputHTMLAttributes,
-    'size' | 'type' | 'value' | 'disabled' | 'required' | 'id' | 'role' | 'placeholder'
+    'size' | 'type' | 'value' | 'disabled' | 'required' | 'id' | 'role' | 'placeholder' | 'onSelect'
   > {
   /** The selected option's value, or `null`/`undefined`. Free text is never a value. */
   modelValue: TValue | null | undefined

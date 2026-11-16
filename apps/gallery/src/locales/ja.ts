@@ -295,6 +295,7 @@ const ja: GalleryMessages = {
   'demo.selected': '選択中: {value}',
   'demo.value': '値: {value}',
   'demo.page': 'ページ: {value}',
+  'demo.pagination.compact': 'ページネーション（コンパクト）',
   'demo.provider.inner': 'このプロバイダーの範囲内',
   'demo.icon.named': '検索',
   'demo.field.custom': '任意のコントロール',

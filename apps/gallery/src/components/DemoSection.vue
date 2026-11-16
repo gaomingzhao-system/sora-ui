@@ -19,7 +19,7 @@ const entry = computed(() => componentManifest.find((candidate) => candidate.nam
     :data-demo="name"
   >
     <header class="flex flex-wrap items-center gap-2">
-      <h4 class="font-vui-mono text-vui-md font-semibold">{{ name }}</h4>
+      <h3 class="font-vui-mono text-vui-md font-semibold">{{ name }}</h3>
       <UiBadge v-if="entry" size="sm" variant="outline">{{ t(`category.${entry.category}`) }}</UiBadge>
     </header>
     <!-- Reference text comes from the manifest and is English: marked as such for assistive technology. -->

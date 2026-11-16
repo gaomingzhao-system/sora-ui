@@ -124,7 +124,7 @@ const on = ref(true)
         <UiProvider color-mode="dark" density="comfortable" data-testid="nested-dark">
           <div class="grid gap-2 rounded-vui-lg bg-vui-canvas p-3 text-vui-text">
             <h3 class="text-vui-sm font-semibold">{{ t('foundations.nested.dark') }}</h3>
-            <UiCard :title="t('foundations.sample.title')">
+            <UiCard :title="t('foundations.sample.title')" :heading-level="4">
               <UiInput v-model="sample" :label="t('demo.name')" />
               <template #footer><UiButton>{{ t('foundations.sample.action') }}</UiButton></template>
             </UiCard>
@@ -133,7 +133,7 @@ const on = ref(true)
         <UiProvider v-bind="violet" data-testid="nested-custom">
           <div class="grid gap-2 rounded-vui-lg bg-vui-subtle p-3">
             <h3 class="text-vui-sm font-semibold">{{ t('foundations.nested.custom') }}</h3>
-            <UiCard :title="t('foundations.sample.title')">
+            <UiCard :title="t('foundations.sample.title')" :heading-level="4">
               <UiSwitch v-model="on" :label="t('demo.notifications')" />
               <template #footer>
                 <UiButton variant="soft" color="secondary">{{ t('demo.cancel') }}</UiButton>
@@ -145,7 +145,7 @@ const on = ref(true)
         <UiProvider radius="none" motion="none" data-testid="nested-sharp">
           <div class="grid gap-2 bg-vui-subtle p-3">
             <h3 class="text-vui-sm font-semibold">{{ t('foundations.nested.sharp') }}</h3>
-            <UiCard :title="t('foundations.sample.title')">
+            <UiCard :title="t('foundations.sample.title')" :heading-level="4">
               <p class="text-vui-sm text-vui-muted">{{ t('foundations.sample.body') }}</p>
               <template #footer
                 ><UiButton variant="outline" color="neutral">{{

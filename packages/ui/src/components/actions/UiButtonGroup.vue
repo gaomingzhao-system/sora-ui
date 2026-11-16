@@ -58,7 +58,6 @@ provide(uiContextKey, {
     class="vui-button-group"
     role="group"
     :aria-label="label"
-    :aria-orientation="orientation"
     :data-orientation="orientation"
     :data-attached="attached ? '' : undefined"
   >

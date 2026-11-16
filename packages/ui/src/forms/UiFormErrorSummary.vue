@@ -7,6 +7,7 @@ import UiIcon from '../components/foundation/UiIcon.vue'
 import { useUiLocale } from '../composables/use-ui-locale.ts'
 import { iconError } from '../internal/icons.ts'
 import { useUiId } from '../internal/ids.ts'
+import { steadyWhilePressed } from './press.ts'
 import { uiFormKey } from './types.ts'
 import type { UiFormErrorEntry } from './types.ts'
 
@@ -18,11 +19,30 @@ export interface UiFormErrorSummaryProps extends /* @vue-ignore */ HTMLAttribute
   /** Heading text. Defaults to the translated "There is a problem". */
   title?: string | undefined
   headingLevel?: 2 | 3 | 4 | 5 | 6 | undefined
+  /**
+   * When the summary appears. `submitted` (default): after a submission
+   * attempt, like the fields bound with `useUiFormField()`, because Formisch
+   * validates every field as soon as one of them is left. `always`: whenever
+   * the store holds an error.
+   */
+  reveal?: 'submitted' | 'always' | undefined
+  /**
+   * Messages listed per field: `first` (default, matching what
+   * `useUiFormField()` shows at the field) or `all`.
+   */
+  errors?: 'first' | 'all' | undefined
 }
 
-defineOptions({ name: 'UiFormErrorSummary' })
+// The root only exists while there are errors, so attributes are bound explicitly.
+defineOptions({ name: 'UiFormErrorSummary', inheritAttrs: false })
 
-const { of, title, headingLevel = 2 } = defineProps<UiFormErrorSummaryProps>()
+const {
+  of,
+  title,
+  headingLevel = 2,
+  reveal = 'submitted',
+  errors = 'first',
+} = defineProps<UiFormErrorSummaryProps>()
 
 defineSlots<{
   /** One entry (label, message and link by default). */
@@ -35,37 +55,62 @@ const titleId = `${useUiId()}-title`
 
 const store = computed<FormStore<FormSchema> | undefined>(() => of ?? context?.form())
 
-/** The native control Formisch registered for a path (its `name` is the JSON path). */
-function controlFor(path: readonly (string | number)[]): HTMLElement | null {
+/** The native controls Formisch registered for a path (their `name` is the JSON path). */
+function controlsFor(path: readonly (string | number)[]): HTMLElement[] {
   const scope: ParentNode = context?.element() ?? document
-  return scope.querySelector<HTMLElement>(`[name="${CSS.escape(JSON.stringify(path))}"]`)
+  return [...scope.querySelectorAll<HTMLElement>(`[name="${CSS.escape(JSON.stringify(path))}"]`)]
 }
 
-function labelFor(control: HTMLElement): string | undefined {
-  // A group (radios, checkboxes) is named by its legend, a single control by its label.
-  const legend = control.closest('fieldset')?.querySelector(':scope > legend')
-  const label = legend ?? (control as HTMLInputElement).labels?.[0]
-  const text = label?.textContent?.replace(/\s*\*\s*$/, '').trim()
-  return text || undefined
+function labelFor(controls: readonly HTMLElement[]): string | undefined {
+  const control = controls[0] as HTMLInputElement | undefined
+  if (!control) return undefined
+  // Radios, and checkboxes that share one name, are options of a group: the
+  // field is named by the group's legend. Any other control is named by its
+  // own label, also when it happens to sit inside a fieldset.
+  const isGroup = control.type === 'radio' || (control.type === 'checkbox' && controls.length > 1)
+  const legend = isGroup ? control.closest('fieldset')?.querySelector(':scope > legend') : null
+  const text = (legend ?? control.labels?.[0])?.textContent?.replace(/\s*\*\s*$/, '').trim()
+  return text || control.getAttribute('aria-label') || undefined
 }
+
+// The list is above the fields: a line that appears or disappears while a
+// button is pressed would move that button, so changes wait for the release.
+const steady = steadyWhilePressed<UiFormErrorEntry[]>(
+  (previous, next) =>
+    previous.length === next.length &&
+    previous.every((entry, index) => {
+      const other = next[index]
+      return (
+        other !== undefined &&
+        entry.key === other.key &&
+        entry.message === other.message &&
+        entry.label === other.label &&
+        entry.fieldId === other.fieldId
+      )
+    }),
+)
 
 // `getDeepErrorEntries` (not `form.errors`, which only holds root errors)
 // walks every field, so nested and array fields are included.
-const entries = computed<UiFormErrorEntry[]>(() => {
+const entries = computed<UiFormErrorEntry[]>(() => steady(readEntries()))
+
+function readEntries(): UiFormErrorEntry[] {
   const form = store.value
-  if (!form) return []
+  if (!form || (reveal === 'submitted' && !form.isSubmitted)) return []
   return getDeepErrorEntries(form).flatMap((entry) => {
     const path = entry.path as readonly (string | number)[]
-    const control = path.length > 0 ? controlFor(path) : null
-    return entry.errors.map((message, index) => ({
+    const controls = path.length > 0 ? controlsFor(path) : []
+    // A field's messages are the failed steps of one pipe; form-level errors are separate statements.
+    const shown = errors === 'all' || path.length === 0 ? entry.errors : entry.errors.slice(0, 1)
+    return shown.map((message, index) => ({
       key: `${JSON.stringify(path)}:${index}`,
       path,
-      label: control ? labelFor(control) : undefined,
-      fieldId: control?.id || undefined,
+      label: labelFor(controls),
+      fieldId: controls[0]?.id || undefined,
       message,
     }))
   })
-})
+}
 
 const hasFormLevelError = computed(() => entries.value.some((entry) => entry.path.length === 0))
 
@@ -82,6 +127,7 @@ function focusField(entry: UiFormErrorEntry): void {
   -->
   <div
     v-if="entries.length > 0"
+    v-bind="$attrs"
     class="vui-alert vui-error-summary"
     data-color="error"
     data-variant="soft"
@@ -106,7 +152,7 @@ function focusField(entry: UiFormErrorEntry): void {
             >
               <template v-if="entry.label">{{ entry.label }}: </template>{{ entry.message }}
             </a>
-            <span v-else>{{ entry.message }}</span>
+            <span v-else><template v-if="entry.label">{{ entry.label }}: </template>{{ entry.message }}</span>
           </slot>
         </li>
       </ul>

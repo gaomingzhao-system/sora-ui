@@ -1,5 +1,6 @@
 {
-  // Node-side tooling: scripts, tool configs, ui.config.ts and the unit tests.
+  // Node-side tooling: scripts, tool configs and ui.config.ts.
+  // No DOM lib on purpose: a script that touches `document` is a mistake.
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["node"],
@@ -7,8 +8,7 @@
   },
   "include": [
     "scripts/**/*.ts",
-    "tests/unit/**/*.ts",
-    "tests/e2e/**/*.ts",
+    "tests/e2e/ports.ts",
     "ui.config.ts",
     "vitest.config.ts",
     "playwright.config.ts",

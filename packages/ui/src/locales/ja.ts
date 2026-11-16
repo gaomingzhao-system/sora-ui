@@ -9,11 +9,6 @@ const ja: UiMessages = {
   'actions.save': '保存',
   'actions.submit': '送信',
 
-  'common.clear': 'クリア',
-  'common.loading': '読み込み中',
-  'common.optional': '任意',
-  'common.required': '必須',
-
   'alert.dismiss': 'アラートを閉じる',
   'avatarGroup.more': 'ほか {count} 件',
   'breadcrumbs.label': 'パンくずリスト',
@@ -26,18 +21,15 @@ const ja: UiMessages = {
   'combobox.toggle': '候補を表示',
 
   'dialog.close': '閉じる',
-  'drawer.close': 'パネルを閉じる',
 
   'file.choose': 'ファイルを選択',
   'file.chooseMultiple': 'ファイルを選択',
-  'file.clear': 'すべてのファイルを削除',
   'file.count': '選択中のファイル: {count} 件',
   'file.list': '選択したファイル',
   'file.none': 'ファイルが選択されていません',
   'file.remove': '{name} を削除',
 
   'form.errorSummary.title': '入力内容に問題があります',
-  'form.errorSummary.form': 'フォーム',
 
   'link.external': '新しいタブで開きます',
 
@@ -52,7 +44,6 @@ const ja: UiMessages = {
   'pagination.previous': '前のページ',
   'pagination.status': '{total} ページ中 {page} ページ',
 
-  'password.hide': 'パスワードを隠す',
   'password.show': 'パスワードを表示',
 
   'progress.label': '進捗',

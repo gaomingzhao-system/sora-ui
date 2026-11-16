@@ -12,7 +12,7 @@ const t = useT()
       <p class="text-vui-muted">{{ t('forms.lead') }}</p>
     </header>
     <div class="max-w-3xl">
-      <ProfileForm />
+      <ProfileForm :heading-level="2" />
     </div>
   </div>
 </template>

@@ -32,6 +32,7 @@ const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', '
         :key="variant"
         :variant="variant"
         :title="t('demo.card.title')"
+        :heading-level="4"
       >
         <p>{{ t('demo.card.body') }}</p>
         <template #actions><UiBadge color="success" dot>{{ t('demo.badge.active') }}</UiBadge></template>
@@ -68,7 +69,8 @@ const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', '
       <UiAvatar name="Grace Hopper" />
       <UiAvatar name="山田 太郎" size="lg" />
       <UiAvatar name="Alan Turing" shape="square" />
-      <UiAvatar name="Broken image" src="/does-not-exist.png" />
+      <!-- A source that cannot be decoded: the avatar falls back to initials (no network request involved). -->
+      <UiAvatar name="Broken image" src="data:image/png;base64,AAAA" />
       <UiAvatar />
     </div>
   </DemoSection>
@@ -101,7 +103,7 @@ const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', '
 
   <DemoSection name="UiEmptyState">
     <UiCard variant="soft">
-      <UiEmptyState :title="t('demo.empty.title')" :description="t('demo.empty.body')">
+      <UiEmptyState :title="t('demo.empty.title')" :description="t('demo.empty.body')" :heading-level="4">
         <template #actions>
           <UiButton>{{ t('demo.empty.action') }}</UiButton>
         </template>

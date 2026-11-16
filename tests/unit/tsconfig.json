@@ -1,0 +1,9 @@
+{
+  // Unit tests run in Node, but they import library internals whose types
+  // mention DOM interfaces, so this project keeps the DOM lib.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["./**/*.ts", "../../packages/ui/src/compiled-messages.d.ts"]
+}

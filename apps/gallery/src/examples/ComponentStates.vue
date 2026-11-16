@@ -26,7 +26,7 @@ const options = [
 
 <template>
   <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5" data-testid="component-states">
-    <UiCard variant="outline" padding="sm" :title="t('demo.default')" :heading-level="4">
+    <UiCard variant="outline" padding="sm" :title="t('demo.default')" :heading-level="3">
       <div class="grid gap-2">
         <UiButton>{{ t('demo.save') }}</UiButton>
         <UiInput v-model="text" :label="t('demo.name')" />
@@ -36,7 +36,7 @@ const options = [
       </div>
     </UiCard>
 
-    <UiCard variant="outline" padding="sm" :title="t('demo.disabled')" :heading-level="4">
+    <UiCard variant="outline" padding="sm" :title="t('demo.disabled')" :heading-level="3">
       <div class="grid gap-2">
         <UiButton disabled>{{ t('demo.save') }}</UiButton>
         <UiInput v-model="text" :label="t('demo.name')" disabled />
@@ -46,7 +46,7 @@ const options = [
       </div>
     </UiCard>
 
-    <UiCard variant="outline" padding="sm" :title="t('demo.loading')" :heading-level="4">
+    <UiCard variant="outline" padding="sm" :title="t('demo.loading')" :heading-level="3">
       <div class="grid gap-2">
         <UiButton loading>{{ t('demo.save') }}</UiButton>
         <UiButton loading variant="outline" color="neutral">{{ t('demo.cancel') }}</UiButton>
@@ -54,7 +54,7 @@ const options = [
       </div>
     </UiCard>
 
-    <UiCard variant="outline" padding="sm" :title="t('demo.invalid')" :heading-level="4">
+    <UiCard variant="outline" padding="sm" :title="t('demo.invalid')" :heading-level="3">
       <div class="grid gap-2">
         <UiInput v-model="text" :label="t('demo.name')" :error="t('validation.invalid')" />
         <UiSelect
@@ -68,7 +68,7 @@ const options = [
       </div>
     </UiCard>
 
-    <UiCard variant="outline" padding="sm" :title="t('demo.long')" :heading-level="4">
+    <UiCard variant="outline" padding="sm" :title="t('demo.long')" :heading-level="3">
       <div class="grid gap-2">
         <UiButton>{{ t('demo.long') }}</UiButton>
         <UiInput v-model="text" :label="t('demo.long')" :hint="t('demo.long')" />

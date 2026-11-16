@@ -223,7 +223,8 @@
   }
 
   .vui-breadcrumbs__link {
-    @apply inline-flex items-center;
+    @apply inline-flex items-center justify-center;
+    min-inline-size: var(--vui-hit-min);
     min-block-size: var(--vui-hit-min);
     border-radius: var(--vui-radius-sm);
     color: var(--vui-text-muted);

@@ -82,8 +82,12 @@ export interface UiFontConfig {
 export type UiTokenOverrides = Readonly<Record<`--vui-${string}`, string>>
 
 export interface UiConfigInput<TPalette extends string = never> {
-  /** Each value names a palette (never another semantic role). */
-  readonly colors?: Partial<Record<UiColorRole, UiBuiltinPalette | TPalette>>
+  /**
+   * Each value names a palette (never another semantic role). `NoInfer`
+   * keeps a typo from being inferred as a new palette name: only the keys of
+   * `palettes` extend the set of valid values.
+   */
+  readonly colors?: Partial<Record<UiColorRole, UiBuiltinPalette | NoInfer<TPalette>>>
   /** Extra palettes that `colors` may reference by name. */
   readonly palettes?: Readonly<Record<TPalette, UiPaletteScale>>
   readonly colorMode?: UiColorMode

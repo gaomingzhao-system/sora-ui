@@ -28,6 +28,9 @@ import { UiForm, UiFormErrorSummary, useUiFormField } from '@your-scope/ui/forms
 import { useT } from '../i18n.ts'
 import ProfileLinkRow from './ProfileLinkRow.vue'
 
+/** Heading level of the card title: 2 on a page of its own, 3 inside a section. */
+const { headingLevel = 3 } = defineProps<{ headingLevel?: 2 | 3 | undefined }>()
+
 const t = useT()
 const toast = useToast()
 
@@ -165,6 +168,7 @@ async function save(output: v.InferOutput<typeof schema>): Promise<void> {
 <template>
   <UiCard
     as="section"
+    :heading-level="headingLevel"
     :title="t('profile.title')"
     :description="t('profile.description')"
     data-testid="profile-form"

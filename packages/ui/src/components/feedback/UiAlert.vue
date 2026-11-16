@@ -26,7 +26,8 @@ export interface UiAlertProps extends /* @vue-ignore */ HTMLAttributes {
   announce?: 'auto' | 'polite' | 'assertive' | 'off' | undefined
 }
 
-defineOptions({ name: 'UiAlert' })
+// The root is conditional (`v-if="open"`), so attributes are bound explicitly.
+defineOptions({ name: 'UiAlert', inheritAttrs: false })
 
 const {
   color,
@@ -81,7 +82,14 @@ function dismiss(): void {
 </script>
 
 <template>
-  <div v-if="open" class="vui-alert" :role="role" :data-color="resolvedColor" :data-variant="resolvedVariant">
+  <div
+    v-if="open"
+    v-bind="$attrs"
+    class="vui-alert"
+    :role="role"
+    :data-color="resolvedColor"
+    :data-variant="resolvedVariant"
+  >
     <span v-if="$slots.icon || resolvedIcon" class="vui-alert__icon" aria-hidden="true">
       <slot name="icon"><UiIcon v-if="resolvedIcon" :icon="resolvedIcon" /></slot>
     </span>

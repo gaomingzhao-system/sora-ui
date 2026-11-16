@@ -46,6 +46,11 @@ const densities = computed(() => [
   { value: 'comfortable' as const, label: t('app.density.comfortable') },
 ])
 
+// The gallery routes on the hash, so the skip link must not navigate to "#main".
+function skipToContent(): void {
+  document.getElementById('main')?.focus()
+}
+
 async function setLocale(value: GalleryLocale | null): Promise<void> {
   if (value && isGalleryLocale(value)) await galleryI18n.setLocale(value)
 }
@@ -55,7 +60,9 @@ async function setLocale(value: GalleryLocale | null): Promise<void> {
   <div class="flex min-h-dvh flex-col">
     <a
       href="#main"
+      data-testid="skip-link"
       class="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-10 focus:rounded-vui focus:bg-vui-elevated focus:px-3 focus:py-2"
+      @click.prevent="skipToContent"
     >
       {{ t('app.skip') }}
     </a>

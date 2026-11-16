@@ -9,7 +9,7 @@ import { useUiId } from '../../internal/ids.ts'
 import UiIconButton from '../actions/UiIconButton.vue'
 
 export interface UiDialogProps
-  extends /* @vue-ignore */ Omit<DialogHTMLAttributes, 'open' | 'title' | 'role'> {
+  extends /* @vue-ignore */ Omit<DialogHTMLAttributes, 'open' | 'title' | 'role' | 'onClose'> {
   /** Accessible name and visible heading. */
   title: string
   /** Supporting text, announced with the title. */

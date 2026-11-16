@@ -2,13 +2,17 @@
   "name": "vui-consumer",
   "version": "0.0.0",
   "private": true,
-  "description": "Independent consumer of the packed @your-scope/ui tarballs. Not a workspace member; see scripts/verify-consumer.ts.",
+  "description": "Independent consumer of the packed @your-scope/ui tarballs (core, forms, i18n, theme). Not a workspace member: scripts/verify-consumer.ts copies it out, installs the tarballs and builds it.",
   "type": "module",
   "scripts": {
     "typecheck": "vue-tsc --noEmit",
     "build": "vite build"
   },
   "dependencies": {
+    "@formisch/vue": "1.2.0",
+    "@your-scope/ui": "0.1.0",
+    "petite-vue-i18n": "11.4.20",
+    "valibot": "1.5.0",
     "vue": "3.6.0-rc.15"
   },
   "devDependencies": {

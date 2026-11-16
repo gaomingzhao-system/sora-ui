@@ -15,6 +15,8 @@ const projects: Readonly<Record<string, string>> = {
   ui: 'packages/ui/tsconfig.json',
   gallery: 'apps/gallery/tsconfig.json',
   tests: 'tests/tsconfig.json',
+  unit: 'tests/unit/tsconfig.json',
+  e2e: 'tests/e2e/tsconfig.json',
   tooling: 'tsconfig.json',
 }
 

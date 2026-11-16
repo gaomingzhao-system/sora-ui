@@ -111,6 +111,7 @@ defineExpose({
             <span class="vui-check__box">
               <input
                 v-bind="radioAttrs"
+                :id="`${generated}-radio-${index}`"
                 :ref="register"
                 class="vui-check__input"
                 type="radio"

@@ -16,12 +16,7 @@ export interface PatternInputProps<TValue extends string | number>
 
 defineOptions({ inheritAttrs: false })
 
-const {
-  label,
-  options,
-  controlAttrs = {},
-  as = 'select',
-} = defineProps<PatternInputProps<T>>()
+const { label, options, controlAttrs = {}, as = 'select' } = defineProps<PatternInputProps<T>>()
 const model = defineModel<T | null>({ required: true })
 defineSlots<{
   hint?(): unknown

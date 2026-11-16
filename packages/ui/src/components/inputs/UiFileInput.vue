@@ -197,7 +197,7 @@ defineExpose({
           />
           <span class="vui-file__button" aria-hidden="true">
             <UiIcon :icon="iconUpload" />
-            {{ buttonLabel ?? t(multiple ? 'file.chooseMultiple' : 'file.choose') }}
+            {{ buttonLabel ?? (multiple ? t('file.chooseMultiple') : t('file.choose')) }}
           </span>
           <span class="vui-file__summary" aria-hidden="true">{{ summary }}</span>
         </div>

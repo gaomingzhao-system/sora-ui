@@ -9,6 +9,9 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "verbatimModuleSyntax": true,
+    // Vue 3.6.0-rc.15's own declarations do not pass exactOptionalPropertyTypes
+    // (see docs/compatibility.md); the library's declarations are checked
+    // separately by `pnpm check:package`.
     "skipLibCheck": true,
     "noEmit": true
   },

@@ -9,11 +9,6 @@ const ar: UiMessages = {
   'actions.save': 'حفظ',
   'actions.submit': 'إرسال',
 
-  'common.clear': 'مسح',
-  'common.loading': 'جارٍ التحميل',
-  'common.optional': 'اختياري',
-  'common.required': 'مطلوب',
-
   'alert.dismiss': 'إغلاق التنبيه',
   'avatarGroup.more': 'إضافي: {count}',
   'breadcrumbs.label': 'مسار التنقل',
@@ -26,18 +21,15 @@ const ar: UiMessages = {
   'combobox.toggle': 'عرض الخيارات',
 
   'dialog.close': 'إغلاق',
-  'drawer.close': 'إغلاق اللوحة',
 
   'file.choose': 'اختيار ملف',
   'file.chooseMultiple': 'اختيار ملفات',
-  'file.clear': 'إزالة جميع الملفات',
   'file.count': 'الملفات المحددة: {count}',
   'file.list': 'الملفات المحددة',
   'file.none': 'لم يتم اختيار ملف',
   'file.remove': 'إزالة {name}',
 
   'form.errorSummary.title': 'توجد مشكلة',
-  'form.errorSummary.form': 'النموذج',
 
   'link.external': 'يفتح في علامة تبويب جديدة',
 
@@ -52,7 +44,6 @@ const ar: UiMessages = {
   'pagination.previous': 'الصفحة السابقة',
   'pagination.status': 'الصفحة {page} من {total}',
 
-  'password.hide': 'إخفاء كلمة المرور',
   'password.show': 'إظهار كلمة المرور',
 
   'progress.label': 'التقدّم',

@@ -294,6 +294,7 @@ const en = {
   'demo.selected': 'Selected: {value}',
   'demo.value': 'Value: {value}',
   'demo.page': 'Page: {value}',
+  'demo.pagination.compact': 'Pagination, compact',
   'demo.provider.inner': 'Scoped to this provider',
   'demo.icon.named': 'Search',
   'demo.field.custom': 'Any control',

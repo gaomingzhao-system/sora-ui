@@ -1,12 +1,14 @@
 <script setup lang="ts" vapor>
 import { computed, shallowRef, useTemplateRef } from 'vue'
+import type { ButtonHTMLAttributes } from 'vue'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { anchorName, useUiId } from '../../internal/ids.ts'
 import type { UiColor, UiPlacement, UiSize, UiVariant } from '../../types/common.ts'
 import UiButton from '../actions/UiButton.vue'
 import type { UiTriggerBindings } from './trigger.ts'
 
-export interface UiPopoverProps {
+export interface UiPopoverProps
+  extends /* @vue-ignore */ Omit<ButtonHTMLAttributes, 'type' | 'disabled' | 'title'> {
   /** Text of the built-in trigger button. Use the `trigger` slot for richer content. */
   triggerLabel?: string | undefined
   /** Heading of the panel. With `title` (or `label`) the panel is a named, non-modal dialog. */

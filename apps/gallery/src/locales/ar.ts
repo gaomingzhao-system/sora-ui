@@ -294,6 +294,7 @@ const ar: GalleryMessages = {
   'demo.selected': 'المحدد: {value}',
   'demo.value': 'القيمة: {value}',
   'demo.page': 'الصفحة: {value}',
+  'demo.pagination.compact': 'التنقل بين الصفحات، مضغوط',
   'demo.provider.inner': 'ضمن نطاق هذا المزوِّد',
   'demo.icon.named': 'بحث',
   'demo.field.custom': 'أي عنصر تحكم',

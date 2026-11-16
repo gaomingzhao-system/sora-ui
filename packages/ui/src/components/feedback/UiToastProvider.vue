@@ -1,5 +1,6 @@
 <script setup lang="ts" vapor>
 import { computed, onBeforeUnmount, onMounted, provide, shallowRef, useTemplateRef, watch } from 'vue'
+import type { HTMLAttributes } from 'vue'
 import { uiToastKey } from '../../composables/use-toast.ts'
 import type { UiToast, UiToastApi, UiToastInput } from '../../composables/use-toast.ts'
 import { useUiLocale } from '../../composables/use-ui-locale.ts'
@@ -8,7 +9,7 @@ import { useUiId } from '../../internal/ids.ts'
 import UiButton from '../actions/UiButton.vue'
 import UiIconButton from '../actions/UiIconButton.vue'
 
-export interface UiToastProviderProps {
+export interface UiToastProviderProps extends /* @vue-ignore */ HTMLAttributes {
   /** Default lifetime of a toast in milliseconds (`0` = until dismissed). */
   duration?: number | undefined
   /** Toasts shown at once; the rest wait in the queue. */
@@ -19,7 +20,8 @@ export interface UiToastProviderProps {
   label?: string | undefined
 }
 
-defineOptions({ name: 'UiToastProvider' })
+// Two roots (the slot and the region): attributes go to the region.
+defineOptions({ name: 'UiToastProvider', inheritAttrs: false })
 
 const { duration = 5000, max = 3, placement = 'bottom-end', label } = defineProps<UiToastProviderProps>()
 
@@ -125,9 +127,13 @@ watch(
   visible,
   (current) => {
     for (const toast of current) start(toast.id)
-    // Re-enter the top layer so a toast raised while a dialog is open is not covered by it.
+    // Re-enter the top layer so a toast raised while a dialog (or another
+    // popover) is open is not covered by it. When nothing else is in the top
+    // layer the region is left alone, so its live regions are never disturbed.
     const element = region.value
-    if (current.length > 0 && element?.isConnected && element.matches(':popover-open')) {
+    if (current.length === 0 || !element?.isConnected || !element.matches(':popover-open')) return
+    const covered = [...document.querySelectorAll(':modal, :popover-open')].some((node) => node !== element)
+    if (covered) {
       element.hidePopover()
       element.showPopover()
     }
@@ -156,6 +162,7 @@ function onFocusout(event: FocusEvent): void {
 <template>
   <slot />
   <section
+    v-bind="$attrs"
     ref="region"
     class="vui-toast-region"
     popover="manual"
@@ -167,9 +174,13 @@ function onFocusout(event: FocusEvent): void {
     @focusin="pause"
     @focusout="onFocusout"
   >
-    <!-- Two persistent live regions: polite status messages and exceptional assertive alerts. -->
-    <ol class="vui-toast-region__list" role="status" aria-live="polite" aria-relevant="additions text">
-      <li v-for="toast in polite" :key="toast.id" class="vui-toast" :data-color="toast.color">
+    <!--
+      Two persistent live regions: polite status messages and exceptional
+      assertive alerts. Plain containers on purpose: the status and alert
+      roles are not allowed on list elements.
+    -->
+    <div class="vui-toast-region__list" role="status" aria-live="polite" aria-relevant="additions text">
+      <div v-for="toast in polite" :key="toast.id" class="vui-toast" :data-color="toast.color">
         <div class="vui-toast__content">
           <p class="vui-toast__title">{{ toast.title }}</p>
           <p v-if="toast.description" class="vui-toast__description">{{ toast.description }}</p>
@@ -192,10 +203,10 @@ function onFocusout(event: FocusEvent): void {
           color="neutral"
           @click="dismiss(toast.id)"
         />
-      </li>
-    </ol>
-    <ol class="vui-toast-region__list" role="alert" aria-live="assertive" aria-relevant="additions text">
-      <li v-for="toast in urgent" :key="toast.id" class="vui-toast" :data-color="toast.color" data-urgent>
+      </div>
+    </div>
+    <div class="vui-toast-region__list" role="alert" aria-live="assertive" aria-relevant="additions text">
+      <div v-for="toast in urgent" :key="toast.id" class="vui-toast" :data-color="toast.color" data-urgent>
         <div class="vui-toast__content">
           <p class="vui-toast__title">{{ toast.title }}</p>
           <p v-if="toast.description" class="vui-toast__description">{{ toast.description }}</p>
@@ -218,7 +229,7 @@ function onFocusout(event: FocusEvent): void {
           color="neutral"
           @click="dismiss(toast.id)"
         />
-      </li>
-    </ol>
+      </div>
+    </div>
   </section>
 </template>
