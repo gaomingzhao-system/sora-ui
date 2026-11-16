@@ -22,6 +22,8 @@ const ar: SoraMessages = {
 
   'dialog.close': 'إغلاق',
 
+  'drawer.handle': 'تغيير حجم اللوحة',
+
   'file.choose': 'اختيار ملف',
   'file.chooseMultiple': 'اختيار ملفات',
   'file.count': 'الملفات المحددة: {count}',

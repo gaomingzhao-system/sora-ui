@@ -4,7 +4,6 @@ import {
   SoraButton,
   SoraCombobox,
   SoraDialog,
-  SoraDrawer,
   SoraDropdownMenu,
   SoraPopover,
   SoraTooltip,
@@ -19,7 +18,6 @@ export interface OverlaysState {
   showTrigger: boolean
   showDialog: boolean
   useReturnFocus: boolean
-  drawerOpen: boolean
   popoverOpen: boolean
   manualOpen: boolean
   customOpen: boolean
@@ -87,11 +85,6 @@ defineExpose({ dialog: () => dialog.value })
       </template>
     </SoraDialog>
   </div>
-
-  <button type="button" data-testid="drawer-trigger" @click="state.drawerOpen = true">drawer</button>
-  <SoraDrawer v-model:open="state.drawerOpen" data-testid="drawer" title="Filters" side="start" size="sm">
-    <p data-testid="drawer-body">content</p>
-  </SoraDrawer>
 
   <SoraPopover
     v-model:open="state.popoverOpen"

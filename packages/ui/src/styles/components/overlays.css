@@ -1,6 +1,6 @@
 @layer components.sora {
   /* A modal dialog makes the page inert; this also stops it scrolling behind the backdrop. */
-  :root:has(.sora-dialog:modal) {
+  :root:has(.sora-dialog:modal, .sora-drawer:modal) {
     overflow: hidden;
   }
 
@@ -112,73 +112,319 @@
   }
 
   /* ---------------------------------------------------------------- SoraDrawer */
-  .sora-dialog.sora-drawer {
-    --_w: 26rem;
+  /*
+   * A native sheet. The <dialog> is a transparent, full-viewport layer in the
+   * top layer that holds a backdrop and a panel; script moves the panel and
+   * fades the backdrop (transform and opacity only), CSS does everything else.
+   */
+  .sora-drawer {
+    --_w: 24rem;
+    --_max: 40rem;
+    /* Space left free above a fully open bottom sheet, so the page stays in sight. */
+    --_gap: 1.5rem;
+    --_radius: calc(var(--sora-radius-lg) + 0.125rem);
+    --sora-on-surface: var(--sora-elevated);
 
+    position: fixed;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
     max-inline-size: none;
     max-block-size: none;
     margin: 0;
-    border-radius: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+    /*
+     * `clip`, not `hidden`: a hidden overflow is still a scroll container, and
+     * focusing the panel while it waits off screen would scroll the layer.
+     */
+    overflow: clip;
+    /* A touch on the layer never scrolls the page behind it. */
+    touch-action: none;
+
+    /* A non-modal sheet is a manual popover: <dialog> hides itself unless told otherwise. */
+    &:popover-open {
+      display: block;
+    }
+
+    &::backdrop {
+      background: transparent;
+    }
 
     &[data-size='sm'] {
       --_w: 20rem;
+      --_max: 28rem;
     }
 
     &[data-size='lg'] {
-      --_w: 36rem;
+      --_w: 32rem;
+      --_max: 56rem;
     }
 
     &[data-size='full'] {
-      --_w: 100vw;
+      --_w: 100%;
+      --_max: 100%;
+      --_gap: 0px;
     }
 
-    &:where([data-side='start'], [data-side='end']) {
-      inset-block: 0;
-      inline-size: min(100vw - 2.5rem, var(--_w));
-      block-size: 100dvh;
-      border-block: 0;
+    /* A non-modal sheet leaves the page usable: only the panel takes input. */
+    &:not([data-modal]) {
+      pointer-events: none;
+    }
+  }
+
+  .sora-drawer__backdrop {
+    @apply absolute inset-0;
+    background-color: var(--sora-scrim);
+    opacity: 0;
+  }
+
+  .sora-drawer__panel {
+    @apply absolute flex flex-col;
+    background-color: var(--sora-elevated);
+    box-shadow: var(--sora-shadow-lg);
+    pointer-events: auto;
+    touch-action: none;
+    /* It receives focus on open so the sheet is announced; the sheet itself is the indicator. */
+    outline: none;
+
+    /* Fills the space the sheet uncovers when it is thrown or pulled past its edge. */
+    &::after {
+      @apply pointer-events-none absolute;
+      content: '';
+      background: inherit;
     }
 
-    &[data-size='full']:where([data-side='start'], [data-side='end']) {
-      inline-size: 100vw;
+    /* Its own layer only while it moves. */
+    .sora-drawer[data-moving] > & {
+      will-change: transform;
     }
 
-    /* Logical insets: `end` is the right edge in LTR and the left edge in RTL. */
-    &[data-side='end'] {
-      inset-inline: auto 0;
-      border-inline-end: 0;
-      border-start-start-radius: var(--sora-radius-lg);
-      border-end-start-radius: var(--sora-radius-lg);
+    .sora-drawer[data-dragging] > & {
+      cursor: grabbing;
+      user-select: none;
     }
 
-    &[data-side='start'] {
-      inset-inline: 0 auto;
-      border-inline-start: 0;
-      border-start-end-radius: var(--sora-radius-lg);
-      border-end-end-radius: var(--sora-radius-lg);
+    .sora-drawer[data-side='bottom'] > & {
+      inset: auto 0 0;
+      block-size: calc(100% - var(--_gap) - env(safe-area-inset-top, 0px));
+      max-inline-size: var(--_max);
+      margin-inline: auto;
+      padding-block-end: env(safe-area-inset-bottom, 0px);
+      border-start-start-radius: var(--_radius);
+      border-start-end-radius: var(--_radius);
+      transform: translate3d(0, 100%, 0);
+
+      &::after {
+        inset: 100% 0 auto;
+        block-size: 100%;
+      }
     }
 
-    &:where([data-side='top'], [data-side='bottom']) {
-      inset-inline: 0;
-      inline-size: 100vw;
+    .sora-drawer[data-side='top'] > & {
+      inset: 0 0 auto;
+      block-size: calc(100% - var(--_gap) - env(safe-area-inset-bottom, 0px));
+      max-inline-size: var(--_max);
+      margin-inline: auto;
+      padding-block-start: env(safe-area-inset-top, 0px);
+      border-end-start-radius: var(--_radius);
+      border-end-end-radius: var(--_radius);
+      transform: translate3d(0, -100%, 0);
+
+      &::after {
+        inset: auto 0 100%;
+        block-size: 100%;
+      }
+    }
+
+    .sora-drawer:where([data-side='top'], [data-side='bottom'])[data-fit] > & {
       block-size: auto;
-      max-block-size: min(100dvh - 2.5rem, var(--_w));
-      border-inline: 0;
+      max-block-size: calc(100% - var(--_gap) - env(safe-area-inset-top, 0px));
     }
 
-    &[data-side='top'] {
-      inset-block: 0 auto;
-      border-block-start: 0;
-      border-end-start-radius: var(--sora-radius-lg);
-      border-end-end-radius: var(--sora-radius-lg);
+    .sora-drawer:where([data-side='start'], [data-side='end']) > & {
+      inset-block: 0;
+      inline-size: min(100% - 2.5rem, var(--_w));
+
+      &::after {
+        inset-block: 0;
+        inline-size: 100%;
+      }
     }
 
-    &[data-side='bottom'] {
-      inset-block: auto 0;
-      border-block-end: 0;
-      border-start-start-radius: var(--sora-radius-lg);
-      border-start-end-radius: var(--sora-radius-lg);
+    .sora-drawer[data-side='end'] > & {
+      inset-inline-end: 0;
+      border-start-start-radius: var(--_radius);
+      border-end-start-radius: var(--_radius);
+      transform: translate3d(100%, 0, 0);
+
+      &:dir(rtl) {
+        transform: translate3d(-100%, 0, 0);
+      }
+
+      &::after {
+        inset-inline-start: 100%;
+      }
     }
+
+    .sora-drawer[data-side='start'] > & {
+      inset-inline-start: 0;
+      border-start-end-radius: var(--_radius);
+      border-end-end-radius: var(--_radius);
+      transform: translate3d(-100%, 0, 0);
+
+      &:dir(rtl) {
+        transform: translate3d(100%, 0, 0);
+      }
+
+      &::after {
+        inset-inline-end: 100%;
+      }
+    }
+
+    .sora-drawer[data-size='full']:where([data-side='start'], [data-side='end']) > & {
+      inline-size: 100%;
+      border-radius: 0;
+    }
+
+    @media (forced-colors: active) {
+      border: var(--sora-border-width) solid CanvasText;
+    }
+  }
+
+  /* The grabber: a 36 by 5 pill, as on a native sheet. */
+  .sora-drawer__handle {
+    @apply grid w-full flex-none place-items-center;
+    block-size: 1.5rem;
+    border-radius: var(--sora-radius-sm);
+    cursor: grab;
+    touch-action: none;
+
+    &::before {
+      content: '';
+      inline-size: 2.25rem;
+      block-size: 0.3125rem;
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-border-strong);
+    }
+
+    &:focus-visible {
+      outline: var(--sora-focus-width) solid var(--sora-focus);
+      outline-offset: calc(var(--sora-focus-width) * -1);
+    }
+
+    .sora-drawer[data-side='top'] & {
+      order: 1;
+    }
+
+    .sora-drawer:where([data-side='start'], [data-side='end']) & {
+      @apply absolute h-auto;
+      inset-block: 0;
+      inline-size: 1.25rem;
+
+      &::before {
+        inline-size: 0.3125rem;
+        block-size: 2.25rem;
+      }
+    }
+
+    .sora-drawer[data-side='end'] & {
+      inset-inline-start: 0;
+    }
+
+    .sora-drawer[data-side='start'] & {
+      inset-inline-end: 0;
+    }
+
+    @media (forced-colors: active) {
+      &::before {
+        background-color: CanvasText;
+      }
+    }
+  }
+
+  .sora-drawer__header {
+    @apply flex flex-none items-start justify-between;
+    gap: var(--sora-gap-md);
+    padding: var(--sora-pad-overlay) var(--sora-pad-overlay) 0.5rem;
+
+    .sora-drawer__handle + & {
+      padding-block-start: 0.125rem;
+    }
+
+    /* With a hidden title and nothing else to show, the header takes no room. */
+    &[data-title-hidden]:not(:has(.sora-drawer__close, .sora-drawer__description)) {
+      padding: 0;
+    }
+  }
+
+  .sora-drawer__heading {
+    @apply grid min-w-0 flex-1;
+    gap: 0.25rem;
+  }
+
+  .sora-drawer__title {
+    font-family: var(--sora-font-display);
+    font-size: var(--sora-text-lg);
+    font-weight: var(--sora-weight-semibold);
+    line-height: var(--sora-leading-tight);
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+
+    &[data-visually-hidden] {
+      @apply sr-only;
+    }
+  }
+
+  .sora-drawer__description {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+
+  /* A round, quiet close button, as in the corner of a native sheet. */
+  .sora-drawer__close {
+    margin: -0.125rem;
+    border-radius: var(--sora-radius-full);
+  }
+
+  .sora-drawer__body {
+    @apply min-h-0 flex-auto overflow-hidden;
+    padding: 0.5rem var(--sora-pad-overlay) var(--sora-pad-overlay);
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
+    /* Until it can scroll, every touch on the content moves the sheet. */
+    touch-action: none;
+
+    /*
+     * Content scrolls once the sheet is fully expanded, or always when it
+     * moves sideways. Touches then pan natively; the sheet takes a drag over
+     * only where the content cannot scroll any further (see use-sheet.ts).
+     */
+    .sora-drawer[data-expanded] &,
+    .sora-drawer:where([data-side='start'], [data-side='end']) & {
+      overflow-y: auto;
+      touch-action: pan-y pinch-zoom;
+    }
+  }
+
+  .sora-drawer__footer {
+    @apply relative z-1 flex flex-none flex-wrap items-center justify-end;
+    gap: var(--sora-gap-sm);
+    padding: 0.75rem var(--sora-pad-overlay);
+    border-block-start: var(--sora-border-width) solid var(--sora-border);
+    background: inherit;
+  }
+
+  /* Behind the page while `scale-background` pushes it back. */
+  :root[data-sora-drawer-scaled],
+  :root[data-sora-drawer-scaled] body {
+    background-color: #000;
   }
 
   /* ----------------------------------------------- SoraPopover (anchored panel) */

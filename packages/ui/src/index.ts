@@ -84,7 +84,12 @@ export type { SoraComboboxProps } from './components/inputs/SoraCombobox.vue'
 export { default as SoraDialog } from './components/overlays/SoraDialog.vue'
 export type { SoraDialogProps } from './components/overlays/SoraDialog.vue'
 export { default as SoraDrawer } from './components/overlays/SoraDrawer.vue'
-export type { SoraDrawerProps } from './components/overlays/SoraDrawer.vue'
+export type {
+  SoraDrawerProps,
+  SoraDrawerSide,
+  SoraDrawerSlotProps,
+  SoraSnapPoint,
+} from './components/overlays/SoraDrawer.vue'
 export { default as SoraPopover } from './components/overlays/SoraPopover.vue'
 export type { SoraPopoverProps } from './components/overlays/SoraPopover.vue'
 export { default as SoraTooltip } from './components/overlays/SoraTooltip.vue'

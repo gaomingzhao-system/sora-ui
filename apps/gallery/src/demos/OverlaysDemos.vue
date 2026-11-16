@@ -12,7 +12,7 @@ import {
   SoraTooltip,
   iconMore,
 } from '@your-scope/ui'
-import type { SoraMenuGroup, SoraMenuItem } from '@your-scope/ui'
+import type { SoraMenuGroup, SoraMenuItem, SoraSnapPoint } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -20,7 +20,12 @@ const t = useT()
 const dialogOpen = ref(false)
 const confirmOpen = ref(false)
 const drawerOpen = ref(false)
-const drawerSide = ref<'start' | 'end' | 'bottom'>('end')
+const sheetOpen = ref(false)
+const sheetSnap = ref<SoraSnapPoint | undefined>(undefined)
+const actionsOpen = ref(false)
+// Three resting positions, like the detents of a native sheet.
+const detents: SoraSnapPoint[] = [0.35, 0.65, 1]
+const places = Array.from({ length: 16 }, (_, index) => index + 1)
 const workspace = ref('Acme')
 const notify = ref(true)
 const lastAction = ref('')
@@ -37,11 +42,6 @@ const menu = computed<(SoraMenuItem | SoraMenuGroup)[]>(() => [
     ],
   },
 ])
-
-function openDrawer(side: 'start' | 'end' | 'bottom'): void {
-  drawerSide.value = side
-  drawerOpen.value = true
-}
 </script>
 
 <template>
@@ -88,15 +88,68 @@ function openDrawer(side: 'start' | 'end' | 'bottom'): void {
 
   <DemoSection name="SoraDrawer">
     <div class="flex flex-wrap gap-2">
-      <SoraButton variant="outline" color="neutral" data-testid="drawer-open" @click="openDrawer('end')">{{
+      <SoraButton variant="outline" color="neutral" data-testid="sheet-open" @click="sheetOpen = true">{{
+        t('demo.sheet.open')
+      }}</SoraButton>
+      <SoraButton
+        variant="outline"
+        color="neutral"
+        data-testid="action-sheet-open"
+        @click="actionsOpen = true"
+        >{{ t('demo.actionSheet.open') }}</SoraButton
+      >
+      <SoraButton variant="outline" color="neutral" data-testid="drawer-open" @click="drawerOpen = true">{{
         t('demo.drawer.open')
       }}</SoraButton>
-      <SoraButton variant="ghost" color="neutral" @click="openDrawer('start')">start</SoraButton>
-      <SoraButton variant="ghost" color="neutral" @click="openDrawer('bottom')">bottom</SoraButton>
     </div>
+
+    <!-- A sheet with three resting positions: drag it, flick it, or tap the grabber. -->
+    <SoraDrawer
+      v-model:open="sheetOpen"
+      v-model:snap-point="sheetSnap"
+      :snap-points="detents"
+      :title="t('demo.sheet.title')"
+      :description="t('demo.sheet.description')"
+      data-testid="sheet"
+    >
+      <ul class="grid gap-1">
+        <li
+          v-for="place in places"
+          :key="place"
+          class="rounded-sora border border-sora-border bg-sora-surface px-3 py-2.5 text-sora-sm"
+        >
+          {{ t('demo.sheet.place', { index: place }) }}
+        </li>
+      </ul>
+    </SoraDrawer>
+
+    <!-- An action sheet: as tall as its content. -->
+    <SoraDrawer
+      v-model:open="actionsOpen"
+      fit
+      :closable="false"
+      :title="t('demo.actionSheet.title')"
+      data-testid="action-sheet"
+    >
+      <template #default="{ close }">
+        <div class="grid gap-2">
+          <SoraButton block size="lg" variant="soft" color="neutral" @click="close">{{
+            t('demo.popover.copy')
+          }}</SoraButton>
+          <SoraButton block size="lg" variant="soft" color="neutral" @click="close">{{
+            t('demo.menu.duplicate')
+          }}</SoraButton>
+          <SoraButton block size="lg" variant="soft" color="error" @click="close">{{
+            t('demo.delete')
+          }}</SoraButton>
+        </div>
+      </template>
+    </SoraDrawer>
+
+    <!-- A side sheet: `end` is on the right in left-to-right text and on the left in right-to-left. -->
     <SoraDrawer
       v-model:open="drawerOpen"
-      :side="drawerSide"
+      side="end"
       :title="t('demo.drawer.title')"
       :description="t('demo.dialog.description')"
     >

@@ -15,7 +15,6 @@ function setup(overrides: Partial<OverlaysState> = {}) {
     showTrigger: true,
     showDialog: true,
     useReturnFocus: false,
-    drawerOpen: false,
     popoverOpen: false,
     manualOpen: false,
     customOpen: false,
@@ -232,46 +231,6 @@ describe('SoraDialog', () => {
     expect(document.querySelector('dialog:modal')).toBeNull()
     q('after').focus()
     expect(document.activeElement).toBe(q('after'))
-  })
-})
-
-describe('SoraDrawer', () => {
-  it('is a modal dialog docked to a logical edge with the same lifecycle', async () => {
-    const { state } = setup()
-    const drawer = q<HTMLDialogElement>('drawer')
-    expect(drawer.classList.contains('sora-drawer')).toBe(true)
-    expect([drawer.dataset['side'], drawer.dataset['size']]).toEqual(['start', 'sm'])
-    const trigger = q('drawer-trigger')
-    trigger.focus()
-    await userEvent.click(trigger)
-    await flush()
-    await wait(250)
-    expect(drawer.matches(':modal')).toBe(true)
-    const box = drawer.getBoundingClientRect()
-    // Docked to the inline-start edge, full height.
-    expect(box.left).toBe(0)
-    expect(box.height).toBe(window.innerHeight)
-    expect(box.width).toBeLessThan(window.innerWidth)
-
-    await press('{Escape}')
-    await flush()
-    expect(state.drawerOpen).toBe(false)
-    expect(document.activeElement).toBe(trigger)
-  })
-
-  it('docks to the other side in right-to-left documents', async () => {
-    document.documentElement.dir = 'rtl'
-    try {
-      const { state } = setup()
-      state.drawerOpen = true
-      await flush()
-      await wait(250)
-      const box = q('drawer').getBoundingClientRect()
-      expect(Math.round(box.right)).toBe(document.documentElement.clientWidth)
-      expect(box.left).toBeGreaterThan(0)
-    } finally {
-      document.documentElement.removeAttribute('dir')
-    }
   })
 })
 

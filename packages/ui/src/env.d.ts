@@ -10,9 +10,15 @@ declare module 'vue' {
   interface HTMLAttributes {
     /** Popover API. */
     popover?: 'auto' | 'manual' | 'hint' | '' | undefined
+    /** A global attribute: the element a dialog or popover focuses when it opens. */
+    autofocus?: boolean | undefined
   }
   interface ButtonHTMLAttributes {
     popovertarget?: string | undefined
     popovertargetaction?: 'toggle' | 'show' | 'hide' | undefined
+  }
+  interface InputHTMLAttributes {
+    /** Safari renders `<input type="checkbox" switch>` as a native switch. */
+    switch?: boolean | undefined
   }
 }

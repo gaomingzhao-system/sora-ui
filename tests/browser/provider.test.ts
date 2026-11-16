@@ -111,7 +111,7 @@ describe('SoraProvider: scope', () => {
     const { state } = setup()
     const button = q('outer-button')
     const compactHeight = button.getBoundingClientRect().height
-    expect(token(button, '--sora-duration-fast')).toBe('120ms')
+    expect(token(button, '--sora-duration-fast')).toBe('150ms')
 
     state.density = 'comfortable'
     state.radius = 'none'
@@ -122,7 +122,7 @@ describe('SoraProvider: scope', () => {
     expect(token(button, '--sora-duration-fast')).toBe('0ms')
     expect(token(button, '--sora-duration-overlay')).toBe('0ms')
     // Outside the provider nothing changed.
-    expect(token(q('plain-button'), '--sora-duration-fast')).toBe('120ms')
+    expect(token(q('plain-button'), '--sora-duration-fast')).toBe('150ms')
     expect(getComputedStyle(q('plain-button')).borderTopLeftRadius).not.toBe('0px')
 
     state.radius = 'lg'

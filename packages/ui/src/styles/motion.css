@@ -116,45 +116,6 @@
     }
   }
 
-  /* Drawers slide a short distance from their edge instead of scaling. */
-  .sora-dialog.sora-drawer {
-    --_shift: 0 0;
-
-    scale: 1;
-    translate: var(--_shift);
-
-    &[data-side='end'] {
-      --_shift: 1rem 0;
-    }
-
-    &[data-side='end']:dir(rtl),
-    &[data-side='start'] {
-      --_shift: -1rem 0;
-    }
-
-    &[data-side='start']:dir(rtl) {
-      --_shift: 1rem 0;
-    }
-
-    &[data-side='top'] {
-      --_shift: 0 -1rem;
-    }
-
-    &[data-side='bottom'] {
-      --_shift: 0 1rem;
-    }
-
-    &[open] {
-      scale: 1;
-      translate: 0 0;
-
-      @starting-style {
-        scale: 1;
-        translate: var(--_shift);
-      }
-    }
-  }
-
   .sora-popover,
   .sora-tooltip {
     opacity: 0;
@@ -217,8 +178,7 @@
     }
 
     /* Overlays keep their fade only if the duration tokens allow it; never the scale/slide. */
-    .sora-dialog,
-    .sora-dialog.sora-drawer {
+    .sora-dialog {
       scale: 1;
       translate: none;
 

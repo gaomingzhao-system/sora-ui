@@ -3,7 +3,8 @@ import type { Ref } from 'vue'
 import { activeElement, canFocus, closestFocusable } from '../internal/focus.ts'
 
 /** Why an overlay closed. */
-export type SoraCloseReason = 'escape' | 'backdrop' | 'action' | 'programmatic'
+/** `drag` is a sheet that was swiped away. */
+export type SoraCloseReason = 'escape' | 'backdrop' | 'drag' | 'action' | 'programmatic'
 
 export interface UseModalDialogOptions {
   element: () => HTMLDialogElement | null

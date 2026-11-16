@@ -25,6 +25,20 @@ const mouseDown: BrowserCommand<[]> = async ({ page }) => {
 const mouseUp: BrowserCommand<[]> = async ({ page }) => {
   await page.mouse.up()
 }
+/**
+ * Move the real mouse to a point given in the test frame's coordinates, in
+ * `steps` intermediate moves (real, trusted pointer events).
+ */
+const mouseMove: BrowserCommand<[x: number, y: number, steps?: number]> = async (
+  context,
+  x,
+  y,
+  steps = 1,
+) => {
+  const frame = await context.frame()
+  const box = await (await frame.frameElement()).boundingBox()
+  await context.page.mouse.move((box?.x ?? 0) + x, (box?.y ?? 0) + y, { steps })
+}
 
 export default defineConfig({
   test: {
@@ -69,7 +83,7 @@ export default defineConfig({
             enabled: true,
             headless: true,
             screenshotFailures: false,
-            commands: { mouseDown, mouseUp },
+            commands: { mouseDown, mouseUp, mouseMove },
             viewport: { width: 1024, height: 768 },
             provider: playwright({
               launchOptions: chromiumPath ? { executablePath: chromiumPath } : {},

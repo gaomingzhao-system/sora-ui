@@ -73,7 +73,7 @@
 | Component | Purpose |
 | --- | --- |
 | [SoraDialog](./SoraDialog.md) | A modal dialog built on `<dialog>.showModal()`. |
-| [SoraDrawer](./SoraDrawer.md) | A modal panel docked to an edge of the viewport. |
+| [SoraDrawer](./SoraDrawer.md) | A sheet that moves like a native one: snap points, a drag that follows the finger, flicks with momentum, rubber banding, from any edge. |
 | [SoraPopover](./SoraPopover.md) | A non-modal panel anchored to its trigger, using the Popover API and CSS anchor positioning. |
 | [SoraTooltip](./SoraTooltip.md) | A short, supplementary description shown on hover and keyboard focus. |
 | [SoraDropdownMenu](./SoraDropdownMenu.md) | A menu of actions (or links) opened from a button. |

@@ -22,6 +22,8 @@ const ja: SoraMessages = {
 
   'dialog.close': '閉じる',
 
+  'drawer.handle': 'パネルのサイズを変更',
+
   'file.choose': 'ファイルを選択',
   'file.chooseMultiple': 'ファイルを選択',
   'file.count': '選択中のファイル: {count} 件',

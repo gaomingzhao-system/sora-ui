@@ -59,33 +59,60 @@ test('alert dialog: focuses the safe action and ignores backdrop clicks', async 
   await expect(page.getByTestId('confirm-open')).toBeFocused()
 })
 
-test('drawer: a modal dialog on the logical end edge, mirrored in right-to-left', async ({ page }) => {
+test('side sheet: a modal dialog on the logical end edge, mirrored in right-to-left', async ({ page }) => {
   // No slide-in animation, so the resting position can be measured right away.
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  // The page reserves a scrollbar gutter (so locking scroll does not shift it);
-  // a drawer sits against the content edge, at most a scrollbar away from the window edge.
-  const gutter = 20
   await openGallery(page, 'components')
   await page.getByTestId('drawer-open').click()
-  const drawer = page.getByRole('dialog', { name: 'Filters' })
-  await expect(drawer).toBeVisible()
+  const sheet = page.getByRole('dialog', { name: 'Filters' })
+  await expect(sheet).toBeVisible()
+  const panel = sheet.locator('.sora-drawer__panel')
+  // The gallery reserves a scrollbar gutter (so locking scroll does not shift
+  // the page); a sheet sits against the content edge, at most a scrollbar away.
+  const gutter = 20
   const width = page.viewportSize()?.width ?? 0
-  const box = await drawer.boundingBox()
+  const box = await panel.boundingBox()
   const end = (box?.x ?? 0) + (box?.width ?? 0)
   expect(end).toBeGreaterThanOrEqual(width - gutter)
   expect(end).toBeLessThanOrEqual(width)
   expect(box?.x).toBeGreaterThan(width / 2)
+  // Focus starts on the sheet itself, so it is announced by its name.
+  await expect(panel).toBeFocused()
   await page.keyboard.press('Escape')
-  await expect(drawer).toBeHidden()
+  await expect(sheet).toBeHidden()
   await expect(page.getByTestId('drawer-open')).toBeFocused()
 
   await openGallery(page, 'components', { locale: 'ar' })
   await page.getByTestId('drawer-open').click()
-  const mirrored = page.getByRole('dialog').filter({ visible: true })
+  const mirrored = page.locator('.sora-drawer__panel').filter({ visible: true })
   await expect(mirrored).toBeVisible()
   const start = (await mirrored.boundingBox())?.x ?? -1
   expect(start).toBeGreaterThanOrEqual(0)
   expect(start).toBeLessThanOrEqual(gutter)
+})
+
+test('bottom sheet: the grabber steps through the snap points and Escape closes it', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await openGallery(page, 'components')
+  await page.getByTestId('sheet-open').click()
+  const sheet = page.getByRole('dialog', { name: 'Nearby' })
+  await expect(sheet).toBeVisible()
+  const panel = sheet.locator('.sora-drawer__panel')
+  const height = page.viewportSize()?.height ?? 0
+  const visible = async (): Promise<number> => {
+    const box = await panel.boundingBox()
+    return (height - (box?.y ?? 0)) / (box?.height ?? 1)
+  }
+  expect(await visible()).toBeCloseTo(0.35, 1)
+  const grabber = sheet.getByRole('button', { name: 'Resize panel' })
+  await grabber.focus()
+  await page.keyboard.press('ArrowUp')
+  await expect.poll(visible).toBeCloseTo(0.65, 1)
+  await page.keyboard.press('Enter')
+  await expect.poll(visible).toBeCloseTo(1, 1)
+  await expect(sheet).toHaveAttribute('data-expanded', '')
+  await page.keyboard.press('Escape')
+  await expect(sheet).toBeHidden()
 })
 
 test('menu: arrows, Home/End, typeahead, Enter and Escape', async ({ page }) => {

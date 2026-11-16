@@ -2,7 +2,7 @@
 
 # SoraDrawer
 
-A modal panel docked to an edge of the viewport.
+A sheet that moves like a native one: snap points, a drag that follows the finger, flicks with momentum, rubber banding, from any edge.
 
 |  |  |
 | --- | --- |
@@ -16,35 +16,44 @@ A modal panel docked to an edge of the viewport.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `title` **(required)** | `string` |  | Accessible name and visible heading. |
-| `description` | `string` |  |  |
-| `side` | `'start' \| 'end' \| 'top' \| 'bottom'` | `'end'` | Edge the panel is attached to. `start`/`end` follow the writing direction. |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Size. Where no default is listed, it falls back to the nearest `SoraProvider` `defaults`, then to `sora.config.ts`. |
-| `hideTitle` | `boolean` | `false` |  |
-| `closable` | `boolean` | `true` |  |
-| `closeOnEscape` | `boolean` | `true` |  |
-| `closeOnBackdrop` | `boolean` | `true` |  |
-| `initialFocus` | `(() => HTMLElement \| null \| undefined)` |  |  |
-| `returnFocus` | `(() => HTMLElement \| null \| undefined)` |  |  |
+| `description` | `string` |  | Supporting text under the title, announced with it. |
+| `side` | `SoraDrawerSide` | `'bottom'` | Edge the sheet comes from. `start` and `end` follow the writing direction. |
+| `snapPoints` | `readonly SoraSnapPoint[]` |  | Resting positions, from the smallest to the largest, as the visible share of the sheet: `0.5`, `'50%'`, `240` or `'240px'`. The sheet opens at the first one. Its content scrolls once it rests at the largest. |
+| `fit` | `boolean` | `false` | Size the sheet to its content instead of filling the available space. |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Width of `start`/`end` sheets and the maximum width of `top`/`bottom` ones. |
+| `dismissible` | `boolean` | `true` | Dragging it away, tapping the backdrop and Escape close the sheet. |
+| `modal` | `boolean` | `true` | A modal sheet dims the page, makes it inert and keeps focus inside. `false` leaves the page usable behind the sheet. |
+| `handle` | `boolean` | `undefined` | Show the grab handle. Default: for `top` and `bottom` sheets. |
+| `handleOnly` | `boolean` | `false` | Only start drags from the handle, or from elements with `data-sora-drag-handle`. |
+| `fadeFrom` | `number` | `0` | Index of the snap point from which the backdrop is fully visible. It fades in while the sheet moves there from the snap point before it. |
+| `scaleBackground` | `boolean \| string` | `false` | Push the page back like a stack of cards while the sheet is expanded. `true` scales the element with `data-sora-drawer-background`; a string is a selector. |
+| `closeThreshold` | `number` | `0.25` | Share of the way from the smallest snap point to closed that closes the sheet on release. |
+| `hideTitle` | `boolean` | `false` | Keep the title for assistive technology but hide it visually. |
+| `closable` | `boolean` | `true` | Show a close button in the header (only when the sheet is dismissible). |
 
 ## Models
 
 | v-model | Type |  | Description |
 | --- | --- | --- | --- |
-| `v-model:open` | `boolean` | default `false` | Whether it is open. Stays in sync with the native element, however it was opened or closed. |
+| `v-model:open` | `boolean` | default `false` | Whether the sheet is open. If the owner does not update it, the sheet stays open. |
+| `v-model:snapPoint` | `SoraSnapPoint \| undefined` |  | The snap point the sheet rests at. It returns to the first one when the sheet closes. |
 
 ## Events
 
 | Event | Payload | Description |
 | --- | --- | --- |
-| `close` | `[reason: SoraCloseReason]` |  |
+| `close` | `[reason: SoraCloseReason]` | The sheet has closed (its exit animation is over), with what closed it. |
+| `opened` | `[]` | The opening animation has finished. |
+| `drag` | `[progress: number]` | While dragging: how much of the sheet is visible, from 0 to 1. |
 
 ## Slots
 
 | Slot | Slot props | Description |
 | --- | --- | --- |
-| `default` | `props: { close: () => void }` |  |
-| `description` |  |  |
-| `footer` | `props: { close: () => void }` |  |
+| `default` | `props: SoraDrawerSlotProps` | Content. It scrolls once the sheet is expanded, and stays mounted while closed. |
+| `header` | `props: SoraDrawerSlotProps` | Replaces the title and description. |
+| `description` |  | Replaces the `description` text. |
+| `footer` | `props: SoraDrawerSlotProps` | Stays on screen at every snap point. |
 
 ## Exposed
 
@@ -52,26 +61,32 @@ Available on a template ref of the component.
 
 | Member | Kind | Description |
 | --- | --- | --- |
-| `close` | method |  |
-| `element` | property |  |
+| `close` | method | Close the sheet (same as setting `v-model:open` to `false`). |
+| `snapTo` | property | Animate to one of the snap points. |
+| `element` | property | The layer element: a `<dialog>` for a modal sheet, a popover `<div>` otherwise. |
 
 ## Attributes
 
-The native `<dialog>` (through SoraDialog).
+The sheet layer: the native `<dialog>` (modal) or the popover `<div>` (non-modal).
 
 ## Keyboard
 
-- Same as SoraDialog: contained Tab order, Escape, focus restoration.
+- Modal: Tab stays inside (native modal containment); focus starts on the sheet and returns to the opener.
+- Escape closes it when it is dismissible.
+- The grabber is a button when there are snap points: Enter or Space steps through them, ArrowUp and ArrowDown pick a larger or a smaller one.
 
 ## Accessibility
 
-- A modal dialog with the same semantics as SoraDialog.
-- `start`/`end` follow the writing direction; the short entry slide is removed with reduced motion.
+- A modal sheet is a native modal dialog, labelled by its title and described by its description; a non-modal one is a non-modal dialog that leaves focus and the page alone.
+- Every gesture has an equivalent: the grabber button for snap points, Escape, the backdrop and the close button for dismissal.
+- Content scrolls only at the largest snap point, and a drag that starts in scrolled content goes to the content first.
+- With reduced motion the sheet moves without animation.
 
 ## Styling
 
-- `.sora-dialog.sora-drawer`
-- `data-side`, `data-size`
+- `.sora-drawer`, `.sora-drawer__backdrop`, `.sora-drawer__panel`, `.sora-drawer__handle`, `.sora-drawer__header`, `.sora-drawer__body`, `.sora-drawer__footer`
+- `data-side`, `data-size`, `data-state`, `data-expanded`, `data-dragging`, `data-fit`, `data-modal`
+- `--sora-duration-sheet`, `--sora-ease-sheet`; `data-sora-no-drag` keeps an element from starting a drag
 
 ## Example
 
@@ -79,15 +94,68 @@ From the gallery ([`apps/gallery/src/demos/OverlaysDemos.vue`](../../apps/galler
 
 ```vue
 <div class="flex flex-wrap gap-2">
-  <SoraButton variant="outline" color="neutral" data-testid="drawer-open" @click="openDrawer('end')">{{
+  <SoraButton variant="outline" color="neutral" data-testid="sheet-open" @click="sheetOpen = true">{{
+    t('demo.sheet.open')
+  }}</SoraButton>
+  <SoraButton
+    variant="outline"
+    color="neutral"
+    data-testid="action-sheet-open"
+    @click="actionsOpen = true"
+    >{{ t('demo.actionSheet.open') }}</SoraButton
+  >
+  <SoraButton variant="outline" color="neutral" data-testid="drawer-open" @click="drawerOpen = true">{{
     t('demo.drawer.open')
   }}</SoraButton>
-  <SoraButton variant="ghost" color="neutral" @click="openDrawer('start')">start</SoraButton>
-  <SoraButton variant="ghost" color="neutral" @click="openDrawer('bottom')">bottom</SoraButton>
 </div>
+
+<!-- A sheet with three resting positions: drag it, flick it, or tap the grabber. -->
+<SoraDrawer
+  v-model:open="sheetOpen"
+  v-model:snap-point="sheetSnap"
+  :snap-points="detents"
+  :title="t('demo.sheet.title')"
+  :description="t('demo.sheet.description')"
+  data-testid="sheet"
+>
+  <ul class="grid gap-1">
+    <li
+      v-for="place in places"
+      :key="place"
+      class="rounded-sora border border-sora-border bg-sora-surface px-3 py-2.5 text-sora-sm"
+    >
+      {{ t('demo.sheet.place', { index: place }) }}
+    </li>
+  </ul>
+</SoraDrawer>
+
+<!-- An action sheet: as tall as its content. -->
+<SoraDrawer
+  v-model:open="actionsOpen"
+  fit
+  :closable="false"
+  :title="t('demo.actionSheet.title')"
+  data-testid="action-sheet"
+>
+  <template #default="{ close }">
+    <div class="grid gap-2">
+      <SoraButton block size="lg" variant="soft" color="neutral" @click="close">{{
+        t('demo.popover.copy')
+      }}</SoraButton>
+      <SoraButton block size="lg" variant="soft" color="neutral" @click="close">{{
+        t('demo.menu.duplicate')
+      }}</SoraButton>
+      <SoraButton block size="lg" variant="soft" color="error" @click="close">{{
+        t('demo.delete')
+      }}</SoraButton>
+    </div>
+  </template>
+</SoraDrawer>
+
+<!-- A side sheet: `end` is on the right in left-to-right text and on the left in right-to-left. -->
 <SoraDrawer
   v-model:open="drawerOpen"
-  :side="drawerSide"
+  side="end"
   :title="t('demo.drawer.title')"
   :description="t('demo.dialog.description')"
 >

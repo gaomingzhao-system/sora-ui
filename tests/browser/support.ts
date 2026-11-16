@@ -8,6 +8,8 @@ declare module 'vitest/browser' {
     mouseDown: () => Promise<void>
     /** Release the primary mouse button. */
     mouseUp: () => Promise<void>
+    /** Move the real mouse to a point of the test frame, in `steps` moves. */
+    mouseMove: (x: number, y: number, steps?: number) => Promise<void>
   }
 }
 

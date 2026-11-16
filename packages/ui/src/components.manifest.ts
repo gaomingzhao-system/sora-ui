@@ -631,14 +631,25 @@ export const componentManifest: readonly SoraComponentManifestEntry[] = Object.f
     category: 'overlays',
     source: 'components/overlays/SoraDrawer.vue',
     entry: 'core',
-    summary: 'A modal panel docked to an edge of the viewport.',
-    attrs: 'The native `<dialog>` (through SoraDialog).',
-    keyboard: ['Same as SoraDialog: contained Tab order, Escape, focus restoration.'],
-    a11y: [
-      'A modal dialog with the same semantics as SoraDialog.',
-      '`start`/`end` follow the writing direction; the short entry slide is removed with reduced motion.',
+    summary:
+      'A sheet that moves like a native one: snap points, a drag that follows the finger, flicks with momentum, rubber banding, from any edge.',
+    attrs: 'The sheet layer: the native `<dialog>` (modal) or the popover `<div>` (non-modal).',
+    keyboard: [
+      'Modal: Tab stays inside (native modal containment); focus starts on the sheet and returns to the opener.',
+      'Escape closes it when it is dismissible.',
+      'The grabber is a button when there are snap points: Enter or Space steps through them, ArrowUp and ArrowDown pick a larger or a smaller one.',
     ],
-    styling: ['`.sora-dialog.sora-drawer`', '`data-side`, `data-size`'],
+    a11y: [
+      'A modal sheet is a native modal dialog, labelled by its title and described by its description; a non-modal one is a non-modal dialog that leaves focus and the page alone.',
+      'Every gesture has an equivalent: the grabber button for snap points, Escape, the backdrop and the close button for dismissal.',
+      'Content scrolls only at the largest snap point, and a drag that starts in scrolled content goes to the content first.',
+      'With reduced motion the sheet moves without animation.',
+    ],
+    styling: [
+      '`.sora-drawer`, `.sora-drawer__backdrop`, `.sora-drawer__panel`, `.sora-drawer__handle`, `.sora-drawer__header`, `.sora-drawer__body`, `.sora-drawer__footer`',
+      '`data-side`, `data-size`, `data-state`, `data-expanded`, `data-dragging`, `data-fit`, `data-modal`',
+      '`--sora-duration-sheet`, `--sora-ease-sheet`; `data-sora-no-drag` keeps an element from starting a drag',
+    ],
   }),
   component({
     name: 'SoraPopover',

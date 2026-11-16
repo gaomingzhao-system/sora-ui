@@ -1,5 +1,6 @@
 export { defineSoraConfig, normalizeSoraConfig } from './define-sora-config.ts'
 export { defaultComponentDefaults, defaultFonts, defaultSoraConfig } from './defaults.ts'
+export { springEasing, springValue } from './motion.ts'
 export { builtinPaletteNames, createPalette, isNeutralScale, palettes } from './palettes.ts'
 export { auditContrast, createThemeVars, resolveTheme, themeToCss, themeToVars } from './resolve-theme.ts'
 export type {

@@ -1,6 +1,7 @@
 import { contrastRatio, flatten, formatOklch, oklchToSrgb } from './color.ts'
 import type { Rgb } from './color.ts'
 import { normalizeSoraConfig } from './define-sora-config.ts'
+import { springEasing } from './motion.ts'
 import { isNeutralScale } from './palettes.ts'
 import { SORA_COLOR_ROLES } from './types.ts'
 import type {
@@ -297,15 +298,24 @@ const DENSITY: Readonly<Record<SoraDensity, SoraDeclarations>> = {
 
 const RADIUS: Readonly<Record<SoraRadius, SoraDeclarations>> = {
   none: { '--sora-radius-sm': '0px', '--sora-radius-md': '0px', '--sora-radius-lg': '0px' },
-  sm: { '--sora-radius-sm': '0.25rem', '--sora-radius-md': '0.375rem', '--sora-radius-lg': '0.5rem' },
-  md: { '--sora-radius-sm': '0.375rem', '--sora-radius-md': '0.5rem', '--sora-radius-lg': '0.75rem' },
-  lg: { '--sora-radius-sm': '0.5rem', '--sora-radius-md': '0.75rem', '--sora-radius-lg': '1rem' },
+  sm: { '--sora-radius-sm': '0.25rem', '--sora-radius-md': '0.375rem', '--sora-radius-lg': '0.625rem' },
+  md: { '--sora-radius-sm': '0.4375rem', '--sora-radius-md': '0.625rem', '--sora-radius-lg': '0.875rem' },
+  lg: { '--sora-radius-sm': '0.5rem', '--sora-radius-md': '0.75rem', '--sora-radius-lg': '1.125rem' },
 }
 
 const MOTION: Readonly<Record<SoraMotion, SoraDeclarations>> = {
-  none: { '--sora-duration-fast': '0ms', '--sora-duration-overlay': '0ms' },
-  subtle: { '--sora-duration-fast': '120ms', '--sora-duration-overlay': '160ms' },
-  standard: { '--sora-duration-fast': '140ms', '--sora-duration-overlay': '180ms' },
+  none: { '--sora-duration-fast': '0ms', '--sora-duration-overlay': '0ms', '--sora-duration-sheet': '0ms' },
+  // Spring easings settle asymptotically, so these read shorter than they are.
+  subtle: {
+    '--sora-duration-fast': '150ms',
+    '--sora-duration-overlay': '280ms',
+    '--sora-duration-sheet': '420ms',
+  },
+  standard: {
+    '--sora-duration-fast': '180ms',
+    '--sora-duration-overlay': '360ms',
+    '--sora-duration-sheet': '520ms',
+  },
 }
 
 /** Turn a (partial) configuration into measurable, serialisable tokens. */
@@ -431,6 +441,11 @@ export function resolveTheme(input: SoraConfigInput<string> = {}): SoraResolvedT
     '--sora-focus-offset': '2px',
     '--sora-ease-out': 'cubic-bezier(0.2, 0, 0, 1)',
     '--sora-ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+    // Springs, as iOS uses them: one that settles without overshoot, one with a small bounce.
+    '--sora-ease-spring': springEasing(1),
+    '--sora-ease-bounce': springEasing(0.72),
+    // The curve UIKit sheets settle with.
+    '--sora-ease-sheet': 'cubic-bezier(0.32, 0.72, 0, 1)',
     '--sora-hover': 'color-mix(in oklab, var(--sora-text) 7%, transparent)',
     '--sora-pressed': 'color-mix(in oklab, var(--sora-text) 12%, transparent)',
     '--sora-shadow-sm': '0 1px 2px var(--sora-shadow-color)',
@@ -647,7 +662,7 @@ export function themeToCss(theme: SoraResolvedTheme, options: ThemeCssOptions = 
       '  @media (prefers-reduced-motion: reduce) {',
       block(
         ':where(:root, :host, [data-sora-motion])',
-        { '--sora-duration-fast': '0ms', '--sora-duration-overlay': '0ms' },
+        { '--sora-duration-fast': '0ms', '--sora-duration-overlay': '0ms', '--sora-duration-sheet': '0ms' },
         '    ',
       ),
       '  }',

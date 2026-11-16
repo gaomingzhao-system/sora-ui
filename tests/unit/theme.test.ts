@@ -240,7 +240,7 @@ describe('createThemeVars (nested provider overrides)', () => {
     })
     expect(vars['--sora-control-md']).toBe('2.5rem')
     expect(vars['--sora-radius-md']).toBe('0px')
-    expect(vars['--sora-duration-overlay']).toBe('180ms')
+    expect(vars['--sora-duration-overlay']).toBe('360ms')
     expect(vars['--sora-font-display']).toBe('var(--sora-font-serif)')
     expect(vars['--sora-focus-width']).toBe('3px')
     expect(vars['--sora-canvas']).toMatch(/^light-dark\(.+, black\)$/)

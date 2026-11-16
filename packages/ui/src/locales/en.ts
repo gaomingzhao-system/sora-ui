@@ -27,6 +27,8 @@ const en = {
 
   'dialog.close': 'Close',
 
+  'drawer.handle': 'Resize panel',
+
   'file.choose': 'Choose file',
   'file.chooseMultiple': 'Choose files',
   'file.count': 'Files selected: {count}',
