@@ -396,6 +396,7 @@ defineExpose({
         class="sora-popover sora-combobox__popup"
         popover="manual"
         :style="{ 'position-anchor': anchor }"
+        @beforetoggle="popover.onBeforetoggle"
         @toggle="popover.onToggle"
         @pointerdown.prevent
       >

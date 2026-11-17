@@ -129,6 +129,7 @@ defineExpose({
     :role="named ? 'dialog' : undefined"
     :aria-labelledby="title ? titleId : undefined"
     :aria-label="title ? undefined : label"
+    @beforetoggle="popover.onBeforetoggle"
     @toggle="popover.onToggle"
   >
     <p v-if="title" :id="titleId" class="sora-popover__title">{{ title }}</p>

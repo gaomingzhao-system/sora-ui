@@ -126,6 +126,7 @@ export interface UsePopoverOptions {
 }
 
 export interface PopoverBindings {
+  onBeforetoggle(event: Event): void
   onToggle(event: Event): void
   /** Bring an already open popover to the front of the top layer. */
   promote(): void
@@ -133,6 +134,9 @@ export interface PopoverBindings {
 
 /** Keeps a boolean and a native `popover` element in sync (both directions). */
 export function usePopover(options: UsePopoverOptions): PopoverBindings {
+  /** Set from a closing `beforetoggle` until the popover shows again or `toggle` arrives. */
+  let closing = false
+
   function isOpen(element: HTMLElement): boolean {
     return element.matches(':popover-open')
   }
@@ -141,7 +145,8 @@ export function usePopover(options: UsePopoverOptions): PopoverBindings {
     const element = options.element()
     if (!element?.isConnected) return
     if (options.open.value && !isOpen(element)) element.showPopover()
-    else if (!options.open.value && isOpen(element)) element.hidePopover()
+    // A popover that is already being hidden is not hidden a second time.
+    else if (!options.open.value && isOpen(element) && !closing) element.hidePopover()
   }
 
   watch(options.open, sync, { flush: 'post' })
@@ -152,8 +157,17 @@ export function usePopover(options: UsePopoverOptions): PopoverBindings {
   })
 
   return {
+    onBeforetoggle(event) {
+      // Light dismiss and Escape close the popover natively. `toggle` reports
+      // that a task later, so a key pressed in between (Escape, then Enter on
+      // the trigger) would still see the popover as open; closing is mirrored
+      // here, synchronously. Opening is not: the popover is not shown yet at
+      // this point, and whatever reacts to it (moving focus in) has to wait.
+      closing = (event as ToggleEvent).newState === 'closed'
+      if (closing) options.open.value = false
+    },
     onToggle(event) {
-      // Light dismiss and Escape close the popover natively; mirror that.
+      closing = false
       options.open.value = (event as ToggleEvent).newState === 'open'
     },
     promote() {

@@ -139,6 +139,7 @@ onBeforeUnmount(clear)
     popover="hint"
     :data-placement="placement"
     :style="{ 'position-anchor': anchor }"
+    @beforetoggle="popover.onBeforetoggle"
     @toggle="popover.onToggle"
     @pointerenter="hovering = true"
     @pointerleave="onPointerleave"

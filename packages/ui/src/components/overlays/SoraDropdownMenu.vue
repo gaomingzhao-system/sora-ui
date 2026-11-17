@@ -261,6 +261,7 @@ defineExpose({ open: () => show('first'), close })
     :aria-labelledby="label ? undefined : triggerId"
     :aria-label="label"
     aria-orientation="vertical"
+    @beforetoggle="popover.onBeforetoggle"
     @toggle="onToggle"
     @keydown="onMenuKeydown"
     @pointermove="onPointermove"

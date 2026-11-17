@@ -474,6 +474,26 @@ describe('SoraDropdownMenu', () => {
     expect(focused()).toBe('Edit')
   })
 
+  it('mirrors a native close at once, so Enter right after it opens the menu again', async () => {
+    const { state } = setup()
+    const trigger = q('menu-trigger')
+    trigger.focus()
+    await press('{Enter}')
+    await flush()
+    expect(isPopoverOpen(menu())).toBe(true)
+
+    // Light dismiss and Escape close the popover natively; its `toggle` event follows a task later.
+    menu().hidePopover()
+    expect(state.menuOpen).toBe(false)
+    // Vue flushes, but the queued `toggle` event has not been dispatched yet when the next key arrives.
+    await nextTick()
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }))
+    await flush()
+    expect(isPopoverOpen(menu())).toBe(true)
+    expect(state.menuOpen).toBe(true)
+    expect(focused()).toBe('Edit')
+  })
+
   it('opens from the keyboard: ArrowDown on the first item, ArrowUp on the last', async () => {
     setup()
     const trigger = q('menu-trigger')
