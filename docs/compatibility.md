@@ -147,7 +147,7 @@ against the packed tarball, minified, gzip level 9.
 | Baseline: Vue Vapor runtime, empty app            | 47.36 KiB  | 17.74 KiB |              |
 | App with `SoraButton` and `SoraCard`              | 66.38 KiB  | 24.21 KiB |              |
 | **Incremental cost of `SoraButton` + `SoraCard`** | 19.03 KiB  | 6.47 KiB  | under 10 KiB |
-| Every core export, incremental                    | 140.55 KiB | 42.92 KiB |              |
+| Every core export, incremental                    | 140.81 KiB | 42.98 KiB |              |
 | **`styles.css`**                                  | 81.39 KiB  | 12.85 KiB | under 35 KiB |
 
 Both budgets are enforced by `pnpm measure:bundle`.
