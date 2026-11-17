@@ -33,6 +33,12 @@ test('submitting an empty form explains every problem and focuses the first one'
 
   await form.getByTestId('profile-submit').click()
   const summary = form.getByRole('group', { name: 'There is a problem' })
+  // The summary appears only after the asynchronous validation. Wait for it
+  // with waitFor(), then assert: while expect() waits for an element that does
+  // not exist yet, Playwright renders an aria snapshot of the whole page on
+  // every retry, and in Firefox that, followed by the axe scan below, crashed
+  // the content process (see docs/compatibility.md).
+  await summary.waitFor()
   await expect(summary).toBeVisible()
   await expect(textbox(form, 'Full name')).toBeFocused()
   await expect(textbox(form, 'Full name')).toHaveAttribute('aria-invalid', 'true')
