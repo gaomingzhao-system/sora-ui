@@ -35,16 +35,18 @@ declarations) and consumed from a packed tarball.
 
 The stylesheet and the overlays use current platform features without fallbacks or polyfills:
 
-| Feature                                                                           | Used for                                                                     | Without it                                            |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| CSS anchor positioning (`anchor-name`, `position-area`, `position-try-fallbacks`) | placing popovers, menus, tooltips and the combobox list                      | popups open, but are not placed next to their trigger |
-| Popover API (`popover`, `showPopover()`)                                          | popovers, menus, tooltips, combobox, toasts                                  | those components do not work                          |
-| `<dialog>.showModal()`, `closedby`                                                | dialog and drawer (`closedby` is optional: Escape is also handled in script) | dialog and drawer do not work                         |
-| `light-dark()`, `color-mix()`, OKLCH                                              | every colour token                                                           | no colours                                            |
-| Cascade layers, CSS nesting, `:has()`, logical properties, container queries      | the whole stylesheet                                                         | broken layout                                         |
-| `@starting-style`, `transition-behavior: allow-discrete`                          | entry and exit transitions of overlays                                       | overlays appear without a transition                  |
-| `field-sizing: content`                                                           | auto-growing `SoraTextarea`                                                  | the textarea keeps its `rows` height                  |
-| `inert`                                                                           | closed accordion panels                                                      | closed panels stay reachable                          |
+| Feature                                                                           | Used for                                                                          | Without it                                                                                                                  |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| CSS anchor positioning (`anchor-name`, `position-area`, `position-try-fallbacks`) | placing popovers, menus, tooltips and the combobox list                           | popups open, but are not placed next to their trigger                                                                       |
+| Popover API (`popover`, `showPopover()`)                                          | popovers, menus, tooltips, combobox, toasts                                       | those components do not work                                                                                                |
+| `<dialog>.showModal()`, `closedby`                                                | dialog and modal sheet (`closedby` is optional: Escape is also handled in script) | dialog and sheet do not work                                                                                                |
+| `light-dark()`, `color-mix()`, OKLCH                                              | every colour token                                                                | no colours                                                                                                                  |
+| Cascade layers, CSS nesting, `:has()`, logical properties, container queries      | the whole stylesheet                                                              | broken layout                                                                                                               |
+| `@starting-style`, `transition-behavior: allow-discrete`                          | entry and exit transitions of overlays                                            | overlays appear without a transition                                                                                        |
+| `field-sizing: content`                                                           | auto-growing `SoraTextarea`                                                       | the textarea keeps its `rows` height                                                                                        |
+| `<details name>`, `::details-content`, `interpolate-size`                         | the accordion (exclusive groups, animated height)                                 | items open without animation; without `name`, several can be open at once                                                   |
+| `popover="hint"`, `popovertarget`                                                 | tooltips; native invokers for popovers and menus                                  | tooltips behave as manual popovers; triggers do not open their popover (every browser with anchor positioning has invokers) |
+| Web Animations, `linear()` easing                                                 | sheets, springs                                                                   | sheets jump to their snap points                                                                                            |
 
 In practice this means current Chromium-based browsers, and Firefox and Safari releases recent enough
 to ship anchor positioning. Check the features above against your support matrix before adopting the
@@ -112,12 +114,12 @@ Measured on the commit this document belongs to (`pnpm build` first):
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pnpm lint`            | Oxlint and Oxfmt clean                                                                                                                                                                                            |
 | `pnpm typecheck`       | theme, ui, gallery, tests, unit, e2e and tooling projects pass                                                                                                                                                    |
-| `pnpm check:vapor`     | 97 SFCs carry the marker and compile to `defineVaporComponent`; 72 built modules import no VDOM helper; the gallery's production graph (89 modules) has one copy of each Vue runtime package and no VDOM renderer |
-| `pnpm check:locales`   | library 59 keys × 4 locales, gallery 287 keys × 4 locales                                                                                                                                                         |
-| `pnpm test:unit`       | 60 tests pass                                                                                                                                                                                                     |
-| `pnpm test:browser`    | 199 tests pass in Chromium                                                                                                                                                                                        |
+| `pnpm check:vapor`     | 98 SFCs carry the marker and compile to `defineVaporComponent`; 74 built modules import no VDOM helper; the gallery's production graph (93 modules) has one copy of each Vue runtime package and no VDOM renderer |
+| `pnpm check:locales`   | library 60 keys × 4 locales, gallery 293 keys × 4 locales                                                                                                                                                         |
+| `pnpm test:unit`       | 76 tests pass                                                                                                                                                                                                     |
+| `pnpm test:browser`    | 237 tests pass in Chromium (38 of them for the sheet)                                                                                                                                                             |
 | `pnpm test:types`      | 40 negative cases hold against the sources and against the built declarations                                                                                                                                     |
-| `pnpm test:e2e`        | Chromium: 61 gallery tests and 12 consumer tests pass; 5 opt-in visual tests skipped                                                                                                                              |
+| `pnpm test:e2e`        | Chromium: 62 gallery tests and 12 consumer tests pass; 5 opt-in visual tests skipped                                                                                                                              |
 | `pnpm check:package`   | 59 export subpaths; 56 entries isolated; 57 declaration entries type-check standalone; publint clean                                                                                                              |
 | `pnpm verify:consumer` | both applications install the tarballs, type-check, build and pass their browser tests                                                                                                                            |
 | `pnpm measure:bundle`  | see below                                                                                                                                                                                                         |
@@ -130,9 +132,9 @@ against the packed tarball, minified, gzip level 9.
 | Measurement                                       | Minified   | gzip      | Budget       |
 | ------------------------------------------------- | ---------- | --------- | ------------ |
 | Baseline: Vue Vapor runtime, empty app            | 47.36 KiB  | 17.74 KiB |              |
-| App with `SoraButton` and `SoraCard`              | 66.36 KiB  | 24.21 KiB |              |
-| **Incremental cost of `SoraButton` + `SoraCard`** | 19.01 KiB  | 6.47 KiB  | under 10 KiB |
-| Every core export, incremental                    | 122.87 KiB | 36.79 KiB |              |
-| **`styles.css`**                                  | 70.12 KiB  | 11.23 KiB | under 35 KiB |
+| App with `SoraButton` and `SoraCard`              | 66.38 KiB  | 24.21 KiB |              |
+| **Incremental cost of `SoraButton` + `SoraCard`** | 19.03 KiB  | 6.47 KiB  | under 10 KiB |
+| Every core export, incremental                    | 140.55 KiB | 42.92 KiB |              |
+| **`styles.css`**                                  | 81.39 KiB  | 12.85 KiB | under 35 KiB |
 
 Both budgets are enforced by `pnpm measure:bundle`.

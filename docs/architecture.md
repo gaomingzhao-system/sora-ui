@@ -178,14 +178,16 @@ on any control; `SoraForm` owns submission; `SoraFormErrorSummary` lists errors.
 
 ## Overlays
 
-| Component                  | Platform feature                                                 |
-| -------------------------- | ---------------------------------------------------------------- |
-| `SoraDialog`, `SoraDrawer` | `<dialog>.showModal()`: top layer, inert page, focus containment |
-| `SoraPopover`              | `popover="auto"` (or `manual`), CSS anchor positioning           |
-| `SoraDropdownMenu`         | `popover="auto"`, roving focus, typeahead                        |
-| `SoraTooltip`              | `popover="manual"`, anchor positioning                           |
-| `SoraCombobox`             | `popover="manual"` so focus stays in the input                   |
-| `SoraToastProvider`        | `popover="manual"` region with two persistent live regions       |
+| Component           | Platform feature                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `SoraDialog`        | `<dialog>.showModal()`, `closedby`: top layer, inert page, focus containment         |
+| `SoraDrawer`        | `<dialog>.showModal()` (modal) or `popover="manual"` (non-modal), Web Animations     |
+| `SoraPopover`       | `popover="auto"` (or `manual`), native invoker trigger, CSS anchor positioning       |
+| `SoraDropdownMenu`  | `popover="auto"`, native invoker trigger, `<hr>` separators, roving focus, typeahead |
+| `SoraTooltip`       | `popover="hint"`, anchor positioning                                                 |
+| `SoraCombobox`      | `popover="manual"` so focus stays in the input                                       |
+| `SoraToastProvider` | `popover="manual"` region with two persistent live regions                           |
+| `SoraAccordion`     | `<details name>` / `<summary>`, `::details-content`                                  |
 
 Two small composables keep a `v-model:open` boolean and the native element in sync in both
 directions ([`use-overlay.ts`](../packages/ui/src/composables/use-overlay.ts)). There is no teleport,
@@ -193,9 +195,42 @@ no focus-trap library and no positioning library. Popups are positioned with `po
 `position-area` and `position-try-fallbacks`; entry and exit animations use `@starting-style` and
 `transition-behavior: allow-discrete`.
 
-Trigger contract: `SoraPopover` and `SoraDropdownMenu` render their own trigger button by default. A
-custom trigger receives explicit `attrs`, `on` and `ref` bindings through the `custom-trigger` slot;
-nothing is cloned or injected.
+### The sheet
+
+`SoraDrawer` is a native sheet, after [vue-native-drawer](https://github.com/gaomingzhao-system/vue-native-drawer)
+([`use-sheet.ts`](../packages/ui/src/composables/use-sheet.ts), physics in
+[`internal/sheet.ts`](../packages/ui/src/internal/sheet.ts)):
+
+- **Positions are offsets** from fully open towards the sheet's edge; snap points resolve to offsets
+  once per size change.
+- **Dragging** follows the finger 1:1 and writes at most once per animation frame; coalesced pointer
+  samples feed an allocation-free ring buffer that measures the release velocity. Past its range the
+  sheet rubber-bands like UIScrollView.
+- **Releasing** projects the position forward by its momentum (UIScrollView's deceleration rate); the
+  nearest snap point wins, a flick always moves on, and a fast or far enough release dismisses.
+- **Settling** is a critically damped spring with a closed form, sampled into Web Animations keyframes
+  for the panel, the backdrop, the footer, the page behind it and a parent sheet. They run on the
+  compositor (`transform` and `opacity` only). Because the spring is known in closed form, catching
+  the sheet mid-flight reads its position and velocity from the spring instead of the computed style,
+  and a re-thrown sheet keeps its momentum.
+- The panel is promoted to its own layer only while it moves, and listeners are bound with
+  `AbortController` signals.
+
+Trigger contract: `SoraPopover` and `SoraDropdownMenu` render their own trigger button by default. It
+is a native invoker (`popovertarget`): the browser toggles, light-dismisses and returns focus. A
+custom trigger receives explicit `attrs` (including `popovertarget`), `on` and `ref` bindings through
+the `custom-trigger` slot; nothing is cloned or injected.
+
+## Reactivity and data
+
+- State that holds a primitive, or is replaced as a whole, is a `shallowRef`; nothing large is ever
+  made deeply reactive by the library.
+- Lookups by value use a `Map` or a `Set` built once per change of the data (select, combobox,
+  checkbox group, accordion, table selection with `Set` intersection and difference), never an array
+  scan per render or per keystroke.
+- Layout reads happen once per change (the tab marker, the table's scroll region) and are written
+  straight to the element, not through reactive state.
+- Search helpers reuse one `Intl.Collator` per locale and cache normalised labels.
 
 ## Build
 
