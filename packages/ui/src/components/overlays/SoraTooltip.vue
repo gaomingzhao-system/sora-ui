@@ -135,7 +135,7 @@ onBeforeUnmount(clear)
     ref="tip"
     class="sora-tooltip"
     role="tooltip"
-    popover="manual"
+    popover="hint"
     :data-placement="placement"
     :style="{ 'position-anchor': anchor }"
     @toggle="popover.onToggle"

@@ -430,6 +430,8 @@
   /* ----------------------------------------------- SoraPopover (anchored panel) */
   .sora-popover {
     --sora-on-surface: var(--sora-elevated);
+    /* Where it grows from: the corner nearest its trigger (set per placement below). */
+    --_origin: top left;
 
     /* Replace the UA popover box (centred, canvas colours) with an anchored panel. */
     position: fixed;
@@ -438,13 +440,18 @@
     max-inline-size: min(100vw - 1rem, 22rem);
     max-block-size: min(100dvh - 1rem, 28rem);
     margin: 0;
-    margin-block: 0.25rem;
+    margin-block: 0.375rem;
     padding: var(--sora-pad-md);
-    border: var(--sora-border-width) solid var(--sora-border);
-    border-radius: var(--sora-radius-lg);
-    background-color: var(--sora-elevated);
+    border: var(--sora-border-width) solid color-mix(in oklab, var(--sora-border) 70%, transparent);
+    border-radius: calc(var(--sora-radius-lg) + 0.125rem);
+    /* A translucent material, as native menus have; opaque enough to keep text contrast. */
+    background-color: color-mix(in oklab, var(--sora-elevated) 92%, transparent);
+    backdrop-filter: blur(1.25rem) saturate(1.8);
     color: var(--sora-text);
-    box-shadow: var(--sora-shadow-lg);
+    box-shadow:
+      0 0.5rem 2rem -0.5rem oklch(0% 0 0 / 0.25),
+      0 0.125rem 0.5rem oklch(0% 0 0 / 0.08);
+    transform-origin: var(--_origin);
     font-size: var(--sora-text-md);
     line-height: var(--sora-leading-normal);
     overflow: auto;
@@ -456,37 +463,77 @@
       flip-inline,
       flip-block flip-inline;
 
+    &:dir(rtl) {
+      --_origin: top right;
+    }
+
     &[data-placement='bottom'] {
+      --_origin: top center;
       position-area: block-end;
     }
 
     &[data-placement='bottom-end'] {
+      --_origin: top right;
       position-area: block-end span-inline-start;
+
+      &:dir(rtl) {
+        --_origin: top left;
+      }
     }
 
     &[data-placement='top-start'] {
+      --_origin: bottom left;
       position-area: block-start span-inline-end;
+
+      &:dir(rtl) {
+        --_origin: bottom right;
+      }
     }
 
     &[data-placement='top'] {
+      --_origin: bottom center;
       position-area: block-start;
     }
 
     &[data-placement='top-end'] {
+      --_origin: bottom right;
       position-area: block-start span-inline-start;
+
+      &:dir(rtl) {
+        --_origin: bottom left;
+      }
     }
 
     &:where([data-placement='start'], [data-placement='end']) {
       margin-block: 0;
-      margin-inline: 0.25rem;
+      margin-inline: 0.375rem;
     }
 
     &[data-placement='start'] {
+      --_origin: center right;
       position-area: inline-start span-block-end;
+
+      &:dir(rtl) {
+        --_origin: center left;
+      }
     }
 
     &[data-placement='end'] {
+      --_origin: center left;
       position-area: inline-end span-block-end;
+
+      &:dir(rtl) {
+        --_origin: center right;
+      }
+    }
+
+    @supports not (backdrop-filter: blur(1px)) {
+      background-color: var(--sora-elevated);
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      background-color: var(--sora-elevated);
+      backdrop-filter: none;
     }
 
     @media (forced-colors: active) {
@@ -559,8 +606,8 @@
 
   /* ---------------------------------------------------------- SoraDropdownMenu */
   .sora-menu {
-    min-inline-size: 10rem;
-    padding: 0.25rem;
+    min-inline-size: 13.5rem;
+    padding: 0.3125rem;
   }
 
   .sora-menu__group {
@@ -574,18 +621,25 @@
     font-weight: var(--sora-weight-medium);
   }
 
+  /* A native <hr>: the wide gap native menus put between groups. */
   .sora-menu__separator {
-    block-size: var(--sora-border-width);
-    margin: 0.25rem -0.25rem;
-    background-color: var(--sora-border);
+    block-size: 0.375rem;
+    margin: 0.25rem -0.3125rem;
+    border: 0;
+    background-color: color-mix(in oklab, var(--sora-border) 55%, transparent);
+
+    @media (forced-colors: active) {
+      block-size: 1px;
+      background-color: CanvasText;
+    }
   }
 
   .sora-menu__item {
     @apply flex w-full items-center;
-    gap: 0.5rem;
-    min-block-size: max(2rem, var(--sora-hit-min));
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--sora-radius-sm);
+    gap: 0.625rem;
+    min-block-size: max(2.25rem, var(--sora-hit-min));
+    padding: 0.25rem 0.625rem;
+    border-radius: calc(var(--sora-radius-md) - 0.125rem);
     color: var(--sora-c-text);
     font-size: var(--sora-text-md);
     line-height: var(--sora-leading-tight);
@@ -613,8 +667,11 @@
     }
   }
 
+  /* Icons sit at the end of the row, as in native menus. */
   .sora-menu__icon {
-    font-size: 1rem;
+    order: 1;
+    margin-inline-start: auto;
+    font-size: 1.0625rem;
   }
 
   .sora-menu__text {

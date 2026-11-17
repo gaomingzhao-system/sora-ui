@@ -221,6 +221,8 @@
   /* ------------------------------------------------------------- SoraSeparator */
   .sora-separator {
     flex: none;
+    /* An <hr> also carries UA margins and a border; the reset removes them, this draws the rule. */
+    border: 0;
     background-color: var(--sora-border);
 
     &[data-orientation='horizontal'] {

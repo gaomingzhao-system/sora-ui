@@ -168,80 +168,105 @@ describe('SoraTabs', () => {
   })
 })
 
-const triggers = (): HTMLButtonElement[] => all<HTMLButtonElement>('.sora-accordion__trigger', q('accordion'))
-const trigger = (index: number): HTMLButtonElement => {
+const items = (): HTMLDetailsElement[] => all<HTMLDetailsElement>('.sora-accordion__item', q('accordion'))
+const triggers = (): HTMLElement[] => all('.sora-accordion__trigger', q('accordion'))
+const trigger = (index: number): HTMLElement => {
   const found = triggers()[index]
-  if (!found) throw new Error(`no accordion header ${index}`)
+  if (!found) throw new Error(`no accordion summary ${index}`)
   return found
 }
-const expanded = (): string[] => triggers().map((element) => element.getAttribute('aria-expanded') ?? '')
+const openStates = (): boolean[] => items().map((element) => element.open)
+/** The native `toggle` event is queued as a task: wait for it before reading the model. */
+const toggled = (): Promise<void> => flush()
 
 describe('SoraAccordion', () => {
-  it('uses heading-wrapped buttons that control labelled panels', () => {
+  it('is built from native details and summary elements', () => {
     setup()
-    for (const element of triggers()) {
-      expect(element.parentElement?.tagName).toBe('H4')
-      expect(element.type).toBe('button')
-      const [panel] = referenced(element, 'aria-controls')
-      expect(panel?.getAttribute('role')).toBe('region')
-      expect(referenced(panel as HTMLElement, 'aria-labelledby')).toEqual([element])
+    expect(items()).toHaveLength(4)
+    for (const element of items()) {
+      expect(element.tagName).toBe('DETAILS')
+      expect(element.firstElementChild?.tagName).toBe('SUMMARY')
     }
-    expect(expanded()).toEqual(['true', 'false', 'false', 'false'])
+    expect(openStates()).toEqual([true, false, false, false])
     expect(q('panel-q1').textContent).toBe('Everything in the catalogue.')
+    // Single mode: one shared name makes the browser keep at most one item open.
+    const names = new Set(items().map((element) => element.name))
+    expect(names.size).toBe(1)
+    expect([...names][0]).not.toBe('')
+    // The decorative chevron is hidden from assistive technology.
+    expect($('svg', trigger(0)).getAttribute('aria-hidden')).toBe('true')
   })
 
   it('single mode opens one panel at a time and can collapse it', async () => {
     const { state } = setup()
     await userEvent.click(trigger(1))
+    await toggled()
     expect(state.open).toEqual(['q2'])
-    expect(expanded()).toEqual(['false', 'true', 'false', 'false'])
+    expect(openStates()).toEqual([false, true, false, false])
     await userEvent.click(trigger(1))
+    await toggled()
     expect(state.open).toEqual([])
 
     state.collapsible = false
     state.open = ['q4']
-    await nextTick()
+    await toggled()
     await userEvent.click(trigger(3))
+    await toggled()
     expect(state.open).toEqual(['q4'])
+    expect(items()[3]?.open).toBe(true)
   })
 
   it('multiple mode keeps several panels open', async () => {
     const { state } = setup({ multiple: true })
+    expect(items().every((element) => element.name === '')).toBe(true)
     await userEvent.click(trigger(1))
     await userEvent.click(trigger(3))
+    await toggled()
     expect(state.open).toEqual(['q1', 'q2', 'q4'])
     await userEvent.click(trigger(0))
+    await toggled()
     expect(state.open).toEqual(['q2', 'q4'])
   })
 
-  it('closed panels are inert and collapsed; open ones are reachable', async () => {
+  it('closed panels are out of reach; open ones are reachable', async () => {
     const { state } = setup()
-    const panel = referenced(trigger(1), 'aria-controls')[0] as HTMLElement
-    expect(panel.inert).toBe(true)
-    expect(panel.getBoundingClientRect().height).toBe(0)
+    expect(q('panel-link').checkVisibility()).toBe(false)
     q('panel-link').focus()
     expect(document.activeElement).not.toBe(q('panel-link'))
 
     state.open = ['q2']
-    await flush()
-    expect(panel.inert).toBe(false)
+    await toggled()
+    expect(items()[1]?.open).toBe(true)
     trigger(1).focus()
     await press('{Tab}')
     expect(document.activeElement).toBe(q('panel-link'))
     expect(q('panel-q2').dataset['open']).toBe('true')
   })
 
-  it('toggles with Enter and Space and moves between headers with arrows, Home and End', async () => {
+  it('follows the open state of the elements, also when the page opens one', async () => {
+    const { state } = setup()
+    // What find-in-page does when it reveals a match in a closed item.
+    const third = items()[3] as HTMLDetailsElement
+    third.open = true
+    await toggled()
+    expect(state.open).toEqual(['q4'])
+    // Exclusive: the browser closed the item that was open.
+    expect(openStates()).toEqual([false, false, false, true])
+  })
+
+  it('toggles with Enter and Space and moves between summaries with arrows, Home and End', async () => {
     const { state } = setup({ open: [] })
     trigger(0).focus()
     await press('{Enter}')
+    await toggled()
     expect(state.open).toEqual(['q1'])
     await press(' ')
+    await toggled()
     expect(state.open).toEqual([])
 
     await press('{ArrowDown}')
     expect(document.activeElement).toBe(trigger(1))
-    await press('{ArrowDown}') // the disabled header is skipped
+    await press('{ArrowDown}') // the disabled item is skipped
     expect(document.activeElement).toBe(trigger(3))
     await press('{ArrowDown}') // wraps
     expect(document.activeElement).toBe(trigger(0))
@@ -251,7 +276,17 @@ describe('SoraAccordion', () => {
     expect(document.activeElement).toBe(trigger(1))
     await press('{Home}')
     expect(document.activeElement).toBe(trigger(0))
-    expect(trigger(2).disabled).toBe(true)
+  })
+
+  it('never toggles a disabled item, and keeps it out of the Tab order', async () => {
+    const { state } = setup({ open: [] })
+    const disabled = trigger(2)
+    expect(disabled.getAttribute('aria-disabled')).toBe('true')
+    expect(disabled.tabIndex).toBe(-1)
+    await userEvent.click(disabled, { force: true })
+    await toggled()
+    expect(state.open).toEqual([])
+    expect(items()[2]?.open).toBe(false)
   })
 })
 

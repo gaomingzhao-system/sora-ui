@@ -83,7 +83,7 @@
 | Component | Purpose |
 | --- | --- |
 | [SoraTabs](./SoraTabs.md) | Switches between panels from a typed array of tabs. |
-| [SoraAccordion](./SoraAccordion.md) | Expandable sections from a typed array. |
+| [SoraAccordion](./SoraAccordion.md) | Expandable sections from a typed array, built on native details and summary elements. |
 | [SoraBreadcrumbs](./SoraBreadcrumbs.md) | Shows the path to the current page as links. |
 | [SoraPagination](./SoraPagination.md) | Moves between pages of a result set. |
 

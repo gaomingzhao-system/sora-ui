@@ -139,13 +139,21 @@ describe('SoraSeparator', () => {
   it('is decorative by default and a real separator on request', async () => {
     const { state } = setup()
     const separator = q('separator')
+    // The native rule element; decorative by default, so hidden from assistive technology.
+    expect(separator.tagName).toBe('HR')
     expect(separator.getAttribute('role')).toBe('none')
     expect(separator.hasAttribute('aria-orientation')).toBe(false)
     state.decorative = false
     await nextTick()
-    expect(separator.getAttribute('role')).toBe('separator')
+    // <hr> is a separator natively: no role attribute needed.
+    expect(separator.hasAttribute('role')).toBe(false)
     expect(separator.getAttribute('aria-orientation')).toBe('vertical')
-    expect(q('separator-label').textContent?.trim()).toBe('or')
+    // Drawn as a one-pixel rule without the UA border and margins.
+    expect(getComputedStyle(separator).borderTopStyle).toBe('none')
+    expect(getComputedStyle(separator).marginTop).toBe('0px')
+    const labelled = q('separator-label')
+    expect(labelled.tagName).toBe('DIV')
+    expect(labelled.textContent?.trim()).toBe('or')
   })
 })
 

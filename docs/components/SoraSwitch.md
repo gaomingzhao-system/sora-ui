@@ -20,6 +20,7 @@ An on/off setting that takes effect immediately.
 | `disabled` | `boolean` | `false` | Disables the control, with the native `disabled` attribute where the element has one. |
 | `required` | `boolean` | `false` | Marks the field as required: the native `required` attribute plus a decorative marker on the label. |
 | `size` | `SoraSize` |  | Size. Where no default is listed, it falls back to the nearest `SoraProvider` `defaults`, then to `sora.config.ts`. |
+| `color` | `SoraColor` | `'success'` | Colour of the track when on. Green (`success`), as on iOS, unless set. |
 | `id` | `string` |  | Id of the native control. Generated (and stable) when omitted. |
 | `labelPlacement` | `'start' \| 'end'` | `'end'` | Put the label before the switch (settings rows). |
 | `controlAttrs` | `SoraControlAttrs` |  | Attributes, listeners and a `ref` callback for the native control, for example Formisch's `field.props`. |

@@ -50,23 +50,40 @@
     .sora-table__sort
   ) {
     transition-property:
-      background-color, border-color, color, text-decoration-thickness, opacity, box-shadow;
+      background-color, border-color, color, text-decoration-thickness, opacity, box-shadow, scale;
     transition-duration: var(--sora-duration-fast);
     transition-timing-function: var(--sora-ease-out);
   }
 
+  /* The tab marker glides to the selected tab on a spring. */
+  .sora-tabs__indicator[data-ready] {
+    transition:
+      translate var(--sora-duration-overlay) var(--sora-ease-spring),
+      inline-size var(--sora-duration-overlay) var(--sora-ease-spring),
+      block-size var(--sora-duration-overlay) var(--sora-ease-spring);
+  }
+
+  /* Buttons give under the finger and spring back. */
+  :where(.sora-button):where(:not(:disabled, [aria-disabled='true'])):active {
+    scale: 0.97;
+  }
+
+  /* The switch knob slides on a small bounce and stretches while pressed. */
   .sora-switch__thumb {
     transition:
-      inset-inline-start var(--sora-duration-fast) var(--sora-ease-out),
-      background-color var(--sora-duration-fast) var(--sora-ease-out);
+      translate var(--sora-duration-overlay) var(--sora-ease-bounce),
+      inline-size var(--sora-duration-fast) var(--sora-ease-out);
   }
 
   .sora-progress__bar::-webkit-progress-value {
     transition: inline-size var(--sora-duration-overlay) var(--sora-ease-out);
   }
 
-  .sora-accordion__panel {
-    transition: grid-template-rows var(--sora-duration-overlay) var(--sora-ease-out);
+  /* The panel opens on a spring; `content-visibility` flips at the end, so closing can animate too. */
+  .sora-accordion__item::details-content {
+    transition:
+      block-size var(--sora-duration-overlay) var(--sora-ease-spring),
+      content-visibility var(--sora-duration-overlay) allow-discrete;
   }
 
   .sora-accordion__chevron {
@@ -78,24 +95,31 @@
    * transition discretely, so the exit runs while the element is still in
    * the top layer; nothing is unmounted to animate.
    */
+  /*
+   * Dialogs settle into place from slightly larger, as native alerts do, and
+   * fade out while shrinking a touch.
+   */
   .sora-dialog {
     opacity: 0;
-    scale: 0.985;
+    scale: 0.96;
     transition:
-      opacity var(--sora-duration-overlay) var(--sora-ease-out),
-      scale var(--sora-duration-overlay) var(--sora-ease-out),
-      translate var(--sora-duration-overlay) var(--sora-ease-out),
-      overlay var(--sora-duration-overlay) allow-discrete,
-      display var(--sora-duration-overlay) allow-discrete;
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      scale var(--sora-duration-fast) var(--sora-ease-out),
+      overlay var(--sora-duration-fast) allow-discrete,
+      display var(--sora-duration-fast) allow-discrete;
 
     &[open] {
       opacity: 1;
       scale: 1;
-      translate: 0 0;
+      transition:
+        opacity var(--sora-duration-fast) var(--sora-ease-out),
+        scale var(--sora-duration-overlay) var(--sora-ease-spring),
+        overlay var(--sora-duration-overlay) allow-discrete,
+        display var(--sora-duration-overlay) allow-discrete;
 
       @starting-style {
         opacity: 0;
-        scale: 0.985;
+        scale: 1.08;
       }
     }
 
@@ -116,7 +140,44 @@
     }
   }
 
-  .sora-popover,
+  /*
+   * Popovers and menus grow out of their trigger on a small bounce, the way
+   * native menus do, and shrink away quickly. A combobox list only fades: it
+   * belongs to a text field and must not move while the user types.
+   */
+  .sora-popover {
+    opacity: 0;
+    transition:
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      scale var(--sora-duration-fast) var(--sora-ease-out),
+      overlay var(--sora-duration-fast) allow-discrete,
+      display var(--sora-duration-fast) allow-discrete;
+
+    &:not(.sora-combobox__popup) {
+      scale: 0.94;
+    }
+
+    &:popover-open {
+      opacity: 1;
+      scale: 1;
+      transition:
+        opacity var(--sora-duration-fast) var(--sora-ease-out),
+        scale var(--sora-duration-overlay) var(--sora-ease-bounce),
+        overlay var(--sora-duration-overlay) allow-discrete,
+        display var(--sora-duration-overlay) allow-discrete;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      &:not(.sora-combobox__popup) {
+        @starting-style {
+          scale: 0.86;
+        }
+      }
+    }
+  }
+
   .sora-tooltip {
     opacity: 0;
     transition:
@@ -133,15 +194,23 @@
     }
   }
 
-  /* Toasts fade and rise a few pixels on entry. */
+  /* Toasts drop in from their edge on a small bounce. */
   .sora-toast {
     transition:
-      opacity var(--sora-duration-overlay) var(--sora-ease-out),
-      translate var(--sora-duration-overlay) var(--sora-ease-out);
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      translate var(--sora-duration-overlay) var(--sora-ease-bounce),
+      scale var(--sora-duration-overlay) var(--sora-ease-bounce);
 
     @starting-style {
       opacity: 0;
-      translate: 0 0.375rem;
+      translate: 0 1rem;
+      scale: 0.96;
+    }
+
+    .sora-toast-region[data-placement^='top'] & {
+      @starting-style {
+        translate: 0 -1rem;
+      }
     }
   }
 
@@ -174,18 +243,24 @@
     .sora-toast {
       @starting-style {
         translate: none;
+        scale: 1;
+      }
+
+      .sora-toast-region[data-placement^='top'] & {
+        @starting-style {
+          translate: none;
+        }
       }
     }
 
-    /* Overlays keep their fade only if the duration tokens allow it; never the scale/slide. */
-    .sora-dialog {
+    /* Overlays keep their fade only if the duration tokens allow it; never the scale. */
+    .sora-dialog,
+    .sora-popover {
       scale: 1;
-      translate: none;
 
-      &[open] {
+      &:where([open], :popover-open) {
         @starting-style {
           scale: 1;
-          translate: none;
         }
       }
     }

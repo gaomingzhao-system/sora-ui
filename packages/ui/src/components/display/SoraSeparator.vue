@@ -11,7 +11,8 @@ export interface SoraSeparatorProps extends /* @vue-ignore */ HTMLAttributes {
   decorative?: boolean | undefined
 }
 
-defineOptions({ name: 'SoraSeparator' })
+// Two possible roots (a rule or a labelled container): attributes are bound explicitly.
+defineOptions({ name: 'SoraSeparator', inheritAttrs: false })
 
 const { orientation = 'horizontal', decorative = true } = defineProps<SoraSeparatorProps>()
 
@@ -22,13 +23,24 @@ defineSlots<{
 </script>
 
 <template>
-  <div
+  <!-- A plain rule is the native <hr> (implicit separator role); a labelled one needs a container. -->
+  <hr
+    v-if="!$slots.default"
+    v-bind="$attrs"
     class="sora-separator"
     :data-orientation="orientation"
-    :data-labelled="$slots.default ? '' : undefined"
+    :role="decorative ? 'none' : undefined"
+    :aria-orientation="decorative || orientation === 'horizontal' ? undefined : orientation"
+  />
+  <div
+    v-else
+    v-bind="$attrs"
+    class="sora-separator"
+    data-labelled
+    :data-orientation="orientation"
     :role="decorative ? 'none' : 'separator'"
-    :aria-orientation="decorative ? undefined : orientation"
+    :aria-orientation="decorative || orientation === 'horizontal' ? undefined : orientation"
   >
-    <span v-if="$slots.default" class="sora-separator__label"><slot /></span>
+    <span class="sora-separator__label"><slot /></span>
   </div>
 </template>

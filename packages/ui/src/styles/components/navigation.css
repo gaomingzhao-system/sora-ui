@@ -24,7 +24,7 @@
   }
 
   .sora-tabs__list {
-    @apply flex shrink-0;
+    @apply relative isolate flex shrink-0;
     gap: 0.125rem;
     /* Many tabs on a narrow screen scroll instead of wrapping; focus keeps the active one in view. */
     overflow-x: auto;
@@ -41,6 +41,62 @@
 
     .sora-tabs[data-variant='underline'][data-orientation='vertical'] > & {
       border-inline-end: var(--sora-border-width) solid var(--sora-border);
+    }
+
+    /* The pill variant is a segmented control: a recessed track holding the tabs. */
+    .sora-tabs[data-variant='pill'] > & {
+      gap: 0;
+      padding: 0.125rem;
+      border-radius: calc(var(--sora-radius-md) + 0.125rem);
+      background-color: var(--sora-neutral-soft);
+    }
+
+    .sora-tabs[data-variant='pill'][data-orientation='horizontal'] > & {
+      align-self: start;
+      max-inline-size: 100%;
+    }
+  }
+
+  /*
+   * The selection marker: a bar under (or beside) the selected tab, or the
+   * raised thumb of the segmented control. It glides between tabs; its box
+   * comes from the selected tab (see SoraTabs.vue).
+   */
+  .sora-tabs__indicator {
+    @apply pointer-events-none absolute;
+    inset-block-start: 0;
+    left: 0;
+    z-index: -1;
+    inline-size: var(--_w, 0);
+    block-size: var(--_h, 0);
+    translate: var(--_x, 0) var(--_y, 0);
+
+    .sora-tabs[data-variant='underline'][data-orientation='horizontal'] & {
+      block-size: 2px;
+      translate: var(--_x, 0) calc(var(--_y, 0px) + var(--_h, 0px) - 2px);
+      border-radius: 1px;
+      background-color: var(--sora-text);
+      /* Inset like the label, not the full tab. */
+      scale: calc(1 - 1rem / max(var(--_w, 1px), 1px)) 1;
+    }
+
+    .sora-tabs[data-variant='underline'][data-orientation='vertical'] & {
+      inline-size: 2px;
+      translate: calc(var(--_x, 0px) + var(--_w, 0px) - 2px) var(--_y, 0);
+      border-radius: 1px;
+      background-color: var(--sora-text);
+    }
+
+    .sora-tabs[data-variant='pill'] & {
+      border-radius: var(--sora-radius-md);
+      background-color: var(--sora-elevated);
+      box-shadow:
+        0 0.1875rem 0.5rem oklch(0% 0 0 / 0.12),
+        0 0.1875rem 0.0625rem oklch(0% 0 0 / 0.04);
+    }
+
+    @media (forced-colors: active) {
+      display: none;
     }
   }
 
@@ -68,30 +124,16 @@
       color: var(--sora-text);
     }
 
-    /* Selection indicator: a bar (underline) or a fill (pill), never colour alone. */
-    .sora-tabs[data-variant='underline'] &::after {
-      @apply absolute;
-      content: '';
-      inset-inline: 0.5rem;
-      inset-block-end: 0;
-      block-size: 2px;
-      border-radius: 1px;
-      background-color: transparent;
-    }
+    /* Segments share the track evenly when fitted; the selected one is raised by the indicator. */
+    .sora-tabs[data-variant='pill'] & {
+      border-radius: var(--sora-radius-md);
 
-    .sora-tabs[data-variant='underline'][data-orientation='vertical'] &::after {
-      inset-block: 0.375rem;
-      inset-inline: auto 0;
-      inline-size: 2px;
-      block-size: auto;
-    }
-
-    .sora-tabs[data-variant='underline'] &[aria-selected='true']::after {
-      background-color: var(--sora-text);
-    }
-
-    .sora-tabs[data-variant='pill'] &[aria-selected='true'] {
-      background-color: var(--sora-neutral-soft-hover);
+      &:where(:not(:disabled, [aria-selected='true'])) {
+        @variant hover {
+          background-color: transparent;
+          color: var(--sora-text);
+        }
+      }
     }
 
     &:focus-visible {
@@ -126,6 +168,8 @@
     color: var(--sora-text);
     font-size: var(--sora-text-md);
     line-height: var(--sora-leading-normal);
+    /* Lets the panel's height animate to and from `auto` where supported. */
+    interpolate-size: allow-keywords;
 
     &[data-size='sm'] {
       font-size: var(--sora-text-sm);
@@ -136,11 +180,16 @@
     &:not(:first-child) {
       border-block-start: var(--sora-border-width) solid var(--sora-border);
     }
-  }
 
-  .sora-accordion__heading {
-    font-size: inherit;
-    font-weight: inherit;
+    /* The panel slot of <details>: it slides open and closed on a spring. */
+    &::details-content {
+      block-size: 0;
+      overflow-y: clip;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
   }
 
   .sora-accordion__trigger {
@@ -151,6 +200,16 @@
     border-radius: var(--sora-radius-sm);
     font-weight: var(--sora-weight-medium);
     text-align: start;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+
+    /* The native disclosure triangle is replaced by the chevron. */
+    &::-webkit-details-marker,
+    &::marker {
+      display: none;
+      content: '';
+    }
 
     .sora-accordion[data-size='sm'] & {
       min-block-size: max(var(--sora-control-md), var(--sora-hit-min));
@@ -160,7 +219,8 @@
       @apply sora-focus-ring;
     }
 
-    &:disabled {
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
       opacity: var(--sora-disabled-opacity);
     }
   }
@@ -174,30 +234,15 @@
     color: var(--sora-text-muted);
     font-size: 1rem;
 
-    .sora-accordion__item[data-open] & {
+    .sora-accordion__item[open] > .sora-accordion__trigger & {
       rotate: 180deg;
     }
   }
 
-  /* Height animates through the grid track (0fr -> 1fr); no JS measurement. */
-  .sora-accordion__panel {
-    @apply grid;
-    grid-template-rows: 0fr;
-
-    .sora-accordion__item[data-open] > & {
-      grid-template-rows: 1fr;
-    }
-  }
-
   .sora-accordion__content {
-    @apply min-h-0 overflow-hidden;
-    padding-inline: 0.25rem;
+    padding: 0 0.25rem 0.75rem;
     color: var(--sora-text-muted);
     overflow-wrap: anywhere;
-
-    .sora-accordion__item[data-open] & {
-      padding-block-end: 0.75rem;
-    }
   }
 
   /* ----------------------------------------------------------- SoraBreadcrumbs */

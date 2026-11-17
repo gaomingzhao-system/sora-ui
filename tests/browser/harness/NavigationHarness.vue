@@ -77,7 +77,6 @@ const trail: SoraBreadcrumbItem[] = [
     :items="questions"
     :multiple="state.multiple"
     :collapsible="state.collapsible"
-    :heading-level="4"
   >
     <template #content="{ item, open }">
       <span v-if="item.value === 'q2'" :data-testid="`panel-${item.value}`" :data-open="open">

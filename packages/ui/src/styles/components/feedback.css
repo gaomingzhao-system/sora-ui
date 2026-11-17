@@ -296,15 +296,19 @@
     }
   }
 
+  /* A rounded banner on a translucent material, as native notifications are. */
   .sora-toast {
     @apply flex items-start;
     gap: var(--sora-gap-sm);
-    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-    border: var(--sora-border-width) solid var(--sora-border);
+    padding: 0.625rem 0.625rem 0.625rem 0.875rem;
+    border: var(--sora-border-width) solid color-mix(in oklab, var(--sora-border) 70%, transparent);
     border-inline-start: 3px solid var(--sora-c);
-    border-radius: var(--sora-radius-md);
-    background-color: var(--sora-elevated);
-    box-shadow: var(--sora-shadow-lg);
+    border-radius: calc(var(--sora-radius-lg) + 0.125rem);
+    background-color: color-mix(in oklab, var(--sora-elevated) 92%, transparent);
+    backdrop-filter: blur(1.25rem) saturate(1.8);
+    box-shadow:
+      0 0.5rem 2rem -0.5rem oklch(0% 0 0 / 0.25),
+      0 0.125rem 0.5rem oklch(0% 0 0 / 0.08);
     font-size: var(--sora-text-md);
     line-height: var(--sora-leading-normal);
     pointer-events: auto;

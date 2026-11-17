@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor generic="T extends SoraAccordionItem">
-import { useTemplateRef } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { useRovingFocus } from '../../composables/use-roving-focus.ts'
 import { iconChevronDown } from '../../internal/icons.ts'
@@ -22,92 +22,92 @@ export interface SoraAccordionProps<TItem extends SoraAccordionItem = SoraAccord
   multiple?: boolean | undefined
   /** In single mode, allow the open panel to be closed again. */
   collapsible?: boolean | undefined
-  /** Heading level of the item headers. Pick the level that fits the page outline. */
-  headingLevel?: 2 | 3 | 4 | 5 | 6 | undefined
   size?: SoraSize | undefined
 }
 
 defineOptions({ name: 'SoraAccordion' })
 
-const {
-  items,
-  multiple = false,
-  collapsible = true,
-  headingLevel = 3,
-  size = 'md',
-} = defineProps<SoraAccordionProps<T>>()
+const { items, multiple = false, collapsible = true, size = 'md' } = defineProps<SoraAccordionProps<T>>()
 
 /** `value`s of the open items (at most one unless `multiple`). */
 const model = defineModel<T['value'][]>({ required: true })
 
 defineSlots<{
-  /** Header content of one item (the label by default). */
+  /** Summary content of one item (the label by default). */
   title?(props: { item: T; open: boolean }): unknown
   /** Panel content of one item. */
   content?(props: { item: T; open: boolean }): unknown
 }>()
 
-const id = useSoraId()
-const headerId = (index: number): string => `${id}-header-${index}`
-const panelId = (index: number): string => `${id}-panel-${index}`
+// Items of one single-mode accordion share a `name`: the browser itself keeps
+// at most one of them open (exclusive accordion).
+const groupName = `${useSoraId()}-accordion`
+// One lookup per item and render instead of scanning the model array.
+const openValues = computed(() => new Set<T['value']>(model.value))
 
-const isOpen = (item: T): boolean => model.value.includes(item.value)
-
-function toggle(item: T): void {
-  if (item.disabled) return
-  if (isOpen(item)) {
-    if (multiple || collapsible) model.value = model.value.filter((value) => value !== item.value)
-  } else {
-    model.value = multiple ? [...model.value, item.value] : [item.value]
-  }
-}
-
-// Headers are ordinary buttons (Enter/Space toggle natively); arrows, Home and
-// End additionally move between headers.
 const root = useTemplateRef<HTMLElement>('root')
 const roving = useRovingFocus({
   container: () => root.value,
-  selector: ':scope > .sora-accordion__item > .sora-accordion__heading > .sora-accordion__trigger',
+  selector: ':scope > .sora-accordion__item > .sora-accordion__trigger',
   orientation: () => 'vertical',
 })
+
+function sameValues(a: readonly T['value'][], b: readonly T['value'][]): boolean {
+  return a.length === b.length && a.every((value, index) => value === b[index])
+}
+
+/**
+ * The native element changed (a click, Enter or Space on the summary, the
+ * exclusivity of a `name` group, or find-in-page revealing a match): read the
+ * open state back from the elements, in item order.
+ */
+function onToggle(): void {
+  const elements = root.value?.querySelectorAll<HTMLDetailsElement>(':scope > .sora-accordion__item')
+  if (!elements) return
+  const next: T['value'][] = []
+  for (const [index, element] of elements.entries()) {
+    const item = items[index]
+    if (item && element.open) next.push(item.value)
+  }
+  if (!sameValues(next, model.value)) model.value = next
+}
+
+// A disabled item never toggles; in single, non-collapsible mode the open item stays open.
+function onSummaryClick(item: T, event: MouseEvent): void {
+  if (item.disabled || (!multiple && !collapsible && openValues.value.has(item.value))) event.preventDefault()
+}
 </script>
 
 <template>
+  <!--
+    Native disclosure: <details> and <summary> supply the button semantics,
+    the expanded state, Enter/Space, and find-in-page that opens the item
+    holding a match. Arrow keys, Home and End move between the summaries.
+  -->
   <div ref="root" class="sora-accordion" :data-size="size" @keydown="roving.onKeydown">
-    <div
-      v-for="(item, index) in items"
+    <details
+      v-for="item in items"
       :key="item.value"
       class="sora-accordion__item"
-      :data-open="isOpen(item) ? '' : undefined"
+      :name="multiple ? undefined : groupName"
+      :open="openValues.has(item.value)"
+      :data-disabled="item.disabled ? '' : undefined"
+      @toggle="onToggle"
     >
-      <component :is="`h${headingLevel}`" class="sora-accordion__heading">
-        <button
-          :id="headerId(index)"
-          type="button"
-          class="sora-accordion__trigger"
-          :disabled="item.disabled"
-          :aria-expanded="isOpen(item) ? 'true' : 'false'"
-          :aria-controls="panelId(index)"
-          @click="toggle(item)"
-        >
-          <span class="sora-accordion__label">
-            <slot name="title" :item="item" :open="isOpen(item)">{{ item.label }}</slot>
-          </span>
-          <SoraIcon :icon="iconChevronDown" class="sora-accordion__chevron" />
-        </button>
-      </component>
-      <!-- Closed panels are `inert`: out of the tab order and the accessibility tree, and still animatable. -->
-      <div
-        :id="panelId(index)"
-        class="sora-accordion__panel"
-        :role="items.length <= 6 ? 'region' : undefined"
-        :aria-labelledby="headerId(index)"
-        :inert="!isOpen(item)"
+      <summary
+        class="sora-accordion__trigger"
+        :tabindex="item.disabled ? -1 : undefined"
+        :aria-disabled="item.disabled ? 'true' : undefined"
+        @click="onSummaryClick(item, $event)"
       >
-        <div class="sora-accordion__content">
-          <slot name="content" :item="item" :open="isOpen(item)">{{ item.content }}</slot>
-        </div>
+        <span class="sora-accordion__label">
+          <slot name="title" :item="item" :open="openValues.has(item.value)">{{ item.label }}</slot>
+        </span>
+        <SoraIcon :icon="iconChevronDown" class="sora-accordion__chevron" />
+      </summary>
+      <div class="sora-accordion__content">
+        <slot name="content" :item="item" :open="openValues.has(item.value)">{{ item.content }}</slot>
       </div>
-    </div>
+    </details>
   </div>
 </template>

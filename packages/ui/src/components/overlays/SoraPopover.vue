@@ -5,6 +5,7 @@ import { usePopover } from '../../composables/use-overlay.ts'
 import { anchorName, useSoraId } from '../../internal/ids.ts'
 import type { SoraColor, SoraPlacement, SoraSize, SoraVariant } from '../../types/common.ts'
 import SoraButton from '../actions/SoraButton.vue'
+import { isNativeInvoker } from './trigger.ts'
 import type { SoraTriggerBindings } from './trigger.ts'
 
 export interface SoraPopoverProps
@@ -75,10 +76,14 @@ const bindings = computed<SoraTriggerBindings>(() => ({
     'aria-expanded': open.value ? 'true' : 'false',
     'aria-controls': panelId,
     'aria-haspopup': named.value ? 'dialog' : undefined,
+    popovertarget: panelId,
     style: { 'anchor-name': anchor },
   },
   on: {
-    click: toggle,
+    // A native invoker toggles by itself; anything else is toggled here.
+    click: (event) => {
+      if (!isNativeInvoker(event.currentTarget)) toggle()
+    },
     keydown: () => {},
   },
   ref: (element) => {
@@ -104,13 +109,13 @@ defineExpose({
       :color="color"
       :size="size"
       :disabled="disabled"
-      @click="toggle"
     >
       <slot name="trigger" :open="open">{{ triggerLabel }}</slot>
     </SoraButton>
   </slot>
   <!--
-    Popover API: top layer, light dismiss and focus return are native. The
+    Popover API: the trigger is a native invoker (`popovertarget`), so the
+    browser toggles the panel, light-dismisses it and returns focus. The
     panel follows the trigger in the DOM, so Tab moves into it naturally and
     it inherits tokens and direction from its real ancestors.
   -->

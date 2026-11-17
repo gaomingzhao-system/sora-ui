@@ -473,9 +473,16 @@
   }
 
   /* ---------------------------------------------------------------- SoraSwitch */
+  /*
+   * SoraSwitch: the iOS switch. A pill track, a white knob with a soft shadow
+   * that slides on a spring and stretches while pressed. The knob's position,
+   * not only the track colour, shows the state.
+   */
   .sora-switch {
-    --_w: 2rem;
-    --_t: 1.125rem;
+    --_w: 2.875rem;
+    --_t: 1.75rem;
+    /* Knob inset from the track edge. */
+    --_i: 0.125rem;
 
     @apply grid;
     justify-items: start;
@@ -484,14 +491,14 @@
     line-height: var(--sora-leading-normal);
 
     &[data-size='sm'] {
-      --_w: 1.625rem;
-      --_t: 0.9375rem;
+      --_w: 2.25rem;
+      --_t: 1.375rem;
       font-size: var(--sora-text-sm);
     }
 
     &[data-size='lg'] {
-      --_w: 2.375rem;
-      --_t: 1.3125rem;
+      --_w: 3.1875rem;
+      --_t: 1.9375rem;
     }
 
     &[data-disabled] {
@@ -505,8 +512,8 @@
   }
 
   .sora-switch__row {
-    @apply inline-flex items-start;
-    gap: 0.625rem;
+    @apply inline-flex items-center;
+    gap: 0.75rem;
     min-block-size: var(--sora-hit-min);
     padding-block: 0.125rem;
     cursor: pointer;
@@ -518,21 +525,12 @@
     .sora-switch[data-label-placement='start'] > & {
       @apply flex flex-row-reverse justify-between;
     }
-
-    @media (pointer: coarse) {
-      align-items: center;
-    }
   }
 
   .sora-switch__track {
     @apply relative shrink-0;
     inline-size: var(--_w);
     block-size: var(--_t);
-    margin-block-start: calc((1lh - var(--_t)) / 2);
-
-    @media (pointer: coarse) {
-      margin-block-start: 0;
-    }
   }
 
   .sora-switch__input {
@@ -544,7 +542,7 @@
     cursor: inherit;
 
     &:checked {
-      background-color: var(--sora-primary);
+      background-color: var(--sora-c);
     }
 
     &:focus-visible {
@@ -556,17 +554,37 @@
     }
   }
 
-  /* The thumb's position, not just the track colour, shows the state. */
   .sora-switch__thumb {
+    --_knob: calc(var(--_t) - 2 * var(--_i));
+
     @apply pointer-events-none absolute rounded-full;
-    inset-block: 2px;
-    inset-inline-start: 2px;
-    inline-size: calc(var(--_t) - 4px);
-    background-color: var(--sora-surface);
+    inset-block: var(--_i);
+    inset-inline-start: var(--_i);
+    inline-size: var(--_knob);
+    background-color: oklch(100% 0 0);
+    box-shadow:
+      0 0.1875rem 0.5rem oklch(0% 0 0 / 0.15),
+      0 0.0625rem 0.0625rem oklch(0% 0 0 / 0.16);
 
     .sora-switch__input:checked ~ & {
-      inset-inline-start: calc(var(--_w) - var(--_t) + 2px);
-      background-color: var(--sora-on-primary);
+      translate: calc(var(--_w) - var(--_t)) 0;
+    }
+
+    .sora-switch__input:checked ~ &:dir(rtl) {
+      translate: calc(var(--_t) - var(--_w)) 0;
+    }
+
+    /* Pressed: the knob stretches towards the side it is about to travel to. */
+    .sora-switch__input:not(:disabled):active ~ & {
+      inline-size: calc(var(--_knob) + var(--_t) * 0.25);
+    }
+
+    .sora-switch__input:not(:disabled):checked:active ~ & {
+      translate: calc(var(--_w) - var(--_t) - var(--_t) * 0.25) 0;
+    }
+
+    .sora-switch__input:not(:disabled):checked:active ~ &:dir(rtl) {
+      translate: calc(var(--_t) * 0.25 + var(--_t) - var(--_w)) 0;
     }
   }
 
@@ -582,6 +600,7 @@
 
     .sora-switch__thumb {
       background-color: ButtonText;
+      box-shadow: none;
     }
   }
 
@@ -597,9 +616,13 @@
   }
 
   /* ---------------------------------------------------------------- SoraSlider */
+  /* SoraSlider: the iOS slider. A thin track and a large white knob with a soft shadow. */
   .sora-slider {
     --_track: 0.25rem;
-    --_thumb: 1rem;
+    --_thumb: 1.75rem;
+    --_knob-shadow:
+      0 0.1875rem 0.5rem oklch(0% 0 0 / 0.15), 0 0.0625rem 0.0625rem oklch(0% 0 0 / 0.16),
+      0 0 0 0.03125rem oklch(0% 0 0 / 0.04);
 
     @apply flex items-center;
     gap: 0.75rem;
@@ -638,9 +661,10 @@
       block-size: var(--_thumb);
       margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
       appearance: none;
-      border: 2px solid var(--sora-c);
+      border: 0;
       border-radius: var(--sora-radius-full);
-      background-color: var(--sora-surface);
+      background-color: oklch(100% 0 0);
+      box-shadow: var(--_knob-shadow);
     }
 
     &::-moz-range-track {
@@ -659,9 +683,10 @@
       box-sizing: border-box;
       inline-size: var(--_thumb);
       block-size: var(--_thumb);
-      border: 2px solid var(--sora-c);
+      border: 0;
       border-radius: var(--sora-radius-full);
-      background-color: var(--sora-surface);
+      background-color: oklch(100% 0 0);
+      box-shadow: var(--_knob-shadow);
     }
 
     &:focus-visible {
@@ -689,8 +714,9 @@
       }
 
       &::-webkit-slider-thumb {
-        border-color: Highlight;
+        border: 2px solid Highlight;
         background-color: Canvas;
+        box-shadow: none;
       }
     }
   }

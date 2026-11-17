@@ -16,6 +16,7 @@ import type {
 } from '../../types/common.ts'
 import SoraButton from '../actions/SoraButton.vue'
 import SoraIcon from '../foundation/SoraIcon.vue'
+import { isNativeInvoker } from './trigger.ts'
 import type { SoraTriggerBindings } from './trigger.ts'
 
 export interface SoraMenuItem {
@@ -169,6 +170,13 @@ function onTriggerKeydown(event: KeyboardEvent): void {
   if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
     event.preventDefault()
     void show(event.key === 'ArrowUp' ? 'last' : 'first')
+  } else if (event.key === 'Enter' || event.key === ' ') {
+    // From the keyboard the menu opens in this task, with focus on its first
+    // item, so the next key already acts inside it. (A click goes through the
+    // native invoker; its `toggle` event arrives one task later.)
+    event.preventDefault()
+    if (open.value) close()
+    else void show('first')
   }
 }
 
@@ -204,10 +212,16 @@ const bindings = computed<SoraTriggerBindings>(() => ({
     'aria-haspopup': 'menu',
     'aria-expanded': open.value ? 'true' : 'false',
     'aria-controls': menuId,
+    popovertarget: menuId,
     style: { 'anchor-name': anchor },
   },
   on: {
-    click: () => (open.value ? close() : void show('first')),
+    click: (event) => {
+      // A native invoker toggles the menu itself; focus then moves in when it opens.
+      if (isNativeInvoker(event.currentTarget)) focusOnOpen = 'first'
+      else if (open.value) close()
+      else void show('first')
+    },
     keydown: onTriggerKeydown,
   },
   ref: () => {},
@@ -231,7 +245,11 @@ defineExpose({ open: () => show('first'), close })
       <slot name="trigger" :open="open">{{ triggerLabel }}</slot>
     </SoraButton>
   </slot>
-  <!-- The Popover API supplies the top layer and light dismiss; the menu keyboard model is implemented here. -->
+  <!--
+    The trigger is a native invoker (`popovertarget`): the browser toggles the
+    menu, light-dismisses it and returns focus. The menu keyboard model
+    (arrows, Home/End, typeahead) is implemented here.
+  -->
   <div
     :id="menuId"
     ref="menu"
@@ -248,7 +266,7 @@ defineExpose({ open: () => show('first'), close })
     @pointermove="onPointermove"
   >
     <template v-for="(group, groupIndex) in groups" :key="groupIndex">
-      <div v-if="groupIndex > 0" class="sora-menu__separator" role="separator" />
+      <hr v-if="groupIndex > 0" class="sora-menu__separator" />
       <div class="sora-menu__group" role="group" :aria-label="group.label">
         <div v-if="group.label" class="sora-menu__label" aria-hidden="true">{{ group.label }}</div>
         <component

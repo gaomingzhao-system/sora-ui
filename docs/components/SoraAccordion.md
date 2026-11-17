@@ -2,7 +2,7 @@
 
 # SoraAccordion
 
-Expandable sections from a typed array.
+Expandable sections from a typed array, built on native details and summary elements.
 
 |  |  |
 | --- | --- |
@@ -19,7 +19,6 @@ Expandable sections from a typed array.
 | `items` **(required)** | `readonly TItem[]` |  |  |
 | `multiple` | `boolean` | `false` | Allow several panels to be open at once. |
 | `collapsible` | `boolean` | `true` | In single mode, allow the open panel to be closed again. |
-| `headingLevel` | `2 \| 3 \| 4 \| 5 \| 6` | `3` | Heading level of the item headers. Pick the level that fits the page outline. |
 | `size` | `SoraSize` | `'md'` | Size. Where no default is listed, it falls back to the nearest `SoraProvider` `defaults`, then to `sora.config.ts`. |
 
 ## Models
@@ -32,7 +31,7 @@ Expandable sections from a typed array.
 
 | Slot | Slot props | Description |
 | --- | --- | --- |
-| `title` | `props: { item: T; open: boolean }` | Header content of one item (the label by default). |
+| `title` | `props: { item: T; open: boolean }` | Summary content of one item (the label by default). |
 | `content` | `props: { item: T; open: boolean }` | Panel content of one item. |
 
 ## Attributes
@@ -41,24 +40,25 @@ The root `<div>`.
 
 ## Keyboard
 
-- Enter or Space toggles a section (native button).
-- Arrow Up/Down and Home/End move between headers.
+- Enter or Space on a summary toggles its section (native).
+- Arrow Up/Down and Home/End move between summaries.
 
 ## Accessibility
 
-- APG accordion: each header is a heading that contains a button with `aria-expanded` and `aria-controls`.
-- Closed panels are `inert`: out of the tab order and the accessibility tree.
-- Panels are regions when there are six or fewer.
+- Native disclosure widgets: each `<summary>` exposes a button with its expanded state; closed content is not rendered for assistive technology.
+- Single mode shares one `name`, so the browser itself keeps at most one item open.
+- Find-in-page opens the item that holds a match, and `v-model` follows it.
+- A disabled item is `aria-disabled`, never toggles and leaves the Tab order.
 
 ## Styling
 
-- `.sora-accordion`, `.sora-accordion__item`, `.sora-accordion__trigger`, `.sora-accordion__panel`, `.sora-accordion__content`
-- `data-size`, `data-open`
+- `.sora-accordion`, `.sora-accordion__item` (`<details>`, `::details-content`), `.sora-accordion__trigger` (`<summary>`), `.sora-accordion__content`
+- `data-size`, `[open]`; the panel height animates where `interpolate-size` is supported
 
 ## Example
 
 From the gallery ([`apps/gallery/src/demos/NavigationDemos.vue`](../../apps/gallery/src/demos/NavigationDemos.vue)), where it is type-checked and covered by the end-to-end tests. `t()` is the gallery's translation function; the state it binds is declared in that file.
 
 ```vue
-<SoraAccordion v-model="open" :items="questions" :heading-level="4" class="max-w-xl" />
+<SoraAccordion v-model="open" :items="questions" class="max-w-xl" />
 ```

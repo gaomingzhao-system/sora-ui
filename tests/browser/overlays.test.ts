@@ -339,7 +339,7 @@ describe('SoraTooltip', () => {
     setup()
     const trigger = q('tooltip-trigger')
     expect(description(trigger)).toBe('Copies the link')
-    expect(tooltip().getAttribute('popover')).toBe('manual')
+    expect(tooltip().getAttribute('popover')).toBe('hint')
     expect(isPopoverOpen(tooltip())).toBe(false)
 
     q('fallback').focus()
@@ -442,7 +442,10 @@ describe('SoraDropdownMenu', () => {
     // Groups are labelled and separated.
     const groups = all('[role="group"]', menu())
     expect(groups.map((group) => group.getAttribute('aria-label'))).toEqual([null, 'Danger zone'])
-    expect(all('[role="separator"]', menu())).toHaveLength(1)
+    // Groups are divided by a native rule (<hr>, an implicit separator).
+    expect(all('hr', menu())).toHaveLength(1)
+    // The trigger is a native invoker of the menu.
+    expect(q('menu-trigger').getAttribute('popovertarget')).toBe(menu().id)
   })
 
   it('opens on click with focus on the first item', async () => {

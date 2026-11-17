@@ -53,7 +53,7 @@ const crumbs = computed(() => [
   </DemoSection>
 
   <DemoSection name="SoraAccordion">
-    <SoraAccordion v-model="open" :items="questions" :heading-level="4" class="max-w-xl" />
+    <SoraAccordion v-model="open" :items="questions" class="max-w-xl" />
   </DemoSection>
 
   <DemoSection name="SoraBreadcrumbs">

@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor generic="T extends SoraTabItem">
-import { computed, useTemplateRef } from 'vue'
+import { computed, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useRovingFocus } from '../../composables/use-roving-focus.ts'
@@ -67,6 +67,42 @@ const tabStop = computed(() =>
 )
 
 const list = useTemplateRef<HTMLElement>('list')
+const indicator = useTemplateRef<HTMLElement>('indicator')
+
+/**
+ * One element marks the selection and glides from tab to tab, like the thumb
+ * of a native segmented control. Its box is written straight to the element
+ * (no reactive state): one layout read per selection change or resize.
+ */
+function placeIndicator(): void {
+  const element = indicator.value
+  const tab = list.value?.querySelectorAll<HTMLElement>('[role="tab"]')[selectedIndex.value]
+  if (!element) return
+  if (!tab) {
+    element.hidden = true
+    return
+  }
+  element.hidden = false
+  element.style.setProperty('--_x', `${tab.offsetLeft}px`)
+  element.style.setProperty('--_y', `${tab.offsetTop}px`)
+  element.style.setProperty('--_w', `${tab.offsetWidth}px`)
+  element.style.setProperty('--_h', `${tab.offsetHeight}px`)
+}
+
+let observer: ResizeObserver | undefined
+onMounted(() => {
+  placeIndicator()
+  // Only animate from the second placement on, so the first paint does not slide in.
+  requestAnimationFrame(() => indicator.value?.toggleAttribute('data-ready', true))
+  if (list.value) {
+    observer = new ResizeObserver(placeIndicator)
+    observer.observe(list.value)
+  }
+})
+onBeforeUnmount(() => observer?.disconnect())
+watch(selectedIndex, placeIndicator, { flush: 'post' })
+watch(() => items.length, placeIndicator, { flush: 'post' })
+
 const roving = useRovingFocus({
   container: () => list.value,
   selector: '[role="tab"]',
@@ -96,6 +132,7 @@ function onKeydown(event: KeyboardEvent): void {
       :data-fitted="fitted ? '' : undefined"
       @keydown="onKeydown"
     >
+      <span ref="indicator" class="sora-tabs__indicator" aria-hidden="true" />
       <button
         v-for="(item, index) in items"
         :id="tabId(index)"
