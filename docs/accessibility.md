@@ -106,8 +106,9 @@ items, not assumptions of success:
 - **Screen readers.** No manual pass with NVDA, JAWS, VoiceOver (macOS or iOS) or TalkBack was
   performed. In particular the announcements of toasts, of combobox result counts, of validation
   errors and of the error summary are implemented to the specifications but have not been listened to.
-- **Firefox and WebKit.** The E2E suite is written for all three engines and CI runs them, but only
-  Chromium could be executed in the development environment.
+- **Firefox and WebKit beyond CI.** The E2E suite, axe scans and keyboard flows included, passes in
+  Playwright's Firefox and WebKit builds in CI; the component tests run in Chromium only, and no
+  released Firefox or Safari was used by hand.
 - **Real high-contrast themes.** Forced colours were tested through Chromium's emulation, not on
   Windows with a contrast theme.
 - **Touch and mobile assistive technology.** Target sizes were measured with Chromium's device

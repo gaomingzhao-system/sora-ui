@@ -221,6 +221,11 @@ is a native invoker (`popovertarget`): the browser toggles, light-dismisses and 
 custom trigger receives explicit `attrs` (including `popovertarget`), `on` and `ref` bindings through
 the `custom-trigger` slot; nothing is cloned or injected.
 
+State follows the element ([`use-overlay.ts`](../packages/ui/src/composables/use-overlay.ts)): a popover
+closed natively (light dismiss, Escape) reports `toggle` one task later, so closing is mirrored on
+`beforetoggle`, synchronously, and a key pressed in between (Escape, then Enter on the trigger) acts on
+the real state. Opening is mirrored on `toggle`, once the popover is shown and focus can move into it.
+
 ## Reactivity and data
 
 - State that holds a primitive, or is replaced as a whole, is a `shallowRef`; nothing large is ever

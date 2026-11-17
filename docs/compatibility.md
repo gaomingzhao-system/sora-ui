@@ -56,14 +56,17 @@ library; there is no legacy mode.
 
 - **Chromium** (Chrome for Testing 153, headless, Linux): the complete Vitest Browser Mode suite and
   the complete Playwright suite (gallery and packed consumers).
+- **Chromium, Firefox and WebKit in CI** (Playwright 1.65.1's builds: Chromium 159, Firefox 159,
+  WebKit 27.2; headless, GitHub's `ubuntu-latest`): the Playwright gallery suite passes in all three,
+  axe included. Tests that depend on engine specifics are marked: Tab reaching buttons and links is
+  an operating system setting in WebKit, forced colours are not implemented in WebKit, and
+  coarse-pointer emulation needs Chromium.
 
 ### Not verified
 
-- **Firefox and WebKit.** The Playwright suite has projects for both and CI installs and runs them,
-  but they could not be executed where this was developed (only a Chromium binary was available).
-  Tests that depend on engine specifics are marked: Tab reaching buttons and links is an operating
-  system setting in WebKit, forced colours are not implemented in WebKit, and coarse-pointer
-  emulation needs Chromium.
+- **Firefox and WebKit outside CI.** The component tests (Vitest Browser Mode) run in Chromium only,
+  and Firefox and WebKit could not be run where this was developed. No released Firefox or Safari on
+  macOS or Windows was used.
 - **Mobile browsers and real devices.**
 - **Screen readers** and other assistive technology: see [accessibility.md](./accessibility.md).
 
@@ -105,24 +108,34 @@ versions and should be re-checked on every update.
 6. **A second copy of some `@vue/*` packages (3.5.45) is installed.** They are build-time internals
    of `vue-tsc` and `unplugin-vue`. `pnpm check:vapor` verifies that a production bundle contains one
    copy of each runtime package and no virtual-DOM renderer.
+7. **Playwright 1.65.1 with its Firefox 159 build: an aria snapshot followed by an axe scan crashes
+   the content process.** On the forms page after an empty submission, `locator.ariaSnapshot()` of
+   the page and then axe's scan end in "Page crashed", in every attempt, while the axe scan alone
+   passes; Chromium and WebKit are not affected. `expect()` renders such a snapshot by itself while it
+   retries on an element that does not exist yet, so a test that waited for the asynchronously
+   rendered error summary with `expect(...).toBeVisible()` crashed. Narrowed down in CI (a separately
+   launched browser, tracing on or off, with and without the test's other steps); the cause inside
+   Firefox is not known, since CI reports only "Page crashed" and no Firefox could be run locally.
+   Workaround: wait for content that appears asynchronously with `locator.waitFor()` before a scan,
+   then assert as before (`tests/e2e/gallery/forms.spec.ts`, `expectNoAxeViolations`).
 
 ## Verified results
 
 Measured on the commit this document belongs to (`pnpm build` first):
 
-| Check                  | Result                                                                                                                                                                                                            |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm lint`            | Oxlint and Oxfmt clean                                                                                                                                                                                            |
-| `pnpm typecheck`       | theme, ui, gallery, tests, unit, e2e and tooling projects pass                                                                                                                                                    |
-| `pnpm check:vapor`     | 98 SFCs carry the marker and compile to `defineVaporComponent`; 74 built modules import no VDOM helper; the gallery's production graph (93 modules) has one copy of each Vue runtime package and no VDOM renderer |
-| `pnpm check:locales`   | library 60 keys × 4 locales, gallery 293 keys × 4 locales                                                                                                                                                         |
-| `pnpm test:unit`       | 76 tests pass                                                                                                                                                                                                     |
-| `pnpm test:browser`    | 237 tests pass in Chromium (38 of them for the sheet)                                                                                                                                                             |
-| `pnpm test:types`      | 40 negative cases hold against the sources and against the built declarations                                                                                                                                     |
-| `pnpm test:e2e`        | Chromium: 62 gallery tests and 12 consumer tests pass; 5 opt-in visual tests skipped                                                                                                                              |
-| `pnpm check:package`   | 59 export subpaths; 56 entries isolated; 57 declaration entries type-check standalone; publint clean                                                                                                              |
-| `pnpm verify:consumer` | both applications install the tarballs, type-check, build and pass their browser tests                                                                                                                            |
-| `pnpm measure:bundle`  | see below                                                                                                                                                                                                         |
+| Check                  | Result                                                                                                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm lint`            | Oxlint and Oxfmt clean                                                                                                                                                                                                    |
+| `pnpm typecheck`       | theme, ui, gallery, tests, unit, e2e and tooling projects pass                                                                                                                                                            |
+| `pnpm check:vapor`     | 98 SFCs carry the marker and compile to `defineVaporComponent`; 74 built modules import no VDOM helper; the gallery's production graph (93 modules) has one copy of each Vue runtime package and no VDOM renderer         |
+| `pnpm check:locales`   | library 60 keys × 4 locales, gallery 293 keys × 4 locales                                                                                                                                                                 |
+| `pnpm test:unit`       | 76 tests pass                                                                                                                                                                                                             |
+| `pnpm test:browser`    | 238 tests pass in Chromium (38 of them for the sheet)                                                                                                                                                                     |
+| `pnpm test:types`      | 40 negative cases hold against the sources and against the built declarations                                                                                                                                             |
+| `pnpm test:e2e`        | locally (Chromium): 62 gallery and 12 consumer tests pass, 5 opt-in visual tests skipped. CI (gallery in Chromium, Firefox and WebKit; consumers in Chromium): 194 pass, 19 skipped (15 opt-in visual, 4 engine-specific) |
+| `pnpm check:package`   | 59 export subpaths; 56 entries isolated; 57 declaration entries type-check standalone; publint clean                                                                                                                      |
+| `pnpm verify:consumer` | both applications install the tarballs, type-check, build and pass their browser tests                                                                                                                                    |
+| `pnpm measure:bundle`  | see below                                                                                                                                                                                                                 |
 
 ### Bundle sizes
 

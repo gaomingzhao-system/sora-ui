@@ -85,6 +85,12 @@ export async function settled(page: Page): Promise<void> {
 /**
  * Automated WCAG 2.2 A/AA checks plus axe's best practices. Automated rules
  * cover only part of WCAG; docs/accessibility.md lists what was checked by hand.
+ *
+ * Before a scan, wait for content that appears asynchronously with
+ * `locator.waitFor()`, not with `expect()`: while `expect()` retries on an
+ * element that does not exist yet, Playwright renders an aria snapshot of the
+ * whole page, and in Firefox an aria snapshot followed by this scan crashed
+ * the content process (docs/compatibility.md, "Known toolchain issues").
  */
 export async function expectNoAxeViolations(page: Page, options: { include?: string } = {}): Promise<void> {
   // Colours are judged at rest, not in the middle of a transition.
