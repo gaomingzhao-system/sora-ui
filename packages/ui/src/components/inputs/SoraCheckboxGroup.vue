@@ -1,4 +1,5 @@
 <script setup lang="ts" vapor generic="T extends string | number">
+import { computed } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import type { SoraControlAttrs, SoraOption, SoraOrientation, SoraSize } from '../../types/common.ts'
@@ -50,9 +51,11 @@ const emit = defineEmits<{
 defineSlots<{ label?(): unknown; hint?(): unknown }>()
 
 const control = useControl(() => undefined)
+// Checked state of every option in one lookup each.
+const selectedValues = computed(() => new Set<T>(modelValue ?? []))
 
 function toggle(value: T, checked: boolean): void {
-  const selected = new Set(modelValue ?? [])
+  const selected = new Set(selectedValues.value)
   if (checked) selected.add(value)
   else selected.delete(value)
   emit(
@@ -79,7 +82,7 @@ function toggle(value: T, checked: boolean): void {
         <SoraCheckbox
           v-for="option in options"
           :key="option.value"
-          :model-value="(modelValue ?? []).includes(option.value)"
+          :model-value="selectedValues.has(option.value)"
           :label="option.label"
           :hint="option.description"
           :disabled="disabled || option.disabled"

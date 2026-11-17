@@ -93,9 +93,9 @@ watch(
   () => control.element.value?.form ?? null,
   (form, _previous, onCleanup) => {
     if (!form) return
-    const onReset = (): void => emit('update:modelValue', [])
-    form.addEventListener('reset', onReset)
-    onCleanup(() => form.removeEventListener('reset', onReset))
+    const abort = new AbortController()
+    form.addEventListener('reset', () => emit('update:modelValue', []), { signal: abort.signal })
+    onCleanup(() => abort.abort())
   },
   { immediate: true, flush: 'post' },
 )

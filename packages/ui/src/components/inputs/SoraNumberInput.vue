@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, shallowRef, watch } from 'vue'
 import type { InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
@@ -69,7 +69,7 @@ const { t } = useSoraLocale()
 const control = useControl<HTMLInputElement>(() => controlAttrs)
 
 /** True while the field holds text that is not a number (`validity.badInput`). */
-const badInput = ref(false)
+const badInput = shallowRef(false)
 const resolvedError = computed(() => error ?? (badInput.value ? t('number.invalid') : undefined))
 
 function read(): void {

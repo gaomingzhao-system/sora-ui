@@ -7,7 +7,7 @@ import type {
   RequiredPath,
   UseFieldConfig,
 } from '@formisch/vue'
-import { ref, toValue, watch } from 'vue'
+import { shallowRef, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 import type { SoraControlAttrs } from '../types/common.ts'
 import { steadyWhilePressed } from './press.ts'
@@ -88,7 +88,7 @@ export function useSoraFormField<TSchema extends FormSchema, TFieldPath extends 
 
   // "Visited" means the user has left the control at least once. Formisch's
   // own `isTouched` is set on focus, which is too early to show a message.
-  const visited = ref(false)
+  const visited = shallowRef(false)
   // `reset()` clears `isTouched`; a field that is untouched again starts over.
   watch(
     () => field.isTouched,

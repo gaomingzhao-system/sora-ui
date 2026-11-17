@@ -30,6 +30,19 @@ export function moveIndex(
   return -1
 }
 
+/** One collator per locale: constructing one is far more expensive than comparing with it. */
+const collators = new Map<string, Intl.Collator>()
+
+function searchCollator(locale: string | undefined): Intl.Collator {
+  const key = locale ?? ''
+  let collator = collators.get(key)
+  if (!collator) {
+    collator = new Intl.Collator(locale, { sensitivity: 'base', usage: 'search' })
+    collators.set(key, collator)
+  }
+  return collator
+}
+
 /**
  * Typeahead match: the next label (after `current`, wrapping) that starts
  * with `query`, compared case- and accent-insensitively for `locale`.
@@ -42,13 +55,15 @@ export function findByPrefix(
   isDisabled: (index: number) => boolean = () => false,
 ): number {
   if (!query) return -1
-  const collator = new Intl.Collator(locale, { sensitivity: 'base', usage: 'search' })
-  const length = [...query].length
+  const collator = searchCollator(locale)
+  // Code points, so a typed emoji or astral character counts as one.
+  const characters = [...query]
+  const first = characters[0] ?? ''
   // Repeating one character cycles through entries starting with it.
-  const cycling = [...query].every((character) => collator.compare(character, [...query][0] ?? '') === 0)
-  const needle = cycling ? ([...query][0] ?? '') : query
-  const needleLength = cycling ? 1 : length
-  const start = cycling || length === 1 ? current + 1 : Math.max(current, 0)
+  const cycling = characters.every((character) => collator.compare(character, first) === 0)
+  const needle = cycling ? first : query
+  const needleLength = cycling ? 1 : characters.length
+  const start = cycling || characters.length === 1 ? current + 1 : Math.max(current, 0)
 
   for (let offset = 0; offset < labels.length; offset++) {
     const index = (start + offset) % labels.length
@@ -60,15 +75,37 @@ export function findByPrefix(
   return -1
 }
 
-/** Case- and accent-insensitive "contains" for filtering option labels. */
+/** Labels kept normalised per matcher before the cache starts over. */
+const MATCHER_CACHE_SIZE = 2048
+
+/**
+ * Case- and accent-insensitive "contains" for filtering option labels.
+ *
+ * Filtering calls the matcher once per option with the same query, keystroke
+ * after keystroke: the query is normalised once per new query, and every
+ * label once per matcher (labels repeat from one keystroke to the next).
+ */
 export function createMatcher(locale?: string): (label: string, query: string) => boolean {
   const normalise = (value: string): string =>
     value
       .normalize('NFKD')
       .replace(/\p{Diacritic}/gu, '')
       .toLocaleLowerCase(locale)
+  const labels = new Map<string, string>()
+  let lastQuery: string | undefined
+  let needle = ''
   return (label, query) => {
-    const needle = normalise(query.trim())
-    return needle === '' || normalise(label).includes(needle)
+    if (query !== lastQuery) {
+      lastQuery = query
+      needle = normalise(query.trim())
+    }
+    if (needle === '') return true
+    let normalised = labels.get(label)
+    if (normalised === undefined) {
+      if (labels.size >= MATCHER_CACHE_SIZE) labels.clear()
+      normalised = normalise(label)
+      labels.set(label, normalised)
+    }
+    return normalised.includes(needle)
   }
 }

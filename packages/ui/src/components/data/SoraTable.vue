@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor generic="Row extends object">
-import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
+import { computed, onBeforeUnmount, onMounted, shallowRef, useTemplateRef } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
@@ -122,15 +122,17 @@ function cycleSort(column: SoraTableColumn<Row>): void {
 }
 
 // ----------------------------------------------------------------- selection
+// Row identities are computed once per change of `rows`; the template reads them by index.
 const keys = computed(() => rows.map(keyOf))
+const keySet = computed(() => new Set(keys.value))
 const selectedSet = computed(() => new Set(selected.value))
-const selectedCount = computed(() => keys.value.filter((key) => selectedSet.value.has(key)).length)
-const allSelected = computed(() => keys.value.length > 0 && selectedCount.value === keys.value.length)
+const selectedCount = computed(() => keySet.value.intersection(selectedSet.value).size)
+const allSelected = computed(() => keySet.value.size > 0 && selectedCount.value === keySet.value.size)
 const someSelected = computed(() => selectedCount.value > 0 && !allSelected.value)
 
 function toggleAll(checked: boolean): void {
-  const visible = new Set(keys.value)
-  const others = selected.value.filter((key) => !visible.has(key))
+  // Keys selected elsewhere (other pages, filtered-out rows) are kept, in their order.
+  const others = [...selectedSet.value.difference(keySet.value)]
   selected.value = checked ? [...others, ...keys.value] : others
 }
 
@@ -151,7 +153,7 @@ const columnCount = computed(() => columns.length + (selectable ? 1 : 0))
 // Whether the table overflows cannot be known from CSS, so a ResizeObserver
 // decides when the wrapper must become a focusable, labelled scroll region.
 const wrap = useTemplateRef<HTMLElement>('wrap')
-const scrollable = ref(false)
+const scrollable = shallowRef(false)
 let observer: ResizeObserver | undefined
 
 function measure(): void {
@@ -251,15 +253,15 @@ onBeforeUnmount(() => observer?.disconnect())
         <tr
           v-for="(row, index) in rows"
           v-else
-          :key="keyOf(row)"
+          :key="keys[index] ?? index"
           class="sora-table__row"
-          :data-selected="selectedSet.has(keyOf(row)) ? '' : undefined"
+          :data-selected="selectedSet.has(keys[index] ?? index) ? '' : undefined"
         >
           <td v-if="selectable" class="sora-table__cell sora-table__cell--select">
             <SoraCheckbox
-              :model-value="selectedSet.has(keyOf(row))"
+              :model-value="selectedSet.has(keys[index] ?? index)"
               :aria-label="t('table.selectRow', { row: rowLabel(row, index) })"
-              @update:model-value="toggleRow(keyOf(row), $event)"
+              @update:model-value="toggleRow(keys[index] ?? index, $event)"
             />
           </td>
           <component

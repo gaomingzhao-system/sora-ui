@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, ref, watch } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { iconUser } from '../../internal/icons.ts'
@@ -29,7 +29,7 @@ defineSlots<{
 const defaults = useSoraDefaults('avatar')
 const resolvedSize = computed(() => size ?? defaults().size)
 
-const failed = ref(false)
+const failed = shallowRef(false)
 watch(
   () => src,
   () => {

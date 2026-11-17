@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { onBeforeUnmount, ref, useTemplateRef, watch } from 'vue'
+import { onBeforeUnmount, shallowRef, useTemplateRef, watch } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { anchorName, useSoraId } from '../../internal/ids.ts'
@@ -39,7 +39,7 @@ defineSlots<{
 const id = useSoraId()
 const tooltipId = `${id}-tooltip`
 const anchor = anchorName(`${id}-anchor`)
-const open = ref(false)
+const open = shallowRef(false)
 const tip = useTemplateRef<HTMLElement>('tip')
 const wrapper = useTemplateRef<HTMLElement>('wrapper')
 const popover = usePopover({ element: () => tip.value, open })
@@ -100,8 +100,9 @@ function onDocumentKeydown(event: KeyboardEvent): void {
 
 watch(open, (value, _previous, onCleanup) => {
   if (!value) return
-  document.addEventListener('keydown', onDocumentKeydown, true)
-  onCleanup(() => document.removeEventListener('keydown', onDocumentKeydown, true))
+  const abort = new AbortController()
+  document.addEventListener('keydown', onDocumentKeydown, { capture: true, signal: abort.signal })
+  onCleanup(() => abort.abort())
 })
 
 watch(

@@ -147,7 +147,9 @@ describe('useSoraFormField', () => {
     const { exposed } = setup()
     await type('city', '')
     const button = q('add-tag')
-    const before = button.getBoundingClientRect().top
+    // Layout position: a pressed button also shrinks a little (press feedback), which is not a move.
+    const top = (): number => button.offsetTop
+    const before = top()
 
     // Pointer down on the button blurs the field, which validates it...
     await userEvent.hover(button)
@@ -156,13 +158,13 @@ describe('useSoraFormField', () => {
     await flush()
     // ...but the message is not on screen yet and the button has not moved.
     expect(errorOf('city')).toBe('')
-    expect(button.getBoundingClientRect().top).toBe(before)
+    expect(top()).toBe(before)
 
     await commands.mouseUp()
     await until(() => errorOf('city') === 'This field is required.')
     // The click arrived (a row was added) and the layout moved only afterwards.
     expect(all('[data-testid="tag-row"]')).toHaveLength(1)
-    expect(button.getBoundingClientRect().top).toBeGreaterThan(before)
+    expect(top()).toBeGreaterThan(before)
   })
 
   it('maps an emptied control to "no value" so optional fields pass', async () => {

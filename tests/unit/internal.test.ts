@@ -108,4 +108,18 @@ describe('typeahead and filtering', () => {
     // Turkish dotless i is handled by the locale-aware lower-casing.
     expect(createMatcher('tr')('IŞIK', 'ışık')).toBe(true)
   })
+
+  it('keeps one matcher correct across changing queries and many labels (cached normalisation)', () => {
+    const matches = createMatcher('en')
+    const labels = ['Apple', 'Apricot', 'Cherry', 'Crème brûlée']
+    const filter = (query: string): string[] => labels.filter((label) => matches(label, query))
+    expect(filter('ap')).toEqual(['Apple', 'Apricot'])
+    expect(filter('ch')).toEqual(['Cherry'])
+    expect(filter('creme')).toEqual(['Crème brûlée'])
+    expect(filter('ap')).toEqual(['Apple', 'Apricot'])
+    expect(filter('  ')).toEqual(labels)
+    // Past the cache size it starts over and keeps answering correctly.
+    for (let index = 0; index < 3000; index++) matches(`Label ${index}`, 'label')
+    expect(filter('apr')).toEqual(['Apricot'])
+  })
 })

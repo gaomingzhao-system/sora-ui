@@ -67,13 +67,14 @@ function isGroup(entry: SoraOption<T> | SoraOptionGroup<T>): entry is SoraOption
 }
 
 const flat = computed(() => options.flatMap((entry) => (isGroup(entry) ? entry.options : [entry])))
+// Native values are strings: one map from that string back to the typed option.
+const byValue = computed(() => new Map(flat.value.map((option) => [String(option.value), option])))
 // The empty option exists whenever "nothing" is a possible or current state.
 const showEmpty = computed(() => placeholder !== undefined || modelValue == null)
 
 function onChange(event: Event): void {
   const raw = (event.target as HTMLSelectElement).value
-  // Native values are strings; map back to the typed option value.
-  emit('update:modelValue', flat.value.find((option) => String(option.value) === raw)?.value ?? null)
+  emit('update:modelValue', byValue.value.get(raw)?.value ?? null)
 }
 
 defineExpose({

@@ -36,8 +36,10 @@ let sequence = 0
 
 const toasts = shallowRef<readonly SoraToast[]>([])
 const visible = computed(() => toasts.value.slice(0, Math.max(1, max)))
-const polite = computed(() => visible.value.filter((toast) => !toast.urgent))
-const urgent = computed(() => visible.value.filter((toast) => toast.urgent))
+// One pass sorts the visible toasts into the polite and the assertive live region.
+const lanes = computed(() => Object.groupBy(visible.value, (toast) => (toast.urgent ? 'urgent' : 'polite')))
+const polite = computed(() => lanes.value.polite ?? [])
+const urgent = computed(() => lanes.value.urgent ?? [])
 
 // Auto-dismiss timers. `remaining` survives a pause (hover or focus inside the region).
 interface Timer {

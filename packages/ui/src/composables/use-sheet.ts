@@ -733,16 +733,19 @@ export function useSheet(options: UseSheetOptions): Sheet {
     if (phase === 'open' && !gesture?.dragging) animate(offsets.value[activeIndex.value] ?? 0, 0, settled)
   })
 
+  /** Ends every listener this sheet registered for its lifetime. */
+  const lifetime = new AbortController()
+
   onMounted(() => {
     // Not passive on purpose: it has to be able to keep the browser from
     // scrolling when a touch turns into a drag. It is scoped to the panel.
-    options.panel()?.addEventListener('touchmove', onTouchmove, { passive: false })
+    options.panel()?.addEventListener('touchmove', onTouchmove, { passive: false, signal: lifetime.signal })
     if (open.value) show()
   })
 
   onBeforeUnmount(() => {
     endGesture()
-    options.panel()?.removeEventListener('touchmove', onTouchmove)
+    lifetime.abort()
     const pending = flight
     flight = null
     if (pending) for (const animation of pending.animations) animation.cancel()

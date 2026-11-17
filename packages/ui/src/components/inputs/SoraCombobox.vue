@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor generic="T extends string | number">
-import { computed, nextTick, onBeforeUnmount, ref, shallowRef, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, shallowRef, useTemplateRef, watch } from 'vue'
 import type { InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { usePopover } from '../../composables/use-overlay.ts'
@@ -97,13 +97,13 @@ const listId = `${baseId}-listbox`
 const anchor = anchorName(`${baseId}-anchor`)
 const optionId = (index: number): string => `${baseId}-option-${index}`
 
-const open = ref(false)
-const text = ref('')
+const open = shallowRef(false)
+const text = shallowRef('')
 /** True once the user has typed since the popup opened: only then is the list filtered. */
-const typed = ref(false)
-const activeIndex = ref(-1)
-const loading = ref(false)
-const failed = ref(false)
+const typed = shallowRef(false)
+const activeIndex = shallowRef(-1)
+const loading = shallowRef(false)
+const failed = shallowRef(false)
 const results = shallowRef<readonly SoraOption<T>[]>([])
 /** Last chosen option, kept so its label survives when async results change. */
 const chosen = shallowRef<SoraOption<T> | null>(null)
@@ -119,12 +119,16 @@ const visible = computed<readonly SoraOption<T>[]>(() => {
   return options.filter((option) => (filter ? filter(option, text.value) : matches(option.label, text.value)))
 })
 
+// Lookups by value, rebuilt only when a list changes rather than scanned on every label.
+const optionsByValue = computed(() => new Map(options.map((option) => [option.value, option])))
+const resultsByValue = computed(() => new Map(results.value.map((option) => [option.value, option])))
+
 function labelOf(value: T | null | undefined): string {
   if (value == null) return ''
   const known =
     (chosen.value?.value === value ? chosen.value : undefined) ??
-    options.find((option) => option.value === value) ??
-    results.value.find((option) => option.value === value)
+    optionsByValue.value.get(value) ??
+    resultsByValue.value.get(value)
   return known?.label ?? displayValue?.(value) ?? String(value)
 }
 
