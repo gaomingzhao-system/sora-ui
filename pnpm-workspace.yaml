@@ -1,0 +1,50 @@
+# Workspace members. `apps/consumer` and `tests/fixtures/consumer-*` are
+# deliberately NOT members: `pnpm verify:consumer` copies them out of the
+# workspace and installs the packed tarballs, so they can never resolve the
+# library through a workspace link or a source alias.
+packages:
+  - packages/*
+  - apps/gallery
+
+# Exact, registry-verified versions (see docs/dependencies.md). No ranges.
+catalog:
+  # TypeScript 7 engine behind the classic compiler API that vue-tsc/Volar and
+  # the tsdown `tsc` declaration generator still need.
+  # 6.0.3 = classic API level, bridge.19 = bridge build, tsgo.7.0.2 = native engine.
+  typescript: npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2
+  vue: 3.6.0-rc.15
+  '@vue/compiler-sfc': 3.6.0-rc.15
+  tailwindcss: 4.3.5
+  '@tailwindcss/vite': 4.3.5
+  '@tailwindcss/cli': 4.3.5
+  vite: 8.3.8
+  '@vitejs/plugin-vue': 6.0.11
+  tsdown: 0.23.7
+  unplugin-vue: 8.0.1
+  vue-tsc: 3.3.14
+  vitest: 5.1.0
+  '@vitest/browser-playwright': 5.1.0
+  playwright: 1.65.1
+  '@playwright/test': 1.65.1
+  '@axe-core/playwright': 4.14.0
+  '@formisch/vue': 1.2.0
+  valibot: 1.5.0
+  petite-vue-i18n: 11.4.20
+  # Build-time only: precompiles locale messages (same line as petite-vue-i18n).
+  '@intlify/message-compiler': 11.4.20
+  oxlint: 1.93.0
+  oxfmt: 0.78.0
+  publint: 0.3.25
+  '@changesets/cli': 3.0.3
+  '@types/node': 26.6.6
+
+# Every `typescript` in the graph (vue-tsc, tsdown's dts plugin, valibot's
+# optional peer, ...) resolves to the same bridge build.
+overrides:
+  typescript: npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2
+
+# Dependency build scripts are denied unless listed as `true`.
+# @parcel/watcher (pulled in by @tailwindcss/cli for --watch) ships prebuilt
+# binaries; its from-source fallback script is not needed.
+allowBuilds:
+  '@parcel/watcher': false

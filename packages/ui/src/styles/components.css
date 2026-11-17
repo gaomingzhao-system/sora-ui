@@ -1,0 +1,13 @@
+/*
+ * Component styles. Every selector starts with a `sora-` class and lives in
+ * the `components.sora` layer. Variants are data attributes with complete,
+ * static values; nothing is assembled at runtime.
+ */
+@import './components/foundation.css';
+@import './components/actions.css';
+@import './components/display.css';
+@import './components/feedback.css';
+@import './components/inputs.css';
+@import './components/overlays.css';
+@import './components/navigation.css';
+@import './components/data.css';

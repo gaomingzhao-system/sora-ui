@@ -1,0 +1,345 @@
+@layer components.sora {
+  /* ------------------------------------------------------------------ SoraCard */
+  .sora-card {
+    --_pad: var(--sora-pad-md);
+
+    @apply flex flex-col;
+    gap: var(--sora-gap-md);
+    padding: var(--_pad);
+    border-radius: var(--sora-radius-lg);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+    /*
+     * The card is the inline-size container its parts (and slotted form rows)
+     * query. Containment means it cannot shrink-to-fit its content, so it
+     * keeps a floor for flex rows and other intrinsic-size contexts.
+     */
+    container-type: inline-size;
+    min-inline-size: min(100%, var(--sora-card-min, 12rem));
+
+    &[data-padding='none'] {
+      --_pad: 0px;
+    }
+
+    &[data-padding='sm'] {
+      --_pad: var(--sora-pad-sm);
+    }
+
+    &[data-padding='lg'] {
+      --_pad: var(--sora-pad-lg);
+    }
+
+    /*
+     * `--sora-on-surface` names the surface colour currently underneath, so
+     * nested parts (avatar rings, sticky cells) can match it.
+     */
+    &[data-variant='outline'] {
+      --sora-on-surface: var(--sora-surface);
+      border: var(--sora-border-width) solid var(--sora-border);
+      background-color: var(--sora-surface);
+    }
+
+    &[data-variant='soft'] {
+      --sora-on-surface: var(--sora-subtle);
+      background-color: var(--sora-subtle);
+    }
+
+    &[data-variant='elevated'] {
+      --sora-on-surface: var(--sora-elevated);
+      border: var(--sora-border-width) solid var(--sora-border);
+      background-color: var(--sora-elevated);
+      box-shadow: var(--sora-shadow-md);
+    }
+
+    @media (forced-colors: active) {
+      border: var(--sora-border-width) solid CanvasText;
+    }
+  }
+
+  .sora-card__header {
+    @apply flex flex-wrap items-start justify-between;
+    gap: var(--sora-gap-sm) var(--sora-gap-md);
+  }
+
+  .sora-card__heading {
+    @apply flex min-w-0 flex-col;
+    flex: 1 1 12rem;
+    gap: 0.125rem;
+  }
+
+  .sora-card__title {
+    font-family: var(--sora-font-display);
+    font-size: var(--sora-text-lg);
+    font-weight: var(--sora-weight-semibold);
+    line-height: var(--sora-leading-tight);
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-card__description {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-card__actions {
+    @apply flex shrink-0 flex-wrap items-center;
+    gap: var(--sora-gap-xs);
+  }
+
+  .sora-card__body {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-card__footer {
+    @apply flex flex-wrap items-center justify-end;
+    gap: var(--sora-gap-sm);
+
+    /* Narrow card: stack the buttons full width, primary action first. */
+    @container (inline-size < 18rem) {
+      @apply flex-col-reverse items-stretch;
+    }
+  }
+
+  /* ----------------------------------------------------------------- SoraBadge */
+  .sora-badge {
+    --_h: 1.375rem;
+
+    @apply inline-flex items-center;
+    gap: 0.25rem;
+    min-block-size: var(--_h);
+    padding-inline: 0.4375rem;
+    border: var(--sora-border-width) solid transparent;
+    border-radius: var(--sora-radius-sm);
+    font-size: var(--sora-text-xs);
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+
+    &[data-size='sm'] {
+      --_h: 1.125rem;
+      padding-inline: 0.3125rem;
+    }
+
+    &[data-size='lg'] {
+      --_h: 1.625rem;
+      padding-inline: 0.5625rem;
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-variant='solid'] {
+      background-color: var(--sora-c);
+      color: var(--sora-c-on);
+    }
+
+    &[data-variant='soft'] {
+      background-color: var(--sora-c-soft);
+      color: var(--sora-c-text);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--sora-c-border);
+      color: var(--sora-c-text);
+    }
+  }
+
+  .sora-badge__dot {
+    @apply shrink-0 rounded-full;
+    inline-size: 0.375rem;
+    block-size: 0.375rem;
+    background-color: currentColor;
+  }
+
+  /* ---------------------------------------------------------------- SoraAvatar */
+  .sora-avatar {
+    --_s: 2rem;
+
+    @apply relative inline-flex shrink-0 items-center justify-center overflow-hidden select-none;
+    inline-size: var(--_s);
+    block-size: var(--_s);
+    border-radius: var(--sora-radius-full);
+    /* Opaque (so overlapping avatars hide each other) but tinted relative to the surface underneath. */
+    background:
+      linear-gradient(var(--sora-neutral-soft), var(--sora-neutral-soft)),
+      var(--sora-on-surface, var(--sora-surface));
+    color: var(--sora-text);
+    font-size: calc(var(--_s) * 0.4);
+    font-weight: var(--sora-weight-medium);
+    line-height: 1;
+    vertical-align: middle;
+
+    &[data-size='sm'] {
+      --_s: 1.5rem;
+    }
+
+    &[data-size='lg'] {
+      --_s: 2.5rem;
+    }
+
+    &[data-shape='square'] {
+      border-radius: var(--sora-radius-md);
+    }
+
+    @media (forced-colors: active) {
+      border: 1px solid CanvasText;
+    }
+  }
+
+  .sora-avatar__image {
+    @apply block size-full object-cover;
+  }
+
+  .sora-avatar__glyph {
+    inline-size: 60%;
+    block-size: 60%;
+  }
+
+  /* ----------------------------------------------------------- SoraAvatarGroup */
+  .sora-avatar-group {
+    @apply inline-flex items-center;
+    padding-inline-start: 0.375rem;
+  }
+
+  .sora-avatar-group__item {
+    @apply inline-flex;
+    margin-inline-start: -0.375rem;
+    border-radius: var(--sora-radius-full);
+    /* Ring that separates overlapping avatars; follows the surface it sits on. */
+    box-shadow: 0 0 0 2px var(--sora-on-surface, var(--sora-surface));
+  }
+
+  .sora-avatar-group__more {
+    background-color: var(--sora-neutral-soft);
+    color: var(--sora-text);
+    font-size: calc(var(--_s) * 0.36);
+  }
+
+  /* ------------------------------------------------------------- SoraSeparator */
+  .sora-separator {
+    flex: none;
+    /* An <hr> also carries UA margins and a border; the reset removes them, this draws the rule. */
+    border: 0;
+    background-color: var(--sora-border);
+
+    &[data-orientation='horizontal'] {
+      inline-size: 100%;
+      block-size: var(--sora-border-width);
+    }
+
+    &[data-orientation='vertical'] {
+      align-self: stretch;
+      inline-size: var(--sora-border-width);
+      min-block-size: 1em;
+    }
+
+    &[data-labelled] {
+      @apply flex items-center;
+      gap: var(--sora-gap-md);
+      block-size: auto;
+      background-color: transparent;
+      color: var(--sora-text-muted);
+      font-size: var(--sora-text-sm);
+
+      &::before,
+      &::after {
+        content: '';
+        flex: 1;
+        block-size: var(--sora-border-width);
+        background-color: var(--sora-border);
+      }
+    }
+
+    @media (forced-colors: active) {
+      background-color: CanvasText;
+    }
+  }
+
+  /* ------------------------------------------------------------------- SoraKbd */
+  .sora-kbd {
+    @apply inline-flex items-center justify-center;
+    min-inline-size: 1.375rem;
+    min-block-size: 1.375rem;
+    padding-inline: 0.3125rem;
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-block-end-width: 2px;
+    border-radius: var(--sora-radius-sm);
+    background-color: var(--sora-subtle);
+    color: var(--sora-text);
+    font-family: var(--sora-font-mono);
+    font-size: var(--sora-text-xs);
+    line-height: 1;
+    white-space: nowrap;
+
+    &[data-size='sm'] {
+      min-inline-size: 1.125rem;
+      min-block-size: 1.125rem;
+      padding-inline: 0.1875rem;
+    }
+
+    &[data-size='lg'] {
+      min-inline-size: 1.625rem;
+      min-block-size: 1.625rem;
+      font-size: var(--sora-text-sm);
+    }
+  }
+
+  .sora-kbd-combo {
+    @apply inline-flex items-center;
+    gap: 0.1875rem;
+    font-family: var(--sora-font-mono);
+  }
+
+  .sora-kbd-combo__separator {
+    color: var(--sora-text-subtle);
+    font-size: var(--sora-text-xs);
+  }
+
+  /* ------------------------------------------------------------ SoraEmptyState */
+  .sora-empty-state {
+    @apply flex flex-col items-center text-center;
+    gap: var(--sora-gap-sm);
+    padding: var(--sora-pad-lg);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+
+    &[data-size='sm'] {
+      padding: var(--sora-pad-sm);
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      gap: var(--sora-gap-md);
+      padding-block: calc(var(--sora-pad-lg) * 2);
+    }
+  }
+
+  .sora-empty-state__icon {
+    color: var(--sora-text-subtle);
+    font-size: 2rem;
+  }
+
+  .sora-empty-state__title {
+    font-family: var(--sora-font-display);
+    font-size: var(--sora-text-lg);
+    font-weight: var(--sora-weight-semibold);
+    line-height: var(--sora-leading-tight);
+    text-wrap: balance;
+  }
+
+  .sora-empty-state__description {
+    max-inline-size: 44ch;
+    color: var(--sora-text-muted);
+    text-wrap: pretty;
+  }
+
+  .sora-empty-state__actions {
+    @apply flex flex-wrap items-center justify-center;
+    gap: var(--sora-gap-sm);
+    margin-block-start: var(--sora-gap-xs);
+  }
+}

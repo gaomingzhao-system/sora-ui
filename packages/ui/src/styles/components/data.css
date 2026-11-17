@@ -1,0 +1,147 @@
+@layer components.sora {
+  /* ----------------------------------------------------------------- SoraTable */
+  /* A wide table scrolls inside this wrapper; table semantics are never traded for layout. */
+  .sora-table-wrap {
+    --sora-on-surface: var(--sora-surface);
+
+    inline-size: 100%;
+    border: var(--sora-border-width) solid var(--sora-border);
+    border-radius: var(--sora-radius-lg);
+    background-color: var(--sora-surface);
+    overflow-x: auto;
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    @media (forced-colors: active) {
+      border-color: CanvasText;
+    }
+  }
+
+  .sora-table {
+    --_py: 0.5rem;
+    --_px: 0.75rem;
+
+    inline-size: 100%;
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-tight);
+
+    &[data-size='sm'] {
+      --_py: 0.3125rem;
+      --_px: 0.5rem;
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_py: 0.75rem;
+      --_px: 1rem;
+    }
+
+    &[aria-busy='true'] > tbody {
+      opacity: 0.6;
+    }
+  }
+
+  .sora-table__caption {
+    padding: 0.625rem var(--_px);
+    caption-side: top;
+    font-weight: var(--sora-weight-semibold);
+    text-align: start;
+
+    &[data-visually-hidden] {
+      @apply sr-only;
+    }
+  }
+
+  .sora-table__cell {
+    padding: var(--_py) var(--_px);
+    border-block-end: var(--sora-border-width) solid var(--sora-border);
+    font-weight: var(--sora-weight-normal);
+    text-align: start;
+    vertical-align: middle;
+
+    &[data-align='center'] {
+      text-align: center;
+    }
+
+    &[data-align='end'] {
+      text-align: end;
+    }
+
+    .sora-table > tbody > tr:last-child > & {
+      border-block-end: 0;
+    }
+
+    .sora-table > tbody > tr > th& {
+      font-weight: var(--sora-weight-medium);
+    }
+  }
+
+  .sora-table__cell--head {
+    background-color: var(--sora-subtle);
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    font-weight: var(--sora-weight-medium);
+    white-space: nowrap;
+  }
+
+  .sora-table__cell--select {
+    inline-size: 2.5rem;
+    padding-inline-end: 0;
+
+    .sora-table > thead & {
+      background-color: var(--sora-subtle);
+    }
+  }
+
+  .sora-table__cell--empty {
+    padding-block: 2rem;
+    color: var(--sora-text-muted);
+    text-align: center;
+  }
+
+  .sora-table__row {
+    .sora-table[data-striped] > tbody > &:nth-child(even) {
+      background-color: color-mix(in oklab, var(--sora-subtle) 55%, transparent);
+    }
+
+    @variant hover {
+      background-color: var(--sora-hover);
+    }
+
+    /* Selected rows are tinted; the checked box in the row is the non-colour cue. */
+    &[data-selected] {
+      background-color: var(--sora-neutral-soft);
+    }
+  }
+
+  .sora-table__sort {
+    @apply inline-flex items-center;
+    gap: 0.25rem;
+    min-block-size: var(--sora-hit-min);
+    margin: -0.25rem;
+    padding: 0.25rem;
+    border-radius: var(--sora-radius-sm);
+    font-weight: inherit;
+
+    @variant hover {
+      color: var(--sora-text);
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+  }
+
+  .sora-table__sort-icon {
+    color: var(--sora-text-subtle);
+    font-size: 0.875rem;
+
+    .sora-table__cell[aria-sort='ascending'] &,
+    .sora-table__cell[aria-sort='descending'] & {
+      color: var(--sora-text);
+    }
+  }
+}

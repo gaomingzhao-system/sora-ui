@@ -1,0 +1,13 @@
+{
+  // Type tests against the workspace sources (`pnpm test:types`).
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client"]
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.vue",
+    "../../packages/ui/src/env.d.ts",
+    "../../packages/ui/src/compiled-messages.d.ts"
+  ]
+}

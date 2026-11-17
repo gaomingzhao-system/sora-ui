@@ -1,0 +1,50 @@
+@layer components.sora {
+  /* SoraProvider: layout-neutral scope for tokens, direction and language. */
+  .sora-provider {
+    display: contents;
+  }
+
+  /* SoraIcon */
+  .sora-icon {
+    inline-size: 1em;
+    block-size: 1em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    &[data-filled] {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    &[data-size='sm'] {
+      inline-size: 0.875rem;
+      block-size: 0.875rem;
+    }
+
+    &[data-size='md'] {
+      inline-size: 1rem;
+      block-size: 1rem;
+    }
+
+    &[data-size='lg'] {
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+    }
+
+    /* Only directional glyphs (chevrons, arrows) mirror in right-to-left text. */
+    &[data-directional]:dir(rtl) {
+      transform: scaleX(-1);
+    }
+
+    @media (forced-colors: active) {
+      stroke: CanvasText;
+
+      &[data-filled] {
+        fill: CanvasText;
+      }
+    }
+  }
+}
