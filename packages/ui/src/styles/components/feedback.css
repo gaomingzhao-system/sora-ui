@@ -1,0 +1,341 @@
+@layer components.sora {
+  /* --------------------------------------------------------------- SoraSpinner */
+  .sora-spinner {
+    --_s: 1rem;
+
+    @apply inline-flex shrink-0;
+    inline-size: var(--_s);
+    block-size: var(--_s);
+    vertical-align: middle;
+
+    &[data-size='sm'] {
+      --_s: 0.75rem;
+    }
+
+    &[data-size='lg'] {
+      --_s: 1.5rem;
+    }
+  }
+
+  .sora-spinner__ring {
+    @apply block size-full rounded-full;
+    border: 2px solid color-mix(in oklab, currentColor 22%, transparent);
+    border-block-start-color: currentColor;
+
+    @media (forced-colors: active) {
+      border-color: GrayText;
+      border-block-start-color: CanvasText;
+    }
+  }
+
+  /* -------------------------------------------------------------- SoraProgress */
+  .sora-progress {
+    --_bar: 0.5rem;
+
+    @apply grid;
+    gap: 0.375rem;
+    color: var(--sora-text);
+    font-size: var(--sora-text-sm);
+    line-height: var(--sora-leading-normal);
+
+    &[data-size='sm'] {
+      --_bar: 0.25rem;
+    }
+
+    &[data-size='lg'] {
+      --_bar: 0.75rem;
+    }
+  }
+
+  .sora-progress__header {
+    @apply flex items-baseline justify-between;
+    gap: var(--sora-gap-md);
+  }
+
+  .sora-progress__label {
+    font-weight: var(--sora-weight-medium);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-progress__value {
+    color: var(--sora-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sora-progress__bar {
+    @apply block w-full overflow-hidden;
+    appearance: none;
+    block-size: var(--_bar);
+    border: 0;
+    border-radius: var(--sora-radius-full);
+    background-color: var(--sora-neutral-soft-hover);
+    color: var(--sora-c);
+
+    &::-webkit-progress-bar {
+      border-radius: inherit;
+      background-color: transparent;
+    }
+
+    &::-webkit-progress-value {
+      border-radius: inherit;
+      background-color: var(--sora-c);
+    }
+
+    &::-moz-progress-bar {
+      border-radius: inherit;
+      background-color: var(--sora-c);
+    }
+
+    /* No `value` attribute: a travelling segment (static under reduced motion). */
+    &:indeterminate {
+      background-image: linear-gradient(90deg, transparent 0 30%, var(--sora-c) 30% 70%, transparent 70%);
+      background-size: 250% 100%;
+      background-position: 50% 0;
+
+      &::-webkit-progress-value,
+      &::-moz-progress-bar {
+        background-color: transparent;
+      }
+    }
+
+    @media (forced-colors: active) {
+      border: 1px solid CanvasText;
+      forced-color-adjust: none;
+      background-color: Canvas;
+
+      &::-webkit-progress-value {
+        background-color: Highlight;
+      }
+
+      &::-moz-progress-bar {
+        background-color: Highlight;
+      }
+    }
+  }
+
+  /* -------------------------------------------------------------- SoraSkeleton */
+  .sora-skeleton {
+    @apply grid;
+    gap: 0.5em;
+    min-inline-size: 0;
+  }
+
+  .sora-skeleton__block {
+    @apply block;
+    inline-size: 100%;
+    block-size: 1em;
+    border-radius: var(--sora-radius-sm);
+    background-color: color-mix(in oklab, var(--sora-text) 9%, transparent);
+    background-image: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in oklab, var(--sora-surface) 55%, transparent) 50%,
+      transparent 70%
+    );
+    background-size: 300% 100%;
+    background-position: 100% 0;
+
+    /* The last of several text lines is shorter, like a paragraph. */
+    .sora-skeleton[data-shape='text'] > &:nth-last-child(1 of .sora-skeleton__block):not(:first-child) {
+      inline-size: 60%;
+    }
+
+    .sora-skeleton[data-shape='rect'] > & {
+      block-size: 4rem;
+      border-radius: var(--sora-radius-md);
+    }
+
+    .sora-skeleton[data-shape='circle'] > & {
+      inline-size: 2rem;
+      block-size: 2rem;
+      border-radius: var(--sora-radius-full);
+    }
+
+    @media (forced-colors: active) {
+      border: 1px solid GrayText;
+    }
+  }
+
+  /* ----------------------------------------------------------------- SoraAlert */
+  .sora-alert {
+    @apply flex items-start;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border: var(--sora-border-width) solid transparent;
+    border-radius: var(--sora-radius-md);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+
+    &[data-variant='soft'] {
+      background-color: var(--sora-c-soft);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--sora-c-border);
+      background-color: var(--sora-surface);
+    }
+
+    &[data-variant='solid'] {
+      background-color: var(--sora-c);
+      color: var(--sora-c-on);
+    }
+
+    @media (forced-colors: active) {
+      border-color: CanvasText;
+    }
+  }
+
+  .sora-alert__icon {
+    @apply inline-flex shrink-0;
+    margin-block-start: 0.125rem;
+    color: var(--sora-c-text);
+    font-size: 1.125rem;
+
+    .sora-alert[data-variant='solid'] > & {
+      color: inherit;
+    }
+  }
+
+  .sora-alert__content {
+    @apply grid min-w-0 flex-1;
+    gap: 0.125rem;
+  }
+
+  .sora-alert__title {
+    font-weight: var(--sora-weight-semibold);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-alert__description {
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+  }
+
+  .sora-alert__actions {
+    @apply flex flex-wrap items-center;
+    gap: var(--sora-gap-sm);
+    margin-block-start: 0.375rem;
+  }
+
+  .sora-alert__dismiss {
+    margin: -0.1875rem;
+
+    /* On a filled alert the button uses the label colour, not the intent text colour. */
+    .sora-alert[data-variant='solid'] > & {
+      color: inherit;
+
+      @variant hover {
+        background-color: color-mix(in oklab, currentColor 18%, transparent);
+      }
+    }
+  }
+
+  /* ------------------------------------------------------ SoraFormErrorSummary */
+  /* The summary is an alert box (`.sora-alert.sora-error-summary`) with a list of links. */
+  .sora-error-summary__list {
+    @apply grid justify-items-start;
+    overflow-wrap: anywhere;
+
+    /* Every line is its own target: at least 24px tall, 44px for coarse pointers. */
+    & > li > :where(a, span) {
+      @apply inline-flex items-center;
+      min-block-size: max(1.5rem, var(--sora-hit-min));
+    }
+  }
+
+  /* --------------------------------------------------------- SoraToastProvider */
+  .sora-toast-region {
+    /* Undo the UA popover box: this is an invisible, click-through positioning layer. */
+    @apply fixed flex flex-col overflow-visible;
+    inset: auto;
+    inline-size: min(100vw, 24rem);
+    max-block-size: 100dvh;
+    margin: 0;
+    padding: var(--sora-pad-md);
+    padding-block-end: max(var(--sora-pad-md), env(safe-area-inset-bottom));
+    padding-block-start: max(var(--sora-pad-md), env(safe-area-inset-top));
+    border: 0;
+    background: transparent;
+    color: var(--sora-text);
+    pointer-events: none;
+
+    &[data-placement^='bottom'] {
+      inset-block-end: 0;
+    }
+
+    &[data-placement^='top'] {
+      inset-block-start: 0;
+    }
+
+    &[data-placement$='-start'] {
+      inset-inline-start: 0;
+    }
+
+    &[data-placement$='-end'] {
+      inset-inline-end: 0;
+    }
+
+    &:where([data-placement='top'], [data-placement='bottom']) {
+      inset-inline: 0;
+      margin-inline: auto;
+    }
+  }
+
+  /*
+   * The two lists are the live regions. They stay rendered while empty (an
+   * empty list has no box of its own), because a live region has to be in
+   * the accessibility tree before content is inserted to be announced.
+   */
+  .sora-toast-region__list {
+    @apply flex flex-col;
+    gap: var(--sora-gap-sm);
+
+    &:has(> .sora-toast) + &:has(> .sora-toast) {
+      margin-block-start: var(--sora-gap-sm);
+    }
+  }
+
+  /* A rounded banner on a translucent material, as native notifications are. */
+  .sora-toast {
+    @apply flex items-start;
+    gap: var(--sora-gap-sm);
+    padding: 0.625rem 0.625rem 0.625rem 0.875rem;
+    border: var(--sora-border-width) solid color-mix(in oklab, var(--sora-border) 70%, transparent);
+    border-inline-start: 3px solid var(--sora-c);
+    border-radius: calc(var(--sora-radius-lg) + 0.125rem);
+    background-color: color-mix(in oklab, var(--sora-elevated) 92%, transparent);
+    backdrop-filter: blur(1.25rem) saturate(1.8);
+    box-shadow:
+      0 0.5rem 2rem -0.5rem oklch(0% 0 0 / 0.25),
+      0 0.125rem 0.5rem oklch(0% 0 0 / 0.08);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+    pointer-events: auto;
+
+    @media (forced-colors: active) {
+      border-color: CanvasText;
+    }
+  }
+
+  .sora-toast__content {
+    @apply grid min-w-0 flex-1;
+    gap: 0.125rem;
+    padding-block: 0.125rem;
+  }
+
+  .sora-toast__title {
+    font-weight: var(--sora-weight-medium);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-toast__description {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-toast__action {
+    flex: none;
+  }
+}

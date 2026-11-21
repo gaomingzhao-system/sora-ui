@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 110,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "vueIndentScriptAndStyle": false,
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "**/dist/**",
+    ".artifacts/**",
+    "**/*.generated.css",
+    "**/*.generated.ts",
+    "docs/components/**",
+    ".changeset/*.md",
+    "LICENSE"
+  ]
+}

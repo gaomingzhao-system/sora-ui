@@ -1,0 +1,390 @@
+@layer components.sora {
+  /* ------------------------------------------------------------------ SoraTabs */
+  .sora-tabs {
+    --_h: var(--sora-control-md);
+
+    @apply flex min-w-0 flex-col;
+    gap: var(--sora-gap-md);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+
+    &[data-size='sm'] {
+      --_h: var(--sora-control-sm);
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_h: var(--sora-control-lg);
+    }
+
+    &[data-orientation='vertical'] {
+      @apply flex-row;
+    }
+  }
+
+  .sora-tabs__list {
+    @apply relative isolate flex shrink-0;
+    gap: 0.125rem;
+    /* Many tabs on a narrow screen scroll instead of wrapping; focus keeps the active one in view. */
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    .sora-tabs[data-variant='underline'][data-orientation='horizontal'] > & {
+      border-block-end: var(--sora-border-width) solid var(--sora-border);
+    }
+
+    .sora-tabs[data-orientation='vertical'] > & {
+      @apply flex-col;
+      overflow: visible;
+    }
+
+    .sora-tabs[data-variant='underline'][data-orientation='vertical'] > & {
+      border-inline-end: var(--sora-border-width) solid var(--sora-border);
+    }
+
+    /* The pill variant is a segmented control: a recessed track holding the tabs. */
+    .sora-tabs[data-variant='pill'] > & {
+      gap: 0;
+      padding: 0.125rem;
+      border-radius: calc(var(--sora-radius-md) + 0.125rem);
+      background-color: var(--sora-neutral-soft);
+    }
+
+    .sora-tabs[data-variant='pill'][data-orientation='horizontal'] > & {
+      align-self: start;
+      max-inline-size: 100%;
+    }
+  }
+
+  /*
+   * The selection marker: a bar under (or beside) the selected tab, or the
+   * raised thumb of the segmented control. It glides between tabs; its box
+   * comes from the selected tab (see SoraTabs.vue).
+   */
+  .sora-tabs__indicator {
+    @apply pointer-events-none absolute;
+    inset-block-start: 0;
+    left: 0;
+    z-index: -1;
+    inline-size: var(--_w, 0);
+    block-size: var(--_h, 0);
+    translate: var(--_x, 0) var(--_y, 0);
+
+    .sora-tabs[data-variant='underline'][data-orientation='horizontal'] & {
+      block-size: 2px;
+      translate: var(--_x, 0) calc(var(--_y, 0px) + var(--_h, 0px) - 2px);
+      border-radius: 1px;
+      background-color: var(--sora-text);
+      /* Inset like the label, not the full tab. */
+      scale: calc(1 - 1rem / max(var(--_w, 1px), 1px)) 1;
+    }
+
+    .sora-tabs[data-variant='underline'][data-orientation='vertical'] & {
+      inline-size: 2px;
+      translate: calc(var(--_x, 0px) + var(--_w, 0px) - 2px) var(--_y, 0);
+      border-radius: 1px;
+      background-color: var(--sora-text);
+    }
+
+    .sora-tabs[data-variant='pill'] & {
+      border-radius: var(--sora-radius-md);
+      background-color: var(--sora-elevated);
+      box-shadow:
+        0 0.1875rem 0.5rem oklch(0% 0 0 / 0.12),
+        0 0.1875rem 0.0625rem oklch(0% 0 0 / 0.04);
+    }
+
+    @media (forced-colors: active) {
+      display: none;
+    }
+  }
+
+  .sora-tabs__tab {
+    @apply relative inline-flex shrink-0 items-center whitespace-nowrap;
+    gap: 0.375rem;
+    min-block-size: max(var(--_h), var(--sora-hit-min));
+    padding-inline: 0.75rem;
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-text-muted);
+    font-weight: var(--sora-weight-medium);
+
+    .sora-tabs__list[data-fitted] > & {
+      @apply flex-1 justify-center;
+    }
+
+    &:where(:not(:disabled, [aria-selected='true'])) {
+      @variant hover {
+        background-color: var(--sora-hover);
+        color: var(--sora-text);
+      }
+    }
+
+    &[aria-selected='true'] {
+      color: var(--sora-text);
+    }
+
+    /* Segments share the track evenly when fitted; the selected one is raised by the indicator. */
+    .sora-tabs[data-variant='pill'] & {
+      border-radius: var(--sora-radius-md);
+
+      &:where(:not(:disabled, [aria-selected='true'])) {
+        @variant hover {
+          background-color: transparent;
+          color: var(--sora-text);
+        }
+      }
+    }
+
+    &:focus-visible {
+      outline: var(--sora-focus-width) solid var(--sora-focus);
+      outline-offset: calc(var(--sora-focus-width) * -1);
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+    }
+
+    @media (forced-colors: active) {
+      &[aria-selected='true'] {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  .sora-tabs__panel {
+    @apply min-w-0 flex-1;
+    border-radius: var(--sora-radius-sm);
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+  }
+
+  /* ------------------------------------------------------------- SoraAccordion */
+  .sora-accordion {
+    @apply grid;
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+    /* Lets the panel's height animate to and from `auto` where supported. */
+    interpolate-size: allow-keywords;
+
+    &[data-size='sm'] {
+      font-size: var(--sora-text-sm);
+    }
+  }
+
+  .sora-accordion__item {
+    &:not(:first-child) {
+      border-block-start: var(--sora-border-width) solid var(--sora-border);
+    }
+
+    /* The panel slot of <details>: it slides open and closed on a spring. */
+    &::details-content {
+      block-size: 0;
+      overflow-y: clip;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  .sora-accordion__trigger {
+    @apply flex w-full items-center justify-between;
+    gap: 0.75rem;
+    min-block-size: max(var(--sora-control-lg), var(--sora-hit-min));
+    padding: 0.5rem 0.25rem;
+    border-radius: var(--sora-radius-sm);
+    font-weight: var(--sora-weight-medium);
+    text-align: start;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+
+    /* The native disclosure triangle is replaced by the chevron. */
+    &::-webkit-details-marker,
+    &::marker {
+      display: none;
+      content: '';
+    }
+
+    .sora-accordion[data-size='sm'] & {
+      min-block-size: max(var(--sora-control-md), var(--sora-hit-min));
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+      opacity: var(--sora-disabled-opacity);
+    }
+  }
+
+  .sora-accordion__label {
+    @apply min-w-0 flex-1;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-accordion__chevron {
+    color: var(--sora-text-muted);
+    font-size: 1rem;
+
+    .sora-accordion__item[open] > .sora-accordion__trigger & {
+      rotate: 180deg;
+    }
+  }
+
+  .sora-accordion__content {
+    padding: 0 0.25rem 0.75rem;
+    color: var(--sora-text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  /* ----------------------------------------------------------- SoraBreadcrumbs */
+  .sora-breadcrumbs {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    line-height: var(--sora-leading-normal);
+  }
+
+  .sora-breadcrumbs__list {
+    @apply flex flex-wrap items-center;
+    gap: 0.125rem 0.25rem;
+  }
+
+  .sora-breadcrumbs__item {
+    @apply inline-flex min-w-0 items-center;
+    gap: 0.25rem;
+  }
+
+  .sora-breadcrumbs__separator {
+    color: var(--sora-text-subtle);
+    font-size: 0.875rem;
+  }
+
+  .sora-breadcrumbs__link {
+    @apply inline-flex items-center justify-center;
+    min-inline-size: var(--sora-hit-min);
+    min-block-size: var(--sora-hit-min);
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-text-muted);
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+
+    @variant hover {
+      color: var(--sora-text);
+      text-decoration-color: currentColor;
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+  }
+
+  .sora-breadcrumbs__text {
+    overflow-wrap: anywhere;
+
+    &[aria-current='page'] {
+      color: var(--sora-text);
+      font-weight: var(--sora-weight-medium);
+    }
+  }
+
+  /* ------------------------------------------------------------ SoraPagination */
+  .sora-pagination {
+    --_h: 2rem;
+
+    /* The nav is its own inline-size container: it collapses to "Page x of y" when narrow. */
+    container-type: inline-size;
+    min-inline-size: min(100%, 9rem);
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-tight);
+
+    &[data-size='sm'] {
+      --_h: 1.75rem;
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_h: 2.5rem;
+    }
+  }
+
+  .sora-pagination__list {
+    @apply flex items-center;
+    gap: 0.25rem;
+  }
+
+  .sora-pagination__button {
+    @apply inline-flex items-center justify-center;
+    min-inline-size: max(var(--_h), var(--sora-hit-min));
+    min-block-size: max(var(--_h), var(--sora-hit-min));
+    padding-inline: 0.375rem;
+    border-radius: var(--sora-radius-md);
+    font-variant-numeric: tabular-nums;
+
+    &:where(:not(:disabled, [aria-current='page'])) {
+      @variant hover {
+        background-color: var(--sora-hover);
+      }
+    }
+
+    /* Current page: filled, plus `aria-current`. */
+    &[aria-current='page'] {
+      background-color: var(--sora-neutral);
+      color: var(--sora-on-neutral);
+      font-weight: var(--sora-weight-medium);
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+    }
+
+    @media (forced-colors: active) {
+      &[aria-current='page'] {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  .sora-pagination__gap {
+    @apply inline-block text-center;
+    min-inline-size: 1.5rem;
+    color: var(--sora-text-subtle);
+  }
+
+  .sora-pagination__status {
+    display: none;
+    padding-inline: 0.5rem;
+    color: var(--sora-text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  @container (inline-size < 26rem) {
+    .sora-pagination__list {
+      @apply justify-between;
+    }
+
+    .sora-pagination__page {
+      display: none;
+    }
+
+    .sora-pagination__status {
+      display: block;
+    }
+  }
+}

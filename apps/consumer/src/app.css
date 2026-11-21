@@ -1,0 +1,31 @@
+/* Plain, unlayered application CSS: it must win over the library's layered rules. */
+html {
+  background: var(--sora-canvas);
+  color: var(--sora-text);
+  font-family: var(--sora-font-sans);
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+}
+
+main {
+  display: grid;
+  gap: 1rem;
+  max-inline-size: 40rem;
+  margin-inline: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Documented override point: an application rule changes a part without !important. */
+.sora-button.app-wide {
+  min-inline-size: 12rem;
+}

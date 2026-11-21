@@ -1,0 +1,110 @@
+/*
+ * Tailwind CSS v4 integration for @your-scope/ui.
+ *
+ * Host usage:
+ *
+ *   @import "tailwindcss";
+ *   @import "@your-scope/ui/styles.css";    // compiled component styles (any order works)
+ *   @import "@your-scope/ui/tailwind.css";  // this file: theme mapping + variants
+ *
+ * It maps the runtime `--sora-*` tokens into Tailwind's theme under `sora-`
+ * names (`bg-sora-surface`, `text-sora-muted`, `rounded-sora`, `shadow-sora-md`).
+ * `@theme inline` makes the utilities reference the live custom property, so
+ * they follow light/dark and nested SoraProvider overrides. Nothing here
+ * redefines a host theme key.
+ */
+@theme inline {
+  /* Surfaces, text and boundaries */
+  --color-sora-canvas: var(--sora-canvas);
+  --color-sora-surface: var(--sora-surface);
+  --color-sora-elevated: var(--sora-elevated);
+  --color-sora-subtle: var(--sora-subtle);
+  --color-sora-inverted: var(--sora-inverted);
+  --color-sora-text: var(--sora-text);
+  --color-sora-muted: var(--sora-text-muted);
+  --color-sora-faint: var(--sora-text-subtle);
+  --color-sora-text-inverted: var(--sora-text-inverted);
+  --color-sora-border: var(--sora-border);
+  --color-sora-border-strong: var(--sora-border-strong);
+  --color-sora-focus: var(--sora-focus);
+  --color-sora-hover: var(--sora-hover);
+  --color-sora-pressed: var(--sora-pressed);
+  --color-sora-scrim: var(--sora-scrim);
+
+  /* Intents: fill, label on fill, readable text, soft fill, boundary */
+  --color-sora-primary: var(--sora-primary);
+  --color-sora-on-primary: var(--sora-on-primary);
+  --color-sora-primary-text: var(--sora-primary-text);
+  --color-sora-primary-soft: var(--sora-primary-soft);
+  --color-sora-primary-border: var(--sora-primary-border);
+  --color-sora-secondary: var(--sora-secondary);
+  --color-sora-on-secondary: var(--sora-on-secondary);
+  --color-sora-secondary-text: var(--sora-secondary-text);
+  --color-sora-secondary-soft: var(--sora-secondary-soft);
+  --color-sora-secondary-border: var(--sora-secondary-border);
+  --color-sora-success: var(--sora-success);
+  --color-sora-on-success: var(--sora-on-success);
+  --color-sora-success-text: var(--sora-success-text);
+  --color-sora-success-soft: var(--sora-success-soft);
+  --color-sora-success-border: var(--sora-success-border);
+  --color-sora-info: var(--sora-info);
+  --color-sora-on-info: var(--sora-on-info);
+  --color-sora-info-text: var(--sora-info-text);
+  --color-sora-info-soft: var(--sora-info-soft);
+  --color-sora-info-border: var(--sora-info-border);
+  --color-sora-warning: var(--sora-warning);
+  --color-sora-on-warning: var(--sora-on-warning);
+  --color-sora-warning-text: var(--sora-warning-text);
+  --color-sora-warning-soft: var(--sora-warning-soft);
+  --color-sora-warning-border: var(--sora-warning-border);
+  --color-sora-error: var(--sora-error);
+  --color-sora-on-error: var(--sora-on-error);
+  --color-sora-error-text: var(--sora-error-text);
+  --color-sora-error-soft: var(--sora-error-soft);
+  --color-sora-error-border: var(--sora-error-border);
+  --color-sora-neutral: var(--sora-neutral);
+  --color-sora-on-neutral: var(--sora-on-neutral);
+  --color-sora-neutral-text: var(--sora-neutral-text);
+  --color-sora-neutral-soft: var(--sora-neutral-soft);
+  --color-sora-neutral-border: var(--sora-neutral-border);
+
+  /* Shape, type, elevation and motion */
+  --radius-sora-sm: var(--sora-radius-sm);
+  --radius-sora: var(--sora-radius-md);
+  --radius-sora-lg: var(--sora-radius-lg);
+  --font-sora-sans: var(--sora-font-sans);
+  --font-sora-serif: var(--sora-font-serif);
+  --font-sora-mono: var(--sora-font-mono);
+  --font-sora-display: var(--sora-font-display);
+  --text-sora-xs: var(--sora-text-xs);
+  --text-sora-sm: var(--sora-text-sm);
+  --text-sora-md: var(--sora-text-md);
+  --text-sora-lg: var(--sora-text-lg);
+  --text-sora-xl: var(--sora-text-xl);
+  --text-sora-2xl: var(--sora-text-2xl);
+  --shadow-sora-sm: var(--sora-shadow-sm);
+  --shadow-sora-md: var(--sora-shadow-md);
+  --shadow-sora-lg: var(--sora-shadow-lg);
+  --ease-sora-out: var(--sora-ease-out);
+  --ease-sora-in-out: var(--sora-ease-in-out);
+}
+
+/* State variants that match the attributes the components expose. */
+@custom-variant sora-invalid (&:where([aria-invalid='true'], [data-invalid]));
+@custom-variant sora-busy (&:where([aria-busy='true'], [data-loading]));
+@custom-variant sora-coarse (@media (pointer: coarse));
+@custom-variant sora-scheme-dark (&:where([data-sora-theme='dark'], [data-sora-theme='dark'] *));
+
+/* The library's focus indicator, reusable on host elements. */
+@utility sora-focus-ring {
+  outline: var(--sora-focus-width) solid var(--sora-focus);
+  outline-offset: var(--sora-focus-offset);
+}
+
+/* Durations follow the configured motion level (and reduced motion). */
+@utility duration-sora-fast {
+  transition-duration: var(--sora-duration-fast);
+}
+@utility duration-sora-overlay {
+  transition-duration: var(--sora-duration-overlay);
+}

@@ -1,0 +1,67 @@
+/*
+ * Scoped resets. There is deliberately no global Preflight: only elements
+ * that carry a `sora-` class are touched, and `:where()` keeps specificity at 0.
+ */
+@layer base.sora {
+  :where([class^='sora-'], [class*=' sora-']) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+    font-family: var(--sora-font-sans);
+    -webkit-tap-highlight-color: transparent;
+    min-inline-size: 0;
+
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
+  :where(
+    button[class*='sora-'],
+    input[class*='sora-'],
+    select[class*='sora-'],
+    textarea[class*='sora-'],
+    a[class*='sora-']
+  ) {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background: none;
+    text-decoration: none;
+    accent-color: var(--sora-primary);
+  }
+
+  :where(button[class*='sora-']) {
+    cursor: pointer;
+    touch-action: manipulation;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  :where(ul[class*='sora-'], ol[class*='sora-']) {
+    list-style: none;
+  }
+
+  :where(fieldset[class*='sora-']) {
+    min-inline-size: 0;
+  }
+
+  :where(table[class*='sora-']) {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  :where(svg[class*='sora-']) {
+    display: block;
+    flex: none;
+  }
+
+  /* Visually hidden but available to assistive technology. */
+  :where(.sora-sr-only) {
+    @apply sr-only;
+  }
+}

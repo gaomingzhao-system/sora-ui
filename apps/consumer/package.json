@@ -1,0 +1,24 @@
+{
+  "name": "sora-consumer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Independent consumer of the packed @your-scope/ui tarballs (core, forms, i18n, theme). Not a workspace member: scripts/verify-consumer.ts copies it out, installs the tarballs and builds it.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@formisch/vue": "1.2.0",
+    "@your-scope/ui": "0.1.0",
+    "petite-vue-i18n": "11.4.20",
+    "valibot": "1.5.0",
+    "vue": "3.6.0-rc.15"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.11",
+    "typescript": "npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2",
+    "vite": "8.3.8",
+    "vue-tsc": "3.3.14"
+  }
+}

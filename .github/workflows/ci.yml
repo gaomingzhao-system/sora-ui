@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, type-check, test, build, package
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v5
+
+      # pnpm comes from the `packageManager` field; Node from .node-version.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install from the lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Generated theme is up to date
+        run: node scripts/generate-theme.ts --check
+
+      - name: Lint and format check (Oxlint, Oxfmt)
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Locales
+        run: pnpm check:locales
+
+      - name: Unit tests
+        run: pnpm test:unit
+
+      - name: Install browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      - name: Component tests (Vitest Browser Mode)
+        run: pnpm test:browser
+
+      - name: Build packages and gallery
+        run: pnpm build
+
+      - name: Every component is Vapor (sources, built packages, production graph)
+        run: pnpm check:vapor
+
+      - name: Type tests (sources and built declarations)
+        run: pnpm test:types
+
+      - name: Package contents, export map, isolation
+        run: pnpm check:package
+
+      - name: Packed tarballs in outside applications
+        run: pnpm verify:consumer --no-build
+
+      - name: End-to-end tests (Chromium, Firefox, WebKit)
+        run: pnpm test:e2e
+
+      - name: Bundle budgets
+        run: pnpm measure:bundle
+
+      - name: Component reference is up to date
+        run: node scripts/generate-docs.ts --check
+
+      - name: Upload test output
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-output
+          path: |
+            .artifacts/e2e
+            .artifacts/e2e-report
+          if-no-files-found: ignore
+          retention-days: 7

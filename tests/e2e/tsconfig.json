@@ -1,0 +1,9 @@
+{
+  // Playwright tests run in Node, but the callbacks they hand to
+  // `page.evaluate()` are browser code, so this project keeps the DOM lib.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["./**/*.ts"]
+}

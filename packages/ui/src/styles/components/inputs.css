@@ -1,0 +1,834 @@
+@layer components.sora {
+  /* ----------------------------------------------------------------- SoraField */
+  .sora-field {
+    /* Control metrics, inherited by whatever control sits inside the field. */
+    --_h: var(--sora-control-md);
+    --_fs: var(--sora-text-md);
+
+    display: block;
+    min-inline-size: 0;
+    color: var(--sora-text);
+    font-size: var(--sora-text-md);
+    line-height: var(--sora-leading-normal);
+
+    &[data-size='sm'] {
+      --_h: var(--sora-control-sm);
+      --_fs: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_h: var(--sora-control-lg);
+    }
+  }
+
+  .sora-field__label {
+    display: block;
+    max-inline-size: 100%;
+    margin-block-end: 0.375rem;
+    color: var(--sora-text);
+    font-size: var(--sora-text-sm);
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
+    overflow-wrap: anywhere;
+
+    &[data-visually-hidden] {
+      @apply sr-only;
+    }
+
+    .sora-field[data-disabled] > & {
+      color: var(--sora-text-subtle);
+    }
+  }
+
+  .sora-field__required {
+    margin-inline-start: 0.1875rem;
+    color: var(--sora-error-text);
+  }
+
+  .sora-field__hint {
+    margin-block-start: 0.375rem;
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  /* Errors pair colour with an icon and text: never colour alone. */
+  .sora-field__error {
+    @apply grid;
+    gap: 0.125rem;
+    margin-block-start: 0.375rem;
+    color: var(--sora-error-text);
+    font-size: var(--sora-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-field__message {
+    @apply flex items-start;
+    gap: 0.375rem;
+  }
+
+  .sora-field__error-icon {
+    margin-block-start: 0.1875em;
+  }
+
+  /* Label beside the control when there is room (container first, viewport as a fallback). */
+  .sora-field[data-orientation='horizontal']:where(div) {
+    @apply grid items-start;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: var(--sora-gap-lg);
+
+    & > .sora-field__label {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      margin-block-end: 0;
+      padding-block-start: calc((var(--_h) - 1lh) / 2);
+    }
+
+    & > :not(.sora-field__label) {
+      grid-column: 2;
+    }
+
+    @container (inline-size < 26rem) {
+      display: block;
+
+      & > .sora-field__label {
+        margin-block-end: 0.375rem;
+        padding-block-start: 0;
+      }
+    }
+
+    @media (width < 30rem) {
+      display: block;
+
+      & > .sora-field__label {
+        margin-block-end: 0.375rem;
+        padding-block-start: 0;
+      }
+    }
+  }
+
+  /* --------------------------- SoraInput / SoraNumberInput / SoraDateInput / SoraSelect */
+  .sora-input {
+    @apply flex items-center;
+    min-block-size: max(var(--_h, var(--sora-control-md)), var(--sora-hit-min));
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    color: var(--sora-text);
+
+    &:where(:not([data-disabled], [data-invalid])) {
+      @variant hover {
+        border-color: color-mix(in oklab, var(--sora-border-strong) 55%, var(--sora-text));
+      }
+    }
+
+    &:has(.sora-input__control:focus-visible) {
+      border-color: var(--sora-focus);
+      outline: var(--sora-focus-width) solid var(--sora-focus);
+      outline-offset: 0;
+    }
+
+    /* Invalid: colour plus a heavier boundary (and the message with its icon). */
+    &[data-invalid] {
+      border-color: var(--sora-error-border);
+      box-shadow: inset 0 0 0 1px var(--sora-error-border);
+    }
+
+    &[data-disabled] {
+      border-color: var(--sora-border);
+      background-color: var(--sora-subtle);
+      color: var(--sora-text-subtle);
+      cursor: not-allowed;
+    }
+  }
+
+  .sora-input__control {
+    @apply min-w-0 flex-1 self-stretch;
+    inline-size: 100%;
+    padding-block: 0.25rem;
+    padding-inline: 0.625rem;
+    border: 0;
+    border-radius: inherit;
+    outline: 0;
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-tight);
+
+    &::placeholder {
+      color: var(--sora-text-subtle);
+      opacity: 1;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+
+  /* Native steppers are replaced by the optional buttons; arrow keys still step. */
+  .sora-input__control--number {
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+  }
+
+  .sora-input__affix {
+    @apply inline-flex shrink-0 items-center;
+    color: var(--sora-text-muted);
+    font-size: var(--_fs, var(--sora-text-md));
+
+    &:first-child {
+      padding-inline-start: 0.625rem;
+    }
+
+    &:last-child {
+      padding-inline-end: 0.25rem;
+    }
+
+    /* A plain icon/text affix keeps the same inset as the text. */
+    &:last-child:not(:has(button)) {
+      padding-inline-end: 0.625rem;
+    }
+  }
+
+  .sora-input__button {
+    @apply inline-flex shrink-0 items-center justify-center;
+    inline-size: max(1.75rem, var(--sora-hit-min));
+    block-size: max(1.75rem, var(--sora-hit-min));
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-text-muted);
+    font-size: 1rem;
+
+    &:where(:not(:disabled)) {
+      @variant hover {
+        background-color: var(--sora-hover);
+        color: var(--sora-text);
+      }
+    }
+
+    &[aria-pressed='true'] {
+      color: var(--sora-text);
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+      outline-offset: 0;
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+    }
+  }
+
+  .sora-input__steppers {
+    @apply inline-flex shrink-0;
+    padding-inline-end: 0.25rem;
+  }
+
+  .sora-select {
+    @apply relative;
+  }
+
+  .sora-select__control {
+    appearance: none;
+    padding-inline-end: 2rem;
+    cursor: pointer;
+    text-overflow: ellipsis;
+
+    &[data-placeholder] {
+      color: var(--sora-text-subtle);
+    }
+
+    & :where(option, optgroup) {
+      background-color: var(--sora-elevated);
+      color: var(--sora-text);
+    }
+  }
+
+  .sora-select__chevron {
+    @apply pointer-events-none absolute;
+    inset-inline-end: 0.625rem;
+    color: var(--sora-text-muted);
+    font-size: 1rem;
+  }
+
+  /* -------------------------------------------------------------- SoraTextarea */
+  .sora-textarea {
+    @apply block w-full;
+    min-block-size: calc(var(--_rows, 3) * 1lh + 0.75rem + 2px);
+    padding: 0.375rem 0.625rem;
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    color: var(--sora-text);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-normal);
+    resize: vertical;
+
+    &::placeholder {
+      color: var(--sora-text-subtle);
+      opacity: 1;
+    }
+
+    /* Grows with its content between `rows` and `maxRows`, then scrolls. */
+    &[data-autosize] {
+      field-sizing: content;
+      max-block-size: calc(var(--_max-rows, 8) * 1lh + 0.75rem + 2px);
+      overflow-y: auto;
+      resize: none;
+    }
+
+    &:focus-visible {
+      border-color: var(--sora-focus);
+      outline: var(--sora-focus-width) solid var(--sora-focus);
+      outline-offset: 0;
+    }
+
+    &[data-invalid] {
+      border-color: var(--sora-error-border);
+      box-shadow: inset 0 0 0 1px var(--sora-error-border);
+    }
+
+    &:disabled {
+      border-color: var(--sora-border);
+      background-color: var(--sora-subtle);
+      color: var(--sora-text-subtle);
+      cursor: not-allowed;
+      resize: none;
+    }
+  }
+
+  /* iOS zooms the page when a focused field is under 16px. Enlarge the text instead of blocking zoom. */
+  @media (pointer: coarse) {
+    .sora-input__control,
+    .sora-textarea {
+      font-size: max(1rem, var(--_fs, var(--sora-text-md)));
+    }
+  }
+
+  /* --------------------- SoraCheckbox / SoraCheckboxGroup / SoraRadioGroup options */
+  .sora-check {
+    --_box: 1rem;
+
+    @apply grid;
+    justify-items: start;
+    color: var(--sora-text);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-normal);
+
+    &[data-size='sm'] {
+      --_box: 0.875rem;
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_box: 1.125rem;
+    }
+
+    &[data-disabled] {
+      color: var(--sora-text-subtle);
+    }
+  }
+
+  /* The whole row is the click target; coarse pointers get a 44px-high row. */
+  .sora-check__row {
+    @apply inline-flex items-start;
+    gap: 0.5rem;
+    /* A box without label text (a table's selection column) is still a full-size target. */
+    min-inline-size: var(--sora-hit-min);
+    min-block-size: var(--sora-hit-min);
+    padding-block: 0.125rem;
+    cursor: pointer;
+
+    .sora-check[data-disabled] > & {
+      cursor: not-allowed;
+    }
+
+    @media (pointer: coarse) {
+      align-items: center;
+    }
+  }
+
+  .sora-check__box {
+    @apply relative inline-flex shrink-0;
+    inline-size: var(--_box);
+    block-size: var(--_box);
+    margin-block-start: calc((1lh - var(--_box)) / 2);
+
+    @media (pointer: coarse) {
+      margin-block-start: 0;
+    }
+  }
+
+  .sora-check__input {
+    @apply absolute inset-0 size-full;
+    margin: 0;
+    appearance: none;
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: 0.25rem;
+    background-color: var(--sora-surface);
+    cursor: inherit;
+
+    &:where(:checked, :indeterminate) {
+      border-color: var(--sora-primary);
+      background-color: var(--sora-primary);
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+    }
+
+    .sora-check[data-invalid] &:where(:not(:checked, :indeterminate)) {
+      border-color: var(--sora-error-border);
+      box-shadow: 0 0 0 1px var(--sora-error-border);
+    }
+
+    .sora-check[data-kind='radio'] & {
+      border-radius: var(--sora-radius-full);
+    }
+  }
+
+  .sora-check__mark {
+    @apply pointer-events-none absolute inset-0 m-auto opacity-0;
+    inline-size: 76%;
+    block-size: 76%;
+    color: var(--sora-on-primary);
+    stroke-width: 3;
+
+    .sora-check__input:checked:not(:indeterminate) ~ &.sora-check__mark--checked,
+    .sora-check__input:indeterminate ~ &.sora-check__mark--mixed {
+      opacity: 1;
+    }
+  }
+
+  .sora-check__dot {
+    @apply pointer-events-none absolute inset-0 m-auto rounded-full opacity-0;
+    inline-size: 40%;
+    block-size: 40%;
+    background-color: var(--sora-on-primary);
+
+    .sora-check__input:checked ~ & {
+      opacity: 1;
+    }
+  }
+
+  .sora-check__label {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-check__hint,
+  .sora-check__error {
+    margin-inline-start: calc(var(--_box) + 0.5rem);
+  }
+
+  .sora-check__hint {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-check__error {
+    margin-block-start: 0.125rem;
+  }
+
+  @media (forced-colors: active) {
+    .sora-check__input {
+      border-color: ButtonText;
+
+      &:where(:checked, :indeterminate) {
+        border-color: Highlight;
+        background-color: Highlight;
+      }
+    }
+
+    .sora-check__mark {
+      stroke: HighlightText;
+    }
+
+    .sora-check__dot {
+      background-color: HighlightText;
+    }
+  }
+
+  .sora-option-list {
+    @apply flex flex-col;
+    gap: 0.25rem;
+
+    &[data-orientation='horizontal'] {
+      @apply flex-row flex-wrap;
+      gap: 0.25rem 1.25rem;
+    }
+  }
+
+  /* ---------------------------------------------------------------- SoraSwitch */
+  /*
+   * SoraSwitch: the iOS switch. A pill track, a white knob with a soft shadow
+   * that slides on a spring and stretches while pressed. The knob's position,
+   * not only the track colour, shows the state.
+   */
+  .sora-switch {
+    --_w: 2.875rem;
+    --_t: 1.75rem;
+    /* Knob inset from the track edge. */
+    --_i: 0.125rem;
+
+    @apply grid;
+    justify-items: start;
+    color: var(--sora-text);
+    font-size: var(--_fs, var(--sora-text-md));
+    line-height: var(--sora-leading-normal);
+
+    &[data-size='sm'] {
+      --_w: 2.25rem;
+      --_t: 1.375rem;
+      font-size: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_w: 3.1875rem;
+      --_t: 1.9375rem;
+    }
+
+    &[data-disabled] {
+      color: var(--sora-text-subtle);
+    }
+
+    /* Settings-row layout: label first, switch at the end of the row. */
+    &[data-label-placement='start'] {
+      justify-items: stretch;
+    }
+  }
+
+  .sora-switch__row {
+    @apply inline-flex items-center;
+    gap: 0.75rem;
+    min-block-size: var(--sora-hit-min);
+    padding-block: 0.125rem;
+    cursor: pointer;
+
+    .sora-switch[data-disabled] > & {
+      cursor: not-allowed;
+    }
+
+    .sora-switch[data-label-placement='start'] > & {
+      @apply flex flex-row-reverse justify-between;
+    }
+  }
+
+  .sora-switch__track {
+    @apply relative shrink-0;
+    inline-size: var(--_w);
+    block-size: var(--_t);
+  }
+
+  .sora-switch__input {
+    @apply absolute inset-0 size-full;
+    margin: 0;
+    appearance: none;
+    border-radius: var(--sora-radius-full);
+    background-color: var(--sora-border-strong);
+    cursor: inherit;
+
+    &:checked {
+      background-color: var(--sora-c);
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+    }
+  }
+
+  .sora-switch__thumb {
+    --_knob: calc(var(--_t) - 2 * var(--_i));
+
+    @apply pointer-events-none absolute rounded-full;
+    inset-block: var(--_i);
+    inset-inline-start: var(--_i);
+    inline-size: var(--_knob);
+    background-color: oklch(100% 0 0);
+    box-shadow:
+      0 0.1875rem 0.5rem oklch(0% 0 0 / 0.15),
+      0 0.0625rem 0.0625rem oklch(0% 0 0 / 0.16);
+
+    .sora-switch__input:checked ~ & {
+      translate: calc(var(--_w) - var(--_t)) 0;
+    }
+
+    .sora-switch__input:checked ~ &:dir(rtl) {
+      translate: calc(var(--_t) - var(--_w)) 0;
+    }
+
+    /* Pressed: the knob stretches towards the side it is about to travel to. */
+    .sora-switch__input:not(:disabled):active ~ & {
+      inline-size: calc(var(--_knob) + var(--_t) * 0.25);
+    }
+
+    .sora-switch__input:not(:disabled):checked:active ~ & {
+      translate: calc(var(--_w) - var(--_t) - var(--_t) * 0.25) 0;
+    }
+
+    .sora-switch__input:not(:disabled):checked:active ~ &:dir(rtl) {
+      translate: calc(var(--_t) * 0.25 + var(--_t) - var(--_w)) 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .sora-switch__input {
+      border: 1px solid ButtonText;
+      background-color: Canvas;
+
+      &:checked {
+        background-color: Highlight;
+      }
+    }
+
+    .sora-switch__thumb {
+      background-color: ButtonText;
+      box-shadow: none;
+    }
+  }
+
+  .sora-switch__label {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-switch__hint {
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------------------------------------------------------------- SoraSlider */
+  /* SoraSlider: the iOS slider. A thin track and a large white knob with a soft shadow. */
+  .sora-slider {
+    --_track: 0.25rem;
+    --_thumb: 1.75rem;
+    --_knob-shadow:
+      0 0.1875rem 0.5rem oklch(0% 0 0 / 0.15), 0 0.0625rem 0.0625rem oklch(0% 0 0 / 0.16),
+      0 0 0 0.03125rem oklch(0% 0 0 / 0.04);
+
+    @apply flex items-center;
+    gap: 0.75rem;
+    min-block-size: max(1.5rem, var(--sora-hit-min));
+  }
+
+  .sora-slider__input {
+    @apply min-w-0 flex-1;
+    block-size: max(var(--_thumb), var(--sora-hit-min));
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+
+    &::-webkit-slider-runnable-track {
+      block-size: var(--_track);
+      border-radius: var(--sora-radius-full);
+      background: linear-gradient(
+        to right,
+        var(--sora-c) calc(var(--_fill, 0) * 100%),
+        var(--sora-border-strong) calc(var(--_fill, 0) * 100%)
+      );
+    }
+
+    /* The filled side follows the writing direction. */
+    &:dir(rtl)::-webkit-slider-runnable-track {
+      background: linear-gradient(
+        to left,
+        var(--sora-c) calc(var(--_fill, 0) * 100%),
+        var(--sora-border-strong) calc(var(--_fill, 0) * 100%)
+      );
+    }
+
+    &::-webkit-slider-thumb {
+      inline-size: var(--_thumb);
+      block-size: var(--_thumb);
+      margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
+      appearance: none;
+      border: 0;
+      border-radius: var(--sora-radius-full);
+      background-color: oklch(100% 0 0);
+      box-shadow: var(--_knob-shadow);
+    }
+
+    &::-moz-range-track {
+      block-size: var(--_track);
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-border-strong);
+    }
+
+    &::-moz-range-progress {
+      block-size: var(--_track);
+      border-radius: var(--sora-radius-full);
+      background-color: var(--sora-c);
+    }
+
+    &::-moz-range-thumb {
+      box-sizing: border-box;
+      inline-size: var(--_thumb);
+      block-size: var(--_thumb);
+      border: 0;
+      border-radius: var(--sora-radius-full);
+      background-color: oklch(100% 0 0);
+      box-shadow: var(--_knob-shadow);
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        @apply sora-focus-ring;
+      }
+
+      &::-moz-range-thumb {
+        @apply sora-focus-ring;
+      }
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+
+      &::-webkit-slider-runnable-track {
+        background: ButtonText;
+      }
+
+      &::-webkit-slider-thumb {
+        border: 2px solid Highlight;
+        background-color: Canvas;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .sora-slider__value {
+    min-inline-size: 3ch;
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+  }
+
+  /* ------------------------------------------------------------- SoraFileInput */
+  .sora-file {
+    @apply grid;
+    gap: 0.5rem;
+  }
+
+  .sora-file__picker {
+    @apply relative flex flex-wrap items-center;
+    gap: 0.375rem 0.625rem;
+    min-block-size: max(var(--_h, var(--sora-control-md)), var(--sora-hit-min));
+  }
+
+  /* The real input sits on top, invisible: clicks, keyboard and file drops reach it directly. */
+  .sora-file__input {
+    @apply absolute inset-0 size-full opacity-0;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &::file-selector-button {
+      cursor: inherit;
+    }
+  }
+
+  .sora-file__button {
+    @apply pointer-events-none inline-flex items-center;
+    gap: 0.375rem;
+    min-block-size: var(--_h, var(--sora-control-md));
+    padding-inline: 0.75rem;
+    border: var(--sora-border-width) solid var(--sora-border-strong);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    font-size: var(--_fs, var(--sora-text-md));
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
+
+    .sora-file__picker:hover > & {
+      background-color: var(--sora-neutral-soft);
+    }
+
+    .sora-file__picker:has(.sora-file__input:focus-visible) > & {
+      @apply sora-focus-ring;
+    }
+
+    .sora-file[data-invalid] & {
+      border-color: var(--sora-error-border);
+      box-shadow: inset 0 0 0 1px var(--sora-error-border);
+    }
+
+    .sora-file[data-disabled] & {
+      border-color: var(--sora-border);
+      background-color: var(--sora-subtle);
+      color: var(--sora-text-subtle);
+    }
+  }
+
+  .sora-file__summary {
+    @apply pointer-events-none min-w-0;
+    color: var(--sora-text-muted);
+    font-size: var(--sora-text-sm);
+    overflow-wrap: anywhere;
+  }
+
+  .sora-file__list {
+    @apply grid;
+    gap: 0.25rem;
+  }
+
+  .sora-file__item {
+    @apply flex items-center;
+    gap: 0.5rem;
+    padding: 0.1875rem 0.1875rem 0.1875rem 0.5rem;
+    border: var(--sora-border-width) solid var(--sora-border);
+    border-radius: var(--sora-radius-md);
+    background-color: var(--sora-surface);
+    font-size: var(--sora-text-sm);
+  }
+
+  .sora-file__name {
+    @apply min-w-0 flex-1;
+    overflow-wrap: anywhere;
+  }
+
+  .sora-file__size {
+    color: var(--sora-text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .sora-file__preview {
+    @apply shrink-0 object-cover;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: var(--sora-radius-sm);
+  }
+
+  .sora-file__glyph {
+    color: var(--sora-text-muted);
+    font-size: 1.125rem;
+  }
+}

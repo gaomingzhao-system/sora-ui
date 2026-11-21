@@ -1,0 +1,244 @@
+@layer components.sora {
+  /* ---------------------------------------------------------------- SoraButton */
+  .sora-button {
+    --_h: var(--sora-control-md);
+    --_px: --spacing(3);
+    --_fs: var(--sora-text-md);
+
+    @apply relative inline-flex items-center justify-center gap-1.5 select-none;
+    /* Minimum sizes instead of fixed heights: labels may wrap and text may be enlarged. */
+    min-block-size: max(var(--_h), var(--sora-hit-min));
+    min-inline-size: max(var(--_h), var(--sora-hit-min));
+    padding-block: --spacing(1);
+    padding-inline: var(--_px);
+    border: var(--sora-border-width) solid transparent;
+    border-radius: var(--sora-radius-md);
+    font-size: var(--_fs);
+    font-weight: var(--sora-weight-medium);
+    line-height: var(--sora-leading-tight);
+    text-align: center;
+    overflow-wrap: anywhere;
+    vertical-align: middle;
+
+    &[data-size='sm'] {
+      --_h: var(--sora-control-sm);
+      --_px: --spacing(2);
+      --_fs: var(--sora-text-sm);
+    }
+
+    &[data-size='lg'] {
+      --_h: var(--sora-control-lg);
+      --_px: --spacing(4);
+    }
+
+    &[data-block] {
+      @apply flex w-full;
+    }
+
+    &[data-variant='solid'] {
+      background-color: var(--sora-c);
+      color: var(--sora-c-on);
+
+      &:where(:not(:disabled, [data-loading])) {
+        @variant hover {
+          background-color: var(--sora-c-hover);
+        }
+
+        &:active {
+          background-color: var(--sora-c-active);
+        }
+      }
+    }
+
+    &[data-variant='soft'] {
+      background-color: var(--sora-c-soft);
+      color: var(--sora-c-text);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--sora-c-border);
+      color: var(--sora-c-text);
+    }
+
+    &[data-variant='ghost'] {
+      color: var(--sora-c-text);
+    }
+
+    &:where([data-variant='soft'], [data-variant='outline'], [data-variant='ghost']):where(
+        :not(:disabled, [data-loading])
+      ) {
+      @variant hover {
+        background-color: var(--sora-c-soft-hover);
+      }
+
+      &:active {
+        background-color: var(--sora-c-soft-hover);
+      }
+    }
+
+    &[data-variant='link'] {
+      --_h: 0px;
+      --_px: 0px;
+      padding-block: 0;
+      border-radius: var(--sora-radius-sm);
+      color: var(--sora-c-text);
+      text-decoration-line: underline;
+      text-underline-offset: 0.2em;
+      text-decoration-thickness: 1px;
+
+      &:where(:not(:disabled, [data-loading])) {
+        @variant hover {
+          text-decoration-thickness: 2px;
+        }
+      }
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    &:disabled {
+      opacity: var(--sora-disabled-opacity);
+    }
+
+    &[data-loading] {
+      cursor: progress;
+
+      /* Still in the accessibility tree (opacity, not visibility), so the label and width are kept. */
+      & > :where(.sora-button__label, .sora-button__icon) {
+        opacity: 0;
+      }
+    }
+  }
+
+  .sora-button__label {
+    min-inline-size: 0;
+  }
+
+  .sora-button__icon {
+    @apply inline-flex shrink-0 items-center;
+    font-size: 1.15em;
+  }
+
+  .sora-button__spinner {
+    @apply absolute inset-0 m-auto rounded-full;
+    inline-size: 1.1em;
+    block-size: 1.1em;
+    border: 2px solid currentColor;
+    border-inline-end-color: transparent;
+  }
+
+  /* ------------------------------------------------------------ SoraIconButton */
+  .sora-icon-button {
+    --_px: 0px;
+    padding-block: 0;
+    inline-size: max(var(--_h), var(--sora-hit-min));
+
+    &[data-size='sm'] {
+      --_px: 0px;
+    }
+
+    &[data-size='lg'] {
+      --_px: 0px;
+    }
+  }
+
+  /* ----------------------------------------------------------- SoraButtonGroup */
+  .sora-button-group {
+    @apply inline-flex flex-wrap items-center;
+    gap: var(--sora-gap-sm);
+    max-inline-size: 100%;
+
+    &[data-orientation='vertical'] {
+      @apply flex-col items-stretch;
+    }
+
+    &[data-attached] {
+      @apply flex-nowrap;
+      gap: 0;
+
+      & > .sora-button {
+        border-radius: 0;
+
+        &:focus-visible {
+          z-index: 1;
+        }
+      }
+
+      &[data-orientation='horizontal'] > .sora-button {
+        &:not(:first-child) {
+          margin-inline-start: calc(var(--sora-border-width) * -1);
+        }
+
+        &:first-child {
+          border-start-start-radius: var(--sora-radius-md);
+          border-end-start-radius: var(--sora-radius-md);
+        }
+
+        &:last-child {
+          border-start-end-radius: var(--sora-radius-md);
+          border-end-end-radius: var(--sora-radius-md);
+        }
+      }
+
+      &[data-orientation='vertical'] > .sora-button {
+        &:not(:first-child) {
+          margin-block-start: calc(var(--sora-border-width) * -1);
+        }
+
+        &:first-child {
+          border-start-start-radius: var(--sora-radius-md);
+          border-start-end-radius: var(--sora-radius-md);
+        }
+
+        &:last-child {
+          border-end-start-radius: var(--sora-radius-md);
+          border-end-end-radius: var(--sora-radius-md);
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------ SoraLink */
+  .sora-link {
+    border-radius: var(--sora-radius-sm);
+    color: var(--sora-c-text);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+
+    @variant hover {
+      text-decoration-thickness: 2px;
+    }
+
+    &[data-underline='hover'] {
+      text-decoration-line: none;
+
+      @variant hover {
+        text-decoration-line: underline;
+      }
+    }
+
+    &[data-underline='none'] {
+      text-decoration-line: none;
+    }
+
+    &:focus-visible {
+      @apply sora-focus-ring;
+    }
+
+    &[aria-disabled='true'] {
+      color: var(--sora-text-subtle);
+      text-decoration-line: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .sora-link__icon {
+    display: inline-block;
+    margin-inline-start: 0.2em;
+    vertical-align: -0.125em;
+  }
+}

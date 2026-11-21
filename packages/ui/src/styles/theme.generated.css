@@ -1,0 +1,307 @@
+/*
+ * GENERATED FILE - do not edit.
+ * Source: sora.config.ts -> @your-scope/theme resolveTheme() -> scripts/generate-theme.ts
+ * Regenerate with `pnpm generate:theme`.
+ */
+@layer theme.sora {
+  :where(:root, :host) {
+    --sora-canvas: light-dark(oklch(98.2% 0.0066 95), oklch(20.5% 0.0066 75));
+    --sora-surface: light-dark(oklch(100% 0 0), oklch(25.5% 0.008 77));
+    --sora-elevated: light-dark(oklch(100% 0 0), oklch(31% 0.0092 79));
+    --sora-subtle: light-dark(oklch(96.2% 0.008 93), oklch(31% 0.0092 79));
+    --sora-inverted: light-dark(oklch(25.5% 0.008 77), oklch(96.2% 0.008 93));
+    --sora-text: light-dark(oklch(20.5% 0.0066 75), oklch(98.2% 0.0066 95));
+    --sora-text-muted: light-dark(oklch(40% 0.0102 81), oklch(86.8% 0.0102 89));
+    --sora-text-subtle: light-dark(oklch(50% 0.0108 83), oklch(72% 0.0108 87));
+    --sora-text-inverted: light-dark(oklch(98.2% 0.0066 95), oklch(20.5% 0.0066 75));
+    --sora-border: light-dark(oklch(92.2% 0.0092 91), oklch(40% 0.0102 81));
+    --sora-border-strong: oklch(60% 0.011 85);
+    --sora-focus: light-dark(oklch(55.5% 0.1392 252.8), oklch(73.5% 0.1363 251.2));
+    --sora-primary: light-dark(oklch(25.5% 0.0029 85), oklch(96.2% 0.0029 85));
+    --sora-primary-hover: light-dark(oklch(31% 0.0033 85), oklch(92.2% 0.0033 85));
+    --sora-primary-active: light-dark(oklch(40% 0.0037 85), oklch(86.8% 0.0037 85));
+    --sora-on-primary: light-dark(oklch(100% 0 0), oklch(20.5% 0.0024 85));
+    --sora-primary-text: light-dark(oklch(25.5% 0.0029 85), oklch(96.2% 0.0029 85));
+    --sora-primary-border: oklch(60% 0.004 85);
+    --sora-primary-soft: light-dark(color-mix(in oklab, var(--sora-primary) 12%, transparent), color-mix(in oklab, var(--sora-primary) 16%, transparent));
+    --sora-primary-soft-hover: light-dark(color-mix(in oklab, var(--sora-primary) 20%, transparent), color-mix(in oklab, var(--sora-primary) 26%, transparent));
+    --sora-secondary: light-dark(oklch(55.5% 0.1229 39.4), oklch(73.5% 0.1203 40.6));
+    --sora-secondary-hover: light-dark(oklch(47% 0.1101 38.8), oklch(82.5% 0.0947 41.2));
+    --sora-secondary-active: light-dark(oklch(40% 0.0922 38.2), oklch(89.5% 0.0578 41.8));
+    --sora-on-secondary: light-dark(oklch(100% 0 0), oklch(25.5% 0.0538 37));
+    --sora-secondary-text: light-dark(oklch(47% 0.1101 38.8), oklch(82.5% 0.0947 41.2));
+    --sora-secondary-border: oklch(64.5% 0.128 40);
+    --sora-secondary-soft: light-dark(color-mix(in oklab, var(--sora-secondary) 12%, transparent), color-mix(in oklab, var(--sora-secondary) 16%, transparent));
+    --sora-secondary-soft-hover: light-dark(color-mix(in oklab, var(--sora-secondary) 20%, transparent), color-mix(in oklab, var(--sora-secondary) 26%, transparent));
+    --sora-success: light-dark(oklch(47% 0.1161 153.2), oklch(73.5% 0.1269 151.4));
+    --sora-success-hover: light-dark(oklch(40% 0.0972 153.8), oklch(82.5% 0.0999 150.8));
+    --sora-success-active: light-dark(oklch(33.5% 0.0783 154.4), oklch(89.5% 0.0675 150.2));
+    --sora-on-success: light-dark(oklch(100% 0 0), oklch(25.5% 0.0567 155));
+    --sora-success-text: light-dark(oklch(40% 0.0972 153.8), oklch(82.5% 0.0999 150.8));
+    --sora-success-border: light-dark(oklch(55.5% 0.1296 152.6), oklch(64.5% 0.135 152));
+    --sora-success-soft: light-dark(color-mix(in oklab, var(--sora-success) 12%, transparent), color-mix(in oklab, var(--sora-success) 16%, transparent));
+    --sora-success-soft-hover: light-dark(color-mix(in oklab, var(--sora-success) 20%, transparent), color-mix(in oklab, var(--sora-success) 26%, transparent));
+    --sora-info: light-dark(oklch(55.5% 0.1392 252.8), oklch(73.5% 0.1363 251.2));
+    --sora-info-hover: light-dark(oklch(47% 0.1247 253.6), oklch(82.5% 0.0907 250.4));
+    --sora-info-active: light-dark(oklch(40% 0.1044 254.4), oklch(89.5% 0.0532 249.6));
+    --sora-on-info: light-dark(oklch(100% 0 0), oklch(25.5% 0.0609 256));
+    --sora-info-text: light-dark(oklch(47% 0.1247 253.6), oklch(82.5% 0.0907 250.4));
+    --sora-info-border: light-dark(oklch(55.5% 0.1392 252.8), oklch(64.5% 0.145 252));
+    --sora-info-soft: light-dark(color-mix(in oklab, var(--sora-info) 12%, transparent), color-mix(in oklab, var(--sora-info) 16%, transparent));
+    --sora-info-soft-hover: light-dark(color-mix(in oklab, var(--sora-info) 20%, transparent), color-mix(in oklab, var(--sora-info) 26%, transparent));
+    --sora-warning: light-dark(oklch(55.5% 0.1202 70.2), oklch(73.5% 0.141 73.8));
+    --sora-warning-hover: light-dark(oklch(47% 0.103 68.4), oklch(82.5% 0.111 75.6));
+    --sora-warning-active: light-dark(oklch(40% 0.0889 66.6), oklch(89.5% 0.075 77.4));
+    --sora-on-warning: light-dark(oklch(100% 0 0), oklch(25.5% 0.0587 63));
+    --sora-warning-text: light-dark(oklch(47% 0.103 68.4), oklch(82.5% 0.111 75.6));
+    --sora-warning-border: oklch(64.5% 0.1382 72);
+    --sora-warning-soft: light-dark(color-mix(in oklab, var(--sora-warning) 12%, transparent), color-mix(in oklab, var(--sora-warning) 16%, transparent));
+    --sora-warning-soft-hover: light-dark(color-mix(in oklab, var(--sora-warning) 20%, transparent), color-mix(in oklab, var(--sora-warning) 26%, transparent));
+    --sora-error: light-dark(oklch(55.5% 0.1776 24.6), oklch(73.5% 0.1622 25.4));
+    --sora-error-hover: light-dark(oklch(47% 0.1591 24.2), oklch(82.5% 0.0976 25.8));
+    --sora-error-active: light-dark(oklch(40% 0.1332 23.8), oklch(89.5% 0.0548 26.2));
+    --sora-on-error: light-dark(oklch(100% 0 0), oklch(25.5% 0.0777 23));
+    --sora-error-text: light-dark(oklch(47% 0.1591 24.2), oklch(82.5% 0.0976 25.8));
+    --sora-error-border: oklch(64.5% 0.185 25);
+    --sora-error-soft: light-dark(color-mix(in oklab, var(--sora-error) 12%, transparent), color-mix(in oklab, var(--sora-error) 16%, transparent));
+    --sora-error-soft-hover: light-dark(color-mix(in oklab, var(--sora-error) 20%, transparent), color-mix(in oklab, var(--sora-error) 26%, transparent));
+    --sora-neutral: light-dark(oklch(25.5% 0.008 77), oklch(96.2% 0.008 93));
+    --sora-neutral-hover: light-dark(oklch(31% 0.0092 79), oklch(92.2% 0.0092 91));
+    --sora-neutral-active: light-dark(oklch(40% 0.0102 81), oklch(86.8% 0.0102 89));
+    --sora-on-neutral: light-dark(oklch(100% 0 0), oklch(20.5% 0.0066 75));
+    --sora-neutral-text: light-dark(oklch(25.5% 0.008 77), oklch(96.2% 0.008 93));
+    --sora-neutral-border: oklch(60% 0.011 85);
+    --sora-neutral-soft: light-dark(color-mix(in oklab, var(--sora-neutral) 12%, transparent), color-mix(in oklab, var(--sora-neutral) 16%, transparent));
+    --sora-neutral-soft-hover: light-dark(color-mix(in oklab, var(--sora-neutral) 20%, transparent), color-mix(in oklab, var(--sora-neutral) 26%, transparent));
+    --sora-scrim: light-dark(oklch(20.5% 0.0066 75 / 42%), oklch(12% 0.004 75 / 62%));
+    --sora-shadow-color: light-dark(oklch(20.5% 0.0066 75 / 14%), oklch(0% 0 0 / 50%));
+    --sora-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Hiragino Sans", "Noto Sans JP", "Noto Sans Arabic", sans-serif;
+    --sora-font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Georgia, "Noto Serif", "Hiragino Mincho ProN", serif;
+    --sora-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --sora-font-display: var(--sora-font-sans);
+    --sora-text-xs: 0.75rem;
+    --sora-text-sm: 0.8125rem;
+    --sora-text-md: 0.875rem;
+    --sora-text-lg: 1rem;
+    --sora-text-xl: 1.125rem;
+    --sora-text-2xl: 1.375rem;
+    --sora-leading-tight: 1.25;
+    --sora-leading-normal: 1.5;
+    --sora-weight-normal: 400;
+    --sora-weight-medium: 500;
+    --sora-weight-semibold: 600;
+    --sora-radius-full: 9999px;
+    --sora-border-width: 1px;
+    --sora-focus-width: 2px;
+    --sora-focus-offset: 2px;
+    --sora-ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --sora-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --sora-ease-spring: linear(0, 0.044, 0.142, 0.26, 0.38, 0.491, 0.588, 0.671, 0.74, 0.796, 0.841, 0.877, 0.905, 0.927, 0.944, 0.958, 0.968, 0.976, 0.982, 0.986, 0.99, 0.992, 0.994, 0.996, 0.997, 0.998, 0.998, 0.999, 1);
+    --sora-ease-bounce: linear(0, 0.055, 0.182, 0.34, 0.5, 0.646, 0.768, 0.864, 0.934, 0.983, 1.014, 1.031, 1.038, 1.038, 1.034, 1.029, 1.023, 1.017, 1.011, 1.007, 1.004, 1.002, 1, 0.999, 0.999, 0.999, 0.999, 0.999, 1);
+    --sora-ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+    --sora-hover: color-mix(in oklab, var(--sora-text) 7%, transparent);
+    --sora-pressed: color-mix(in oklab, var(--sora-text) 12%, transparent);
+    --sora-shadow-sm: 0 1px 2px var(--sora-shadow-color);
+    --sora-shadow-md: 0 1px 3px var(--sora-shadow-color), 0 6px 16px -4px var(--sora-shadow-color);
+    --sora-shadow-lg: 0 2px 6px var(--sora-shadow-color), 0 16px 40px -12px var(--sora-shadow-color);
+    --sora-disabled-opacity: 0.55;
+    --sora-hit-min: 0px;
+    --sora-control-sm: 1.75rem;
+    --sora-control-md: 2.25rem;
+    --sora-control-lg: 2.5rem;
+    --sora-space-unit: 0.25rem;
+    --sora-gap-xs: 0.25rem;
+    --sora-gap-sm: 0.5rem;
+    --sora-gap-md: 0.75rem;
+    --sora-gap-lg: 1rem;
+    --sora-pad-sm: 0.5rem;
+    --sora-pad-md: 0.75rem;
+    --sora-pad-lg: 1rem;
+    --sora-pad-overlay: 1rem;
+    --sora-row: 2.25rem;
+    --sora-radius-sm: 0.4375rem;
+    --sora-radius-md: 0.625rem;
+    --sora-radius-lg: 0.875rem;
+    --sora-duration-fast: 150ms;
+    --sora-duration-overlay: 280ms;
+    --sora-duration-sheet: 420ms;
+  }
+
+  :where([data-sora-theme='light']) {
+    color-scheme: light;
+  }
+
+  :where([data-sora-theme='dark']) {
+    color-scheme: dark;
+  }
+
+  :where([data-sora-theme='system']) {
+    color-scheme: light dark;
+  }
+
+  :where([data-sora-density='compact']) {
+    --sora-control-sm: 1.75rem;
+    --sora-control-md: 2.25rem;
+    --sora-control-lg: 2.5rem;
+    --sora-space-unit: 0.25rem;
+    --sora-gap-xs: 0.25rem;
+    --sora-gap-sm: 0.5rem;
+    --sora-gap-md: 0.75rem;
+    --sora-gap-lg: 1rem;
+    --sora-pad-sm: 0.5rem;
+    --sora-pad-md: 0.75rem;
+    --sora-pad-lg: 1rem;
+    --sora-pad-overlay: 1rem;
+    --sora-row: 2.25rem;
+  }
+
+  :where([data-sora-density='comfortable']) {
+    --sora-control-sm: 2rem;
+    --sora-control-md: 2.5rem;
+    --sora-control-lg: 2.75rem;
+    --sora-space-unit: 0.25rem;
+    --sora-gap-xs: 0.375rem;
+    --sora-gap-sm: 0.625rem;
+    --sora-gap-md: 1rem;
+    --sora-gap-lg: 1.25rem;
+    --sora-pad-sm: 0.75rem;
+    --sora-pad-md: 1rem;
+    --sora-pad-lg: 1.25rem;
+    --sora-pad-overlay: 1.25rem;
+    --sora-row: 2.75rem;
+  }
+
+  :where([data-sora-radius='none']) {
+    --sora-radius-sm: 0px;
+    --sora-radius-md: 0px;
+    --sora-radius-lg: 0px;
+  }
+
+  :where([data-sora-radius='sm']) {
+    --sora-radius-sm: 0.25rem;
+    --sora-radius-md: 0.375rem;
+    --sora-radius-lg: 0.625rem;
+  }
+
+  :where([data-sora-radius='md']) {
+    --sora-radius-sm: 0.4375rem;
+    --sora-radius-md: 0.625rem;
+    --sora-radius-lg: 0.875rem;
+  }
+
+  :where([data-sora-radius='lg']) {
+    --sora-radius-sm: 0.5rem;
+    --sora-radius-md: 0.75rem;
+    --sora-radius-lg: 1.125rem;
+  }
+
+  :where([data-sora-motion='none']) {
+    --sora-duration-fast: 0ms;
+    --sora-duration-overlay: 0ms;
+    --sora-duration-sheet: 0ms;
+  }
+
+  :where([data-sora-motion='subtle']) {
+    --sora-duration-fast: 150ms;
+    --sora-duration-overlay: 280ms;
+    --sora-duration-sheet: 420ms;
+  }
+
+  :where([data-sora-motion='standard']) {
+    --sora-duration-fast: 180ms;
+    --sora-duration-overlay: 360ms;
+    --sora-duration-sheet: 520ms;
+  }
+
+  :where([class*='sora-'][data-color='primary']) {
+    --sora-c: var(--sora-primary);
+    --sora-c-hover: var(--sora-primary-hover);
+    --sora-c-active: var(--sora-primary-active);
+    --sora-c-on: var(--sora-on-primary);
+    --sora-c-text: var(--sora-primary-text);
+    --sora-c-border: var(--sora-primary-border);
+    --sora-c-soft: var(--sora-primary-soft);
+    --sora-c-soft-hover: var(--sora-primary-soft-hover);
+  }
+
+  :where([class*='sora-'][data-color='secondary']) {
+    --sora-c: var(--sora-secondary);
+    --sora-c-hover: var(--sora-secondary-hover);
+    --sora-c-active: var(--sora-secondary-active);
+    --sora-c-on: var(--sora-on-secondary);
+    --sora-c-text: var(--sora-secondary-text);
+    --sora-c-border: var(--sora-secondary-border);
+    --sora-c-soft: var(--sora-secondary-soft);
+    --sora-c-soft-hover: var(--sora-secondary-soft-hover);
+  }
+
+  :where([class*='sora-'][data-color='success']) {
+    --sora-c: var(--sora-success);
+    --sora-c-hover: var(--sora-success-hover);
+    --sora-c-active: var(--sora-success-active);
+    --sora-c-on: var(--sora-on-success);
+    --sora-c-text: var(--sora-success-text);
+    --sora-c-border: var(--sora-success-border);
+    --sora-c-soft: var(--sora-success-soft);
+    --sora-c-soft-hover: var(--sora-success-soft-hover);
+  }
+
+  :where([class*='sora-'][data-color='info']) {
+    --sora-c: var(--sora-info);
+    --sora-c-hover: var(--sora-info-hover);
+    --sora-c-active: var(--sora-info-active);
+    --sora-c-on: var(--sora-on-info);
+    --sora-c-text: var(--sora-info-text);
+    --sora-c-border: var(--sora-info-border);
+    --sora-c-soft: var(--sora-info-soft);
+    --sora-c-soft-hover: var(--sora-info-soft-hover);
+  }
+
+  :where([class*='sora-'][data-color='warning']) {
+    --sora-c: var(--sora-warning);
+    --sora-c-hover: var(--sora-warning-hover);
+    --sora-c-active: var(--sora-warning-active);
+    --sora-c-on: var(--sora-on-warning);
+    --sora-c-text: var(--sora-warning-text);
+    --sora-c-border: var(--sora-warning-border);
+    --sora-c-soft: var(--sora-warning-soft);
+    --sora-c-soft-hover: var(--sora-warning-soft-hover);
+  }
+
+  :where([class*='sora-'][data-color='error']) {
+    --sora-c: var(--sora-error);
+    --sora-c-hover: var(--sora-error-hover);
+    --sora-c-active: var(--sora-error-active);
+    --sora-c-on: var(--sora-on-error);
+    --sora-c-text: var(--sora-error-text);
+    --sora-c-border: var(--sora-error-border);
+    --sora-c-soft: var(--sora-error-soft);
+    --sora-c-soft-hover: var(--sora-error-soft-hover);
+  }
+
+  :where([class*='sora-'][data-color='neutral']) {
+    --sora-c: var(--sora-neutral);
+    --sora-c-hover: var(--sora-neutral-hover);
+    --sora-c-active: var(--sora-neutral-active);
+    --sora-c-on: var(--sora-on-neutral);
+    --sora-c-text: var(--sora-neutral-text);
+    --sora-c-border: var(--sora-neutral-border);
+    --sora-c-soft: var(--sora-neutral-soft);
+    --sora-c-soft-hover: var(--sora-neutral-soft-hover);
+  }
+
+  /* Coarse pointers get a 44px minimum hit area (project target; WCAG 2.2 AA asks for 24px). */
+  @media (pointer: coarse) {
+    :where(:root, :host, [data-sora-density]) {
+      --sora-hit-min: 2.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(:root, :host, [data-sora-motion]) {
+      --sora-duration-fast: 0ms;
+      --sora-duration-overlay: 0ms;
+      --sora-duration-sheet: 0ms;
+    }
+  }
+}

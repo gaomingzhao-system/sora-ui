@@ -1,0 +1,17 @@
+{
+  // Browser-side tests: Vapor fixtures and component tests. The type tests
+  // have their own projects (tests/types/tsconfig*.json, `pnpm test:types`).
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client", "@vitest/browser-playwright"]
+  },
+  "include": [
+    "browser/**/*.ts",
+    "browser/**/*.vue",
+    "fixtures/compat/**/*.ts",
+    "fixtures/compat/**/*.vue",
+    "helpers/**/*.ts",
+    "../packages/ui/src/env.d.ts",
+    "../packages/ui/src/compiled-messages.d.ts"
+  ]
+}

@@ -1,0 +1,272 @@
+/*
+ * Motion: short colour/opacity transitions and very small transforms only.
+ * No `transition: all`, no persistent `will-change`. Durations come from the
+ * motion tokens, which the generated theme zeroes for `motion="none"` and
+ * `prefers-reduced-motion: reduce`.
+ */
+@layer components.sora {
+  @keyframes sora-spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  @keyframes sora-progress {
+    from {
+      background-position: 125% 0;
+    }
+
+    to {
+      background-position: -25% 0;
+    }
+  }
+
+  @keyframes sora-shimmer {
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+  /* State changes: colours and opacity only. */
+  :where(
+    .sora-button,
+    .sora-link,
+    .sora-input,
+    .sora-input__button,
+    .sora-textarea,
+    .sora-check__input,
+    .sora-check__mark,
+    .sora-check__dot,
+    .sora-switch__input,
+    .sora-file__button,
+    .sora-menu__item,
+    .sora-listbox__option,
+    .sora-tabs__tab,
+    .sora-tabs__tab::after,
+    .sora-accordion__trigger,
+    .sora-breadcrumbs__link,
+    .sora-pagination__button,
+    .sora-table__row,
+    .sora-table__sort
+  ) {
+    transition-property:
+      background-color, border-color, color, text-decoration-thickness, opacity, box-shadow, scale;
+    transition-duration: var(--sora-duration-fast);
+    transition-timing-function: var(--sora-ease-out);
+  }
+
+  /* The tab marker glides to the selected tab on a spring. */
+  .sora-tabs__indicator[data-ready] {
+    transition:
+      translate var(--sora-duration-overlay) var(--sora-ease-spring),
+      inline-size var(--sora-duration-overlay) var(--sora-ease-spring),
+      block-size var(--sora-duration-overlay) var(--sora-ease-spring);
+  }
+
+  /* Buttons give under the finger and spring back. */
+  :where(.sora-button):where(:not(:disabled, [aria-disabled='true'])):active {
+    scale: 0.97;
+  }
+
+  /* The switch knob slides on a small bounce and stretches while pressed. */
+  .sora-switch__thumb {
+    transition:
+      translate var(--sora-duration-overlay) var(--sora-ease-bounce),
+      inline-size var(--sora-duration-fast) var(--sora-ease-out);
+  }
+
+  .sora-progress__bar::-webkit-progress-value {
+    transition: inline-size var(--sora-duration-overlay) var(--sora-ease-out);
+  }
+
+  /* The panel opens on a spring; `content-visibility` flips at the end, so closing can animate too. */
+  .sora-accordion__item::details-content {
+    transition:
+      block-size var(--sora-duration-overlay) var(--sora-ease-spring),
+      content-visibility var(--sora-duration-overlay) allow-discrete;
+  }
+
+  .sora-accordion__chevron {
+    transition: rotate var(--sora-duration-fast) var(--sora-ease-out);
+  }
+
+  /*
+   * Overlays: opacity plus a very small scale/offset. `display` and `overlay`
+   * transition discretely, so the exit runs while the element is still in
+   * the top layer; nothing is unmounted to animate.
+   */
+  /*
+   * Dialogs settle into place from slightly larger, as native alerts do, and
+   * fade out while shrinking a touch.
+   */
+  .sora-dialog {
+    opacity: 0;
+    scale: 0.96;
+    transition:
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      scale var(--sora-duration-fast) var(--sora-ease-out),
+      overlay var(--sora-duration-fast) allow-discrete,
+      display var(--sora-duration-fast) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      scale: 1;
+      transition:
+        opacity var(--sora-duration-fast) var(--sora-ease-out),
+        scale var(--sora-duration-overlay) var(--sora-ease-spring),
+        overlay var(--sora-duration-overlay) allow-discrete,
+        display var(--sora-duration-overlay) allow-discrete;
+
+      @starting-style {
+        opacity: 0;
+        scale: 1.08;
+      }
+    }
+
+    &::backdrop {
+      opacity: 0;
+      transition:
+        opacity var(--sora-duration-overlay) var(--sora-ease-out),
+        overlay var(--sora-duration-overlay) allow-discrete,
+        display var(--sora-duration-overlay) allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+
+  /*
+   * Popovers and menus grow out of their trigger on a small bounce, the way
+   * native menus do, and shrink away quickly. A combobox list only fades: it
+   * belongs to a text field and must not move while the user types.
+   */
+  .sora-popover {
+    opacity: 0;
+    transition:
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      scale var(--sora-duration-fast) var(--sora-ease-out),
+      overlay var(--sora-duration-fast) allow-discrete,
+      display var(--sora-duration-fast) allow-discrete;
+
+    &:not(.sora-combobox__popup) {
+      scale: 0.94;
+    }
+
+    &:popover-open {
+      opacity: 1;
+      scale: 1;
+      transition:
+        opacity var(--sora-duration-fast) var(--sora-ease-out),
+        scale var(--sora-duration-overlay) var(--sora-ease-bounce),
+        overlay var(--sora-duration-overlay) allow-discrete,
+        display var(--sora-duration-overlay) allow-discrete;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      &:not(.sora-combobox__popup) {
+        @starting-style {
+          scale: 0.86;
+        }
+      }
+    }
+  }
+
+  .sora-tooltip {
+    opacity: 0;
+    transition:
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      overlay var(--sora-duration-fast) allow-discrete,
+      display var(--sora-duration-fast) allow-discrete;
+
+    &:popover-open {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* Toasts drop in from their edge on a small bounce. */
+  .sora-toast {
+    transition:
+      opacity var(--sora-duration-fast) var(--sora-ease-out),
+      translate var(--sora-duration-overlay) var(--sora-ease-bounce),
+      scale var(--sora-duration-overlay) var(--sora-ease-bounce);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 1rem;
+      scale: 0.96;
+    }
+
+    .sora-toast-region[data-placement^='top'] & {
+      @starting-style {
+        translate: 0 -1rem;
+      }
+    }
+  }
+
+  /* Loading decoration. */
+  .sora-button__spinner,
+  .sora-spinner__ring {
+    animation: sora-spin 0.7s linear infinite;
+  }
+
+  .sora-progress__bar:indeterminate {
+    animation: sora-progress 1.4s var(--sora-ease-in-out) infinite;
+  }
+
+  .sora-skeleton__block {
+    animation: sora-shimmer 1.6s linear infinite;
+  }
+
+  /*
+   * Reduced motion: decoration stops. The static ring/segment, `aria-busy`
+   * and the status text still convey that something is in progress.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .sora-button__spinner,
+    .sora-spinner__ring,
+    .sora-progress__bar:indeterminate,
+    .sora-skeleton__block {
+      animation: none;
+    }
+
+    .sora-toast {
+      @starting-style {
+        translate: none;
+        scale: 1;
+      }
+
+      .sora-toast-region[data-placement^='top'] & {
+        @starting-style {
+          translate: none;
+        }
+      }
+    }
+
+    /* Overlays keep their fade only if the duration tokens allow it; never the scale. */
+    .sora-dialog,
+    .sora-popover {
+      scale: 1;
+
+      &:where([open], :popover-open) {
+        @starting-style {
+          scale: 1;
+        }
+      }
+    }
+
+    .sora-accordion__chevron {
+      transition: none;
+    }
+  }
+}
