@@ -26,6 +26,8 @@
     ],
     "no-var": "error",
     "prefer-const": "error",
+    "func-style": ["error", "expression", { "overrides": { "namedExports": "expression" } }],
+    "arrow-body-style": ["error", "as-needed"],
     "no-restricted-imports": [
       "error",
       {
@@ -56,7 +58,8 @@
     "typescript/consistent-type-imports": [
       "error",
       {
-        "prefer": "type-imports"
+        "prefer": "type-imports",
+        "fixStyle": "inline-type-imports"
       }
     ],
     "typescript/no-explicit-any": "error",
@@ -65,7 +68,7 @@
     "typescript/prefer-enum-initializers": "off",
     "typescript/ban-ts-comment": "error",
     "import/no-cycle": "error",
-    "import/no-duplicates": "error",
+    "import/no-duplicates": ["error", { "preferInline": true, "considerQueryString": true }],
     "import/no-self-import": "error",
     "unicorn/prefer-node-protocol": "error",
     "unicorn/no-array-for-each": "off",

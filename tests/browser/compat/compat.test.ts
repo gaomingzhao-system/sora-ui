@@ -6,17 +6,16 @@ import { createI18n } from 'petite-vue-i18n'
 import { createVaporApp, defineVaporComponent, markRaw, nextTick, reactive, version } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
-import CompatApp from '../../fixtures/compat/CompatApp.vue'
-import type { CompatState } from '../../fixtures/compat/CompatApp.vue'
+import CompatApp, { type CompatState } from '../../fixtures/compat/CompatApp.vue'
 import { mountVapor, settle } from '../../helpers/mount-vapor.ts'
 
-function q<T extends HTMLElement = HTMLElement>(testId: string): T {
+const q = <T extends HTMLElement = HTMLElement>(testId: string): T => {
   const element = document.querySelector<T>(`[data-testid="${testId}"]`)
   if (!element) throw new Error(`missing [data-testid="${testId}"]`)
   return element
 }
 
-function setup(overrides: Partial<CompatState> = {}) {
+const setup = (overrides: Partial<CompatState> = {}) => {
   const i18n = createI18n({
     legacy: false,
     locale: 'en',

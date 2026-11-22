@@ -60,7 +60,7 @@ defineSlots<{ label?(): unknown; hint?(): unknown }>()
 
 const control = useControl<HTMLInputElement>(() => controlAttrs)
 
-function read(event: Event): void {
+const read = (event: Event): void => {
   const value = (event.target as HTMLInputElement).value
   emit('update:modelValue', value === '' ? null : value)
 }

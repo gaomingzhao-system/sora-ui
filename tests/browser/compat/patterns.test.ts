@@ -6,11 +6,10 @@
 import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
-import PatternApp from '../../fixtures/compat/PatternApp.vue'
-import type { PatternState } from '../../fixtures/compat/PatternApp.vue'
+import PatternApp, { type PatternState } from '../../fixtures/compat/PatternApp.vue'
 import { mountVapor } from '../../helpers/mount-vapor.ts'
 
-function setup() {
+const setup = () => {
   const bound = reactive({ value: 2 as number | null })
   const state = reactive<PatternState>({
     value: 1,

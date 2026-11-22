@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, provide, watchEffect } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, provide, watchEffect, type HTMLAttributes } from 'vue'
 import type {
   SoraComponentDefaults,
   SoraComponentDefaultsInput,

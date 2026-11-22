@@ -2,11 +2,10 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import ComboboxHarness from './harness/ComboboxHarness.vue'
-import type { ComboboxState } from './harness/ComboboxHarness.vue'
+import ComboboxHarness, { type ComboboxState } from './harness/ComboboxHarness.vue'
 import { $, all, description, flush, press, q, until } from './support.ts'
 
-function setup(overrides: Partial<ComboboxState> = {}) {
+const setup = (overrides: Partial<ComboboxState> = {}) => {
   const state = reactive<ComboboxState>({
     value: null,
     asyncValue: null,
@@ -224,7 +223,7 @@ describe('SoraCombobox: filtering and pointer', () => {
 })
 
 describe('SoraCombobox: asynchronous source', () => {
-  function asyncSetup() {
+  const asyncSetup = () => {
     const context = setup()
     const input = q<HTMLInputElement>('combobox-async')
     const field = input.closest<HTMLElement>('.sora-field') as HTMLElement

@@ -57,7 +57,7 @@ const ACCENTS: Readonly<Record<string, string>> = {
  * Turn a message into bracketed, accented, lengthened text while leaving
  * `{placeholders}` untouched. Works for any flat message dictionary.
  */
-export function pseudoLocalize(message: string): string {
+export const pseudoLocalize = (message: string): string => {
   const body = message
     .split(/(\{\w+\})/)
     .map((part) =>

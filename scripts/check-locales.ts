@@ -19,9 +19,8 @@ const problems: string[] = []
 
 type Dictionary = Readonly<Record<string, string>>
 
-async function load(path: string): Promise<Dictionary> {
-  return ((await import(`${root}${path}`)) as { default: Dictionary }).default
-}
+const load = async (path: string): Promise<Dictionary> =>
+  ((await import(`${root}${path}`)) as { default: Dictionary }).default
 
 const placeholders = (message: string): string =>
   [...message.matchAll(/\{(\w+)\}/g)]
@@ -29,7 +28,7 @@ const placeholders = (message: string): string =>
     .toSorted()
     .join(',')
 
-function checkSet(name: string, base: Dictionary, others: Readonly<Record<string, Dictionary>>): void {
+const checkSet = (name: string, base: Dictionary, others: Readonly<Record<string, Dictionary>>): void => {
   const keys = Object.keys(base)
   for (const [key, message] of Object.entries(base)) {
     if (typeof message !== 'string' || message.trim() === '') problems.push(`${name} en: "${key}" is empty`)
@@ -99,7 +98,7 @@ for (const [name, set] of [
 }
 
 // ----------------------------------------------------------------- key usage
-async function usedKeys(patterns: readonly string[]): Promise<Map<string, string>> {
+const usedKeys = async (patterns: readonly string[]): Promise<Map<string, string>> => {
   const used = new Map<string, string>()
   for (const pattern of patterns) {
     for await (const file of glob(pattern, { cwd: root })) {

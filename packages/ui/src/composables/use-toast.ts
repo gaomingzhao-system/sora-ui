@@ -1,5 +1,4 @@
-import { inject } from 'vue'
-import type { InjectionKey } from 'vue'
+import { inject, type InjectionKey } from 'vue'
 import type { SoraColor } from '@your-scope/theme'
 
 export interface SoraToastAction {
@@ -49,7 +48,7 @@ export interface SoraToastApi {
 export const soraToastKey: InjectionKey<SoraToastApi> = Symbol('sora.toast')
 
 /** Access the notification queue of the nearest SoraToastProvider. */
-export function useToast(): SoraToastApi {
+export const useToast = (): SoraToastApi => {
   const api = inject(soraToastKey, undefined)
   if (!api) {
     throw new Error('[@your-scope/ui] useToast() needs a <SoraToastProvider> ancestor.')

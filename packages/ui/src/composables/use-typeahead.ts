@@ -20,11 +20,11 @@ export interface Typeahead {
 }
 
 /** Type-to-select for menus and listboxes (multi-character, locale-aware). */
-export function useTypeahead(options: TypeaheadOptions): Typeahead {
+export const useTypeahead = (options: TypeaheadOptions): Typeahead => {
   let buffer = ''
   let timer: ReturnType<typeof setTimeout> | undefined
 
-  function reset(): void {
+  const reset = (): void => {
     buffer = ''
     if (timer !== undefined) clearTimeout(timer)
     timer = undefined
@@ -34,7 +34,7 @@ export function useTypeahead(options: TypeaheadOptions): Typeahead {
 
   return {
     reset,
-    onKeydown(event) {
+    onKeydown: (event) => {
       // A space only counts while a prefix is being typed ("new y").
       const continuing = event.key === ' ' && buffer !== ''
       if (!isPrintableKey(event) && !continuing) return false

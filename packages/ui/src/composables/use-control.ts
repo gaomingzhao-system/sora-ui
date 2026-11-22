@@ -1,5 +1,4 @@
-import { computed, shallowRef, useAttrs, watch } from 'vue'
-import type { ComputedRef, ShallowRef } from 'vue'
+import { computed, shallowRef, useAttrs, watch, type ComputedRef, type ShallowRef } from 'vue'
 import { composeHandlers, mergeIds } from '../internal/attributes.ts'
 import type { SoraControlAttrs } from '../types/common.ts'
 
@@ -30,9 +29,9 @@ const isListener = (key: string): boolean => /^on[A-Z]/.test(key)
  *   merged, and `ref` receives the same native element as the component's
  *   own ref (and `null` on unmount).
  */
-export function useControl<E extends HTMLElement = HTMLElement>(
+export const useControl = <E extends HTMLElement = HTMLElement>(
   controlAttrs: () => SoraControlAttrs | undefined,
-): SoraControl<E> {
+): SoraControl<E> => {
   const attrs = useAttrs()
   const element = shallowRef(null) as ShallowRef<E | null>
   /** `controlAttrs` as a plain record (it may carry arbitrary attributes). */
@@ -59,7 +58,7 @@ export function useControl<E extends HTMLElement = HTMLElement>(
 
   let registered: Element | null = null
 
-  function setElement(value: unknown): void {
+  const setElement = (value: unknown): void => {
     const next = value instanceof HTMLElement ? (value as E) : null
     element.value = next
     if (next === registered) return
@@ -82,8 +81,7 @@ export function useControl<E extends HTMLElement = HTMLElement>(
     nativeAttrs,
     element,
     setElement,
-    describedBy(...generated) {
-      return mergeIds(...generated, attrs['aria-describedby'], extras()['aria-describedby'])
-    },
+    describedBy: (...generated) =>
+      mergeIds(...generated, attrs['aria-describedby'], extras()['aria-describedby']),
   }
 }

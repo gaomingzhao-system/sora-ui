@@ -1,7 +1,14 @@
 <script setup lang="ts" vapor>
 import { computed, ref } from 'vue'
-import { SoraAvatar, SoraBadge, SoraButton, SoraTable } from '@your-scope/ui'
-import type { SoraTableColumn, SoraTableRowKey, SoraTableSort } from '@your-scope/ui'
+import {
+  SoraAvatar,
+  SoraBadge,
+  SoraButton,
+  SoraTable,
+  type SoraTableColumn,
+  type SoraTableRowKey,
+  type SoraTableSort,
+} from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -48,7 +55,7 @@ const rows = computed(() => {
   })
 })
 
-function reload(): void {
+const reload = (): void => {
   loading.value = true
   setTimeout(() => (loading.value = false), 1200)
 }

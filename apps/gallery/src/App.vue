@@ -1,7 +1,6 @@
 <script setup lang="ts" vapor>
 import { ref } from 'vue'
-import { SoraProvider, SoraToastProvider } from '@your-scope/ui'
-import type { SoraColorModeSetting, SoraDensity } from '@your-scope/ui'
+import { SoraProvider, SoraToastProvider, type SoraColorModeSetting, type SoraDensity } from '@your-scope/ui'
 import GalleryShell from './GalleryShell.vue'
 import { galleryI18n } from './i18n.ts'
 

@@ -1,6 +1,13 @@
 <script setup lang="ts" vapor generic="T extends string | number">
-import { computed, nextTick, onBeforeUnmount, shallowRef, useTemplateRef, watch } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  shallowRef,
+  useTemplateRef,
+  watch,
+  type InputHTMLAttributes,
+} from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
@@ -123,7 +130,7 @@ const visible = computed<readonly SoraOption<T>[]>(() => {
 const optionsByValue = computed(() => new Map(options.map((option) => [option.value, option])))
 const resultsByValue = computed(() => new Map(results.value.map((option) => [option.value, option])))
 
-function labelOf(value: T | null | undefined): string {
+const labelOf = (value: T | null | undefined): string => {
   if (value == null) return ''
   const known =
     (chosen.value?.value === value ? chosen.value : undefined) ??
@@ -146,14 +153,14 @@ let controller: AbortController | undefined
 let requestId = 0
 let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
-function cancelSearch(): void {
+const cancelSearch = (): void => {
   if (debounceTimer !== undefined) clearTimeout(debounceTimer)
   debounceTimer = undefined
   controller?.abort()
   controller = undefined
 }
 
-async function runSearch(query: string): Promise<void> {
+const runSearch = async (query: string): Promise<void> => {
   if (!search) return
   controller?.abort()
   controller = new AbortController()
@@ -176,7 +183,7 @@ async function runSearch(query: string): Promise<void> {
   }
 }
 
-function scheduleSearch(query: string, immediate = false): void {
+const scheduleSearch = (query: string, immediate = false): void => {
   if (!search) return
   if (debounceTimer !== undefined) clearTimeout(debounceTimer)
   if (immediate || debounce <= 0) void runSearch(query)
@@ -186,15 +193,11 @@ function scheduleSearch(query: string, immediate = false): void {
 onBeforeUnmount(cancelSearch)
 
 // -------------------------------------------------------------- popup and keys
-function firstEnabled(list: readonly SoraOption<T>[]): number {
-  return list.findIndex((option) => !option.disabled)
-}
+const firstEnabled = (list: readonly SoraOption<T>[]): number => list.findIndex((option) => !option.disabled)
 
-function isDisabledAt(index: number): boolean {
-  return visible.value[index]?.disabled === true
-}
+const isDisabledAt = (index: number): boolean => visible.value[index]?.disabled === true
 
-function show(active: 'selected' | 'first' | 'last' | 'none' = 'selected'): void {
+const show = (active: 'selected' | 'first' | 'last' | 'none' = 'selected'): void => {
   if (disabled || open.value) return
   typed.value = false
   open.value = true
@@ -208,7 +211,7 @@ function show(active: 'selected' | 'first' | 'last' | 'none' = 'selected'): void
   }
 }
 
-function hide(): void {
+const hide = (): void => {
   if (!open.value) return
   open.value = false
   activeIndex.value = -1
@@ -219,7 +222,7 @@ function hide(): void {
   text.value = labelOf(modelValue)
 }
 
-function choose(option: SoraOption<T>): void {
+const choose = (option: SoraOption<T>): void => {
   if (option.disabled) return
   chosen.value = option
   emit('update:modelValue', option.value)
@@ -228,7 +231,7 @@ function choose(option: SoraOption<T>): void {
   hide()
 }
 
-function clear(): void {
+const clear = (): void => {
   chosen.value = null
   emit('update:modelValue', null)
   text.value = ''
@@ -236,7 +239,7 @@ function clear(): void {
   control.element.value?.focus()
 }
 
-function onInput(event: Event): void {
+const onInput = (event: Event): void => {
   text.value = (event.target as HTMLInputElement).value
   typed.value = true
   if (!open.value) {
@@ -246,11 +249,11 @@ function onInput(event: Event): void {
   else activeIndex.value = firstEnabled(visible.value)
 }
 
-function move(intent: 'next' | 'previous' | 'first' | 'last'): void {
+const move = (intent: 'next' | 'previous' | 'first' | 'last'): void => {
   activeIndex.value = moveIndex(visible.value.length, activeIndex.value, intent, isDisabledAt)
 }
 
-function onKeydown(event: KeyboardEvent): void {
+const onKeydown = (event: KeyboardEvent): void => {
   switch (event.key) {
     case 'ArrowDown':
       event.preventDefault()
@@ -288,7 +291,7 @@ function onKeydown(event: KeyboardEvent): void {
   }
 }
 
-function onBlur(): void {
+const onBlur = (): void => {
   hide()
 }
 

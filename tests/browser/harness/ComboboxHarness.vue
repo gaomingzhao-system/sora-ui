@@ -1,7 +1,6 @@
 <script setup lang="ts" vapor>
 import { useTemplateRef } from 'vue'
-import { SoraCombobox } from '@your-scope/ui'
-import type { SoraOption } from '@your-scope/ui'
+import { SoraCombobox, type SoraOption } from '@your-scope/ui'
 
 export interface ComboboxState {
   value: string | null
@@ -29,11 +28,10 @@ const fruits: SoraOption[] = [
   { value: 'creme', label: 'Crème brûlée' },
 ]
 
-function search(query: string, signal: AbortSignal): Promise<SoraOption[]> {
-  return new Promise((resolve, reject) => {
+const search = (query: string, signal: AbortSignal): Promise<SoraOption[]> =>
+  new Promise((resolve, reject) => {
     state.pending.push({ query, resolve, reject, signal })
   })
-}
 
 defineExpose({ combobox: () => combobox.value })
 </script>

@@ -15,8 +15,9 @@ import {
   SoraTooltip,
   createSoraTranslator,
   iconSearch,
+  type SoraMenuItem,
+  type SoraTableColumn,
 } from '@your-scope/ui'
-import type { SoraMenuItem, SoraTableColumn } from '@your-scope/ui'
 import arabic from '@your-scope/ui/locales/ar'
 import { componentManifest } from '../../../../packages/ui/src/components.manifest.ts'
 import { useT } from '../i18n.ts'

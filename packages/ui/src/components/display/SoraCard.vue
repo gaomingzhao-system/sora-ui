@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useSoraId } from '../../internal/ids.ts'
 import type { SoraPadding, SoraSurfaceVariant } from '../../types/common.ts'

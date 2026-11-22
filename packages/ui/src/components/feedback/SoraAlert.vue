@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconClose, iconError, iconInfo, iconSuccess, iconWarning } from '../../internal/icons.ts'
@@ -75,7 +74,7 @@ const role = computed(() => {
   return resolvedColor.value === 'error' || resolvedColor.value === 'warning' ? 'alert' : 'status'
 })
 
-function dismiss(): void {
+const dismiss = (): void => {
   open.value = false
   emit('dismiss')
 }

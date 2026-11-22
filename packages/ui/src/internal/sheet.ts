@@ -28,12 +28,10 @@ const MOMENTUM = 99
 /** UIScrollView's rubber band constant: how much an overdrag follows the finger at first. */
 const RUBBER_BAND = 0.55
 
-export function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
-}
+export const clamp = (value: number, min: number, max: number): number => Math.min(Math.max(value, min), max)
 
 /** Visible size (px) of `point` for a sheet whose full size is `size`. */
-export function resolveSnapPoint(point: SoraSnapPoint, size: number): number {
+export const resolveSnapPoint = (point: SoraSnapPoint, size: number): number => {
   let visible: number
   if (typeof point === 'number') visible = point <= 1 ? point * size : point
   else if (point.endsWith('%')) visible = (Number.parseFloat(point) / 100) * size
@@ -42,15 +40,14 @@ export function resolveSnapPoint(point: SoraSnapPoint, size: number): number {
 }
 
 /** Offset of every snap point for a sheet of `size`. */
-export function snapOffsets(points: readonly SoraSnapPoint[], size: number): number[] {
-  return points.map((point) => size - resolveSnapPoint(point, size))
-}
+export const snapOffsets = (points: readonly SoraSnapPoint[], size: number): number[] =>
+  points.map((point) => size - resolveSnapPoint(point, size))
 
 /** Index of `point` in `points`, or `-1`. Numbers compare loosely, so `1 / 3` matches `0.333`. */
-export function findSnapIndex(
+export const findSnapIndex = (
   points: readonly SoraSnapPoint[],
   point: SoraSnapPoint | null | undefined,
-): number {
+): number => {
   if (point == null) return -1
   return points.findIndex(
     (candidate) =>
@@ -63,7 +60,7 @@ export function findSnapIndex(
  * Rubber banding as UIScrollView does it: an overdrag of `distance` px moves
  * the sheet less and less the further it goes, and never more than `limit` px.
  */
-export function rubberBand(distance: number, limit: number): number {
+export const rubberBand = (distance: number, limit: number): number => {
   if (distance <= 0 || limit <= 0) return 0
   return (1 - 1 / ((distance * RUBBER_BAND) / limit + 1)) * limit
 }
@@ -89,7 +86,7 @@ export type SheetReleaseTarget = { type: 'snap'; index: number } | { type: 'clos
  * its momentum and the nearest snap point wins, while a flick always moves on
  * to the next snap point in its direction, as iOS sheets do.
  */
-export function releaseTarget(release: SheetRelease): SheetReleaseTarget {
+export const releaseTarget = (release: SheetRelease): SheetReleaseTarget => {
   const { offsets, closed, position, velocity, dismissible } = release
   const projected = position + velocity * MOMENTUM
   const lowest = Math.max(...offsets)
@@ -112,7 +109,7 @@ export function releaseTarget(release: SheetRelease): SheetReleaseTarget {
   return { type: 'snap', index }
 }
 
-function nearest(offsets: readonly number[], position: number): number {
+const nearest = (offsets: readonly number[], position: number): number => {
   let best = 0
   for (const [index, offset] of offsets.entries()) {
     if (Math.abs(offset - position) < Math.abs((offsets[best] ?? 0) - position)) best = index
@@ -121,7 +118,7 @@ function nearest(offsets: readonly number[], position: number): number {
 }
 
 /** Closest snap point past `position`: towards closed when `direction` is 1, else towards open. */
-function nextSnap(offsets: readonly number[], position: number, direction: 1 | -1): number {
+const nextSnap = (offsets: readonly number[], position: number, direction: 1 | -1): number => {
   let best = -1
   for (const [index, offset] of offsets.entries()) {
     const ahead = direction > 0 ? offset > position + EPSILON : offset < position - EPSILON
@@ -147,7 +144,7 @@ export interface VelocityTracker {
 }
 
 /** Estimates how fast a pointer moves from its most recent positions. */
-export function createVelocityTracker(): VelocityTracker {
+export const createVelocityTracker = (): VelocityTracker => {
   // A small ring of samples: nothing is allocated while the pointer moves.
   const times = new Float64Array(16)
   const positions = new Float64Array(16)
@@ -156,11 +153,11 @@ export function createVelocityTracker(): VelocityTracker {
   const at = (index: number): number => (start + index) % times.length
 
   return {
-    reset() {
+    reset: () => {
       start = 0
       count = 0
     },
-    add(time, position) {
+    add: (time, position) => {
       // A sample that did not move (such as the release itself) says nothing
       // about the speed: a resting pointer is noticed from the time since the
       // last movement instead.
@@ -177,7 +174,7 @@ export function createVelocityTracker(): VelocityTracker {
         count--
       }
     },
-    velocity(time) {
+    velocity: (time) => {
       if (count < 2) return 0
       const first = at(0)
       const last = at(count - 1)
@@ -210,7 +207,12 @@ export interface SheetSpring {
  *
  * @param settle how long (ms) a sheet at rest takes to cover the distance
  */
-export function createSheetSpring(from: number, to: number, velocity: number, settle: number): SheetSpring {
+export const createSheetSpring = (
+  from: number,
+  to: number,
+  velocity: number,
+  settle: number,
+): SheetSpring => {
   // (1 + wt) e^(-wt) falls to 0.5% at wt = 7.43.
   const omega = 7.43 / Math.max(settle, 1)
   const a = from - to

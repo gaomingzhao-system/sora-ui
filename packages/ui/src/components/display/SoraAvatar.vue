@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, shallowRef, watch } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, shallowRef, watch, type HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { iconUser } from '../../internal/icons.ts'
 import type { SoraSize } from '../../types/common.ts'

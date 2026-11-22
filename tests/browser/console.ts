@@ -24,12 +24,12 @@ for (const level of ['warn', 'error'] as const) {
 }
 
 /** Declare that the current test expects console output matching `pattern`. */
-export function allowConsole(pattern: RegExp): void {
+export const allowConsole = (pattern: RegExp): void => {
   allowed.push(pattern)
 }
 
 /** Messages of the test that just ran which nobody announced; resets the state for the next test. */
-export function takeUnexpectedConsole(): string[] {
+export const takeUnexpectedConsole = (): string[] => {
   const unexpected = recorded.filter((message) => !allowed.some((pattern) => pattern.test(message)))
   recorded.length = 0
   allowed.length = 0

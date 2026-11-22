@@ -29,7 +29,7 @@ const email = useSoraFormField(form, { path: ['email'] })
 const terms = useSoraFormField(form, { path: ['terms'] })
 
 // `output` is the validated, typed output of the schema. The form waits for this promise.
-async function save(output: v.InferOutput<typeof schema>): Promise<void> {
+const save = async (output: v.InferOutput<typeof schema>): Promise<void> => {
   await api.saveProfile(output)
 }
 </script>

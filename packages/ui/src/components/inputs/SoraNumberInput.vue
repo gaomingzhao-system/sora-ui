@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, onMounted, shallowRef, watch } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { computed, onMounted, shallowRef, watch, type InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconMinus, iconPlus } from '../../internal/icons.ts'
@@ -72,7 +71,7 @@ const control = useControl<HTMLInputElement>(() => controlAttrs)
 const badInput = shallowRef(false)
 const resolvedError = computed(() => error ?? (badInput.value ? t('number.invalid') : undefined))
 
-function read(): void {
+const read = (): void => {
   const element = control.element.value
   if (!element) return
   badInput.value = element.validity.badInput
@@ -83,7 +82,7 @@ function read(): void {
 
 // The DOM value is written only when it differs *numerically* from the
 // model, so "1.0" or "1e" being typed is never replaced mid-keystroke.
-function write(input: number | null | undefined): void {
+const write = (input: number | null | undefined): void => {
   const value = input ?? null
   const element = control.element.value
   if (!element) return
@@ -100,7 +99,7 @@ function write(input: number | null | undefined): void {
 watch(() => modelValue, write, { flush: 'post' })
 onMounted(() => write(modelValue))
 
-function stepBy(direction: 1 | -1): void {
+const stepBy = (direction: 1 | -1): void => {
   const element = control.element.value
   if (!element || disabled) return
   if (direction === 1) element.stepUp()

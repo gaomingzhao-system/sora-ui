@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, useTemplateRef } from 'vue'
-import type { AnchorHTMLAttributes } from 'vue'
+import { computed, useTemplateRef, type AnchorHTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconExternal } from '../../internal/icons.ts'

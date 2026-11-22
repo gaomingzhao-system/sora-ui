@@ -23,7 +23,7 @@ export interface RunOptions {
 }
 
 /** Run a command, throwing (with its output) when it exits non-zero. */
-export function run(command: string, args: readonly string[], options: RunOptions = {}): string {
+export const run = (command: string, args: readonly string[], options: RunOptions = {}): string => {
   const result = spawnSync(command, args, {
     cwd: options.cwd ?? root,
     encoding: 'utf8',
@@ -42,10 +42,10 @@ export const kib = (bytes: number): string => `${(bytes / 1024).toFixed(2)} KiB`
 
 export const gzipSize = (content: string | Uint8Array): number => gzipSync(content, { level: 9 }).length
 
-export async function gzipSizeOfFiles(
+export const gzipSizeOfFiles = async (
   directory: string,
   extension: string,
-): Promise<{ raw: number; gzip: number; files: number }> {
+): Promise<{ raw: number; gzip: number; files: number }> => {
   let raw = 0
   let gzip = 0
   let files = 0
@@ -70,7 +70,7 @@ export interface PackedPackage {
  * exactly what `pnpm publish` would upload (workspace: ranges resolved,
  * `files` applied, LICENSE added).
  */
-export async function packPackages(): Promise<PackedPackage[]> {
+export const packPackages = async (): Promise<PackedPackage[]> => {
   await rm(tarballDir, { recursive: true, force: true })
   await mkdir(tarballDir, { recursive: true })
   const packed: PackedPackage[] = []
@@ -89,13 +89,11 @@ export async function packPackages(): Promise<PackedPackage[]> {
 }
 
 /** File list of a tarball (paths without the leading `package/`). */
-export function tarballFiles(tarball: string): string[] {
-  return run('tar', ['-tzf', tarball])
+export const tarballFiles = (tarball: string): string[] =>
+  run('tar', ['-tzf', tarball])
     .split('\n')
     .filter(Boolean)
     .map((entry) => entry.replace(/^package\//, ''))
-}
 
-export function tarballFile(tarball: string, path: string): string {
-  return run('tar', ['-xzOf', tarball, `package/${path}`])
-}
+export const tarballFile = (tarball: string, path: string): string =>
+  run('tar', ['-xzOf', tarball, `package/${path}`])

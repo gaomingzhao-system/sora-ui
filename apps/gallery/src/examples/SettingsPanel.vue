@@ -17,8 +17,8 @@ import {
   SoraTable,
   SoraTabs,
   useToast,
+  type SoraTableColumn,
 } from '@your-scope/ui'
-import type { SoraTableColumn } from '@your-scope/ui'
 import { useT } from '../i18n.ts'
 
 type Role = 'owner' | 'editor' | 'viewer'
@@ -73,7 +73,7 @@ watch(
   { deep: true },
 )
 
-function setRole(member: Member, role: Role | null): void {
+const setRole = (member: Member, role: Role | null): void => {
   if (role) member.role = role
 }
 </script>

@@ -1,8 +1,6 @@
-import { createSoraI18n } from '@your-scope/ui/i18n'
-import type { SoraI18nMessages } from '@your-scope/ui/i18n'
+import { createSoraI18n, type SoraI18nMessages } from '@your-scope/ui/i18n'
 import uiEnglish from '@your-scope/ui/i18n/locales/en'
-import { useSoraLocale } from '@your-scope/ui'
-import type { SoraMessageKey, SoraMessageParams } from '@your-scope/ui'
+import { useSoraLocale, type SoraMessageKey, type SoraMessageParams } from '@your-scope/ui'
 import galleryEnglish from './locales/en.ts?compiled'
 import type { GalleryKey } from './locales/en.ts'
 
@@ -15,9 +13,8 @@ export const LOCALES = [
 
 export type GalleryLocale = (typeof LOCALES)[number]['value']
 
-export function isGalleryLocale(value: string | null): value is GalleryLocale {
-  return LOCALES.some((locale) => locale.value === value)
-}
+export const isGalleryLocale = (value: string | null): value is GalleryLocale =>
+  LOCALES.some((locale) => locale.value === value)
 
 // Each locale is one lazily loaded chunk holding the library's and the gallery's messages.
 const loaders: Readonly<Record<string, () => Promise<SoraI18nMessages>>> = {
@@ -56,6 +53,5 @@ export const galleryI18n = createSoraI18n({
 })
 
 /** `t()` typed with the gallery's keys (and the library's). */
-export function useT(): (key: GalleryKey | SoraMessageKey, params?: SoraMessageParams) => string {
-  return useSoraLocale().t
-}
+export const useT = (): ((key: GalleryKey | SoraMessageKey, params?: SoraMessageParams) => string) =>
+  useSoraLocale().t

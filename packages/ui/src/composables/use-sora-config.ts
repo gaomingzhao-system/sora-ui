@@ -1,5 +1,4 @@
-import { inject } from 'vue'
-import type { InjectionKey } from 'vue'
+import { inject, type InjectionKey } from 'vue'
 import type { SoraComponentDefaults } from '@your-scope/theme'
 import { generatedDefaults } from '../config.generated.ts'
 import type { SoraContext } from '../types/config.ts'
@@ -15,17 +14,15 @@ const rootContext = Object.freeze({
 }) as unknown as SoraContext
 
 /** The nearest SoraProvider's context, or the library defaults. */
-export function useSoraContext(): SoraContext {
-  return inject(soraContextKey, rootContext)
-}
+export const useSoraContext = (): SoraContext => inject(soraContextKey, rootContext)
 
 /**
  * Reactive prop defaults for one component family. Resolution order is
  * explicit prop > nearest SoraProvider `defaults` > sora.config.ts.
  */
-export function useSoraDefaults<K extends keyof SoraComponentDefaults>(
+export const useSoraDefaults = <K extends keyof SoraComponentDefaults>(
   key: K,
-): () => SoraComponentDefaults[K] {
+): (() => SoraComponentDefaults[K]) => {
   const context = useSoraContext()
   return () => context.defaults.value[key]
 }

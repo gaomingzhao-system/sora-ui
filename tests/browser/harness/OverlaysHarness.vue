@@ -7,8 +7,10 @@ import {
   SoraDropdownMenu,
   SoraPopover,
   SoraTooltip,
+  type SoraCloseReason,
+  type SoraMenuGroup,
+  type SoraMenuItem,
 } from '@your-scope/ui'
-import type { SoraCloseReason, SoraMenuGroup, SoraMenuItem } from '@your-scope/ui'
 
 export interface OverlaysState {
   dialogOpen: boolean

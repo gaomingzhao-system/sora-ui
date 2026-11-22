@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, useTemplateRef } from 'vue'
-import type { ButtonHTMLAttributes } from 'vue'
+import { computed, useTemplateRef, type ButtonHTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import type { SoraColor, SoraSize, SoraVariant } from '../../types/common.ts'
 
@@ -53,7 +52,7 @@ const element = useTemplateRef<HTMLButtonElement>('element')
  * caller attached, so a loading button cannot be activated twice by pointer,
  * keyboard or implicit form submission.
  */
-function blockWhileLoading(event: MouseEvent): void {
+const blockWhileLoading = (event: MouseEvent): void => {
   if (!loading) return
   event.preventDefault()
   event.stopImmediatePropagation()

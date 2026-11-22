@@ -1,8 +1,6 @@
 <script setup lang="ts" vapor>
-import { useTemplateRef } from 'vue'
-import type { DialogHTMLAttributes } from 'vue'
-import { useModalDialog } from '../../composables/use-overlay.ts'
-import type { SoraCloseReason } from '../../composables/use-overlay.ts'
+import { useTemplateRef, type DialogHTMLAttributes } from 'vue'
+import { useModalDialog, type SoraCloseReason } from '../../composables/use-overlay.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconClose } from '../../internal/icons.ts'
 import { useSoraId } from '../../internal/ids.ts'

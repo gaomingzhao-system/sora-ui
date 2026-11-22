@@ -1,6 +1,5 @@
 import { AxeBuilder } from '@axe-core/playwright'
-import { expect, test as base } from '@playwright/test'
-import type { Page } from '@playwright/test'
+import { expect, test as base, type Page } from '@playwright/test'
 
 export { expect }
 
@@ -39,11 +38,11 @@ export const test = base.extend<{ problems: string[] }>({
 })
 
 /** Open a gallery page with a given display configuration and wait until it has rendered. */
-export async function openGallery(
+export const openGallery = async (
   page: Page,
   name: GalleryPage,
   options: GalleryOptions = {},
-): Promise<void> {
+): Promise<void> => {
   const query = new URLSearchParams()
   if (options.theme) query.set('theme', options.theme)
   if (options.locale) query.set('locale', options.locale)
@@ -65,7 +64,7 @@ export async function openGallery(
  * overlay opening) would otherwise read values that are still in flight: a
  * contrast check can then see a half-way colour that never rests on screen.
  */
-export async function settled(page: Page): Promise<void> {
+export const settled = async (page: Page): Promise<void> => {
   await page.evaluate(async () => {
     // Two frames first, so transitions triggered by the last change have started.
     await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
@@ -92,7 +91,10 @@ export async function settled(page: Page): Promise<void> {
  * whole page, and in Firefox an aria snapshot followed by this scan crashed
  * the content process (docs/compatibility.md, "Known toolchain issues").
  */
-export async function expectNoAxeViolations(page: Page, options: { include?: string } = {}): Promise<void> {
+export const expectNoAxeViolations = async (
+  page: Page,
+  options: { include?: string } = {},
+): Promise<void> => {
   // Colours are judged at rest, not in the middle of a transition.
   await settled(page)
   let builder = new AxeBuilder({ page }).withTags([
@@ -117,9 +119,8 @@ export async function expectNoAxeViolations(page: Page, options: { include?: str
 }
 
 /** True when the page (not an inner scroll region) can scroll sideways. */
-export function hasHorizontalScroll(page: Page): Promise<boolean> {
-  return page.evaluate(() => {
+export const hasHorizontalScroll = (page: Page): Promise<boolean> =>
+  page.evaluate(() => {
     const root = document.documentElement
     return root.scrollWidth > root.clientWidth + 1
   })
-}

@@ -24,9 +24,8 @@ export interface RovingFocus {
   focusIndex(index: number): HTMLElement | undefined
 }
 
-export function isItemDisabled(item: HTMLElement): boolean {
-  return (item as HTMLButtonElement).disabled === true || item.getAttribute('aria-disabled') === 'true'
-}
+export const isItemDisabled = (item: HTMLElement): boolean =>
+  (item as HTMLButtonElement).disabled === true || item.getAttribute('aria-disabled') === 'true'
 
 /**
  * Arrow-key navigation over the items of a composite widget.
@@ -35,15 +34,15 @@ export function isItemDisabled(item: HTMLElement): boolean {
  * registration to keep in sync and nothing to clean up. Horizontal lists
  * follow the writing direction of the container.
  */
-export function useRovingFocus(options: RovingFocusOptions): RovingFocus {
+export const useRovingFocus = (options: RovingFocusOptions): RovingFocus => {
   const skipDisabled = options.skipDisabled ?? true
 
-  function items(): HTMLElement[] {
+  const items = (): HTMLElement[] => {
     const container = options.container()
     return container ? [...container.querySelectorAll<HTMLElement>(options.selector)] : []
   }
 
-  function focusIndex(index: number): HTMLElement | undefined {
+  const focusIndex = (index: number): HTMLElement | undefined => {
     const item = items()[index]
     item?.focus()
     return item
@@ -52,7 +51,7 @@ export function useRovingFocus(options: RovingFocusOptions): RovingFocus {
   return {
     items,
     focusIndex,
-    onKeydown(event) {
+    onKeydown: (event) => {
       const container = options.container()
       const intent = navigationIntent(event, options.orientation(), container)
       if (!intent) return undefined

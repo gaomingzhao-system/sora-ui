@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { computed, type InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import type { SoraColor, SoraControlAttrs, SoraSize } from '../../types/common.ts'

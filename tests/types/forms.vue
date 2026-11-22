@@ -3,8 +3,12 @@
 import { useForm } from '@formisch/vue'
 import * as v from 'valibot'
 import { SoraCheckbox, SoraInput, SoraNumberInput } from '@your-scope/ui'
-import { SoraForm, SoraFormErrorSummary, useSoraFormField } from '@your-scope/ui/forms'
-import type { SoraFormFieldBinding } from '@your-scope/ui/forms'
+import {
+  SoraForm,
+  SoraFormErrorSummary,
+  useSoraFormField,
+  type SoraFormFieldBinding,
+} from '@your-scope/ui/forms'
 
 const schema = v.object({
   email: v.pipe(v.string(), v.email()),
@@ -36,14 +40,14 @@ useSoraFormField(form, { path: ['email'] }, { reveal: 'sometimes' })
 void [emailValue, ageValue, cityBinding, wrongValue]
 
 // The submit callback receives the validated output of the schema and may be async.
-async function save(output: Output): Promise<void> {
+const save = async (output: Output): Promise<void> => {
   const typed: { email: string; age?: number | undefined; terms: boolean; address: { city: string } } = output
   await Promise.resolve(typed)
 }
-function saveSync(output: Output): void {
+const saveSync = (output: Output): void => {
   void output.address.city.toUpperCase()
 }
-function saveWrong(output: { email: number }): void {
+const saveWrong = (output: { email: number }): void => {
   void output
 }
 </script>

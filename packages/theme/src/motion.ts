@@ -16,7 +16,7 @@ const REST = 0.001
  *
  * @param damping damping ratio: 1 is critically damped (no overshoot); lower values bounce.
  */
-export function springValue(time: number, damping: number): number {
+export const springValue = (time: number, damping: number): number => {
   if (time <= 0) return 0
   if (time >= 1) return 1
   const zeta = Math.min(Math.max(damping, 0.2), 1)
@@ -37,7 +37,7 @@ export function springValue(time: number, damping: number): number {
  * A CSS `linear()` easing that plays a spring with the given damping ratio.
  * Use it with a duration; the spring has settled when the duration ends.
  */
-export function springEasing(damping: number, samples = 28): string {
+export const springEasing = (damping: number, samples = 28): string => {
   const points: string[] = []
   for (let index = 0; index <= samples; index++) {
     const value = index === samples ? 1 : springValue(index / samples, damping)

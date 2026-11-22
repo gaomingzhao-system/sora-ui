@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, onMounted, watch } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { computed, onMounted, watch, type InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { iconCheck, iconError, iconMinus } from '../../internal/icons.ts'
@@ -73,14 +72,14 @@ const hasHint = computed(() => Boolean(slots.hint) || Boolean(hint))
 const isInvalid = computed(() => invalid || messages.value.length > 0)
 
 // `indeterminate` is a DOM property with no attribute; keep it in sync by hand.
-function syncIndeterminate(): void {
+const syncIndeterminate = (): void => {
   const element = control.element.value
   if (element) element.indeterminate = indeterminate.value
 }
 watch(indeterminate, syncIndeterminate, { flush: 'post' })
 onMounted(syncIndeterminate)
 
-function onChange(event: Event): void {
+const onChange = (event: Event): void => {
   emit('update:modelValue', (event.target as HTMLInputElement).checked)
   indeterminate.value = false
 }

@@ -2,8 +2,15 @@
 import { useForm } from '@formisch/vue'
 import * as v from 'valibot'
 import { ref } from 'vue'
-import { SoraButton, SoraCard, SoraDialog, SoraInput, SoraPagination, SoraProvider } from '@your-scope/ui'
-import type { SoraButtonProps } from '@your-scope/ui'
+import {
+  SoraButton,
+  SoraCard,
+  SoraDialog,
+  SoraInput,
+  SoraPagination,
+  SoraProvider,
+  type SoraButtonProps,
+} from '@your-scope/ui'
 // A per-component subpath (default export) next to the barrel import.
 import SoraBadge from '@your-scope/ui/components/SoraBadge'
 import { SoraForm, SoraFormErrorSummary, useSoraFormField } from '@your-scope/ui/forms'
@@ -23,7 +30,7 @@ const schema = v.object({
 const form = useForm({ schema, initialInput: { email: '' } })
 const email = useSoraFormField(form, { path: ['email'] })
 
-async function save(output: v.InferOutput<typeof schema>): Promise<void> {
+const save = async (output: v.InferOutput<typeof schema>): Promise<void> => {
   await new Promise((resolve) => setTimeout(resolve, 50))
   saved.value = output.email
 }

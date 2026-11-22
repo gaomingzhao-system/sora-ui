@@ -24,7 +24,7 @@ const options = [
   { value: 3, label: 'Three' },
 ] as const
 
-function registerRef(element: Element | null): void {
+const registerRef = (element: Element | null): void => {
   state.refs.push(element ? element.tagName : null)
 }
 defineExpose({ focus: () => input.value?.focus() })

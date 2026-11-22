@@ -6,8 +6,10 @@ import {
   SoraProvider,
   SoraTabs,
   iconUser,
+  type SoraAccordionItem,
+  type SoraBreadcrumbItem,
+  type SoraTabItem,
 } from '@your-scope/ui'
-import type { SoraAccordionItem, SoraBreadcrumbItem, SoraTabItem } from '@your-scope/ui'
 
 export interface NavigationState {
   tab: string

@@ -17,8 +17,11 @@ import { glob, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { parse } from '@vue/compiler-sfc'
 import ts from 'typescript'
-import { componentCategories, componentManifest } from '../packages/ui/src/components.manifest.ts'
-import type { SoraComponentManifestEntry } from '../packages/ui/src/components.manifest.ts'
+import {
+  componentCategories,
+  componentManifest,
+  type SoraComponentManifestEntry,
+} from '../packages/ui/src/components.manifest.ts'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const outDir = `${root}docs/components`
@@ -82,13 +85,13 @@ const SHARED_MODELS: Readonly<Record<string, string>> = {
 }
 
 /** The JSDoc text attached to a node (description only, tags dropped). */
-function docOf(node: ts.Node): string {
+const docOf = (node: ts.Node): string => {
   const blocks = ts.getJSDocCommentsAndTags(node).filter(ts.isJSDoc)
   return oneLine(blocks.map((block) => ts.getTextOfJSDocComment(block.comment) ?? '').join(' '))
 }
 
 /** A leading `/** ... *\/` comment in front of a statement that is not a declaration. */
-function leadingDoc(node: ts.Node, source: ts.SourceFile): string {
+const leadingDoc = (node: ts.Node, source: ts.SourceFile): string => {
   const ranges = ts.getLeadingCommentRanges(source.text, node.getFullStart()) ?? []
   const last = ranges.at(-1)
   if (!last) return ''
@@ -106,7 +109,7 @@ function leadingDoc(node: ts.Node, source: ts.SourceFile): string {
 const memberName = (name: ts.PropertyName): string =>
   ts.isStringLiteral(name) || ts.isNoSubstitutionTemplateLiteral(name) ? name.text : name.getText()
 
-function membersOf(type: ts.TypeNode | undefined, source: ts.SourceFile): Member[] {
+const membersOf = (type: ts.TypeNode | undefined, source: ts.SourceFile): Member[] => {
   const result: Member[] = []
   const visit = (node: ts.TypeNode | undefined): void => {
     if (!node) return
@@ -145,7 +148,7 @@ function membersOf(type: ts.TypeNode | undefined, source: ts.SourceFile): Member
 }
 
 /** `defineX<T>(...)`: the call, wherever it sits in a statement. */
-function findCalls(source: ts.SourceFile, name: string): ts.CallExpression[] {
+const findCalls = (source: ts.SourceFile, name: string): ts.CallExpression[] => {
   const calls: ts.CallExpression[] = []
   const visit = (node: ts.Node): void => {
     if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === name) {
@@ -157,13 +160,13 @@ function findCalls(source: ts.SourceFile, name: string): ts.CallExpression[] {
   return calls
 }
 
-function statementOf(node: ts.Node): ts.Node {
+const statementOf = (node: ts.Node): ts.Node => {
   let current = node
   while (current.parent && !ts.isSourceFile(current.parent)) current = current.parent
   return current
 }
 
-function readApi(file: string, code: string): Api {
+const readApi = (file: string, code: string): Api => {
   const { descriptor } = parse(code, { filename: file })
   const setup = descriptor.scriptSetup
   if (!setup) throw new Error(`${file}: no <script setup>`)
@@ -289,7 +292,7 @@ function readApi(file: string, code: string): Api {
 
 // ------------------------------------------------------------ gallery examples
 /** `<DemoSection name="SoraX">…</DemoSection>` blocks of the gallery, by component name. */
-async function readExamples(): Promise<Map<string, { file: string; code: string }>> {
+const readExamples = async (): Promise<Map<string, { file: string; code: string }>> => {
   const examples = new Map<string, { file: string; code: string }>()
   for await (const file of glob('apps/gallery/src/demos/*.vue', { cwd: root })) {
     const { descriptor } = parse(await readFile(`${root}${file}`, 'utf8'), { filename: file })
@@ -312,21 +315,20 @@ async function readExamples(): Promise<Map<string, { file: string; code: string 
 const cell = (text: string): string => text.replace(/\|/g, '\\|').replace(/\n/g, ' ')
 const code = (text: string): string => (text === '' ? '' : `\`${cell(text)}\``)
 
-function table(headers: readonly string[], rows: readonly (readonly string[])[]): string {
-  return [
+const table = (headers: readonly string[], rows: readonly (readonly string[])[]): string =>
+  [
     `| ${headers.join(' | ')} |`,
     `| ${headers.map(() => '---').join(' | ')} |`,
     ...rows.map((row) => `| ${row.join(' | ')} |`),
   ].join('\n')
-}
 
 const list = (items: readonly string[]): string => items.map((item) => `- ${item}`).join('\n')
 
-function render(
+const render = (
   entry: SoraComponentManifestEntry,
   api: Api,
   example: { file: string; code: string } | undefined,
-): string {
+): string => {
   const importPath = entry.entry === 'forms' ? '@your-scope/ui/forms' : '@your-scope/ui'
   const parts: string[] = [
     BANNER,
@@ -434,7 +436,7 @@ function render(
   return `${parts.join('\n')}\n`
 }
 
-function renderIndex(): string {
+const renderIndex = (): string => {
   const parts = [
     BANNER,
     '',

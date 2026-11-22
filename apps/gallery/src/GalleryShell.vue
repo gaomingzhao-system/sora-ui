@@ -9,10 +9,10 @@ import {
   iconMonitor,
   iconMoon,
   iconSun,
+  type SoraColorModeSetting,
+  type SoraDensity,
 } from '@your-scope/ui'
-import type { SoraColorModeSetting, SoraDensity } from '@your-scope/ui'
-import { LOCALES, galleryI18n, isGalleryLocale, useT } from './i18n.ts'
-import type { GalleryLocale } from './i18n.ts'
+import { LOCALES, galleryI18n, isGalleryLocale, useT, type GalleryLocale } from './i18n.ts'
 import Accessibility from './pages/Accessibility.vue'
 import Components from './pages/Components.vue'
 import Forms from './pages/Forms.vue'
@@ -47,11 +47,11 @@ const densities = computed(() => [
 ])
 
 // The gallery routes on the hash, so the skip link must not navigate to "#main".
-function skipToContent(): void {
+const skipToContent = (): void => {
   document.getElementById('main')?.focus()
 }
 
-async function setLocale(value: GalleryLocale | null): Promise<void> {
+const setLocale = async (value: GalleryLocale | null): Promise<void> => {
   if (value && isGalleryLocale(value)) await galleryI18n.setLocale(value)
 }
 </script>

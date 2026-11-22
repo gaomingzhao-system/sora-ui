@@ -157,7 +157,7 @@ const failNext = ref(false)
 const submitted = ref('')
 
 /** The awaited submit callback: the form stays busy until this settles. */
-async function save(output: v.InferOutput<typeof schema>): Promise<void> {
+const save = async (output: v.InferOutput<typeof schema>): Promise<void> => {
   await new Promise((resolve) => setTimeout(resolve, 700))
   if (failNext.value) throw new Error(t('profile.failed'))
   submitted.value = JSON.stringify({ ...output, avatar: output.avatar?.map((file) => file.name) }, null, 2)

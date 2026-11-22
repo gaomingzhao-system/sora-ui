@@ -83,7 +83,7 @@ const fail = (message: string): void => {
   problems.push(message)
 }
 
-function vueImports(code: string): string[] {
+const vueImports = (code: string): string[] => {
   const names: string[] = []
   for (const match of code.matchAll(/import\s*\{([^}]*)\}\s*from\s*['"]vue['"]/g)) {
     for (const part of (match[1] ?? '').split(',')) {

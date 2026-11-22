@@ -1,5 +1,4 @@
-import { onBeforeUnmount, onMounted, watch } from 'vue'
-import type { Ref } from 'vue'
+import { onBeforeUnmount, onMounted, watch, type Ref } from 'vue'
 import { activeElement, canFocus, closestFocusable } from '../internal/focus.ts'
 
 /** Why an overlay closed. */
@@ -35,12 +34,12 @@ export interface ModalDialogBindings {
  * state, applies the dismissal policy and repairs focus restoration when the
  * opener has been removed.
  */
-export function useModalDialog(options: UseModalDialogOptions): ModalDialogBindings {
+export const useModalDialog = (options: UseModalDialogOptions): ModalDialogBindings => {
   let opener: Element | null = null
   let reason: SoraCloseReason = 'programmatic'
   let pressedOnBackdrop = false
 
-  function show(): void {
+  const show = (): void => {
     const element = options.element()
     if (!element || element.open || !element.isConnected) return
     opener = activeElement()
@@ -50,14 +49,14 @@ export function useModalDialog(options: UseModalDialogOptions): ModalDialogBindi
     target?.focus()
   }
 
-  function close(nextReason: SoraCloseReason = 'programmatic'): void {
+  const close = (nextReason: SoraCloseReason = 'programmatic'): void => {
     const element = options.element()
     reason = nextReason
     if (element?.open) element.close()
     else options.open.value = false
   }
 
-  function restoreFocus(): void {
+  const restoreFocus = (): void => {
     const explicit = options.returnFocus?.()
     if (canFocus(explicit)) {
       explicit.focus()
@@ -92,12 +91,12 @@ export function useModalDialog(options: UseModalDialogOptions): ModalDialogBindi
 
   return {
     close,
-    onCancel(event) {
+    onCancel: (event) => {
       // `cancel` is the close request (Escape, Android back, ...).
       if (options.closeOnEscape()) reason = 'escape'
       else event.preventDefault()
     },
-    onClose() {
+    onClose: () => {
       // Fires for every way a dialog closes, including form[method=dialog].
       const closedBy = reason
       reason = 'programmatic'
@@ -107,10 +106,10 @@ export function useModalDialog(options: UseModalDialogOptions): ModalDialogBindi
       opener = null
       options.onClose?.(closedBy)
     },
-    onPointerdown(event) {
+    onPointerdown: (event) => {
       pressedOnBackdrop = event.target === options.element()
     },
-    onClick(event) {
+    onClick: (event) => {
       // A click whose press and release both hit the dialog box itself is a
       // backdrop click (the panel covers the rest of the dialog).
       const onBackdrop = pressedOnBackdrop && event.target === options.element()
@@ -133,15 +132,13 @@ export interface PopoverBindings {
 }
 
 /** Keeps a boolean and a native `popover` element in sync (both directions). */
-export function usePopover(options: UsePopoverOptions): PopoverBindings {
+export const usePopover = (options: UsePopoverOptions): PopoverBindings => {
   /** Set from a closing `beforetoggle` until the popover shows again or `toggle` arrives. */
   let closing = false
 
-  function isOpen(element: HTMLElement): boolean {
-    return element.matches(':popover-open')
-  }
+  const isOpen = (element: HTMLElement): boolean => element.matches(':popover-open')
 
-  function sync(): void {
+  const sync = (): void => {
     const element = options.element()
     if (!element?.isConnected) return
     if (options.open.value && !isOpen(element)) element.showPopover()
@@ -157,7 +154,7 @@ export function usePopover(options: UsePopoverOptions): PopoverBindings {
   })
 
   return {
-    onBeforetoggle(event) {
+    onBeforetoggle: (event) => {
       // Light dismiss and Escape close the popover natively. `toggle` reports
       // that a task later, so a key pressed in between (Escape, then Enter on
       // the trigger) would still see the popover as open; closing is mirrored
@@ -166,11 +163,11 @@ export function usePopover(options: UsePopoverOptions): PopoverBindings {
       closing = (event as ToggleEvent).newState === 'closed'
       if (closing) options.open.value = false
     },
-    onToggle(event) {
+    onToggle: (event) => {
       closing = false
       options.open.value = (event as ToggleEvent).newState === 'open'
     },
-    promote() {
+    promote: () => {
       const element = options.element()
       if (!element?.isConnected || !isOpen(element)) return
       element.hidePopover()

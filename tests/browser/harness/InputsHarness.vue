@@ -14,8 +14,10 @@ import {
   SoraSlider,
   SoraSwitch,
   SoraTextarea,
+  type SoraControlAttrs,
+  type SoraOption,
+  type SoraOptionGroup,
 } from '@your-scope/ui'
-import type { SoraControlAttrs, SoraOption, SoraOptionGroup } from '@your-scope/ui'
 
 export interface InputsState {
   text: string | null | undefined
