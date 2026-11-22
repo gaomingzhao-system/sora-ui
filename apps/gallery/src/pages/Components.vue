@@ -1,6 +1,9 @@
 <script setup lang="ts" vapor>
-import { componentCategories, componentManifest } from '../../../../packages/ui/src/components.manifest.ts'
-import type { SoraComponentCategory } from '../../../../packages/ui/src/components.manifest.ts'
+import {
+  componentCategories,
+  componentManifest,
+  type SoraComponentCategory,
+} from '../../../../packages/ui/src/components.manifest.ts'
 import ActionsDemos from '../demos/ActionsDemos.vue'
 import DataDemos from '../demos/DataDemos.vue'
 import DisplayDemos from '../demos/DisplayDemos.vue'
@@ -33,7 +36,7 @@ const namesIn = (category: SoraComponentCategory): string[] =>
   componentManifest.filter((entry) => entry.category === category).map((entry) => entry.name)
 
 // The gallery routes on the hash, so in-page links scroll instead of navigating.
-function scrollToDemo(name: string): void {
+const scrollToDemo = (name: string): void => {
   document.getElementById(`demo-${name}`)?.scrollIntoView()
 }
 </script>

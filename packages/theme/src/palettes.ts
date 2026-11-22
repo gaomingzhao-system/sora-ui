@@ -1,6 +1,11 @@
 import { toGamut } from './color.ts'
-import { SORA_SHADES } from './types.ts'
-import type { Oklch, SoraBuiltinPalette, SoraPaletteScale, SoraShade } from './types.ts'
+import {
+  SORA_SHADES,
+  type Oklch,
+  type SoraBuiltinPalette,
+  type SoraPaletteScale,
+  type SoraShade,
+} from './types.ts'
 
 /**
  * Tonal scales are original project values (not measurements of any
@@ -66,7 +71,7 @@ interface ScaleRecipe {
   kind: 'neutral' | 'chromatic'
 }
 
-function buildScale({ hue, chroma, hueShift = 0, kind }: ScaleRecipe): SoraPaletteScale {
+const buildScale = ({ hue, chroma, hueShift = 0, kind }: ScaleRecipe): SoraPaletteScale => {
   const lightness = kind === 'neutral' ? NEUTRAL_LIGHTNESS : CHROMATIC_LIGHTNESS
   const entries = SORA_SHADES.map((shade, index): [SoraShade, Oklch] => {
     const progress = index / (SORA_SHADES.length - 1)
@@ -79,9 +84,7 @@ function buildScale({ hue, chroma, hueShift = 0, kind }: ScaleRecipe): SoraPalet
   return Object.freeze(Object.fromEntries(entries)) as SoraPaletteScale
 }
 
-function round(value: number): number {
-  return Math.round(value * 10000) / 10000
-}
+const round = (value: number): number => Math.round(value * 10000) / 10000
 
 export const palettes: Readonly<Record<SoraBuiltinPalette, SoraPaletteScale>> = Object.freeze({
   /** Near-achromatic grey with a trace of warmth. */
@@ -101,16 +104,13 @@ export const palettes: Readonly<Record<SoraBuiltinPalette, SoraPaletteScale>> = 
 export const builtinPaletteNames = Object.freeze(Object.keys(palettes)) as readonly SoraBuiltinPalette[]
 
 /** Build a complete custom scale from a hue and peak chroma. */
-export function createPalette(recipe: {
+export const createPalette = (recipe: {
   hue: number
   chroma: number
   hueShift?: number
   kind?: 'neutral' | 'chromatic'
-}): SoraPaletteScale {
-  return buildScale({ kind: 'chromatic', ...recipe })
-}
+}): SoraPaletteScale => buildScale({ kind: 'chromatic', ...recipe })
 
 /** True when a scale carries so little chroma that it reads as grey. */
-export function isNeutralScale(scale: SoraPaletteScale): boolean {
-  return SORA_SHADES.every((shade) => scale[shade][1] < 0.03)
-}
+export const isNeutralScale = (scale: SoraPaletteScale): boolean =>
+  SORA_SHADES.every((shade) => scale[shade][1] < 0.03)

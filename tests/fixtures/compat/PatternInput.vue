@@ -1,8 +1,7 @@
 <script setup lang="ts" vapor generic="T extends string | number">
 // Composes PatternField, splits attrs, merges a caller ref with its own, and
 // is generic over the model type.
-import { computed, useAttrs, useTemplateRef } from 'vue'
-import type { SelectHTMLAttributes } from 'vue'
+import { computed, useAttrs, useTemplateRef, type SelectHTMLAttributes } from 'vue'
 import PatternField from './PatternField.vue'
 import PatternTone from './PatternTone.vue'
 
@@ -33,14 +32,14 @@ const nativeAttrs = computed(() => {
 
 const own = useTemplateRef<HTMLSelectElement>('own')
 let registered: Element | null = null
-function setControl(element: unknown): void {
+const setControl = (element: unknown): void => {
   const next = element instanceof Element ? element : null
   if (next === registered) return
   registered = next
   controlAttrs.ref?.(next)
 }
 
-function onChange(event: Event): void {
+const onChange = (event: Event): void => {
   const index = (event.target as HTMLSelectElement).selectedIndex
   model.value = options[index]?.value ?? null
 }

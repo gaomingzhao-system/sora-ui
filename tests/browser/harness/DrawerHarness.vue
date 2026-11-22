@@ -1,6 +1,13 @@
 <script setup lang="ts" vapor>
-import { SoraButton, SoraDrawer, SoraInput, SoraProvider } from '@your-scope/ui'
-import type { SoraCloseReason, SoraDrawerSide, SoraSnapPoint } from '@your-scope/ui'
+import {
+  SoraButton,
+  SoraDrawer,
+  SoraInput,
+  SoraProvider,
+  type SoraCloseReason,
+  type SoraDrawerSide,
+  type SoraSnapPoint,
+} from '@your-scope/ui'
 
 export interface DrawerState {
   open: boolean
@@ -30,7 +37,7 @@ export interface DrawerState {
 
 const { state } = defineProps<{ state: DrawerState }>()
 
-function setOpen(value: boolean): void {
+const setOpen = (value: boolean): void => {
   if (!state.keepOpen) state.open = value
 }
 </script>

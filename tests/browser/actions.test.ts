@@ -2,11 +2,10 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import ActionsHarness from './harness/ActionsHarness.vue'
-import type { ActionsState } from './harness/ActionsHarness.vue'
+import ActionsHarness, { type ActionsState } from './harness/ActionsHarness.vue'
 import { flush, press, q } from './support.ts'
 
-function setup(overrides: Partial<ActionsState> = {}) {
+const setup = (overrides: Partial<ActionsState> = {}) => {
   const state = reactive<ActionsState>({
     loading: false,
     disabled: false,

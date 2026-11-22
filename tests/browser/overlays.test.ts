@@ -2,11 +2,10 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import OverlaysHarness from './harness/OverlaysHarness.vue'
-import type { OverlaysState } from './harness/OverlaysHarness.vue'
+import OverlaysHarness, { type OverlaysState } from './harness/OverlaysHarness.vue'
 import { $, all, description, flush, press, q, referenced, until, wait } from './support.ts'
 
-function setup(overrides: Partial<OverlaysState> = {}) {
+const setup = (overrides: Partial<OverlaysState> = {}) => {
   const state = reactive<OverlaysState>({
     dialogOpen: false,
     closeOnEscape: true,
@@ -36,7 +35,7 @@ function setup(overrides: Partial<OverlaysState> = {}) {
 const isPopoverOpen = (element: Element): boolean => element.matches(':popover-open')
 
 /** A click whose press and release both land on the dialog box itself, i.e. on its backdrop. */
-function clickBackdrop(dialog: HTMLDialogElement): void {
+const clickBackdrop = (dialog: HTMLDialogElement): void => {
   dialog.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }))
   dialog.dispatchEvent(new MouseEvent('click', { bubbles: true }))
 }

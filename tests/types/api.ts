@@ -2,12 +2,16 @@
  * Type tests for the non-component API: theme configuration, translators,
  * toasts and shared types. Type-checked only; nothing here is executed.
  */
-import { createPalette, createThemeVars, defineSoraConfig } from '@your-scope/theme'
-import type { SoraConfigInput } from '@your-scope/theme'
-import { createSoraTranslator, useToast, useSoraLocale } from '@your-scope/ui'
-import type { SoraMessageKey, SoraOption, SoraTranslator } from '@your-scope/ui'
-import { createSoraI18n } from '@your-scope/ui/i18n'
-import type { SoraCompiledMessages } from '@your-scope/ui/i18n'
+import { createPalette, createThemeVars, defineSoraConfig, type SoraConfigInput } from '@your-scope/theme'
+import {
+  createSoraTranslator,
+  useToast,
+  useSoraLocale,
+  type SoraMessageKey,
+  type SoraOption,
+  type SoraTranslator,
+} from '@your-scope/ui'
+import { createSoraI18n, type SoraCompiledMessages } from '@your-scope/ui/i18n'
 import compiledJapanese from '@your-scope/ui/i18n/locales/ja'
 import japanese from '@your-scope/ui/locales/ja'
 import { createProviderTheme } from '@your-scope/ui/theme'
@@ -70,7 +74,7 @@ ui.locale.value = 1
 void [translated, key, unknownKey, title, compiled, sameContract, switching]
 
 // ------------------------------------------------------- composables, types
-export function insideSetup(): void {
+export const insideSetup = (): void => {
   const { t, dir, locale, formatNumber } = useSoraLocale()
   const text: string = t('table.empty')
   const direction: 'ltr' | 'rtl' = dir.value

@@ -2,8 +2,7 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import DataHarness from './harness/DataHarness.vue'
-import type { DataState, Member } from './harness/DataHarness.vue'
+import DataHarness, { type DataState, type Member } from './harness/DataHarness.vue'
 import { $, all, flush, press, q, referenced, until } from './support.ts'
 
 const members: Member[] = [
@@ -12,7 +11,7 @@ const members: Member[] = [
   { id: 3, name: 'Linus', role: 'Maintainer', seats: 40, active: true },
 ]
 
-function setup(overrides: Partial<DataState> = {}) {
+const setup = (overrides: Partial<DataState> = {}) => {
   const state = reactive<DataState>({
     rows: structuredClone(members),
     sort: null,

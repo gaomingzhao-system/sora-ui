@@ -1,11 +1,10 @@
-import { toValue } from 'vue'
-import type { MaybeRefOrGetter } from 'vue'
+import { toValue, type MaybeRefOrGetter } from 'vue'
 import en from '../locales/en.ts'
 import type { SoraMessageParams, SoraTranslator } from '../types/config.ts'
 import type { SoraDirection } from '../types/common.ts'
 
 /** Replace `{name}` placeholders. Unknown placeholders are left visible. */
-export function formatMessage(template: string, params?: SoraMessageParams): string {
+export const formatMessage = (template: string, params?: SoraMessageParams): string => {
   if (!params) return template
   return template.replace(/\{(\w+)\}/g, (match, name: string) => {
     const value = params[name]
@@ -16,7 +15,7 @@ export function formatMessage(template: string, params?: SoraMessageParams): str
 /** Built-in English used when no provider supplies a translator or a key is missing. */
 export const englishTranslator: SoraTranslator = Object.freeze({
   locale: 'en',
-  translate(key: string, params?: SoraMessageParams): string | undefined {
+  translate: (key: string, params?: SoraMessageParams): string | undefined => {
     const template = (en as Readonly<Record<string, string>>)[key]
     return template === undefined ? undefined : formatMessage(template, params)
   },
@@ -34,7 +33,7 @@ export interface CreateSoraTranslatorOptions {
  * Dependency-free translator for apps that do not use an i18n library.
  * It reads `locale` and `messages` lazily, so reactive inputs update the UI.
  */
-export function createSoraTranslator(options: CreateSoraTranslatorOptions): SoraTranslator {
+export const createSoraTranslator = (options: CreateSoraTranslatorOptions): SoraTranslator => {
   const lookup = (locale: string, key: string): string | undefined => {
     const exact = options.messages[locale]?.[key]
     if (exact !== undefined) return exact
@@ -45,7 +44,7 @@ export function createSoraTranslator(options: CreateSoraTranslatorOptions): Sora
     get locale() {
       return toValue(options.locale)
     },
-    translate(key, params) {
+    translate: (key, params) => {
       const template =
         lookup(toValue(options.locale), key) ??
         (options.fallbackLocale ? lookup(options.fallbackLocale, key) : undefined)
@@ -81,7 +80,7 @@ type LocaleWithTextInfo = Intl.Locale & {
 }
 
 /** Writing direction of a BCP 47 locale (uses `Intl.Locale` text info where available). */
-export function directionOf(locale: string): SoraDirection {
+export const directionOf = (locale: string): SoraDirection => {
   try {
     const parsed = new Intl.Locale(locale) as LocaleWithTextInfo
     const direction = parsed.getTextInfo?.().direction ?? parsed.textInfo?.direction

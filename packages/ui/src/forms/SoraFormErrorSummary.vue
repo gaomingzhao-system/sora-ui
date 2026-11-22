@@ -1,15 +1,12 @@
 <script setup lang="ts" vapor>
-import { getDeepErrorEntries } from '@formisch/vue'
-import type { FormSchema, FormStore } from '@formisch/vue'
-import { computed, inject } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { getDeepErrorEntries, type FormSchema, type FormStore } from '@formisch/vue'
+import { computed, inject, type HTMLAttributes } from 'vue'
 import SoraIcon from '../components/foundation/SoraIcon.vue'
 import { useSoraLocale } from '../composables/use-sora-locale.ts'
 import { iconError } from '../internal/icons.ts'
 import { useSoraId } from '../internal/ids.ts'
 import { steadyWhilePressed } from './press.ts'
-import { soraFormKey } from './types.ts'
-import type { SoraFormErrorEntry } from './types.ts'
+import { soraFormKey, type SoraFormErrorEntry } from './types.ts'
 
 export interface SoraFormErrorSummaryProps extends /* @vue-ignore */ HTMLAttributes {
   /** Formisch store. Defaults to the store of the surrounding SoraForm. */
@@ -56,12 +53,12 @@ const titleId = `${useSoraId()}-title`
 const store = computed<FormStore<FormSchema> | undefined>(() => of ?? context?.form())
 
 /** The native controls Formisch registered for a path (their `name` is the JSON path). */
-function controlsFor(path: readonly (string | number)[]): HTMLElement[] {
+const controlsFor = (path: readonly (string | number)[]): HTMLElement[] => {
   const scope: ParentNode = context?.element() ?? document
   return [...scope.querySelectorAll<HTMLElement>(`[name="${CSS.escape(JSON.stringify(path))}"]`)]
 }
 
-function labelFor(controls: readonly HTMLElement[]): string | undefined {
+const labelFor = (controls: readonly HTMLElement[]): string | undefined => {
   const control = controls[0] as HTMLInputElement | undefined
   if (!control) return undefined
   // Radios, and checkboxes that share one name, are options of a group: the
@@ -94,7 +91,7 @@ const steady = steadyWhilePressed<SoraFormErrorEntry[]>(
 // walks every field, so nested and array fields are included.
 const entries = computed<SoraFormErrorEntry[]>(() => steady(readEntries()))
 
-function readEntries(): SoraFormErrorEntry[] {
+const readEntries = (): SoraFormErrorEntry[] => {
   const form = store.value
   if (!form || (reveal === 'submitted' && !form.isSubmitted)) return []
   return getDeepErrorEntries(form).flatMap((entry) => {
@@ -114,7 +111,7 @@ function readEntries(): SoraFormErrorEntry[] {
 
 const hasFormLevelError = computed(() => entries.value.some((entry) => entry.path.length === 0))
 
-function focusField(entry: SoraFormErrorEntry): void {
+const focusField = (entry: SoraFormErrorEntry): void => {
   if (entry.fieldId) document.getElementById(entry.fieldId)?.focus()
 }
 </script>

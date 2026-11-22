@@ -17,7 +17,7 @@ const submit = handleSubmit(form, (output) => props.save(output))
 
 // Formisch registers the element through `ref`; a Vapor function ref hands it
 // the real <input>, never a component instance.
-function register(element: unknown): void {
+const register = (element: unknown): void => {
   email.props.ref(element instanceof Element ? element : null)
 }
 </script>

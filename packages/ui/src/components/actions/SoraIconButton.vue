@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, useTemplateRef } from 'vue'
-import type { ButtonHTMLAttributes } from 'vue'
+import { computed, useTemplateRef, type ButtonHTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import type { SoraColor, SoraIconDefinition, SoraSize, SoraVariant } from '../../types/common.ts'
 import SoraIcon from '../foundation/SoraIcon.vue'

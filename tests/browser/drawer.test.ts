@@ -2,8 +2,7 @@ import { nextTick, reactive } from 'vue'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { commands, page, userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import DrawerHarness from './harness/DrawerHarness.vue'
-import type { DrawerState } from './harness/DrawerHarness.vue'
+import DrawerHarness, { type DrawerState } from './harness/DrawerHarness.vue'
 import { $, maybe, q, wait } from './support.ts'
 
 /** A phone: the sheet's home. */
@@ -14,7 +13,7 @@ afterAll(async () => {
   await page.viewport(1024, 768)
 })
 
-function setup(overrides: Partial<DrawerState> = {}) {
+const setup = (overrides: Partial<DrawerState> = {}) => {
   const state = reactive<DrawerState>({
     open: false,
     keepOpen: false,
@@ -40,12 +39,12 @@ const panel = (id = 'drawer'): HTMLElement => $('.sora-drawer__panel', dialog(id
 const backdrop = (id = 'drawer'): HTMLElement | null => dialog(id).querySelector('.sora-drawer__backdrop')
 
 /** Visible share of a bottom sheet, from 0 to 1. */
-function visibleShare(id = 'drawer'): number {
+const visibleShare = (id = 'drawer'): number => {
   const element = panel(id)
   return (window.innerHeight - element.getBoundingClientRect().top) / element.offsetHeight
 }
 
-async function open(state: DrawerState, props: DrawerState['props'] = {}): Promise<HTMLElement> {
+const open = async (state: DrawerState, props: DrawerState['props'] = {}): Promise<HTMLElement> => {
   state.props = props
   state.open = true
   await expect.poll(() => state.events).toContain('opened')
@@ -55,7 +54,7 @@ async function open(state: DrawerState, props: DrawerState['props'] = {}): Promi
 const closed = (state: DrawerState): Promise<void> => expect.poll(() => state.events).toContain('closed')
 
 /** Wait until the sheet stops moving. */
-async function settle(id = 'drawer'): Promise<void> {
+const settle = async (id = 'drawer'): Promise<void> => {
   let last = Number.NaN
   for (let index = 0; index < 100; index++) {
     await wait(32)
@@ -77,7 +76,7 @@ interface DragOptions {
 }
 
 /** Drag a pointer from a point of `element` by `dx`, `dy` and release it. */
-async function drag(element: Element, dx: number, dy: number, options: DragOptions = {}): Promise<void> {
+const drag = async (element: Element, dx: number, dy: number, options: DragOptions = {}): Promise<void> => {
   const { steps = 10, interval = 16, hold = 0, pointerType = 'touch' } = options
   const rect = element.getBoundingClientRect()
   const x = rect.left + (options.from?.x ?? rect.width / 2)

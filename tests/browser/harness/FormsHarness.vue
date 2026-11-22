@@ -88,7 +88,7 @@ const topicOptions = [
 ]
 
 /** The awaited submit callback. Its parameter type is inferred from the schema output. */
-function save(output: v.InferOutput<typeof schema>): Promise<void> {
+const save = (output: v.InferOutput<typeof schema>): Promise<void> => {
   state.outputs.push({ ...output, tags: [...output.tags], topics: [...output.topics] })
   if (!state.hold) return Promise.resolve()
   return new Promise<void>((resolve, reject) => {

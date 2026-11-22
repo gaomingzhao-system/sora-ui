@@ -93,7 +93,7 @@ if (packedUi) {
 type Kind = 'js' | 'dts'
 
 /** Bare specifiers reachable from an entry, following relative imports. */
-async function externalImports(entry: string, kind: Kind): Promise<Set<string>> {
+const externalImports = async (entry: string, kind: Kind): Promise<Set<string>> => {
   const seen = new Set<string>()
   const externals = new Set<string>()
   const queue = [entry]
@@ -167,13 +167,7 @@ for (const rule of rules) {
 }
 
 // The core entry bundles English only.
-const coreJs = [...(await moduleClosure(`${uiDir}/dist/index.js`))]
-for (const file of coreJs) {
-  const code = await readFile(file, 'utf8')
-  if (/次のページ|الصفحة التالية/.test(code))
-    fail(`core entry includes a non-English locale (${relative(root, file)})`)
-}
-async function moduleClosure(entry: string): Promise<Set<string>> {
+const moduleClosure = async (entry: string): Promise<Set<string>> => {
   const seen = new Set<string>()
   const queue = [entry]
   while (queue.length > 0) {
@@ -187,6 +181,12 @@ async function moduleClosure(entry: string): Promise<Set<string>> {
     }
   }
   return seen
+}
+const coreJs = [...(await moduleClosure(`${uiDir}/dist/index.js`))]
+for (const file of coreJs) {
+  const code = await readFile(file, 'utf8')
+  if (/次のページ|الصفحة التالية/.test(code))
+    fail(`core entry includes a non-English locale (${relative(root, file)})`)
 }
 notes.push(`isolation   ${rules.length} entries: JavaScript and declaration graphs import only what they may`)
 

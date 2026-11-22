@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends SoraAvatarGroupItem">
-import { computed } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import type { SoraSize } from '../../types/common.ts'
 import SoraAvatar from './SoraAvatar.vue'

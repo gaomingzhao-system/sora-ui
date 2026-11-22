@@ -10,8 +10,7 @@
  */
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { auditContrast, resolveTheme, themeToCss } from '../packages/theme/src/index.ts'
-import type { SoraConfigInput } from '../packages/theme/src/index.ts'
+import { auditContrast, resolveTheme, themeToCss, type SoraConfigInput } from '../packages/theme/src/index.ts'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const cssPath = `${root}packages/ui/src/styles/theme.generated.css`
@@ -22,7 +21,7 @@ const check = process.argv.includes('--check')
 // workspace source so generation never depends on a previous build.
 const { registerHooks } = await import('node:module')
 registerHooks({
-  resolve(specifier, context, nextResolve) {
+  resolve: (specifier, context, nextResolve) => {
     if (specifier === '@your-scope/theme') {
       return { url: new URL('../packages/theme/src/index.ts', import.meta.url).href, shortCircuit: true }
     }
@@ -64,7 +63,7 @@ export const generatedRadius: SoraRadius = '${theme.config.radius}'
 export const generatedMotion: SoraMotion = '${theme.config.motion}'
 `
 
-async function current(path: string): Promise<string | undefined> {
+const current = async (path: string): Promise<string | undefined> => {
   try {
     return await readFile(path, 'utf8')
   } catch {

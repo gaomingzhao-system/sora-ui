@@ -17,8 +17,8 @@ import {
   SoraSwitch,
   SoraTextarea,
   iconSearch,
+  type SoraOption,
 } from '@your-scope/ui'
-import type { SoraOption } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 
@@ -91,8 +91,8 @@ const FRUITS = [
 const fruitOptions: SoraOption[] = FRUITS.map((label) => ({ value: label.toLowerCase(), label }))
 
 /** A slow source: the signal lets the combobox cancel a superseded request. */
-function searchFruit(query: string, signal: AbortSignal): Promise<SoraOption[]> {
-  return new Promise((resolve, reject) => {
+const searchFruit = (query: string, signal: AbortSignal): Promise<SoraOption[]> =>
+  new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       const needle = query.trim().toLowerCase()
       resolve(fruitOptions.filter((option) => option.label.toLowerCase().includes(needle)))
@@ -102,7 +102,6 @@ function searchFruit(query: string, signal: AbortSignal): Promise<SoraOption[]> 
       reject(new DOMException('Aborted', 'AbortError'))
     })
   })
-}
 </script>
 
 <template>

@@ -1,12 +1,10 @@
 <script setup lang="ts" vapor>
-import { computed, shallowRef, useTemplateRef } from 'vue'
-import type { ButtonHTMLAttributes } from 'vue'
+import { computed, shallowRef, useTemplateRef, type ButtonHTMLAttributes } from 'vue'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { anchorName, useSoraId } from '../../internal/ids.ts'
 import type { SoraColor, SoraPlacement, SoraSize, SoraVariant } from '../../types/common.ts'
 import SoraButton from '../actions/SoraButton.vue'
-import { isNativeInvoker } from './trigger.ts'
-import type { SoraTriggerBindings } from './trigger.ts'
+import { isNativeInvoker, type SoraTriggerBindings } from './trigger.ts'
 
 export interface SoraPopoverProps
   extends /* @vue-ignore */ Omit<ButtonHTMLAttributes, 'type' | 'disabled' | 'title'> {
@@ -63,10 +61,10 @@ const triggerElement = shallowRef<HTMLElement | null>(null)
 
 const named = computed(() => Boolean(title) || Boolean(label))
 
-function toggle(): void {
+const toggle = (): void => {
   if (!disabled) open.value = !open.value
 }
-function close(): void {
+const close = (): void => {
   open.value = false
 }
 

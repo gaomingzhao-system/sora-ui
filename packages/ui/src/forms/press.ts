@@ -17,7 +17,7 @@ let timer: ReturnType<typeof setTimeout> | undefined
 /** Bumped when held-back changes may be shown; read by every steady value. */
 const released = shallowRef(0)
 
-function flush(): void {
+const flush = (): void => {
   timer = undefined
   pressed = false
   if (!held) return
@@ -25,7 +25,7 @@ function flush(): void {
   released.value++
 }
 
-function install(): void {
+const install = (): void => {
   if (installed || typeof document === 'undefined') return
   installed = true
   const options = { capture: true, passive: true } as const
@@ -55,7 +55,7 @@ function install(): void {
  * until the press ends. Call the returned function inside a reactive getter
  * or computed: it tracks the release, so the caller re-evaluates then.
  */
-export function steadyWhilePressed<T>(same: (previous: T, next: T) => boolean): (next: T) => T {
+export const steadyWhilePressed = <T>(same: (previous: T, next: T) => boolean): ((next: T) => T) => {
   install()
   let shown: T
   let initialised = false

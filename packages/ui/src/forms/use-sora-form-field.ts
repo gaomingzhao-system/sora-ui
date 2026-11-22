@@ -1,14 +1,13 @@
-import { useField } from '@formisch/vue'
-import type {
-  FieldElementProps,
-  FieldStore,
-  FormSchema,
-  FormStore,
-  RequiredPath,
-  UseFieldConfig,
+import {
+  useField,
+  type FieldElementProps,
+  type FieldStore,
+  type FormSchema,
+  type FormStore,
+  type RequiredPath,
+  type UseFieldConfig,
 } from '@formisch/vue'
-import { shallowRef, toValue, watch } from 'vue'
-import type { MaybeRefOrGetter } from 'vue'
+import { shallowRef, toValue, watch, type MaybeRefOrGetter } from 'vue'
 import type { SoraControlAttrs } from '../types/common.ts'
 import { steadyWhilePressed } from './press.ts'
 
@@ -74,11 +73,11 @@ const sameMessages = (a: Messages, b: Messages): boolean =>
  * `controlAttrs` and never spread on the component, so Formisch always
  * registers the real `<input>` rather than a component instance.
  */
-export function useSoraFormField<TSchema extends FormSchema, TFieldPath extends RequiredPath>(
+export const useSoraFormField = <TSchema extends FormSchema, TFieldPath extends RequiredPath>(
   form: MaybeRefOrGetter<FormStore<TSchema>>,
   config: MaybeRefOrGetter<UseFieldConfig<TSchema, TFieldPath>>,
   options: UseSoraFormFieldOptions = {},
-): SoraFormField<TSchema, TFieldPath> {
+): SoraFormField<TSchema, TFieldPath> => {
   const field = useField(form, config)
   type Input = FieldStore<TSchema, TFieldPath>['input']
 

@@ -18,8 +18,7 @@
  */
 import { existsSync } from 'node:fs'
 import { cp, mkdir, readFile, readdir, realpath, rm, writeFile } from 'node:fs/promises'
-import { consumerDir, gzipSizeOfFiles, kib, packPackages, root, run } from './shared.ts'
-import type { PackedPackage } from './shared.ts'
+import { consumerDir, gzipSizeOfFiles, kib, packPackages, root, run, type PackedPackage } from './shared.ts'
 
 interface Consumer {
   name: string

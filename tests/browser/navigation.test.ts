@@ -2,11 +2,10 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import NavigationHarness from './harness/NavigationHarness.vue'
-import type { NavigationState } from './harness/NavigationHarness.vue'
+import NavigationHarness, { type NavigationState } from './harness/NavigationHarness.vue'
 import { $, all, flush, press, q, referenced } from './support.ts'
 
-function setup(overrides: Partial<NavigationState> = {}, containerAttrs: Record<string, string> = {}) {
+const setup = (overrides: Partial<NavigationState> = {}, containerAttrs: Record<string, string> = {}) => {
   const state = reactive<NavigationState>({
     tab: 'profile',
     activation: 'automatic',

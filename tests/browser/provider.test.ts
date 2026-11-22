@@ -4,11 +4,10 @@ import { createSoraTranslator } from '@your-scope/ui'
 import { createPetiteTranslator, createSoraI18n, pseudoLocalize } from '@your-scope/ui/i18n'
 import uiEnglish from '@your-scope/ui/i18n/locales/en'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import ProviderHarness from './harness/ProviderHarness.vue'
-import type { ProviderState } from './harness/ProviderHarness.vue'
+import ProviderHarness, { type ProviderState } from './harness/ProviderHarness.vue'
 import { $, flush, q, until } from './support.ts'
 
-function setup(overrides: Partial<ProviderState> = {}) {
+const setup = (overrides: Partial<ProviderState> = {}) => {
   const state = reactive<ProviderState>({
     colorMode: undefined,
     density: undefined,
@@ -29,7 +28,7 @@ const token = (element: Element, name: string): string =>
   getComputedStyle(element).getPropertyValue(name).trim()
 
 /** Any CSS colour as [r, g, b] (0-255), resolved by the browser itself. */
-function rgb(color: string): [number, number, number] {
+const rgb = (color: string): [number, number, number] => {
   const canvas = document.createElement('canvas')
   canvas.width = canvas.height = 1
   const context = canvas.getContext('2d', { willReadFrequently: true })
@@ -45,7 +44,7 @@ const lightness = (color: string): number => {
 }
 const background = (testId: string): string => getComputedStyle(q(testId)).backgroundColor
 /** A colour token as the browser resolves it at `scope` (light-dark(), oklch(), ...). */
-function resolved(scope: Element, name: string): [number, number, number] {
+const resolved = (scope: Element, name: string): [number, number, number] => {
   const probe = document.createElement('i')
   probe.style.backgroundColor = `var(${name})`
   scope.append(probe)

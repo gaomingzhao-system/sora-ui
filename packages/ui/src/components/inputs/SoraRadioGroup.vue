@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends string | number">
-import { computed, useTemplateRef } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, useTemplateRef, type HTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { omitKeys } from '../../internal/attributes.ts'
@@ -68,7 +67,7 @@ const radioAttrs = computed(() =>
 )
 const list = useTemplateRef<HTMLElement>('list')
 
-function register(element: unknown): void {
+const register = (element: unknown): void => {
   controlAttrs?.ref?.(element instanceof Element ? element : null)
 }
 

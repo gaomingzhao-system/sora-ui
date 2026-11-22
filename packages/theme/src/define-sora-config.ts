@@ -1,7 +1,11 @@
 import { defaultSoraConfig } from './defaults.ts'
 import { palettes } from './palettes.ts'
-import { SORA_COLOR_ROLES } from './types.ts'
-import type { SoraComponentDefaults, SoraConfig, SoraConfigInput } from './types.ts'
+import {
+  SORA_COLOR_ROLES,
+  type SoraComponentDefaults,
+  type SoraConfig,
+  type SoraConfigInput,
+} from './types.ts'
 
 /**
  * Identity helper that types `sora.config.ts`.
@@ -9,13 +13,11 @@ import type { SoraComponentDefaults, SoraConfig, SoraConfigInput } from './types
  * `colors` values are checked against the built-in palettes plus any palette
  * declared under `palettes`, so a typo fails to compile.
  */
-export function defineSoraConfig<const TPalette extends string = never>(
+export const defineSoraConfig = <const TPalette extends string = never>(
   config: SoraConfigInput<TPalette>,
-): SoraConfigInput<TPalette> {
-  return config
-}
+): SoraConfigInput<TPalette> => config
 
-function mergeDefaults(input: SoraConfigInput<string>['defaults']): SoraComponentDefaults {
+const mergeDefaults = (input: SoraConfigInput<string>['defaults']): SoraComponentDefaults => {
   const base = defaultSoraConfig.defaults
   const merged = {} as { -readonly [K in keyof SoraComponentDefaults]: SoraComponentDefaults[K] }
   for (const key of Object.keys(base) as (keyof SoraComponentDefaults)[]) {
@@ -25,7 +27,7 @@ function mergeDefaults(input: SoraConfigInput<string>['defaults']): SoraComponen
 }
 
 /** Fill every omitted option and validate palette references. */
-export function normalizeSoraConfig(input: SoraConfigInput<string> = {}): SoraConfig {
+export const normalizeSoraConfig = (input: SoraConfigInput<string> = {}): SoraConfig => {
   const allPalettes = { ...palettes, ...input.palettes }
   const colors = { ...defaultSoraConfig.colors, ...input.colors }
 

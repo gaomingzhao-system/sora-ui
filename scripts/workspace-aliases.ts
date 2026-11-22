@@ -13,7 +13,7 @@ export interface WorkspaceAlias {
   replacement: string
 }
 
-export function workspaceAliases(root: string): WorkspaceAlias[] {
+export const workspaceAliases = (root: string): WorkspaceAlias[] => {
   const ui = join(root, 'packages/ui/src')
   const theme = join(root, 'packages/theme/src')
   return [

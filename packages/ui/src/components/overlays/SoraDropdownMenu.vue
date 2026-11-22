@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends SoraMenuItem">
-import { computed, useTemplateRef, watch } from 'vue'
-import type { ButtonHTMLAttributes } from 'vue'
+import { computed, useTemplateRef, watch, type ButtonHTMLAttributes } from 'vue'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { isItemDisabled, useRovingFocus } from '../../composables/use-roving-focus.ts'
 import { useTypeahead } from '../../composables/use-typeahead.ts'
@@ -16,8 +15,7 @@ import type {
 } from '../../types/common.ts'
 import SoraButton from '../actions/SoraButton.vue'
 import SoraIcon from '../foundation/SoraIcon.vue'
-import { isNativeInvoker } from './trigger.ts'
-import type { SoraTriggerBindings } from './trigger.ts'
+import { isNativeInvoker, type SoraTriggerBindings } from './trigger.ts'
 
 export interface SoraMenuItem {
   /** Unique within the menu. */
@@ -92,9 +90,7 @@ const triggerId = `${id}-trigger`
 const menuId = `${id}-menu`
 const anchor = anchorName(`${id}-anchor`)
 
-function isGroup(entry: T | SoraMenuGroup<T>): entry is SoraMenuGroup<T> {
-  return 'items' in entry
-}
+const isGroup = (entry: T | SoraMenuGroup<T>): entry is SoraMenuGroup<T> => 'items' in entry
 
 // Consecutive plain items form an unnamed group; explicit groups keep their label.
 const groups = computed<SoraMenuGroup<T>[]>(() => {
@@ -136,13 +132,13 @@ const typeahead = useTypeahead({
 /** Which item receives focus when the menu opens. */
 let focusOnOpen: 'first' | 'last' = 'first'
 
-async function show(target: 'first' | 'last' = 'first'): Promise<void> {
+const show = async (target: 'first' | 'last' = 'first'): Promise<void> => {
   if (disabled) return
   focusOnOpen = target
   open.value = true
 }
 
-function close(): void {
+const close = (): void => {
   open.value = false
 }
 
@@ -161,12 +157,12 @@ watch(
   { flush: 'post' },
 )
 
-function onToggle(event: Event): void {
+const onToggle = (event: Event): void => {
   popover.onToggle(event)
   if ((event as ToggleEvent).newState !== 'open') typeahead.reset()
 }
 
-function onTriggerKeydown(event: KeyboardEvent): void {
+const onTriggerKeydown = (event: KeyboardEvent): void => {
   if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
     event.preventDefault()
     void show(event.key === 'ArrowUp' ? 'last' : 'first')
@@ -180,7 +176,7 @@ function onTriggerKeydown(event: KeyboardEvent): void {
   }
 }
 
-function onMenuKeydown(event: KeyboardEvent): void {
+const onMenuKeydown = (event: KeyboardEvent): void => {
   if (event.key === 'Tab') {
     // Closing returns focus to the trigger; the Tab then continues from there.
     close()
@@ -190,7 +186,7 @@ function onMenuKeydown(event: KeyboardEvent): void {
   typeahead.onKeydown(event)
 }
 
-function activate(item: T, event: Event): void {
+const activate = (item: T, event: Event): void => {
   if (item.disabled) {
     event.preventDefault()
     return
@@ -201,7 +197,7 @@ function activate(item: T, event: Event): void {
 }
 
 // Pointer and keyboard share one highlight: hovering an item focuses it.
-function onPointermove(event: PointerEvent): void {
+const onPointermove = (event: PointerEvent): void => {
   const target = (event.target as HTMLElement).closest<HTMLElement>('[role="menuitem"]')
   if (target && activeElement() !== target && !isItemDisabled(target)) target.focus({ preventScroll: true })
 }

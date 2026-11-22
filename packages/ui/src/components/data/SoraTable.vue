@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="Row extends object">
-import { computed, onBeforeUnmount, onMounted, shallowRef, useTemplateRef } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, onBeforeUnmount, onMounted, shallowRef, useTemplateRef, type HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconSort, iconSortAscending, iconSortDescending } from '../../internal/icons.ts'
@@ -94,27 +93,25 @@ const resolvedSize = computed(() => size ?? defaults().size)
 const { t, formatNumber } = useSoraLocale()
 const captionId = `${useSoraId()}-caption`
 
-function keyOf(row: Row): SoraTableRowKey {
-  return typeof rowKey === 'function' ? rowKey(row) : (row[rowKey] as SoraTableRowKey)
-}
+const keyOf = (row: Row): SoraTableRowKey =>
+  typeof rowKey === 'function' ? rowKey(row) : (row[rowKey] as SoraTableRowKey)
 
-function valueOf(row: Row, column: SoraTableColumn<Row>): unknown {
-  return column.accessor ? column.accessor(row) : (row as Record<string, unknown>)[column.key]
-}
+const valueOf = (row: Row, column: SoraTableColumn<Row>): unknown =>
+  column.accessor ? column.accessor(row) : (row as Record<string, unknown>)[column.key]
 
-function display(value: unknown): string {
+const display = (value: unknown): string => {
   if (value == null) return ''
   return typeof value === 'number' ? formatNumber(value) : String(value)
 }
 
 // ------------------------------------------------------------------- sorting
-function ariaSort(column: SoraTableColumn<Row>): 'ascending' | 'descending' | 'none' | undefined {
+const ariaSort = (column: SoraTableColumn<Row>): 'ascending' | 'descending' | 'none' | undefined => {
   if (!column.sortable) return undefined
   return sort.value?.key === column.key ? sort.value.direction : 'none'
 }
 
 // none -> ascending -> descending -> none
-function cycleSort(column: SoraTableColumn<Row>): void {
+const cycleSort = (column: SoraTableColumn<Row>): void => {
   const current = sort.value?.key === column.key ? sort.value.direction : undefined
   if (current === undefined) sort.value = { key: column.key, direction: 'ascending' }
   else if (current === 'ascending') sort.value = { key: column.key, direction: 'descending' }
@@ -130,18 +127,18 @@ const selectedCount = computed(() => keySet.value.intersection(selectedSet.value
 const allSelected = computed(() => keySet.value.size > 0 && selectedCount.value === keySet.value.size)
 const someSelected = computed(() => selectedCount.value > 0 && !allSelected.value)
 
-function toggleAll(checked: boolean): void {
+const toggleAll = (checked: boolean): void => {
   // Keys selected elsewhere (other pages, filtered-out rows) are kept, in their order.
   const others = [...selectedSet.value.difference(keySet.value)]
   selected.value = checked ? [...others, ...keys.value] : others
 }
 
-function toggleRow(key: SoraTableRowKey, checked: boolean): void {
+const toggleRow = (key: SoraTableRowKey, checked: boolean): void => {
   selected.value = checked ? [...selected.value, key] : selected.value.filter((entry) => entry !== key)
 }
 
 /** Text that identifies a row to assistive technology in the selection column. */
-function rowLabel(row: Row, index: number): string {
+const rowLabel = (row: Row, index: number): string => {
   const header = columns.find((column) => column.rowHeader) ?? columns[0]
   const text = header ? display(valueOf(row, header)) : ''
   return text || formatNumber(index + 1)
@@ -156,7 +153,7 @@ const wrap = useTemplateRef<HTMLElement>('wrap')
 const scrollable = shallowRef(false)
 let observer: ResizeObserver | undefined
 
-function measure(): void {
+const measure = (): void => {
   const element = wrap.value
   if (element) scrollable.value = element.scrollWidth > element.clientWidth + 1
 }

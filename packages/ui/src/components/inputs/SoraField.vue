@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { mergeIds } from '../../internal/attributes.ts'
 import { iconError } from '../../internal/icons.ts'

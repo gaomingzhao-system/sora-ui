@@ -1,11 +1,10 @@
 import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import DisplayHarness from './harness/DisplayHarness.vue'
-import type { DisplayState } from './harness/DisplayHarness.vue'
+import DisplayHarness, { type DisplayState } from './harness/DisplayHarness.vue'
 import { $, all, flush, q, until } from './support.ts'
 
-function setup(overrides: Partial<DisplayState> = {}) {
+const setup = (overrides: Partial<DisplayState> = {}) => {
   const state = reactive<DisplayState>({
     width: '32rem',
     src: undefined,

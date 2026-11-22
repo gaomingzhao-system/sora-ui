@@ -20,10 +20,10 @@ import { baseCompile } from '@intlify/message-compiler'
 
 const QUERY = '?compiled'
 
-export function compileMessages(
+export const compileMessages = (
   messages: Readonly<Record<string, string>>,
   source = 'messages',
-): Record<string, unknown> {
+): Record<string, unknown> => {
   const compiled: Record<string, unknown> = {}
   for (const [key, message] of Object.entries(messages)) {
     if (typeof message !== 'string') {
@@ -33,7 +33,7 @@ export function compileMessages(
       jit: true,
       minify: true,
       location: false,
-      onError(error) {
+      onError: (error) => {
         throw new Error(`[compiled-messages] ${source}: "${key}" does not compile: ${error.message}`)
       },
     })
@@ -48,11 +48,12 @@ interface PluginContextLike {
 }
 
 /** Works as a Vite plugin and as a Rolldown plugin (tsdown). */
-export function compiledMessagesPlugin() {
+export const compiledMessagesPlugin = () => {
   let version = 0
   return {
     name: 'sora:compiled-messages',
     enforce: 'pre' as const,
+    // Plugin hooks need the context supplied through `this` by Vite and Rolldown.
     async resolveId(this: PluginContextLike, source: string, importer?: string) {
       if (!source.endsWith(QUERY)) return null
       const resolved = await this.resolve(source.slice(0, -QUERY.length), importer)

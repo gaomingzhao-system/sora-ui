@@ -2,12 +2,11 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import FeedbackHarness from './harness/FeedbackHarness.vue'
-import type { FeedbackState } from './harness/FeedbackHarness.vue'
+import FeedbackHarness, { type FeedbackState } from './harness/FeedbackHarness.vue'
 import ToastOrphan from './harness/ToastOrphan.vue'
 import { $, all, flush, q, until, wait } from './support.ts'
 
-function setup(overrides: Partial<FeedbackState> = {}) {
+const setup = (overrides: Partial<FeedbackState> = {}) => {
   const state = reactive<FeedbackState>({
     alertOpen: true,
     lateAlertOpen: false,

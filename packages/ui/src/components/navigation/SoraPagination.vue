@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconChevronLeft, iconChevronRight } from '../../internal/icons.ts'
 import type { SoraSize } from '../../types/common.ts'
@@ -69,7 +68,7 @@ const entries = computed<(number | null)[]>(() => {
   return result
 })
 
-function go(target: number): void {
+const go = (target: number): void => {
   if (disabled) return
   const next = Math.min(Math.max(1, target), count.value)
   if (next !== page.value) page.value = next

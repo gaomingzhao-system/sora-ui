@@ -1,5 +1,4 @@
-import { createVaporApp, nextTick } from 'vue'
-import type { App, Plugin, VaporComponent } from 'vue'
+import { createVaporApp, nextTick, type App, type Plugin, type VaporComponent } from 'vue'
 
 /**
  * Minimal pure-Vapor mounting helper.
@@ -25,7 +24,7 @@ export interface MountVaporOptions {
 
 const mounted = new Set<MountedVapor>()
 
-export function mountVapor(component: VaporComponent, options: MountVaporOptions = {}): MountedVapor {
+export const mountVapor = (component: VaporComponent, options: MountVaporOptions = {}): MountedVapor => {
   const container = document.createElement('div')
   container.dataset['testRoot'] = ''
   for (const [name, value] of Object.entries(options.containerAttrs ?? {})) {
@@ -40,7 +39,7 @@ export function mountVapor(component: VaporComponent, options: MountVaporOptions
   const handle: MountedVapor = {
     app,
     container,
-    unmount() {
+    unmount: () => {
       if (!mounted.delete(handle)) return
       app.unmount()
       container.remove()
@@ -50,13 +49,13 @@ export function mountVapor(component: VaporComponent, options: MountVaporOptions
   return handle
 }
 
-export function unmountAll(): void {
+export const unmountAll = (): void => {
   // Deleting from a Set while iterating it is well defined: every handle is visited once.
   for (const handle of mounted) handle.unmount()
 }
 
 /** Flush Vue's scheduler and one animation frame (layout, top-layer and focus changes). */
-export async function settle(): Promise<void> {
+export const settle = async (): Promise<void> => {
   await nextTick()
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
   await nextTick()

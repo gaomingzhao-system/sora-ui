@@ -2,8 +2,7 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { commands, userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import FormsHarness from './harness/FormsHarness.vue'
-import type { FormsState } from './harness/FormsHarness.vue'
+import FormsHarness, { type FormsState } from './harness/FormsHarness.vue'
 import { $, all, description, flush, maybe, press, q, referenced, until } from './support.ts'
 
 interface Exposed {
@@ -21,7 +20,7 @@ interface Exposed {
   fieldErrors(name: 'email' | 'city'): readonly string[] | null
 }
 
-function setup(overrides: Partial<FormsState> = {}) {
+const setup = (overrides: Partial<FormsState> = {}) => {
   const state = reactive<FormsState>({
     locale: 'en',
     outputs: [],
@@ -42,7 +41,7 @@ const errorOf = (testId: string): string =>
     .map((element) => element.textContent?.trim() ?? '')
     .join(' | ')
 
-async function type(testId: string, value: string): Promise<void> {
+const type = async (testId: string, value: string): Promise<void> => {
   const element = input(testId)
   element.focus()
   await userEvent.fill(element, value)
@@ -52,7 +51,7 @@ async function type(testId: string, value: string): Promise<void> {
 const option = (group: string, value: string): HTMLInputElement =>
   $<HTMLInputElement>(`input[value="${value}"]`, q(group))
 
-async function fillValid(): Promise<void> {
+const fillValid = async (): Promise<void> => {
   await type('email', 'ada@example.com')
   await userEvent.selectOptions(q('plan'), 'pro')
   await userEvent.click(option('contact', 'email'))

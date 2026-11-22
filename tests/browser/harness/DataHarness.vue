@@ -1,7 +1,13 @@
 <script setup lang="ts" vapor>
 import { computed } from 'vue'
-import { SoraBadge, SoraProvider, SoraTable } from '@your-scope/ui'
-import type { SoraTableColumn, SoraTableRowKey, SoraTableSort } from '@your-scope/ui'
+import {
+  SoraBadge,
+  SoraProvider,
+  SoraTable,
+  type SoraTableColumn,
+  type SoraTableRowKey,
+  type SoraTableSort,
+} from '@your-scope/ui'
 
 export interface Member {
   id: number

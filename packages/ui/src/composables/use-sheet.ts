@@ -1,5 +1,17 @@
-import { computed, inject, nextTick, onBeforeUnmount, onMounted, provide, shallowRef, watch } from 'vue'
-import type { ComputedRef, InjectionKey, Ref, ShallowRef } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  shallowRef,
+  watch,
+  type ComputedRef,
+  type InjectionKey,
+  type Ref,
+  type ShallowRef,
+} from 'vue'
 import {
   clamp,
   createSheetSpring,
@@ -8,8 +20,9 @@ import {
   releaseTarget,
   rubberBand,
   snapOffsets,
+  type SheetSpring,
+  type SoraSnapPoint,
 } from '../internal/sheet.ts'
-import type { SheetSpring, SoraSnapPoint } from '../internal/sheet.ts'
 import type { SoraCloseReason } from './use-overlay.ts'
 
 export type SoraDrawerSide = 'bottom' | 'top' | 'start' | 'end'
@@ -125,7 +138,7 @@ interface Flight {
  *   - The spring has a closed form, so catching a sheet in flight needs no
  *     style read-back and keeps its velocity.
  */
-export function useSheet(options: UseSheetOptions): Sheet {
+export const useSheet = (options: UseSheetOptions): Sheet => {
   const { open, snapPoint } = options
 
   const visible = shallowRef(false)
@@ -173,7 +186,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   let followers: Follower[] = []
 
   // ---------------------------------------------------------------- rendering
-  function panelTransform(offset: number, behind: number): string {
+  const panelTransform = (offset: number, behind: number): string => {
     const shift = sign * (offset - NESTED_SHIFT * behind)
     const translate = vertical.value ? `translate3d(0, ${shift}px, 0)` : `translate3d(${shift}px, 0, 0)`
     if (behind === 0) return translate
@@ -182,13 +195,13 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** 0 when closed, 1 from the smallest snap point on. */
-  function openProgress(offset: number): number {
+  const openProgress = (offset: number): number => {
     const range = size.value - lowestOffset.value
     return range > 0 ? clamp((size.value - offset) / range, 0, 1) : Number(offset < size.value)
   }
 
   /** The backdrop fades in on the way from the snap point before `fadeFrom` to `fadeFrom`. */
-  function backdropOpacity(offset: number): number {
+  const backdropOpacity = (offset: number): number => {
     const list = offsets.value
     const index = clamp(Math.round(options.fadeFrom()), 0, list.length - 1)
     const full = list[index] ?? 0
@@ -198,7 +211,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** The page is pushed back on the way from the second largest snap point to the largest. */
-  function backgroundFrame(offset: number): Keyframe {
+  const backgroundFrame = (offset: number): Keyframe => {
     const [full = 0, from = size.value] = offsets.value.toSorted((a, b) => a - b)
     const progress = from > full ? clamp((from - offset) / (from - full), 0, 1) : Number(offset <= full)
     const side = options.side()
@@ -216,7 +229,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** Everything that moves with the sheet, collected once per opening. */
-  function collectFollowers(): Follower[] {
+  const collectFollowers = (): Follower[] => {
     const list: Follower[] = []
     const panel = options.panel()
     if (panel)
@@ -238,7 +251,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     return list
   }
 
-  function render(offset: number): void {
+  const render = (offset: number): void => {
     position = offset
     for (const follower of followers) {
       // `frame()` only ever returns style properties.
@@ -248,7 +261,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** While dragging: at most one write per animation frame. */
-  function renderSoon(offset: number): void {
+  const renderSoon = (offset: number): void => {
     position = offset
     if (frame !== 0) return
     frame = requestAnimationFrame(() => {
@@ -258,24 +271,23 @@ export function useSheet(options: UseSheetOptions): Sheet {
     })
   }
 
-  function setMoving(moving: boolean): void {
+  const setMoving = (moving: boolean): void => {
     // Promotes the panel to its own layer only while it moves.
     options.dialog()?.toggleAttribute('data-moving', moving)
   }
 
   // --------------------------------------------------------------- animation
   /** Where the sheet is right now, also in the middle of a flight. */
-  function currentPosition(): number {
+  const currentPosition = (): number => {
     if (!flight) return position
     return flight.spring.position(Number(flight.animations[0]?.currentTime ?? 0))
   }
 
-  function currentVelocity(): number {
-    return flight ? flight.spring.velocity(Number(flight.animations[0]?.currentTime ?? 0)) : 0
-  }
+  const currentVelocity = (): number =>
+    flight ? flight.spring.velocity(Number(flight.animations[0]?.currentTime ?? 0)) : 0
 
   /** Stop a flight where it is. Returns the velocity it had, or `null` when nothing was flying. */
-  function freeze(): number | null {
+  const freeze = (): number | null => {
     if (!flight) return null
     const at = currentPosition()
     const speed = currentVelocity()
@@ -287,7 +299,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** Fly to `target`, starting at `speed`. */
-  function animate(target: number, speed = 0, done?: () => void): void {
+  const animate = (target: number, speed = 0, done?: () => void): void => {
     // Continue from wherever a running flight has got to, with its momentum.
     const carried = freeze()
     const start = position
@@ -338,7 +350,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   // ------------------------------------------------------ opening and closing
-  function show(): void {
+  const show = (): void => {
     if (phase === 'open' || phase === 'opening') return
     const dialog = options.dialog()
     if (!dialog?.isConnected) return
@@ -365,13 +377,13 @@ export function useSheet(options: UseSheetOptions): Sheet {
     animate(offsets.value[activeIndex.value] ?? 0, 0, settled)
   }
 
-  function settled(): void {
+  const settled = (): void => {
     if (phase !== 'opening') return
     phase = 'open'
     options.onOpened()
   }
 
-  function hide(speed = 0): void {
+  const hide = (speed = 0): void => {
     if (phase === 'closed' || phase === 'closing') return
     endGesture()
     phase = 'closing'
@@ -379,7 +391,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     animate(size.value, speed, finishClose)
   }
 
-  function finishClose(): void {
+  const finishClose = (): void => {
     if (phase === 'closed') return
     phase = 'closed'
     visible.value = false
@@ -399,7 +411,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     options.onClosed(closedBy)
   }
 
-  function setup(dialog: HTMLElement): void {
+  const setup = (dialog: HTMLElement): void => {
     const style = getComputedStyle(dialog)
     const side = options.side()
     const rtl = style.direction === 'rtl'
@@ -419,7 +431,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     }
   }
 
-  function teardown(): void {
+  const teardown = (): void => {
     observer?.disconnect()
     observer = undefined
     if (frame !== 0) cancelAnimationFrame(frame)
@@ -438,7 +450,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** Close the sheet, starting at `speed` after a release. */
-  function close(why: SoraCloseReason = 'programmatic', speed = 0): void {
+  const close = (why: SoraCloseReason = 'programmatic', speed = 0): void => {
     if (phase === 'closed' || phase === 'closing') return
     reason = why
     closeSpeed = speed
@@ -451,7 +463,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   // ----------------------------------------------------------------- snapping
-  function setSnap(index: number, speed = 0): void {
+  const setSnap = (index: number, speed = 0): void => {
     const point = points.value[index]
     if (point === undefined) return
     activeIndex.value = index
@@ -459,12 +471,12 @@ export function useSheet(options: UseSheetOptions): Sheet {
     if (phase === 'open' || phase === 'opening') animate(offsets.value[index] ?? 0, speed, settled)
   }
 
-  function snapTo(point: SoraSnapPoint): void {
+  const snapTo = (point: SoraSnapPoint): void => {
     const index = findSnapIndex(points.value, point)
     if (index !== -1) setSnap(index)
   }
 
-  function step(direction: -1 | 0 | 1): void {
+  const step = (direction: -1 | 0 | 1): void => {
     const count = points.value.length
     if (count < 2) return
     // Snap points are listed from the smallest to the largest.
@@ -472,7 +484,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     else setSnap(clamp(activeIndex.value + direction, 0, count - 1))
   }
 
-  function measure(): void {
+  const measure = (): void => {
     const panel = options.panel()
     if (!panel) return
     size.value = vertical.value ? panel.offsetHeight : panel.offsetWidth
@@ -481,7 +493,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     footerRange = footer && body ? Math.max(0, footer.offsetTop - body.offsetTop) : 0
   }
 
-  function onResize(): void {
+  const onResize = (): void => {
     if (phase === 'closed') return
     const previous = size.value
     measure()
@@ -491,12 +503,12 @@ export function useSheet(options: UseSheetOptions): Sheet {
     else render(offsets.value[activeIndex.value] ?? 0)
   }
 
-  function resume(): void {
+  const resume = (): void => {
     if (phase === 'open' || phase === 'opening') animate(offsets.value[activeIndex.value] ?? 0, 0, settled)
   }
 
   // ----------------------------------------------------------------- gestures
-  function onPointerdown(event: PointerEvent): void {
+  const onPointerdown = (event: PointerEvent): void => {
     if (gesture || !event.isPrimary || event.button > 0) return
     if (phase !== 'open' && phase !== 'opening') return
     const panel = options.panel()
@@ -525,7 +537,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     window.addEventListener('pointercancel', onPointercancel, listen)
   }
 
-  function canGrab(target: Element, pointerType: string): boolean {
+  const canGrab = (target: Element, pointerType: string): boolean => {
     if (target.closest('[data-sora-no-drag], select, input[type="range"]')) return false
     if (options.handleOnly() && !target.closest('.sora-drawer__handle, [data-sora-drag-handle]')) return false
     // Let a mouse select text in fields instead of dragging the sheet.
@@ -540,14 +552,14 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** Whether moving `main` px along the drag axis moves the sheet rather than its content. */
-  function wantsDrag(current: Gesture, main: number): boolean {
+  const wantsDrag = (current: Gesture, main: number): boolean => {
     // Content only scrolls once the sheet is (nearly) settled at its largest snap point.
     const settledOpen = expanded.value && position <= openOffset.value + SCROLL_SLOP
     if (!settledOpen || !current.scroller) return true
     return !canScroll(current.scroller, vertical.value, main > 0)
   }
 
-  function onPointermove(event: PointerEvent): void {
+  const onPointermove = (event: PointerEvent): void => {
     const current = gesture
     if (!current || event.pointerId !== current.pointerId) return
     const main = vertical.value ? event.clientY - current.y : event.clientX - current.x
@@ -572,7 +584,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
 
   // Pointer events stop once the browser starts scrolling, so the browser is
   // held back while a move may still become a drag.
-  function onTouchmove(event: TouchEvent): void {
+  const onTouchmove = (event: TouchEvent): void => {
     const current = gesture
     if (!current || !event.cancelable) return
     if (current.dragging) {
@@ -586,7 +598,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     if (main !== 0 && Math.abs(main) >= Math.abs(cross) && wantsDrag(current, main)) event.preventDefault()
   }
 
-  function startDrag(current: Gesture, event: PointerEvent): void {
+  const startDrag = (current: Gesture, event: PointerEvent): void => {
     current.dragging = true
     dragging.value = true
     setMoving(true)
@@ -602,7 +614,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
       selection.removeAllRanges()
   }
 
-  function drag(offset: number): void {
+  const drag = (offset: number): void => {
     const dismissible = options.dismissible()
     const min = openOffset.value
     const max = dismissible ? size.value : lowestOffset.value
@@ -613,7 +625,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     renderSoon(next)
   }
 
-  function onPointerup(event: PointerEvent): void {
+  const onPointerup = (event: PointerEvent): void => {
     const current = gesture
     if (!current || event.pointerId !== current.pointerId) return
     endGesture()
@@ -627,7 +639,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     }
   }
 
-  function onPointercancel(event: PointerEvent): void {
+  const onPointercancel = (event: PointerEvent): void => {
     const current = gesture
     if (!current || event.pointerId !== current.pointerId) return
     endGesture()
@@ -636,13 +648,13 @@ export function useSheet(options: UseSheetOptions): Sheet {
   }
 
   /** Hand the gesture over to the content or the page. */
-  function cancelGesture(): void {
+  const cancelGesture = (): void => {
     const current = gesture
     endGesture()
     if (current?.interrupted) resume()
   }
 
-  function endGesture(): void {
+  const endGesture = (): void => {
     const current = gesture
     if (!current) return
     gesture = null
@@ -660,7 +672,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     }
   }
 
-  function release(speed: number): void {
+  const release = (speed: number): void => {
     const target = releaseTarget({
       offsets: offsets.value,
       closed: size.value,
@@ -676,7 +688,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   const axis = (event: PointerEvent): number => (vertical.value ? event.clientY : event.clientX)
 
   // ------------------------------------------------- the page behind the sheet
-  function activateBackground(): void {
+  const activateBackground = (): void => {
     const target = options.scaleBackground()
     const element = document.querySelector<HTMLElement>(
       typeof target === 'string' ? target : '[data-sora-drawer-background]',
@@ -703,7 +715,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
     document.documentElement.toggleAttribute('data-sora-drawer-scaled', true)
   }
 
-  function deactivateBackground(): void {
+  const deactivateBackground = (): void => {
     if (!background) return
     for (const [property, value] of backgroundSaved) background.style.setProperty(kebab(property), value)
     backgroundSaved.clear()
@@ -715,7 +727,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
   provide(sheetKey, {
     panel: options.panel,
     frame: (progress) => ({ transform: panelTransform(position, progress) }),
-    settle(progress) {
+    settle: (progress) => {
       nested = progress
     },
   })
@@ -768,13 +780,13 @@ export function useSheet(options: UseSheetOptions): Sheet {
     snapTo,
     step,
     onPointerdown,
-    onCancel(event) {
+    onCancel: (event) => {
       // Escape and other platform close requests. The sheet always leaves with
       // its own animation, so the native close is held back.
       event.preventDefault()
       if (options.dismissible()) close('escape')
     },
-    onNativeClose() {
+    onNativeClose: () => {
       // Closed behind our back (`dialog.close()`, a `method="dialog"` form).
       if (phase === 'closed') return
       const pending = flight
@@ -785,7 +797,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
       finishClose()
       if (open.value) open.value = false
     },
-    onKeydown(event) {
+    onKeydown: (event) => {
       // A non-modal sheet has no native close request; give it Escape while focus is inside.
       if (event.key !== 'Escape' || options.modal() || event.defaultPrevented) return
       if (options.dismissible()) {
@@ -793,7 +805,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
         close('escape')
       }
     },
-    onBackdropClick() {
+    onBackdropClick: () => {
       if (options.dismissible()) close('backdrop')
     },
   }
@@ -802,7 +814,7 @@ export function useSheet(options: UseSheetOptions): Sheet {
 const kebab = (property: string): string => property.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
 
 /** Nearest ancestor of `target`, below `boundary`, that scrolls along the given axis. */
-function findScrollable(target: Element, boundary: Element, vertical: boolean): HTMLElement | null {
+const findScrollable = (target: Element, boundary: Element, vertical: boolean): HTMLElement | null => {
   for (
     let element: Element | null = target;
     element && element !== boundary;
@@ -824,7 +836,7 @@ function findScrollable(target: Element, boundary: Element, vertical: boolean): 
  * Whether `element` can still scroll when a finger moves along the axis:
  * back towards its start when `towardStart` (the finger moves down or right).
  */
-function canScroll(element: HTMLElement, vertical: boolean, towardStart: boolean): boolean {
+const canScroll = (element: HTMLElement, vertical: boolean, towardStart: boolean): boolean => {
   const position = Math.abs(vertical ? element.scrollTop : element.scrollLeft)
   const max = vertical
     ? element.scrollHeight - element.clientHeight
@@ -837,7 +849,7 @@ function canScroll(element: HTMLElement, vertical: boolean, towardStart: boolean
  * does not press it. Only that click goes: a real one, inside the sheet,
  * right after the release. The next click or press disarms it.
  */
-function suppressClick(panel: HTMLElement, releasedAt: number): void {
+const suppressClick = (panel: HTMLElement, releasedAt: number): void => {
   const abort = new AbortController()
   const listen = { capture: true, signal: abort.signal }
   window.addEventListener(

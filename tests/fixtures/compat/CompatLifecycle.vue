@@ -4,7 +4,7 @@ import { onBeforeUnmount, onMounted, onScopeDispose, watch } from 'vue'
 
 const props = defineProps<{ log: string[]; tick: number }>()
 
-function onResize(): void {}
+const onResize = (): void => {}
 
 onMounted(() => {
   window.addEventListener('resize', onResize)

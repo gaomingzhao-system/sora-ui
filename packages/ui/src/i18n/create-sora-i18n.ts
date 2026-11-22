@@ -15,7 +15,7 @@ type Dictionary = Record<string, unknown>
  * lets the components fall back to their built-in English without logging a
  * missing-key warning.
  */
-export function createPetiteTranslator(i18n: SoraPetiteI18n): SoraTranslator {
+export const createPetiteTranslator = (i18n: SoraPetiteI18n): SoraTranslator => {
   const composer = i18n.global
   const has = (locale: string, key: string): boolean =>
     (composer.messages.value as Record<string, Dictionary | undefined>)[locale]?.[key] !== undefined
@@ -24,7 +24,7 @@ export function createPetiteTranslator(i18n: SoraPetiteI18n): SoraTranslator {
     get locale() {
       return composer.locale.value
     },
-    translate(key, params) {
+    translate: (key, params) => {
       const fallback = composer.fallbackLocale.value
       const known =
         has(composer.locale.value, key) ||
@@ -51,7 +51,7 @@ export function createPetiteTranslator(i18n: SoraPetiteI18n): SoraTranslator {
  * app.use(ui.i18n)
  * ```
  */
-export function createSoraI18n(options: CreateSoraI18nOptions): SoraI18n {
+export const createSoraI18n = (options: CreateSoraI18nOptions): SoraI18n => {
   const i18n = createI18n({
     legacy: false,
     locale: options.locale,
@@ -67,17 +67,17 @@ export function createSoraI18n(options: CreateSoraI18nOptions): SoraI18n {
   const hasLocale = (locale: string): boolean =>
     Object.keys((composer.messages.value as Record<string, Dictionary | undefined>)[locale] ?? {}).length > 0
 
-  async function fetchLocale(
+  const fetchLocale = async (
     locale: string,
     loader: NonNullable<CreateSoraI18nOptions['loadLocale']>,
-  ): Promise<void> {
+  ): Promise<void> => {
     const loaded = await loader(locale)
     const messages = ('default' in loaded ? loaded.default : loaded) as SoraI18nMessages
     composer.setLocaleMessage(locale, { ...messages } as Record<string, string>)
   }
 
   // Concurrent requests for one locale share a single load.
-  async function load(locale: string): Promise<void> {
+  const load = async (locale: string): Promise<void> => {
     if (hasLocale(locale) || !options.loadLocale) return
     let pending = loading.get(locale)
     if (!pending) {
@@ -102,7 +102,7 @@ export function createSoraI18n(options: CreateSoraI18nOptions): SoraI18n {
         composer.locale.value = value
       },
     }),
-    async setLocale(locale) {
+    setLocale: async (locale) => {
       await load(locale)
       composer.locale.value = locale
     },

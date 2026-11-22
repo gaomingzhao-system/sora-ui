@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends SoraTabItem">
-import { computed, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, onBeforeUnmount, onMounted, useTemplateRef, watch, type HTMLAttributes } from 'vue'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useRovingFocus } from '../../composables/use-roving-focus.ts'
 import { useSoraId } from '../../internal/ids.ts'
@@ -74,7 +73,7 @@ const indicator = useTemplateRef<HTMLElement>('indicator')
  * of a native segmented control. Its box is written straight to the element
  * (no reactive state): one layout read per selection change or resize.
  */
-function placeIndicator(): void {
+const placeIndicator = (): void => {
   const element = indicator.value
   const tab = list.value?.querySelectorAll<HTMLElement>('[role="tab"]')[selectedIndex.value]
   if (!element) return
@@ -109,11 +108,11 @@ const roving = useRovingFocus({
   orientation: () => orientation,
 })
 
-function select(item: T): void {
+const select = (item: T): void => {
   if (!item.disabled) model.value = item.value
 }
 
-function onKeydown(event: KeyboardEvent): void {
+const onKeydown = (event: KeyboardEvent): void => {
   const focused = roving.onKeydown(event)
   if (!focused || activation !== 'automatic') return
   const item = items[roving.items().indexOf(focused)]

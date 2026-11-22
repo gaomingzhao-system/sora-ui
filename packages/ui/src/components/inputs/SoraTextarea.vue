@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { TextareaHTMLAttributes } from 'vue'
+import { computed, type TextareaHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import type { SoraControlAttrs, SoraSize } from '../../types/common.ts'
 import SoraField from './SoraField.vue'

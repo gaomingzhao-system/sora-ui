@@ -38,9 +38,6 @@ export interface SoraTriggerBindings {
  * Whether the browser itself toggles the overlay for this click: a `<button>`
  * (or `<input type="button">`) with `popovertarget` is a native invoker.
  */
-export function isNativeInvoker(target: EventTarget | null): boolean {
-  return (
-    (target instanceof HTMLButtonElement || target instanceof HTMLInputElement) &&
-    target.hasAttribute('popovertarget')
-  )
-}
+export const isNativeInvoker = (target: EventTarget | null): boolean =>
+  (target instanceof HTMLButtonElement || target instanceof HTMLInputElement) &&
+  target.hasAttribute('popovertarget')

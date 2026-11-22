@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends string | number">
-import { computed } from 'vue'
-import type { SelectHTMLAttributes } from 'vue'
+import { computed, type SelectHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconChevronDown } from '../../internal/icons.ts'
@@ -62,9 +61,7 @@ defineSlots<{ label?(): unknown; hint?(): unknown }>()
 const { t } = useSoraLocale()
 const control = useControl<HTMLSelectElement>(() => controlAttrs)
 
-function isGroup(entry: SoraOption<T> | SoraOptionGroup<T>): entry is SoraOptionGroup<T> {
-  return 'options' in entry
-}
+const isGroup = (entry: SoraOption<T> | SoraOptionGroup<T>): entry is SoraOptionGroup<T> => 'options' in entry
 
 const flat = computed(() => options.flatMap((entry) => (isGroup(entry) ? entry.options : [entry])))
 // Native values are strings: one map from that string back to the typed option.
@@ -72,7 +69,7 @@ const byValue = computed(() => new Map(flat.value.map((option) => [String(option
 // The empty option exists whenever "nothing" is a possible or current state.
 const showEmpty = computed(() => placeholder !== undefined || modelValue == null)
 
-function onChange(event: Event): void {
+const onChange = (event: Event): void => {
   const raw = (event.target as HTMLSelectElement).value
   emit('update:modelValue', byValue.value.get(raw)?.value ?? null)
 }

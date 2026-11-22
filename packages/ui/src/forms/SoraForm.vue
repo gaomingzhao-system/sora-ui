@@ -1,8 +1,15 @@
 <script setup lang="ts" vapor generic="TSchema extends FormSchema">
-import { getDeepErrorEntries, handleSubmit, reset as resetStore, setErrors, validate } from '@formisch/vue'
-import type { FormSchema, FormStore, SubmitEventHandler } from '@formisch/vue'
-import { computed, provide, useTemplateRef, watch } from 'vue'
-import type { FormHTMLAttributes } from 'vue'
+import {
+  getDeepErrorEntries,
+  handleSubmit,
+  reset as resetStore,
+  setErrors,
+  validate,
+  type FormSchema,
+  type FormStore,
+  type SubmitEventHandler,
+} from '@formisch/vue'
+import { computed, provide, useTemplateRef, watch, type FormHTMLAttributes } from 'vue'
 import { useSoraLocale } from '../composables/use-sora-locale.ts'
 import { soraFormKey } from './types.ts'
 
@@ -67,7 +74,7 @@ let inFlight = false
  * `requestSubmit()` all arrive here, so the duplicate guard lives here too
  * (a disabled or loading button alone would not cover the other two).
  */
-async function onSubmit(event: SubmitEvent): Promise<void> {
+const onSubmit = async (event: SubmitEvent): Promise<void> => {
   event.preventDefault()
   if (inFlight || of.isSubmitting) return
   inFlight = true
@@ -82,7 +89,7 @@ async function onSubmit(event: SubmitEvent): Promise<void> {
 }
 
 // A native reset would only restore DOM defaults and desynchronise the store.
-function onReset(event: Event): void {
+const onReset = (event: Event): void => {
   event.preventDefault()
   resetStore(of)
 }

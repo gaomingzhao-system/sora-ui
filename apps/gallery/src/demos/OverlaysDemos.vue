@@ -11,8 +11,10 @@ import {
   SoraSwitch,
   SoraTooltip,
   iconMore,
+  type SoraMenuGroup,
+  type SoraMenuItem,
+  type SoraSnapPoint,
 } from '@your-scope/ui'
-import type { SoraMenuGroup, SoraMenuItem, SoraSnapPoint } from '@your-scope/ui'
 import DemoSection from '../components/DemoSection.vue'
 import { useT } from '../i18n.ts'
 

@@ -1,6 +1,12 @@
 <script setup lang="ts" vapor>
-import { SoraBadge, SoraButton, SoraCard, SoraPagination, SoraProvider } from '@your-scope/ui'
-import type { SoraTranslator } from '@your-scope/ui'
+import {
+  SoraBadge,
+  SoraButton,
+  SoraCard,
+  SoraPagination,
+  SoraProvider,
+  type SoraTranslator,
+} from '@your-scope/ui'
 import { createProviderTheme } from '@your-scope/ui/theme'
 
 export interface ProviderState {

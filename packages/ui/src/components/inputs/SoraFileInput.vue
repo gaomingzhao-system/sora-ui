@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed, onBeforeUnmount, shallowReactive, watch } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { computed, onBeforeUnmount, shallowReactive, watch, type InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconClose, iconFile, iconUpload } from '../../internal/icons.ts'
@@ -66,13 +65,13 @@ defineSlots<{ label?(): unknown; hint?(): unknown }>()
 const { t, formatNumber } = useSoraLocale()
 const control = useControl<HTMLInputElement>(() => controlAttrs)
 
-function onChange(event: Event): void {
+const onChange = (event: Event): void => {
   emit('update:modelValue', [...((event.target as HTMLInputElement).files ?? [])])
 }
 
 // Model -> native input, so removing one file or clearing from the parent
 // also changes what the form would submit.
-function writeFiles(files: readonly File[]): void {
+const writeFiles = (files: readonly File[]): void => {
   const element = control.element.value
   if (!element) return
   const current = [...(element.files ?? [])]
@@ -129,7 +128,7 @@ const summary = computed(() => {
   return t('file.count', { count: formatNumber(files.value.length) })
 })
 
-function formatSize(bytes: number): string {
+const formatSize = (bytes: number): string => {
   if (bytes < 1024) return formatNumber(bytes, { style: 'unit', unit: 'byte', unitDisplay: 'narrow' })
   if (bytes < 1024 * 1024) {
     return formatNumber(bytes / 1024, { style: 'unit', unit: 'kilobyte', maximumFractionDigits: 1 })
@@ -137,7 +136,7 @@ function formatSize(bytes: number): string {
   return formatNumber(bytes / (1024 * 1024), { style: 'unit', unit: 'megabyte', maximumFractionDigits: 1 })
 }
 
-function remove(index: number): void {
+const remove = (index: number): void => {
   emit(
     'update:modelValue',
     files.value.filter((_file, position) => position !== index),
@@ -145,7 +144,7 @@ function remove(index: number): void {
   control.element.value?.focus()
 }
 
-function clear(): void {
+const clear = (): void => {
   emit('update:modelValue', [])
 }
 

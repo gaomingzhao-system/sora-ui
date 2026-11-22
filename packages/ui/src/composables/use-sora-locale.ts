@@ -1,5 +1,4 @@
-import { computed } from 'vue'
-import type { ComputedRef } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { directionOf, englishTranslator } from '../internal/translator.ts'
 import type { SoraMessageKey } from '../locales/en.ts'
 import type { SoraDirection } from '../types/common.ts'
@@ -21,7 +20,7 @@ export interface SoraLocale {
  * The translator interface components use. It reads the injected translator
  * and falls back to built-in English; it never imports an i18n library.
  */
-export function useSoraLocale(): SoraLocale {
+export const useSoraLocale = (): SoraLocale => {
   const context = useSoraContext()
   const locale = computed(
     () => context.locale.value ?? context.translator.value?.locale ?? englishTranslator.locale,
@@ -29,15 +28,10 @@ export function useSoraLocale(): SoraLocale {
   const dir = computed(() => context.dir.value ?? directionOf(locale.value))
 
   return {
-    t(key, params) {
-      return (
-        context.translator.value?.translate(key, params) ?? englishTranslator.translate(key, params) ?? key
-      )
-    },
+    t: (key, params) =>
+      context.translator.value?.translate(key, params) ?? englishTranslator.translate(key, params) ?? key,
     locale,
     dir,
-    formatNumber(value, options) {
-      return new Intl.NumberFormat(locale.value, options).format(value)
-    },
+    formatNumber: (value, options) => new Intl.NumberFormat(locale.value, options).format(value),
   }
 }

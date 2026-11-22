@@ -28,13 +28,11 @@ import {
   SoraTable,
   SoraTabs,
   iconPlus,
-} from '@your-scope/ui'
-import type {
-  SoraCloseReason,
-  SoraMenuItem,
-  SoraOption,
-  SoraTableColumn,
-  SoraTableSort,
+  type SoraCloseReason,
+  type SoraMenuItem,
+  type SoraOption,
+  type SoraTableColumn,
+  type SoraTableSort,
 } from '@your-scope/ui'
 
 type Role = 'admin' | 'member'
@@ -73,21 +71,15 @@ const dialog = useTemplateRef('dialog')
 const input = useTemplateRef('input')
 const button = useTemplateRef('button')
 
-function onClick(event: MouseEvent): number {
-  return event.clientX
-}
-function onClose(reason: SoraCloseReason): SoraCloseReason {
-  return reason
-}
-function onRole(value: Role | null): void {
+const onClick = (event: MouseEvent): number => event.clientX
+const onClose = (reason: SoraCloseReason): SoraCloseReason => reason
+const onRole = (value: Role | null): void => {
   role.value = value
 }
-function wrongClose(reason: number): number {
-  return reason
-}
+const wrongClose = (reason: number): number => reason
 
 // Exposed members are typed: methods exist and the element is the native one.
-function useExposed(): void {
+const useExposed = (): void => {
   dialog.value?.close()
   const nativeDialog: HTMLDialogElement | null | undefined = dialog.value?.element
   input.value?.focus({ preventScroll: true })

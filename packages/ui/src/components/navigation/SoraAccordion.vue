@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends SoraAccordionItem">
-import { computed, useTemplateRef } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, useTemplateRef, type HTMLAttributes } from 'vue'
 import { useRovingFocus } from '../../composables/use-roving-focus.ts'
 import { iconChevronDown } from '../../internal/icons.ts'
 import { useSoraId } from '../../internal/ids.ts'
@@ -52,16 +51,15 @@ const roving = useRovingFocus({
   orientation: () => 'vertical',
 })
 
-function sameValues(a: readonly T['value'][], b: readonly T['value'][]): boolean {
-  return a.length === b.length && a.every((value, index) => value === b[index])
-}
+const sameValues = (a: readonly T['value'][], b: readonly T['value'][]): boolean =>
+  a.length === b.length && a.every((value, index) => value === b[index])
 
 /**
  * The native element changed (a click, Enter or Space on the summary, the
  * exclusivity of a `name` group, or find-in-page revealing a match): read the
  * open state back from the elements, in item order.
  */
-function onToggle(): void {
+const onToggle = (): void => {
   const elements = root.value?.querySelectorAll<HTMLDetailsElement>(':scope > .sora-accordion__item')
   if (!elements) return
   const next: T['value'][] = []
@@ -73,7 +71,7 @@ function onToggle(): void {
 }
 
 // A disabled item never toggles; in single, non-collapsible mode the open item stays open.
-function onSummaryClick(item: T, event: MouseEvent): void {
+const onSummaryClick = (item: T, event: MouseEvent): void => {
   if (item.disabled || (!multiple && !collapsible && openValues.value.has(item.value))) event.preventDefault()
 }
 </script>

@@ -4,13 +4,13 @@ import type { NavigationIntent } from './events.ts'
  * Index reached from `current` by `intent`, skipping entries for which
  * `isDisabled` is true. Returns `-1` when nothing is available.
  */
-export function moveIndex(
+export const moveIndex = (
   count: number,
   current: number,
   intent: NavigationIntent,
   isDisabled: (index: number) => boolean = () => false,
   loop = true,
-): number {
+): number => {
   if (count <= 0) return -1
   const step = intent === 'next' || intent === 'first' ? 1 : -1
   let index: number
@@ -33,7 +33,7 @@ export function moveIndex(
 /** One collator per locale: constructing one is far more expensive than comparing with it. */
 const collators = new Map<string, Intl.Collator>()
 
-function searchCollator(locale: string | undefined): Intl.Collator {
+const searchCollator = (locale: string | undefined): Intl.Collator => {
   const key = locale ?? ''
   let collator = collators.get(key)
   if (!collator) {
@@ -47,13 +47,13 @@ function searchCollator(locale: string | undefined): Intl.Collator {
  * Typeahead match: the next label (after `current`, wrapping) that starts
  * with `query`, compared case- and accent-insensitively for `locale`.
  */
-export function findByPrefix(
+export const findByPrefix = (
   labels: readonly string[],
   query: string,
   current: number,
   locale?: string,
   isDisabled: (index: number) => boolean = () => false,
-): number {
+): number => {
   if (!query) return -1
   const collator = searchCollator(locale)
   // Code points, so a typed emoji or astral character counts as one.
@@ -85,7 +85,7 @@ const MATCHER_CACHE_SIZE = 2048
  * after keystroke: the query is normalised once per new query, and every
  * label once per matcher (labels repeat from one keystroke to the next).
  */
-export function createMatcher(locale?: string): (label: string, query: string) => boolean {
+export const createMatcher = (locale?: string): ((label: string, query: string) => boolean) => {
   const normalise = (value: string): string =>
     value
       .normalize('NFKD')

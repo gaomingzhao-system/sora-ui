@@ -24,8 +24,11 @@ import {
   iconSearch,
   useToast,
   useSoraLocale,
+  type SoraColor,
+  type SoraMenuItem,
+  type SoraTableColumn,
+  type SoraTableSort,
 } from '@your-scope/ui'
-import type { SoraColor, SoraMenuItem, SoraTableColumn, SoraTableSort } from '@your-scope/ui'
 import { useT } from '../i18n.ts'
 
 type Status = 'active' | 'paused' | 'archived'
@@ -158,12 +161,12 @@ const dateFormat = computed(
 )
 const formatDate = (value: string): string => dateFormat.value.format(new Date(`${value}T00:00:00Z`))
 
-function showDetails(project: Project): void {
+const showDetails = (project: Project): void => {
   detail.value = project
   drawerOpen.value = true
 }
 
-function act(project: Project, item: SoraMenuItem): void {
+const act = (project: Project, item: SoraMenuItem): void => {
   if (item.id === 'delete') projects.value = projects.value.filter((entry) => entry.id !== project.id)
   else if (item.id === 'archive') project.status = 'archived'
   else if (item.id === 'duplicate') {
@@ -171,7 +174,7 @@ function act(project: Project, item: SoraMenuItem): void {
   }
 }
 
-function create(): void {
+const create = (): void => {
   const id = Math.max(0, ...projects.value.map((entry) => entry.id)) + 1
   projects.value.unshift({
     id,

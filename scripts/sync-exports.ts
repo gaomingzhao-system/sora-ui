@@ -13,7 +13,7 @@ export const LOCALES = ['en', 'ja', 'ar', 'pseudo'] as const
 
 type ExportTarget = string | { types: string; import: string }
 
-export function buildExports(): Record<string, ExportTarget> {
+export const buildExports = (): Record<string, ExportTarget> => {
   const js = (path: string): ExportTarget => ({ types: `./dist/${path}.d.ts`, import: `./dist/${path}.js` })
   const map: Record<string, ExportTarget> = {
     '.': js('index'),

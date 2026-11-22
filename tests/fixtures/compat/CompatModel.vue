@@ -1,8 +1,7 @@
 <script setup lang="ts" vapor>
 // 3. Typed defineModel (default and named), 4. useTemplateRef + defineExpose,
 // 5. native attributes / event forwarding on the meaningful native element.
-import { useAttrs, useTemplateRef } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { useAttrs, useTemplateRef, type InputHTMLAttributes } from 'vue'
 
 // Typed passthrough: the native input's attributes are part of the public
 // props type, but (`@vue-ignore`) not runtime props, so they stay in `attrs`.

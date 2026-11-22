@@ -1,8 +1,20 @@
 <script setup lang="ts" vapor>
-import { computed, onBeforeUnmount, onMounted, provide, shallowRef, useTemplateRef, watch } from 'vue'
-import type { HTMLAttributes } from 'vue'
-import { soraToastKey } from '../../composables/use-toast.ts'
-import type { SoraToast, SoraToastApi, SoraToastInput } from '../../composables/use-toast.ts'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  shallowRef,
+  useTemplateRef,
+  watch,
+  type HTMLAttributes,
+} from 'vue'
+import {
+  soraToastKey,
+  type SoraToast,
+  type SoraToastApi,
+  type SoraToastInput,
+} from '../../composables/use-toast.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconClose } from '../../internal/icons.ts'
 import { useSoraId } from '../../internal/ids.ts'
@@ -50,14 +62,14 @@ interface Timer {
 const timers = new Map<string, Timer>()
 let paused = false
 
-function start(id: string): void {
+const start = (id: string): void => {
   const timer = timers.get(id)
   if (!timer || timer.handle !== undefined || paused || timer.remaining <= 0) return
   timer.startedAt = performance.now()
   timer.handle = setTimeout(() => dismiss(id), timer.remaining)
 }
 
-function stop(id: string): void {
+const stop = (id: string): void => {
   const timer = timers.get(id)
   if (timer?.handle === undefined) return
   clearTimeout(timer.handle)
@@ -65,23 +77,23 @@ function stop(id: string): void {
   timer.remaining = Math.max(0, timer.remaining - (performance.now() - timer.startedAt))
 }
 
-function pause(): void {
+const pause = (): void => {
   paused = true
   for (const id of timers.keys()) stop(id)
 }
 
-function resume(): void {
+const resume = (): void => {
   paused = false
   for (const toast of visible.value) start(toast.id)
 }
 
-function dismiss(id: string): void {
+const dismiss = (id: string): void => {
   stop(id)
   timers.delete(id)
   toasts.value = toasts.value.filter((toast) => toast.id !== id)
 }
 
-function add(input: SoraToastInput): string {
+const add = (input: SoraToastInput): string => {
   const id = input.id ?? `${idPrefix}-toast-${++sequence}`
   const toast: SoraToast = {
     id,
@@ -99,7 +111,7 @@ function add(input: SoraToastInput): string {
   return id
 }
 
-function clear(): void {
+const clear = (): void => {
   for (const id of timers.keys()) stop(id)
   timers.clear()
   toasts.value = []
@@ -120,7 +132,7 @@ const region = useTemplateRef<HTMLElement>('region')
 // The region is a manual popover that stays open: it lives in the top layer
 // (above dialog backdrops) and its live regions exist before any toast is
 // inserted, which is what makes insertions announce reliably.
-function show(): void {
+const show = (): void => {
   const element = region.value
   if (element?.isConnected && !element.matches(':popover-open')) element.showPopover()
 }
@@ -151,12 +163,12 @@ onBeforeUnmount(() => {
   if (element?.isConnected && element.matches(':popover-open')) element.hidePopover()
 })
 
-function runAction(toast: SoraToast): void {
+const runAction = (toast: SoraToast): void => {
   toast.action?.onClick()
   dismiss(toast.id)
 }
 
-function onFocusout(event: FocusEvent): void {
+const onFocusout = (event: FocusEvent): void => {
   if (!region.value?.contains(event.relatedTarget as Node | null)) resume()
 }
 </script>

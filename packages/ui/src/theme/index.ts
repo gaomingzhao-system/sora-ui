@@ -5,8 +5,7 @@
  * `@your-scope/theme`, which the core entry never does: applications that are
  * happy with the generated stylesheet do not pay for them.
  */
-import { createThemeVars } from '@your-scope/theme'
-import type { SoraConfigInput } from '@your-scope/theme'
+import { createThemeVars, type SoraConfigInput } from '@your-scope/theme'
 import type { SoraProviderProps } from '../components/foundation/SoraProvider.vue'
 
 export {
@@ -47,7 +46,7 @@ export type SoraProviderTheme = Pick<
  * Only what the object mentions is overridden; everything else keeps
  * inheriting from the surrounding provider or the stylesheet.
  */
-export function createProviderTheme(input: SoraConfigInput<string>): SoraProviderTheme {
+export const createProviderTheme = (input: SoraConfigInput<string>): SoraProviderTheme => {
   const theme: SoraProviderTheme = {}
   // Density, radius and motion are attribute switches in the stylesheet, so they need no variables.
   const { density, radius, motion, defaults, colorMode, ...colorsAndTokens } = input

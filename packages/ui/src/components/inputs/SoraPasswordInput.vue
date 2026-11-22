@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { useTemplateRef } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { useTemplateRef, type InputHTMLAttributes } from 'vue'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconEye, iconEyeOff } from '../../internal/icons.ts'
 import type { SoraControlAttrs, SoraSize } from '../../types/common.ts'

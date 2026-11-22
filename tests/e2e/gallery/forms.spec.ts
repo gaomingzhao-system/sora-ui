@@ -1,9 +1,7 @@
 import { expect, expectNoAxeViolations, openGallery, test } from '../support.ts'
 import type { Locator, Page } from '@playwright/test'
 
-function profile(page: Page): Locator {
-  return page.getByTestId('profile-form')
-}
+const profile = (page: Page): Locator => page.getByTestId('profile-form')
 
 /**
  * Fields are located by role and accessible name. (Required fields show a
@@ -15,7 +13,7 @@ const roleSelect = (form: Locator): Locator => form.getByRole('combobox', { name
 const terms = (form: Locator): Locator =>
   form.getByRole('checkbox', { name: 'I confirm this information is accurate', exact: true })
 
-async function fillRequired(page: Page, username = 'grace'): Promise<void> {
+const fillRequired = async (page: Page, username = 'grace'): Promise<void> => {
   const form = profile(page)
   await textbox(form, 'Full name').fill('Grace Hopper')
   await textbox(form, 'Email').fill('grace@example.com')

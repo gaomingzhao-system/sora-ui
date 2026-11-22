@@ -1,9 +1,7 @@
 <script setup lang="ts" vapor>
-import { computed, useTemplateRef } from 'vue'
-import type { DialogHTMLAttributes } from 'vue'
+import { computed, useTemplateRef, type DialogHTMLAttributes } from 'vue'
 import type { SoraCloseReason } from '../../composables/use-overlay.ts'
-import { useSheet } from '../../composables/use-sheet.ts'
-import type { SoraDrawerSide } from '../../composables/use-sheet.ts'
+import { useSheet, type SoraDrawerSide } from '../../composables/use-sheet.ts'
 import { useSoraLocale } from '../../composables/use-sora-locale.ts'
 import { iconClose } from '../../internal/icons.ts'
 import { useSoraId } from '../../internal/ids.ts'
@@ -164,7 +162,7 @@ const slotProps = computed<SoraDrawerSlotProps>(() => ({
 
 // The handle is a button: Enter and Space step through the snap points, the
 // arrow keys move to the larger or the smaller one.
-function onHandleKeydown(event: KeyboardEvent): void {
+const onHandleKeydown = (event: KeyboardEvent): void => {
   if (!vertical.value || (event.key !== 'ArrowUp' && event.key !== 'ArrowDown')) return
   event.preventDefault()
   const grows = side === 'bottom' ? 'ArrowUp' : 'ArrowDown'

@@ -2,8 +2,7 @@ import { nextTick, reactive } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mountVapor } from '../helpers/mount-vapor.ts'
-import InputsHarness from './harness/InputsHarness.vue'
-import type { InputsState } from './harness/InputsHarness.vue'
+import InputsHarness, { type InputsState } from './harness/InputsHarness.vue'
 import { $, all, description, flush, press, q, wait } from './support.ts'
 
 interface Exposed {
@@ -13,7 +12,7 @@ interface Exposed {
   files(): { clear(): void; focus(): void; element: HTMLInputElement | null } | null
 }
 
-function setup(overrides: Partial<InputsState> = {}) {
+const setup = (overrides: Partial<InputsState> = {}) => {
   const state = reactive<InputsState>({
     text: 'Ada',
     error: null,

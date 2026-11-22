@@ -37,7 +37,7 @@ if (positiveFiles === 0 || expectations < 30) {
   process.exit(1)
 }
 
-function run(label: string, tsconfig: string): boolean {
+const run = (label: string, tsconfig: string): boolean => {
   const started = performance.now()
   const result = spawnSync('pnpm', ['exec', 'vue-tsc', '--noEmit', '-p', tsconfig], {
     cwd: root,

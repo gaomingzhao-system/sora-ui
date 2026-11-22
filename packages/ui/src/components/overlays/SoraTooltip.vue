@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { onBeforeUnmount, shallowRef, useTemplateRef, watch } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { onBeforeUnmount, shallowRef, useTemplateRef, watch, type HTMLAttributes } from 'vue'
 import { usePopover } from '../../composables/use-overlay.ts'
 import { anchorName, useSoraId } from '../../internal/ids.ts'
 import type { SoraPlacement } from '../../types/common.ts'
@@ -48,12 +47,12 @@ let timer: ReturnType<typeof setTimeout> | undefined
 let hovering = false
 let focused = false
 
-function clear(): void {
+const clear = (): void => {
   if (timer !== undefined) clearTimeout(timer)
   timer = undefined
 }
 
-function show(delay: number): void {
+const show = (delay: number): void => {
   if (disabled) return
   clear()
   if (delay <= 0) open.value = true
@@ -61,36 +60,36 @@ function show(delay: number): void {
 }
 
 // Stays while the trigger is hovered or focused, or the tooltip itself is hovered.
-function scheduleHide(): void {
+const scheduleHide = (): void => {
   clear()
   timer = setTimeout(() => {
     if (!hovering && !focused) open.value = false
   }, closeDelay)
 }
 
-function onPointerenter(event: PointerEvent): void {
+const onPointerenter = (event: PointerEvent): void => {
   if (event.pointerType === 'touch') return
   hovering = true
   show(openDelay)
 }
-function onPointerleave(): void {
+const onPointerleave = (): void => {
   hovering = false
   scheduleHide()
 }
-function onFocusin(event: FocusEvent): void {
+const onFocusin = (event: FocusEvent): void => {
   const target = event.target
   if (!(target instanceof HTMLElement) || !target.matches(':focus-visible')) return
   focused = true
   show(0)
 }
-function onFocusout(event: FocusEvent): void {
+const onFocusout = (event: FocusEvent): void => {
   if (wrapper.value?.contains(event.relatedTarget as Node | null)) return
   focused = false
   scheduleHide()
 }
 
 // Escape dismisses the tooltip (and only the tooltip) while it is showing.
-function onDocumentKeydown(event: KeyboardEvent): void {
+const onDocumentKeydown = (event: KeyboardEvent): void => {
   if (event.key !== 'Escape' || !open.value) return
   event.preventDefault()
   event.stopPropagation()

@@ -21,7 +21,7 @@ const docsUrl = 'https://vuejs.org'
 const saving = ref(false)
 const view = ref<'day' | 'week' | 'month'>('week')
 
-function save(): void {
+const save = (): void => {
   saving.value = true
   setTimeout(() => (saving.value = false), 1500)
 }

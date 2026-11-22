@@ -1,5 +1,4 @@
-import en from './en.ts'
-import type { SoraMessages } from './en.ts'
+import en, { type SoraMessages } from './en.ts'
 import { pseudoLocalize } from '../internal/pseudo.ts'
 
 /**

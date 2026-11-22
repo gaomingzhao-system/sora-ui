@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor generic="T extends string | number">
-import { computed } from 'vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import type { SoraControlAttrs, SoraOption, SoraOrientation, SoraSize } from '../../types/common.ts'
 import SoraCheckbox from './SoraCheckbox.vue'
@@ -54,7 +53,7 @@ const control = useControl(() => undefined)
 // Checked state of every option in one lookup each.
 const selectedValues = computed(() => new Set<T>(modelValue ?? []))
 
-function toggle(value: T, checked: boolean): void {
+const toggle = (value: T, checked: boolean): void => {
   const selected = new Set(selectedValues.value)
   if (checked) selected.add(value)
   else selected.delete(value)

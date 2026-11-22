@@ -1,21 +1,20 @@
-import { contrastRatio, flatten, formatOklch, oklchToSrgb } from './color.ts'
-import type { Rgb } from './color.ts'
+import { contrastRatio, flatten, formatOklch, oklchToSrgb, type Rgb } from './color.ts'
 import { normalizeSoraConfig } from './define-sora-config.ts'
 import { springEasing } from './motion.ts'
 import { isNeutralScale } from './palettes.ts'
-import { SORA_COLOR_ROLES } from './types.ts'
-import type {
-  Oklch,
-  SoraColorRole,
-  SoraColorValue,
-  SoraConfig,
-  SoraConfigInput,
-  SoraDensity,
-  SoraMotion,
-  SoraPaletteScale,
-  SoraRadius,
-  SoraScheme,
-  SoraShade,
+import {
+  SORA_COLOR_ROLES,
+  type Oklch,
+  type SoraColorRole,
+  type SoraColorValue,
+  type SoraConfig,
+  type SoraConfigInput,
+  type SoraDensity,
+  type SoraMotion,
+  type SoraPaletteScale,
+  type SoraRadius,
+  type SoraScheme,
+  type SoraShade,
 } from './types.ts'
 
 export type SoraTokenName = `--sora-${string}`
@@ -52,13 +51,9 @@ const AA_UI = 3
 const SOFT_ALPHA: Readonly<Record<SoraScheme, number>> = { light: 0.12, dark: 0.16 }
 const SOFT_HOVER_ALPHA: Readonly<Record<SoraScheme, number>> = { light: 0.2, dark: 0.26 }
 
-function opaque(oklch: Oklch): SoraColorValue {
-  return { oklch, alpha: 1 }
-}
+const opaque = (oklch: Oklch): SoraColorValue => ({ oklch, alpha: 1 })
 
-function translucent(oklch: Oklch, alpha: number): SoraColorValue {
-  return { oklch, alpha }
-}
+const translucent = (oklch: Oklch, alpha: number): SoraColorValue => ({ oklch, alpha })
 
 interface SchemeSurfaces {
   canvas: Oklch
@@ -67,17 +62,15 @@ interface SchemeSurfaces {
   subtle: Oklch
 }
 
-function surfacesOf(neutral: SoraPaletteScale, scheme: SoraScheme): SchemeSurfaces {
-  return scheme === 'light'
+const surfacesOf = (neutral: SoraPaletteScale, scheme: SoraScheme): SchemeSurfaces =>
+  scheme === 'light'
     ? { canvas: neutral[50], surface: WHITE, elevated: WHITE, subtle: neutral[100] }
     : { canvas: neutral[950], surface: neutral[900], elevated: neutral[800], subtle: neutral[800] }
-}
 
-function backgroundsOf(surfaces: SchemeSurfaces): Rgb[] {
-  return [surfaces.canvas, surfaces.surface, surfaces.elevated, surfaces.subtle].map(oklchToSrgb)
-}
+const backgroundsOf = (surfaces: SchemeSurfaces): Rgb[] =>
+  [surfaces.canvas, surfaces.surface, surfaces.elevated, surfaces.subtle].map(oklchToSrgb)
 
-function minContrast(color: Oklch, backgrounds: readonly Rgb[]): number {
+const minContrast = (color: Oklch, backgrounds: readonly Rgb[]): number => {
   const rgb = oklchToSrgb(color)
   return Math.min(...backgrounds.map((background) => contrastRatio(rgb, background)))
 }
@@ -86,14 +79,14 @@ function minContrast(color: Oklch, backgrounds: readonly Rgb[]): number {
  * First shade (in preference order) whose worst-case contrast reaches the
  * target; otherwise the best available shade plus a warning.
  */
-function pickShade(
+const pickShade = (
   scale: SoraPaletteScale,
   candidates: readonly SoraShade[],
   score: (color: Oklch) => number,
   target: number,
   describe: string,
   warnings: string[],
-): Oklch {
+): Oklch => {
   let best: Oklch = scale[candidates[0] ?? 500]
   let bestScore = -Infinity
   for (const shade of candidates) {
@@ -117,13 +110,13 @@ interface RoleScheme {
   border: Oklch
 }
 
-function resolveRole(
+const resolveRole = (
   role: SoraColorRole,
   scale: SoraPaletteScale,
   scheme: SoraScheme,
   surfaces: SchemeSurfaces,
   warnings: string[],
-): RoleScheme {
+): RoleScheme => {
   const neutral = isNeutralScale(scale)
   const backgrounds = backgroundsOf(surfaces)
   const label = (part: string) => `${role}.${part} (${scheme})`
@@ -248,20 +241,18 @@ function resolveRole(
 }
 
 /** Soft fills follow the role token, so overriding `--sora-<role>` alone stays coherent. */
-function softExpression(role: SoraColorRole, alpha: Readonly<Record<SoraScheme, number>>): string {
+const softExpression = (role: SoraColorRole, alpha: Readonly<Record<SoraScheme, number>>): string => {
   const mix = (scheme: SoraScheme): string =>
     `color-mix(in oklab, var(--sora-${role}) ${Math.round(alpha[scheme] * 100)}%, transparent)`
   return `light-dark(${mix('light')}, ${mix('dark')})`
 }
 
-function token(
+const token = (
   name: SoraTokenName,
   light: SoraColorValue,
   dark: SoraColorValue,
   expression?: string,
-): SoraColorToken {
-  return expression === undefined ? { name, light, dark } : { name, light, dark, expression }
-}
+): SoraColorToken => (expression === undefined ? { name, light, dark } : { name, light, dark, expression })
 
 const DENSITY: Readonly<Record<SoraDensity, SoraDeclarations>> = {
   compact: {
@@ -319,7 +310,7 @@ const MOTION: Readonly<Record<SoraMotion, SoraDeclarations>> = {
 }
 
 /** Turn a (partial) configuration into measurable, serialisable tokens. */
-export function resolveTheme(input: SoraConfigInput<string> = {}): SoraResolvedTheme {
+export const resolveTheme = (input: SoraConfigInput<string> = {}): SoraResolvedTheme => {
   const config = normalizeSoraConfig(input)
   const warnings: string[] = []
   const scaleOf = (role: SoraColorRole): SoraPaletteScale => {
@@ -467,7 +458,7 @@ export function resolveTheme(input: SoraConfigInput<string> = {}): SoraResolvedT
   })
 }
 
-function colorCss(color: SoraColorToken): string {
+const colorCss = (color: SoraColorToken): string => {
   if (color.expression !== undefined) return color.expression
   const lightCss = formatOklch(color.light.oklch, color.light.alpha)
   const darkCss = formatOklch(color.dark.oklch, color.dark.alpha)
@@ -475,7 +466,7 @@ function colorCss(color: SoraColorToken): string {
 }
 
 /** Every declaration of the resolved theme for the configured density/radius/motion. */
-export function themeToVars(theme: SoraResolvedTheme): SoraDeclarations {
+export const themeToVars = (theme: SoraResolvedTheme): SoraDeclarations => {
   const { config } = theme
   const declarations: Record<SoraTokenName, string> = {}
   for (const color of theme.colors) declarations[color.name] = colorCss(color)
@@ -506,25 +497,23 @@ const NEUTRAL_DERIVED = [
   '--sora-shadow-color',
 ] as const satisfies readonly SoraTokenName[]
 
-function roleTokens(role: SoraColorRole): SoraTokenName[] {
-  return [
-    `--sora-${role}`,
-    `--sora-${role}-hover`,
-    `--sora-${role}-active`,
-    `--sora-on-${role}`,
-    `--sora-${role}-text`,
-    `--sora-${role}-border`,
-    `--sora-${role}-soft`,
-    `--sora-${role}-soft-hover`,
-  ]
-}
+const roleTokens = (role: SoraColorRole): SoraTokenName[] => [
+  `--sora-${role}`,
+  `--sora-${role}-hover`,
+  `--sora-${role}-active`,
+  `--sora-on-${role}`,
+  `--sora-${role}-text`,
+  `--sora-${role}-border`,
+  `--sora-${role}-soft`,
+  `--sora-${role}-soft-hover`,
+]
 
 /**
  * Custom properties for a *partial* override, suitable for the `themeVars`
  * prop of a nested `SoraProvider`. Only tokens affected by the keys present in
  * `input` are returned, so everything else keeps inheriting from outside.
  */
-export function createThemeVars(input: SoraConfigInput<string>): SoraDeclarations {
+export const createThemeVars = (input: SoraConfigInput<string>): SoraDeclarations => {
   const theme = resolveTheme(input)
   const all = themeToVars(theme)
   const names = new Set<SoraTokenName>()
@@ -569,11 +558,11 @@ export function createThemeVars(input: SoraConfigInput<string>): SoraDeclaration
   return Object.freeze(result)
 }
 
-function block(
+const block = (
   selector: string,
   declarations: SoraDeclarations | Record<string, string>,
   indent = '  ',
-): string {
+): string => {
   const lines = Object.entries(declarations).map(([name, value]) => `${indent}  ${name}: ${value};`)
   return `${indent}${selector} {\n${lines.join('\n')}\n${indent}}`
 }
@@ -593,7 +582,7 @@ export interface ThemeCssOptions {
  * are wrapped in `:where()` and sit in the lowest cascade layer the library
  * uses (`theme.sora`), so any consumer rule can override a token.
  */
-export function themeToCss(theme: SoraResolvedTheme, options: ThemeCssOptions = {}): string {
+export const themeToCss = (theme: SoraResolvedTheme, options: ThemeCssOptions = {}): string => {
   const { config } = theme
   const layer = options.layer ?? 'theme.sora'
   const parts: string[] = []
@@ -686,7 +675,7 @@ export interface SoraContrastCheck {
  * use. A perceptual colour model does not make a palette accessible by
  * itself, so this is asserted in the unit tests for the shipped theme.
  */
-export function auditContrast(theme: SoraResolvedTheme): SoraContrastCheck[] {
+export const auditContrast = (theme: SoraResolvedTheme): SoraContrastCheck[] => {
   const byName = new Map(theme.colors.map((color) => [color.name, color]))
   const get = (name: SoraTokenName): SoraColorToken => {
     const color = byName.get(name)

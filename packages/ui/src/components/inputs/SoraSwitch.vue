@@ -1,6 +1,5 @@
 <script setup lang="ts" vapor>
-import { computed } from 'vue'
-import type { InputHTMLAttributes } from 'vue'
+import { computed, type InputHTMLAttributes } from 'vue'
 import { useControl } from '../../composables/use-control.ts'
 import { useSoraDefaults } from '../../composables/use-sora-config.ts'
 import { useSoraId } from '../../internal/ids.ts'
@@ -60,7 +59,7 @@ const controlId = computed(() => id ?? `${generated}-control`)
 const hintId = `${generated}-hint`
 const hasHint = computed(() => Boolean(slots.hint) || Boolean(hint))
 
-function onChange(event: Event): void {
+const onChange = (event: Event): void => {
   const element = event.target as HTMLInputElement
   // A switch is never mixed, even if something set the property.
   element.indeterminate = false
